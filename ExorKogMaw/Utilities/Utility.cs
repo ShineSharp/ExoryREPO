@@ -163,8 +163,6 @@ namespace ExorKogMaw
     /// </summary>
     public class Bools
     {
-        public static bool ShouldOrbwalk() => Variables.AttackSpeed < Variables.OrbwalkingLimit;
-
         public static bool IsImmobile(Obj_AI_Hero Target)
         => 
             Target.HasBuffOfType(BuffType.Stun) ||
