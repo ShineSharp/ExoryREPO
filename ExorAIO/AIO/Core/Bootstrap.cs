@@ -57,7 +57,7 @@ namespace ExorAIO.Core
                     case "Tristana":   new Tristana()  .OnLoad(); break;
                     case "Vayne":      new Vayne()     .OnLoad(); break;
                 }
-                Game.PrintChat($"{Variables.MainMenuCodeName}: {Variables.Name} Loaded.");
+                Game.PrintChat($"{Variables.MainMenuCodeName} - {Variables.Name} Loaded.");
                 return;
             }
             Game.PrintChat($"{Variables.MainMenuCodeName}: Champion not supported.");

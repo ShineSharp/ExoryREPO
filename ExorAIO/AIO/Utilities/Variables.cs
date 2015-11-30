@@ -71,7 +71,7 @@ namespace ExorAIO.Utilities
         /// <summary>
         /// The main menu name.
         /// </summary>
-        public static readonly string MainMenuCodeName = "[ExorAIO]";
+        public static readonly string MainMenuCodeName = "[ExorAIO]: Ultima";
 
         /// <summary>
         /// The main menu codename.
