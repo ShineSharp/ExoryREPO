@@ -107,13 +107,16 @@ namespace ExorAIO.Champions.Vayne
     public class Targets
     {
         public static Obj_AI_Hero Target => TargetSelector.GetTarget(Variables.E.Range, TargetSelector.DamageType.Physical);
-        public static Obj_AI_Base FarmMinion
+        public static IEnumerable<Obj_AI_Base> FarmMinions
         =>
             MinionManager.GetMinions(ObjectManager.Player.Position, Variables.Q.Range)
                 .Where(
                     minions =>
-                        minions.Health < Variables.TotalAttackDamage(ObjectManager.Player) * 1.3)
-                .First();
+                        minions.Health < Variables.TotalAttackDamage(ObjectManager.Player) * 1.3);
+
+        public static Obj_AI_Base FarmMinion
+        =>
+            Targets.FarmMinions.FirstOrDefault();
     }
 
     /// <summary>

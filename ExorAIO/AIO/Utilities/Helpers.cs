@@ -27,7 +27,7 @@ namespace ExorAIO.Utilities
             Drawing.OnDraw += delegate
             {
                 if (Variables.Q.IsReady() &&
-                    (Variables.Q.Range != null && Variables.Q.Range != 0) &&
+                    Variables.Q.Range != 0 &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.drawings.q") != null &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.drawings.q").GetValue<bool>())
                 {
@@ -35,7 +35,7 @@ namespace ExorAIO.Utilities
                 }
 
                 if (Variables.W.IsReady() &&
-                    (Variables.W.Range != null && Variables.W.Range != 0) &&
+                    Variables.W.Range != 0 &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.drawings.w") != null &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.drawings.w").GetValue<bool>())
                 {
@@ -43,7 +43,7 @@ namespace ExorAIO.Utilities
                 }
 
                 if (Variables.E.IsReady() &&
-                    (Variables.E.Range != null && Variables.E.Range != 0) &&
+                    Variables.E.Range != 0 &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.drawings.e") != null &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.drawings.e").GetValue<bool>())
                 {
@@ -51,7 +51,7 @@ namespace ExorAIO.Utilities
                 }
 
                 if (Variables.R.IsReady() &&
-                    (Variables.R.Range != null && Variables.R.Range != 0) &&
+                    Variables.R.Range != 0 &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.drawings.r") != null &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.drawings.r").GetValue<bool>())
                 {
