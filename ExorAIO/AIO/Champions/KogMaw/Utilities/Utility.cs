@@ -93,10 +93,6 @@ namespace ExorAIO.Champions.KogMaw
                     Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.misc.stacktear", "Stack Tear of the Goddess")).SetValue(true);
                     Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.misc.stacktearmana", "Stack Tear only if Mana > x%"))
                         .SetValue(new Slider(80, 1, 95));
-                    Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.misc.wlimiterc", "Orbwalk only if Attack Speed <= x (Cent.)"))
-                        .SetValue(new Slider(2, 2, 4));
-                    Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.misc.wlimiterd", "Orbwalk only if Attack Speed <= .yy (Dec.)"))
-                        .SetValue(new Slider(50, 0, 50));
                 }
                 Variables.Menu.AddSubMenu(Variables.MiscMenu);
 
@@ -127,23 +123,5 @@ namespace ExorAIO.Champions.KogMaw
     {
         public static Obj_AI_Hero Target => TargetSelector.GetTarget(Variables.R.Range, TargetSelector.DamageType.Physical);
         public static List<LeagueSharp.Obj_AI_Base> Minions => MinionManager.GetMinions(ObjectManager.Player.ServerPosition, Variables.R.Range, MinionTypes.All);
-    }
-
-    /// <summary>
-    ///    The bools class.
-    /// </summary>
-    public class Bools
-    {
-        public static bool ShouldOrbwalk() => Variables.AttackSpeed < Variables.OrbwalkingLimit;
-
-        public static bool IsImmobile(Obj_AI_Hero Target)
-        => 
-            Target.HasBuffOfType(BuffType.Stun) ||
-            Target.HasBuffOfType(BuffType.Snare) ||
-            Target.HasBuffOfType(BuffType.Knockup) ||
-            Target.HasBuffOfType(BuffType.Charm) ||
-            Target.HasBuffOfType(BuffType.Flee) || 
-            Target.HasBuffOfType(BuffType.Taunt) ||
-            Target.HasBuffOfType(BuffType.Suppression);
     }
 }

@@ -14,11 +14,6 @@ namespace ExorAIO.Champions.KogMaw
         public static void ExecuteAuto(EventArgs args)
         {
             /*
-                W Orbwalking Limiter.
-            */
-            Variables.Orbwalker.SetMovement(Bools.ShouldOrbwalk());
-
-            /*
                 Q KillSteal Logic,
                 Q Immobile Harass Logic.
             */
