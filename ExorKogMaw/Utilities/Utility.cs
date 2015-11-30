@@ -101,10 +101,6 @@ namespace ExorKogMaw
                         Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.misc.stacktear", "Stack Tear of the Goddess")).SetValue(true);
                         Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.misc.stacktearmana", "Stack Tear only if Mana > x%"))
                             .SetValue(new Slider(80, 1, 95));
-                        Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.misc.wlimiterc", "Orbwalk only if Attack Speed <= x (Cent.)"))
-                            .SetValue(new Slider(2, 2, 4));
-                        Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.misc.wlimiterd", "Orbwalk only if Attack Speed <= .yy (Dec.)"))
-                            .SetValue(new Slider(50, 0, 50));
                     }
                     Variables.Menu.AddSubMenu(Variables.MiscMenu);
 
@@ -140,10 +136,6 @@ namespace ExorKogMaw
         public static Orbwalking.Orbwalker Orbwalker { get; set;}
         public static float AttackSpeed => 1 / ObjectManager.Player.AttackDelay;
         public static string MainMenuName => $"exor.{ObjectManager.Player.ChampionName.ToLower()}";
-        public static float OrbwalkingLimit =>
-            (float)(Variables.Menu.Item($"{Variables.MainMenuName}.misc.wlimiterc").GetValue<Slider>().Value) + 
-            (float)(Variables.Menu.Item($"{Variables.MainMenuName}.misc.wlimiterd").GetValue<Slider>().Value) / 100;
-
         public static int GetRStacks() => ObjectManager.Player.GetBuffCount("kogmawlivingartillerycost");
     }
 

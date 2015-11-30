@@ -11,9 +11,6 @@ namespace ExorKogMaw
     {
         public static void ExecuteAuto(EventArgs args)
         {
-            // W Orbwalking Limiter
-            Variables.Orbwalker.SetMovement(Bools.ShouldOrbwalk());
-
             // Q KillSteal Logic + Immobile Harass Logic.
             if (Variables.Q.IsReady() &&
                 (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqks").GetValue<bool>() && Targets.Target.Health < Variables.Q.GetDamage(Targets.Target)) ||
