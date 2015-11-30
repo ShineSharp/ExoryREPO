@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{78219F53-7822-RG63-8G2C-1B5J9MDN3JFD}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ExorAIO</RootNamespace>
+    <AssemblyName>ExorAIO</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <PreBuildEvent />
+    <PostBuildEvent />
+    <OutputPath>bin\Release</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="clipper_library">
+      <HintPath>C:\Users\Enrico Drago\Desktop\XD\System\clipper_library.dll</HintPath>
+    </Reference>
+    <Reference Include="LeagueSharp">
+      <HintPath>C:\Users\Enrico Drago\Desktop\XD\System\LeagueSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="LeagueSharp.Common">
+      <HintPath>C:\Users\Enrico Drago\Desktop\XD\System\LeagueSharp.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX">
+      <HintPath>C:\Users\Enrico Drago\Desktop\XD\System\SharpDX.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ExorAIO.cs" />
+    <Compile Include="AIO\Champions\Ashe\Utilities\Logics.cs" />
+    <Compile Include="AIO\Champions\Ashe\Utilities\Utility.cs" />
+    <Compile Include="AIO\Champions\Ashe\Ashe.cs" />
+    <Compile Include="AIO\Champions\Cassiopeia\Utilities\Logics.cs" />
+    <Compile Include="AIO\Champions\Cassiopeia\Utilities\Utility.cs" />
+    <Compile Include="AIO\Champions\Cassiopeia\Cassiopeia.cs" />
+    <Compile Include="AIO\Champions\Corki\Utilities\Logics.cs" />
+    <Compile Include="AIO\Champions\Corki\Utilities\Utility.cs" />
+    <Compile Include="AIO\Champions\Corki\Corki.cs" />
+    <Compile Include="AIO\Champions\Graves\Utilities\Logics.cs" />
+    <Compile Include="AIO\Champions\Graves\Utilities\Utility.cs" />
+    <Compile Include="AIO\Champions\Graves\Graves.cs" />
+    <Compile Include="AIO\Champions\KogMaw\Utilities\Logics.cs" />
+    <Compile Include="AIO\Champions\KogMaw\Utilities\Utility.cs" />
+    <Compile Include="AIO\Champions\KogMaw\KogMaw.cs" />
+    <Compile Include="AIO\Champions\Renekton\Utilities\Logics.cs" />
+    <Compile Include="AIO\Champions\Renekton\Utilities\Utility.cs" />
+    <Compile Include="AIO\Champions\Renekton\Renekton.cs" />
+    <Compile Include="AIO\Champions\Sivir\Utilities\Logics.cs" />
+    <Compile Include="AIO\Champions\Sivir\Utilities\Utility.cs" />
+    <Compile Include="AIO\Champions\Sivir\Sivir.cs" />
+    <Compile Include="AIO\Champions\Tristana\Utilities\Logics.cs" />
+    <Compile Include="AIO\Champions\Tristana\Utilities\Utility.cs" />
+    <Compile Include="AIO\Champions\Tristana\Tristana.cs" />
+    <Compile Include="AIO\Champions\Vayne\Utilities\Logics.cs" />
+    <Compile Include="AIO\Champions\Vayne\Utilities\Utility.cs" />
+    <Compile Include="AIO\Champions\Vayne\Vayne.cs" />
+    <Compile Include="AIO\Core\Bootstrap.cs" />
+    <Compile Include="AIO\Utilities\Bools.cs" />
+    <Compile Include="AIO\Utilities\Variables.cs" />
+    <Compile Include="AIO\Utilities\Helpers.cs" />
+    <Compile Include="AIO\Utilities\Entities\Jungle.cs" />
+    <Compile Include="AIO\Utilities\Entities\GameObjects.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
