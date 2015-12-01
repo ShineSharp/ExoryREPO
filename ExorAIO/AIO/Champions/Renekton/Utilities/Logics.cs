@@ -16,6 +16,18 @@ namespace ExorAIO.Champions.Renekton
         public static void ExecuteAuto(EventArgs args)
         {
             /*
+                E Combo Logic;
+            */
+            if (Variables.E.IsReady() &&
+                Targets.Target.IsValidTarget(Variables.E.Range + Orbwalking.GetRealAutoAttackRange(null)) &&
+                !ObjectManager.Player.HasBuff("renektonsliceanddicedelay") &&
+                (Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useecombo").GetValue<bool>() && Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo))
+            {
+                Variables.E.Cast(Targets.Target.Position);
+                return;
+            }
+
+            /*
                 Tiamat/Ravenous/Titanic Logic;
                 Q Combo Logic;
                 E Combo Logic;
@@ -76,18 +88,6 @@ namespace ExorAIO.Champions.Renekton
 
         public static void ExecuteModes(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            /*
-                E Combo Logic;
-            */
-            if (Variables.E.IsReady() &&
-                ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.E.Range) &&
-                !ObjectManager.Player.HasBuff("renektonsliceanddicedelay") &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useecombo").GetValue<bool>())
-            {
-                Variables.E.Cast(Targets.Target.Position);
-                return;
-            }
-
             /*
                 W Combo Logic;
             */

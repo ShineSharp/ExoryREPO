@@ -90,7 +90,7 @@ namespace ExorAIO.Champions.Renekton
     /// </summary>
     public class Targets
     {
-        public static Obj_AI_Hero Target => TargetSelector.GetTarget(Variables.W.Range, TargetSelector.DamageType.Physical);
+        public static Obj_AI_Hero Target => TargetSelector.GetTarget(Variables.E.Range + Orbwalking.GetRealAutoAttackRange(null), TargetSelector.DamageType.Physical);
         public static List<LeagueSharp.Obj_AI_Base> Minions => 
             MinionManager.GetMinions(
                 ObjectManager.Player.ServerPosition,
