@@ -15,7 +15,7 @@ namespace NabbActivator
         static void Game_OnGameLoad(EventArgs args)
         {
             Activator.OnLoad();
-            Game.PrintChat("Nabb<font color=\"#FF0000\">Activator</font> - Loaded!");
+            Game.PrintChat("Nabb<font color=\"#FF0000\">Activator</font>: Ultima - Loaded!");
         }
     }
 }
