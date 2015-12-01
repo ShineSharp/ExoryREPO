@@ -7,7 +7,6 @@ namespace NabbTracker
 {
     class Program
     {
-        public static Track Track;
         public static void Main(string[] args)
         {
             CustomEvents.Game.OnGameLoad += Game_OnGameLoad;
@@ -15,9 +14,8 @@ namespace NabbTracker
 
         private static void Game_OnGameLoad(EventArgs args)
         {
-            Track = new Track();
-            Game.PrintChat("Nabb<font color=\"#228B22\">Tracker</font> - Loaded!");
-            VersionUpdater.UpdateCheck();
+            Tracker.OnLoad();
+            Game.PrintChat("Nabb<font color=\"#228B22\">Tracker</font>: Ultima - Loaded!");
         }
     }
 }

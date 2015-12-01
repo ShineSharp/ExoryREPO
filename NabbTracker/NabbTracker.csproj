@@ -60,7 +60,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NabbTracker.cs" />
-    <Compile Include="VersionUpdater.cs" />
+    <Compile Include="Utilities\Core\Bootstrap.cs" />
+    <Compile Include="Utilities\Variables.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
