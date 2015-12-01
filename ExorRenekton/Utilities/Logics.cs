@@ -34,12 +34,10 @@ namespace ExorRenekton
                         ItemData.Ravenous_Hydra_Melee_Only.GetItem().Cast();
                     }
 
-                    /*
                     if (ItemData.Titanic_Hydra_Melee_Only.GetItem().IsReady())
                     {
                         ItemData.Titanic_Hydra_Melee_Only.GetItem().Cast();
                     }
-                    */
                 }
 
                 if (Variables.Q.IsReady() &&
