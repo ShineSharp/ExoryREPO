@@ -35,7 +35,8 @@ namespace ExorAIO.Champions.DrMundo
                 Logics.ExecuteAuto(args);
             }
 
-            if (Targets.Minions != null)
+            if (Targets.Minions != null &&
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear)
             {
                 Logics.ExecuteFarm(args);
             }
