@@ -131,7 +131,7 @@ namespace NabbActivator
 
         public static bool ShouldUseCleanser()
         =>
-            ObjectManager.Player.HasBuff("zedulttargetmark") ||
+            Bools.HasZedMark(ObjectManager.Player) ||
             ObjectManager.Player.HasBuff("VladimirHemoplague") ||
             ObjectManager.Player.HasBuff("MordekaiserChildrenOfTheGrave") ||
             ObjectManager.Player.HasBuff("PoppyDiplomaticImmunity") ||

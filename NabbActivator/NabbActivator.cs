@@ -9,7 +9,7 @@
     using ItemData = LeagueSharp.Common.Data.ItemData;
 
     /// <summary>
-    ///     The main class.
+    /// The main class.
     /// </summary>
     public class Activator
     {

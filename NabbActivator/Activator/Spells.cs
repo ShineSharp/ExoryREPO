@@ -60,19 +60,17 @@ namespace NabbActivator
             {
                 ObjectManager.Player.Spellbook.CastSpell(SpellSlots.Ghost);
             }
-            
-            /*
+
             /// <summary>
             /// The Ignite Logic.
             /// </summary>
             if (Bools.IsSpellAvailable(SpellSlots.Ignite) &&
                 Targets.target != null &&
-                Targets.target.IsValidTarget(600f) &&
-                ObjectManager.Player.GetSummonerSpellDamage(Targets.target, Damage.SpellSlot.Ignite) > Targets.target.Health)
+                Targets.target.IsValidTarget(610f) &&
+                ObjectManager.Player.GetSummonerSpellDamage(Targets.target, Damage.SummonerSpell.Ignite) > Targets.target.Health)
             {
                 ObjectManager.Player.Spellbook.CastSpell(SpellSlots.Ignite, Targets.target);
             }
-            */
         }
     }
 }
