@@ -12,56 +12,74 @@ namespace ExorAIO.Utilities
     class Variables
     {
         /// <summary>
-        /// Gets the name of the playing character.
+        /// Gets or sets the Q Spell.
         /// </summary>
-        public static string Name => ObjectManager.Player.ChampionName;
-        
+        public static Spell Q { get; set; }
+
+        /// <summary>
+        /// Gets or sets the W Spell.
+        /// </summary>
+        public static Spell W { get; set; }
+
+        /// <summary>
+        /// Gets or sets the E Spell.
+        /// </summary>
+        public static Spell E { get; set; }
+
+        /// <summary>
+        /// Gets or sets the R Spell.
+        /// </summary>
+        public static Spell R { get; set; }
+
         /// <summary>
         /// Gets or sets the assembly menu.
         /// </summary>
         public static Menu Menu { get; set; }
-        public static Menu SettingsMenu { get; set; }
-        public static Menu QMenu { get; set; }
-        public static Menu WMenu { get; set; }
-        public static Menu EMenu { get; set; }
-        public static Menu RMenu { get; set; } 
-        public static Menu MiscMenu { get; set; } 
-        public static Menu WhiteListMenu { get; set; } 
-        public static Menu DrawingsMenu { get; set; }
 
-        /// <summary>
-        /// Gets the real attack speed float value.
-        /// </summary>
-        public static float AttackSpeed => 1 / ObjectManager.Player.AttackDelay;
-
-        /// <summary>
-        /// Gets the real attack damage float value.
-        /// </summary> 
-        public static float TotalAttackDamage(Obj_AI_Hero target)
-        =>
-            target.BaseAttackDamage + target.FlatPhysicalDamageMod;
-
-        /// <summary>
-        /// Orbwalker limiter for Kog'Maw.
-        /// </summary>
-        public static float OrbwalkingLimit =>
-            (float)(Variables.Menu.Item($"{Variables.MainMenuName}.misc.wlimiterc").GetValue<Slider>().Value) + 
-            (float)(Variables.Menu.Item($"{Variables.MainMenuName}.misc.wlimiterd").GetValue<Slider>().Value) / 100;
-
-        /// <summary>
-        /// Gets the R Stacks for Kog'Maw.
-        /// </summary>
-        public static int GetRStacks() => ObjectManager.Player.GetBuffCount("kogmawlivingartillerycost");
-
-        /// <summary>
-        /// Defines the spells.
-        /// </summary>
-        public static Spell Q, W, E ,R;
-        
         /// <summary>
         /// Gets or sets the orbwalker menu.
         /// </summary>
         public static Menu OrbwalkerMenu { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the settings menu.
+        /// </summary>
+        public static Menu SettingsMenu { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Q Spell menu.
+        /// </summary>
+        public static Menu QMenu { get; set; }
+
+        /// <summary>
+        /// Gets or sets the W Spell menu.
+        /// </summary>        
+        public static Menu WMenu { get; set; }
+
+        /// <summary>
+        /// Gets or sets the E Spell menu.
+        /// </summary>
+        public static Menu EMenu { get; set; }
+
+        /// <summary>
+        /// Gets or sets the R Spell menu.
+        /// </summary>
+        public static Menu RMenu { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Miscellaneous menu.
+        /// </summary>
+        public static Menu MiscMenu { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Whitelist menu.
+        /// </summary>
+        public static Menu WhiteListMenu { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Drawings menu.
+        /// </summary>
+        public static Menu DrawingsMenu { get; set; }
 
         /// <summary>
         /// Gets or sets the orbwalker.
@@ -71,7 +89,7 @@ namespace ExorAIO.Utilities
         /// <summary>
         /// The main menu name.
         /// </summary>
-        public static readonly string MainMenuCodeName = "[ExorAIO]: Ultima";
+        public static readonly string MainMenuCodeName = "[Exor<font color='#FFF000'>AIO</font>]: Ultima";
 
         /// <summary>
         /// The main menu codename.
@@ -79,7 +97,7 @@ namespace ExorAIO.Utilities
         public static readonly string MainMenuName = $"exoraio.{ObjectManager.Player.ChampionName}";
 
         /// <summary>
-        /// The supported champions.
+        /// The supported champions list.
         /// </summary>
         public static readonly string LoadableChampions = "Ashe, Cassiopeia, Corki, Graves, KogMaw, Renekton, Sivir, Tristana, Vayne.";
     }

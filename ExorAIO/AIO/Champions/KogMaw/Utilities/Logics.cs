@@ -46,7 +46,7 @@ namespace ExorAIO.Champions.KogMaw
             {
                 if (Targets.Target.HealthPercent < 50 &&
                     (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                        Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.rcombokeepstacks").GetValue<Slider>().Value >= Variables.GetRStacks()) ||
+                        Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.rcombokeepstacks").GetValue<Slider>().Value >= ObjectManager.Player.GetBuffCount("kogmawlivingartillerycost")) ||
                         (Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.userks").GetValue<bool>() && Targets.Target.Health < Variables.R.GetDamage(Targets.Target)))
                 {
                     Variables.R.CastIfHitchanceEquals(Targets.Target, HitChance.VeryHigh, false);
@@ -55,7 +55,7 @@ namespace ExorAIO.Champions.KogMaw
                 else if (Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.userharassfarm").GetValue<bool>() &&
                     Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo &&
                     Variables.R.GetCircularFarmLocation(Targets.Minions, Variables.R.Width).MinionsHit >= 3 &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.rfarmkeepstacks").GetValue<Slider>().Value >= Variables.GetRStacks())
+                    Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.rfarmkeepstacks").GetValue<Slider>().Value >= ObjectManager.Player.GetBuffCount("kogmawlivingartillerycost"))
                 {
                     var RFarm = Variables.R.GetCircularFarmLocation(Targets.Minions, Variables.R.Width);
                     {

@@ -27,9 +27,9 @@ namespace ExorAIO.Core
         /// </summary>
         public static void BuildMenu()
         {
-            Variables.Menu = new Menu($"{Variables.MainMenuCodeName}: {ObjectManager.Player.ChampionName}", $"{Variables.MainMenuName}", true);
+            Variables.Menu = new Menu($"[ExorAIO]: {ObjectManager.Player.ChampionName}", $"{Variables.MainMenuName}", true);
             {
-                Variables.OrbwalkerMenu = new Menu($"{Variables.MainMenuCodeName}: Orbwalker", $"{Variables.MainMenuName}.orbwalker");
+                Variables.OrbwalkerMenu = new Menu($"Orbwalker", $"{Variables.MainMenuName}.orbwalker");
                 {
                     Variables.Orbwalker = new Orbwalking.Orbwalker(Variables.OrbwalkerMenu);
                 }
@@ -43,9 +43,9 @@ namespace ExorAIO.Core
         /// </summary>
         public static void LoadChampion()
         {
-            if (Variables.LoadableChampions.Contains(Variables.Name))
+            if (Variables.LoadableChampions.Contains(ObjectManager.Player.ChampionName))
             {
-                switch (Variables.Name)
+                switch (ObjectManager.Player.ChampionName)
                 {
                     case "Ashe":       new Ashe()      .OnLoad(); break;
                     case "Cassiopeia": new Cassiopeia().OnLoad(); break;
@@ -57,10 +57,10 @@ namespace ExorAIO.Core
                     case "Tristana":   new Tristana()  .OnLoad(); break;
                     case "Vayne":      new Vayne()     .OnLoad(); break;
                 }
-                Game.PrintChat($"{Variables.MainMenuCodeName} - {Variables.Name} Loaded.");
+                Game.PrintChat($"{Variables.MainMenuCodeName} - {ObjectManager.Player.ChampionName} Loaded.");
                 return;
             }
-            Game.PrintChat($"{Variables.MainMenuCodeName}: Champion not supported.");
+            Game.PrintChat($"{Variables.MainMenuCodeName}- {ObjectManager.Player.ChampionName} not supported.");
         }
     }
 }
