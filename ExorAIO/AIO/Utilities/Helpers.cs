@@ -7,7 +7,7 @@ using LeagueSharp.Common;
 namespace ExorAIO.Utilities
 {
     /// <summary>
-    ///    The Mana manager class.
+    /// The Mana manager class.
     /// </summary>
     class ManaManager
     {
@@ -18,7 +18,7 @@ namespace ExorAIO.Utilities
     }
 
     /// <summary>
-    ///    The drawings class.
+    /// The drawings class.
     /// </summary>
     public class Drawings
     {
@@ -35,7 +35,7 @@ namespace ExorAIO.Utilities
                     Render.Circle.DrawCircle(ObjectManager.Player.Position, Variables.Q.Range, System.Drawing.Color.Green);
                 }
 
-                if (Variables.Q != null &&
+                if (Variables.W != null &&
                     Variables.W.IsReady() &&
                     Variables.W.Range != 0 &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.drawings.w") != null &&
@@ -53,7 +53,7 @@ namespace ExorAIO.Utilities
                     Render.Circle.DrawCircle(ObjectManager.Player.Position, Variables.E.Range, System.Drawing.Color.Cyan);
                 }
 
-                if (Variables.R.Range != null &&
+                if (Variables.R != null &&
                     Variables.R.IsReady() &&
                     Variables.R.Range != 0 &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.drawings.r") != null &&
