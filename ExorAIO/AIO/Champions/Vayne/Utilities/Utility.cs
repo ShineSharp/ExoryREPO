@@ -74,9 +74,9 @@ namespace ExorAIO.Champions.Vayne
             Variables.Menu.AddSubMenu(Variables.SettingsMenu);
 
             /// <summary>
-            /// The settings menu for the E spell.
+            /// The settings menu for the miscellaneous settings.
             /// </summary>
-            Variables.MiscMenu = new Menu("E Settings", $"{Variables.MainMenuName}.miscsettingsmenu");
+            Variables.MiscMenu = new Menu("Miscellaneous Menu", $"{Variables.MainMenuName}.miscsettingsmenu");
             {
                 Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.miscsettings.noaastealth", "Use Don't AA when Stealthed Logic")).SetValue(false);
             }
