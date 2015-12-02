@@ -9,6 +9,10 @@ namespace NabbTracker
     using LeagueSharp.Common;
 
     using SharpDX;
+    using SharpDX.Direct3D9;
+
+    using Font = SharpDX.Direct3D9.Font;
+    using Color = System.Drawing.Color; 
 
     /// <summary>
     /// The drawings class.
@@ -59,17 +63,14 @@ namespace NabbTracker
                                 SharpDX.Color.LightGreen
                         );
 
-                        for (int DrawSpellLevel = 0; DrawSpellLevel <= GetSpell.Level; DrawSpellLevel++)
+                        for (int DrawSpellLevel = 0; DrawSpellLevel <= GetSpell.Level - 1; DrawSpellLevel++)
                         {
                             Variables.SpellLevelX = Variables.SpellX + (DrawSpellLevel * 3) - 4;
                             Variables.SpellLevelY = Variables.SpellY + 4;
                             
                             Variables.DisplayTextFont.DrawText(
                                 null,
-                                
-                                GetSpell.Level < 1 ? 
-                                    "" :
-                                    ".",
+                                ".",
 
                                 Variables.SpellLevelX,
                                 Variables.SpellLevelY,
