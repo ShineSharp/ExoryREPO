@@ -106,11 +106,11 @@ namespace ExorAIO.Champions.DrMundo
                 Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarm").GetValue<bool>())
             {
                 if ((!ObjectManager.Player.HasBuff("BurningAgony") &&
-                        Targets.Minions.Count() >= 3 &&
+                        Targets.Minions.Count() >= 2 &&
                         ObjectManager.Player.Health >= Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarmhp").GetValue<Slider>().Value) ||
 
                     (ObjectManager.Player.HasBuff("BurningAgony") &&
-                        (Targets.Minions.Count() < 3 ||
+                        (Targets.Minions.Count() < 2 ||
                         ObjectManager.Player.Health < Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarmhp").GetValue<Slider>().Value)))
                 {
                     Variables.W.Cast();
