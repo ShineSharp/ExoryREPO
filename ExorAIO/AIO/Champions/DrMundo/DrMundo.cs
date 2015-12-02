@@ -30,7 +30,7 @@ namespace ExorAIO.Champions.DrMundo
         {
             if (!ObjectManager.Player.IsDead &&
                 Targets.Target != null &&
-                Targets.Target.IsValid
+                Targets.Target.IsValid &&
                 Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
                 Logics.ExecuteAuto(args);
