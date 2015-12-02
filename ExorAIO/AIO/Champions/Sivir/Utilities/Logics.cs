@@ -45,8 +45,20 @@ namespace ExorAIO.Champions.Sivir
                     args.Target != null &&
                     args.Target.IsValid &&
                     args.Target.IsMe &&
+                    !args.SData.TargettingType.Equals(SpellDataTargetType.SelfAoe) &&
                     !args.SData.IsAutoAttack())
                 {
+                    if (((Obj_AI_Hero)sender).ChampionName.Equals("Zed", StringComparison.OrdinalIgnoreCase) &&
+                        args.SData.TargettingType.Equals(SpellDataTargetType.Self))
+                    {
+                        Utility.DelayAction.Add(200,
+                        () =>
+                            {
+                                Variables.E.Cast();
+                                return;
+                            }
+                        );
+                    }
                     Variables.E.Cast();
                 }
             }
