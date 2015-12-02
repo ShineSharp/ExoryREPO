@@ -64,6 +64,7 @@ namespace ExorAIO.Champions.Sivir
             {
                 Orbwalking.ResetAutoAttackTimer();
                 Variables.W.Cast();
+                return;
             }
 
             /// <summary>
