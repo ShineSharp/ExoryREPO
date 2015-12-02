@@ -38,7 +38,7 @@ namespace NabbTracker
                         Variables.SpellY = (int)pg.HPBarPosition.Y + 35;
 
                         var GetSpell = pg.Spellbook.GetSpell(Variables.SpellSlots[Spell]);
-                        var GetSpellCD = GetSpell.CooldownExpires - Game.Time;
+                        var GetSpellCD = GetSpell.CooldownExpires - Game.Time + 1;
                         var SpellCDString = string.Format("{0:0}", GetSpellCD);
                         
                         Variables.DisplayTextFont.DrawText(
@@ -58,7 +58,7 @@ namespace NabbTracker
                             GetSpellCD > 0 && GetSpellCD <= 4 ?
                                 SharpDX.Color.Red :
 
-                            GetSpellCD > 0 ?
+                            GetSpellCD > 4 ?
                                 SharpDX.Color.Yellow :
                                 SharpDX.Color.LightGreen
                         );
@@ -86,7 +86,7 @@ namespace NabbTracker
                         Variables.SummonerSpellY = (int)pg.HPBarPosition.Y + 4;
                         
                         var GetSummonerSpell = pg.Spellbook.GetSpell(Variables.SummonerSpellSlots[SummonerSpell]);
-                        var GetSummonerSpellCD = GetSummonerSpell.CooldownExpires - Game.Time;
+                        var GetSummonerSpellCD = GetSummonerSpell.CooldownExpires - Game.Time + 1;
                         var SummonerSpellCDString = string.Format("{0:0}", GetSummonerSpellCD);
                         
                         switch (GetSummonerSpell.Name.ToLower())
