@@ -36,20 +36,6 @@ namespace ExorAIO.Champions.Tristana
         }
 
         /// <summary>
-        /// Called when the game updates itself.
-        /// </summary>
-        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
-        public static void Game_OnGameUpdate(EventArgs args)
-        {
-            if (!ObjectManager.Player.IsDead &&
-                Targets.Target != null &&
-                Targets.Target.IsValid)
-            {
-                Logics.ExecuteAuto(args);
-            }
-        }
-
-        /// <summary>
         /// Called on do-cast.
         /// </summary>
         /// <param name="sender">The sender.</param>

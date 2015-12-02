@@ -14,6 +14,21 @@ namespace ExorAIO.Champions.Tristana
         public static void ExecuteBeforeAttack(Orbwalking.BeforeAttackEventArgs args)
         {
             /// <summary>
+            /// The Q Combo Logic.
+            /// </summary>
+            if (Variables.Q.IsReady() &&
+                (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqauto").GetValue<bool>() &&
+                    (Bools.IsCharged((Obj_AI_Base)args.Target) || !Variables.E.IsReady()) &&
+                    Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo) ||
+
+                (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>() &&
+                    ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
+                    Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear))
+            {
+                Variables.Q.Cast();
+            }
+
+            /// <summary>
             /// The E Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
@@ -27,19 +42,7 @@ namespace ExorAIO.Champions.Tristana
             {
                 Orbwalking.ResetAutoAttackTimer();
                 Variables.E.CastOnUnit((Obj_AI_Base)args.Target);
-            }
-        }
-
-        public static void ExecuteAuto(EventArgs args)
-        {
-            /// <summary>
-            /// The Q Combo Logic.
-            /// </summary>
-            if (Variables.Q.IsReady() &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqauto").GetValue<bool>() &&
-                (Bools.IsCharged(Targets.Target) || !Variables.E.IsReady()))
-            {
-                Variables.Q.Cast();
+                Variables.Orbwalker.ForceTarget((Obj_AI_Base)args.Target);
             }
         }
 
@@ -69,6 +72,7 @@ namespace ExorAIO.Champions.Tristana
                 Targets.EMinions.Any())
             {
                 Variables.E.Cast(Targets.EMinion);
+                Variables.Orbwalker.ForceTarget(Targets.EMinion);
             }
         }
     }

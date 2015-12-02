@@ -40,6 +40,9 @@ namespace ExorAIO.Champions.Tristana
                 Variables.QMenu = new Menu("Q Settings", $"{Variables.MainMenuName}.qsettingsmenu");
                 {
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqauto", "Use Smart Q")).SetValue(true);
+                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqfarm", "Use Q to Farm")).SetValue(true);
+                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.qmana", "Use Q in Farm only if Mana >= x%"))
+                        .SetValue(new Slider(50, 0, 99));
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.QMenu);
 
@@ -51,17 +54,17 @@ namespace ExorAIO.Champions.Tristana
                     Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.useeauto", "Use E Combo")).SetValue(true);
                     Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.useefarm", "Use E to Farm")).SetValue(true);
                     Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.useebuildings", "Use E against Buildings")).SetValue(true);
-                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.emana", "Use E in Farm only if Mana >= x%"))
+                    Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.emana", "Use E in Farm only if Mana >= x%"))
                         .SetValue(new Slider(50, 0, 99));
                     {
                         /// <summary>
                         /// The whitelist menu for the E spell.
                         /// </summary>
-                        Variables.WhiteListMenu = new Menu("Condemn Whitelist Menu", $"{Variables.MainMenuName}.esettings.ewhitelist");
+                        Variables.WhiteListMenu = new Menu("E Whitelist Menu", $"{Variables.MainMenuName}.esettings.ewhitelist");
                         {
                             foreach (Obj_AI_Hero champ in HeroManager.Enemies)
                             {
-                                Variables.WhiteListMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.ewhitelist.{champ.ChampionName.ToLower()}", $"Condemn Only: {champ.ChampionName}").SetValue(true));
+                                Variables.WhiteListMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.ewhitelist.{champ.ChampionName.ToLower()}", $"E Only: {champ.ChampionName}").SetValue(true));
                             }
                         }
                         Variables.EMenu.AddSubMenu(Variables.WhiteListMenu);
@@ -97,7 +100,6 @@ namespace ExorAIO.Champions.Tristana
         public static void SetMethods()
         {
             Orbwalking.BeforeAttack += Tristana.Orbwalking_BeforeAttack;
-            Game.OnUpdate += Tristana.Game_OnGameUpdate;
             Obj_AI_Base.OnDoCast += Tristana.Obj_AI_Base_OnDoCast;
         }
     }
@@ -122,17 +124,15 @@ namespace ExorAIO.Champions.Tristana
     /// </summary>
     public class Targets
     {
-        public static Obj_AI_Hero Target => TargetSelector.GetTarget(Variables.E.Range, TargetSelector.DamageType.Physical);
-        public static IOrderedEnumerable<Obj_AI_Minion> EMinions => GameObjects.EnemyMinions
+        public static IEnumerable<Obj_AI_Minion> EMinions => GameObjects.EnemyMinions
             .Where(
-                eminion
-                =>
+                eminion =>
                     eminion.IsValidTarget(Variables.E.Range) &&
-                    GameObjects.EnemyMinions.Count(minions => minions.Distance(eminion) < 150f) > 2)
-            .OrderBy(
-                minion 
-                =>
-                    minion.Health);
+                    GameObjects.EnemyMinions
+                        .Count(
+                            minions =>
+                                minions.Distance(eminion) < 150f) > 2);
+
         public static Obj_AI_Minion EMinion => Targets.EMinions.FirstOrDefault();
     }
 }
