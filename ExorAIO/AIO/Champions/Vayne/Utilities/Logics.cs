@@ -57,8 +57,7 @@ namespace ExorAIO.Champions.Vayne
                 Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqks").GetValue<bool>() &&
                 Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(null) + 240f) &&
                 Targets.Target.ServerPosition.Distance(ObjectManager.Player.ServerPosition) >= Orbwalking.GetRealAutoAttackRange(null) &&
-                HealthPrediction.GetHealthPrediction(Targets.Target, (int) (250 + Game.Ping / 2f)) < ObjectManager.Player.GetAutoAttackDamage(Targets.Target) + Variables.Q.GetDamage(Targets.Target) &&
-                HealthPrediction.GetHealthPrediction(Targets.Target, (int)(250 + Game.Ping / 2f)) > 0)
+                HealthPrediction.GetHealthPrediction(Targets.Target, (int) (250 + Game.Ping / 2f)) < ObjectManager.Player.GetAutoAttackDamage(Targets.Target))
             {
                 Orbwalking.ResetAutoAttackTimer();
                 Variables.Q.Cast(Targets.Target.Position);
@@ -79,7 +78,7 @@ namespace ExorAIO.Champions.Vayne
                 Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>() && Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo)
             {
                 Orbwalking.ResetAutoAttackTimer();
-                Variables.Q.Cast(Game.CursorPos);
+                Variables.Q.Cast(Targets.FarmMinion);
                 Variables.Orbwalker.ForceTarget(Targets.FarmMinion);
             }
         }

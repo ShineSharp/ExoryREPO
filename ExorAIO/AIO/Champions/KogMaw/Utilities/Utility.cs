@@ -67,8 +67,10 @@ namespace ExorAIO.Champions.KogMaw
                 Variables.RMenu = new Menu("R Settings", $"{Variables.MainMenuName}.rsettingsmenu");
                 {
                     Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rsettings.user", "Use R")).SetValue(true);
-                    Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rsettings.userharassfarm", "Use R in Harass/Farm")).SetValue(true);
+                    Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rsettings.userfarm", "Use R to Farm")).SetValue(true);
                     Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rsettings.userks", "Use R to KillSteal")).SetValue(true);
+                    Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rsettings.rmana", "Use R in Combo only if Mana >= x"))
+                        .SetValue(new Slider(60, 1, 99));
                     Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rsettings.rcombokeepstacks", "Use R in Combo only if Stacks <= x"))
                         .SetValue(new Slider(2, 1, 10));
                     Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rsettings.rfarmkeepstacks", "Use R in Farm only if Stacks <= x"))

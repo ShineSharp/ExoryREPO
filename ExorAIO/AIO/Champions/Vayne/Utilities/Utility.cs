@@ -111,10 +111,10 @@ namespace ExorAIO.Champions.Vayne
         public static Obj_AI_Hero Target => TargetSelector.GetTarget(Orbwalking.GetRealAutoAttackRange(null) + 240f, TargetSelector.DamageType.Physical);
         public static IEnumerable<Obj_AI_Base> FarmMinions
         =>
-            MinionManager.GetMinions(Orbwalking.GetRealAutoAttackRange(null) + 240f)
+            MinionManager.GetMinions(Orbwalking.GetRealAutoAttackRange(null) + Variables.Q.Range)
                 .Where(
                     minions =>
-                        minions.Health < ObjectManager.Player.GetAutoAttackDamage(minions) + Variables.Q.GetDamage(minions));
+                        minions.Health < ObjectManager.Player.GetAutoAttackDamage(minions));
 
         public static Obj_AI_Base FarmMinion 
         => 
