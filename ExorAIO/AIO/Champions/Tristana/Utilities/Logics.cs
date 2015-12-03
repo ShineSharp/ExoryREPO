@@ -33,12 +33,13 @@ namespace ExorAIO.Champions.Tristana
             /// </summary>
             if (Variables.E.IsReady() &&
                 (Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useeauto").GetValue<bool>() &&
-                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.esettings.ewhitelist.{((Obj_AI_Hero)args.Target).ChampionName.ToLower()}").GetValue<bool>()) ||
+                    Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.esettings.ewhitelist.{((Obj_AI_Hero)args.Target).ChampionName.ToLower()}").GetValue<bool>()) ||
 
                 (Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useebuildings").GetValue<bool>() &&
-                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                args.Target.IsValid<Obj_AI_Turret>()))
+                    ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
+                    Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
+                    args.Target.IsValid<Obj_AI_Turret>()))
             {
                 Orbwalking.ResetAutoAttackTimer();
                 Variables.E.CastOnUnit((Obj_AI_Base)args.Target);
