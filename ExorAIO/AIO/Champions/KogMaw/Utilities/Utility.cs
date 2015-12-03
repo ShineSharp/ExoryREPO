@@ -17,7 +17,7 @@ namespace ExorAIO.Champions.KogMaw
         public static void SetSpells()
         {
             Variables.Q = new Spell(SpellSlot.Q, 1100f);
-            Variables.W = new Spell(SpellSlot.W, 590f + (30 * ObjectManager.Player.Spellbook.GetSpell(SpellSlot.W).Level));
+            Variables.W = new Spell(SpellSlot.W, 590f + (30f * ObjectManager.Player.Spellbook.GetSpell(SpellSlot.W).Level));
             Variables.E = new Spell(SpellSlot.E, 1200f);
             Variables.R = new Spell(SpellSlot.R, 1800f);
 

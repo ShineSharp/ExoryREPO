@@ -16,10 +16,10 @@ namespace ExorAIO.Champions.Ezreal
     {
         public static void SetSpells()
         {
-            Variables.Q = new Spell(SpellSlot.Q, 1150);
-            Variables.W = new Spell(SpellSlot.W, 1000);
-            Variables.E = new Spell(SpellSlot.E, 500);
-            Variables.R = new Spell(SpellSlot.R, 3000);
+            Variables.Q = new Spell(SpellSlot.Q, 1150f);
+            Variables.W = new Spell(SpellSlot.W, 1000f);
+            Variables.E = new Spell(SpellSlot.E, ObjectManager.Player.BoundingRadius + 500f);
+            Variables.R = new Spell(SpellSlot.R, 3000f);
 
             Variables.Q.SetSkillshot(0.25f, 60f, 2000f, true, SkillshotType.SkillshotLine);
             Variables.W.SetSkillshot(0.25f, 80f, 1600f, false, SkillshotType.SkillshotLine);
