@@ -16,12 +16,14 @@ namespace ExorAIO.Champions.Ezreal
     {
         public static void SetSpells()
         {
-            Variables.Q = new Spell(SpellSlot.Q, 1000);
-            Variables.W = new Spell(SpellSlot.W, 160);
-            Variables.E = new Spell(SpellSlot.E, 150);
-            Variables.R = new Spell(SpellSlot.R);
-            
-            Variables.Q.SetSkillshot(0.25f, 60, 1500, true, SkillshotType.SkillshotLine);
+            Variables.Q = new Spell(SpellSlot.Q, 1150);
+            Variables.W = new Spell(SpellSlot.W, 1000);
+            Variables.E = new Spell(SpellSlot.E, 500);
+            Variables.R = new Spell(SpellSlot.R, 3000);
+
+            Variables.Q.SetSkillshot(0.25f, 60f, 2000f, true, SkillshotType.SkillshotLine);
+            Variables.W.SetSkillshot(0.25f, 80f, 1600f, false, SkillshotType.SkillshotLine);
+            Variables.R.SetSkillshot(1.0f, 160f, 2000f, false, SkillshotType.SkillshotLine);
         }
 
         public static void SetMenu()
@@ -67,7 +69,6 @@ namespace ExorAIO.Champions.Ezreal
                 {
                     Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rsettings.usercombo", "Use R in Combo")).SetValue(true);
                     Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rsettings.userks", "Use R to KillSteal")).SetValue(true);
-                    Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rsettings.usermechanic", "Use Doublelift's E->R Mechanic")).SetValue(true);
                     {
                         //Ult Whitelist Menu
                         Variables.WhiteListMenu = new Menu("Ultimate Whitelist Menu", $"{Variables.MainMenuName}.rsettings.rwhitelist");
