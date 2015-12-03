@@ -16,10 +16,10 @@ namespace ExorAIO.Champions.Renekton
     {
         public static void SetSpells()
         {
-            Variables.Q = new Spell(SpellSlot.Q, 225f);
-            Variables.W = new Spell(SpellSlot.W, 176f);
+            Variables.Q = new Spell(SpellSlot.Q, ObjectManager.Player.BoundingRadius + 225f);
+            Variables.W = new Spell(SpellSlot.W, ObjectManager.Player.BoundingRadius + 176f);
             Variables.E = new Spell(SpellSlot.E, 450f);
-            Variables.R = new Spell(SpellSlot.R, 175f);
+            Variables.R = new Spell(SpellSlot.R, ObjectManager.Player.BoundingRadius + 175f);
         }
 
         public static void SetMenu()
@@ -33,8 +33,7 @@ namespace ExorAIO.Champions.Renekton
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqcombo", "Use Q in Combo")).SetValue(true);
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqks", "Use Q to Automatically KillSteal")).SetValue(true);
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqautoharass", "Use Q AutoHarass")).SetValue(true);
-                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqfarm", "Use Q to Farm"))
-                        .SetValue(new Slider(50, 0, 99));
+                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqfarm", "Use Q to Farm")).SetValue(true);
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.QMenu);
 

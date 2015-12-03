@@ -17,8 +17,8 @@ namespace ExorAIO.Champions.DrMundo
         public static void SetSpells()
         {
             Variables.Q = new Spell(SpellSlot.Q, 1000);
-            Variables.W = new Spell(SpellSlot.W, 300);
-            Variables.E = new Spell(SpellSlot.E, 300);
+            Variables.W = new Spell(SpellSlot.W, ObjectManager.Player.BoundingRadius + 160f);
+            Variables.E = new Spell(SpellSlot.E, ObjectManager.Player.BoundingRadius + 150f);
             Variables.R = new Spell(SpellSlot.R);
             
             Variables.Q.SetSkillshot(0.25f, 60, 1500, true, SkillshotType.SkillshotLine);
