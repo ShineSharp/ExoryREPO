@@ -75,7 +75,7 @@ namespace ExorAIO.Champions.Vayne
                 Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>())
             {
                 Orbwalking.ResetAutoAttackTimer();
-                Variables.Q.Cast(minions);
+                Variables.Q.Cast(Targets.FarmMinions.FirstOrDefault());
             }
         }
 
