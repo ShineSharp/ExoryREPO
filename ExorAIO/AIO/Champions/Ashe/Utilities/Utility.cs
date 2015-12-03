@@ -17,7 +17,7 @@ namespace ExorAIO.Champions.Ashe
         public static void SetSpells()
         {
             Variables.Q = new Spell(SpellSlot.Q);
-            Variables.W = new Spell(SpellSlot.W, ObjectManager.Player.BoundingRadius + 1200f);
+            Variables.W = new Spell(SpellSlot.W, ObjectManager.Player.BoundingRadius + 1250f);
             Variables.E = new Spell(SpellSlot.E, float.MaxValue);
             Variables.R = new Spell(SpellSlot.R, float.MaxValue);
 
@@ -57,6 +57,7 @@ namespace ExorAIO.Champions.Ashe
                 {
                     Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rsettings.usercombo", "Use R in Combo")).SetValue(true);
                     Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rsettings.userks", "Use R to KillSteal")).SetValue(true);
+                    Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rsettings.usermechanic", "Use E->R Doublelift Mechanic")).SetValue(true);
                     {
                         //Ult Whitelist Menu
                         Variables.WhiteListMenu = new Menu("Ultimate Whitelist Menu", $"{Variables.MainMenuName}.rsettings.rwhitelist");

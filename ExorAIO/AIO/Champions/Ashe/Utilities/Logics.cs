@@ -44,6 +44,7 @@ namespace ExorAIO.Champions.Ashe
             if (Variables.R.IsReady())
             {
                 if (Variables.E.IsReady() &&
+                    Targets.Target.IsValidTarget(1200) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.usermechanic").GetValue<bool>() &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.rwhitelist.{Targets.Target.ChampionName.ToLower()}").GetValue<bool>())
                 {
@@ -53,7 +54,7 @@ namespace ExorAIO.Champions.Ashe
                 }
 
                 if (Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.userks").GetValue<bool>() &&
-                    Targets.Target.IsValidTarget(1500) &&
+                    Targets.Target.IsValidTarget(1200) &&
                     Targets.Target.Health < Variables.R.GetDamage(Targets.Target) &&
                     (!Variables.W.IsReady() || !Targets.Target.IsValidTarget(Variables.W.Range)))
                 {
