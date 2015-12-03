@@ -17,12 +17,12 @@ namespace ExorAIO.Champions.Ashe
         public static void SetSpells()
         {
             Variables.Q = new Spell(SpellSlot.Q);
-            Variables.W = new Spell(SpellSlot.W, 1200f);
-            Variables.E = new Spell(SpellSlot.E, 20000f);
-            Variables.R = new Spell(SpellSlot.R, 4000f);
-            
-            Variables.W.SetSkillshot(250f, (float)(45f * Math.PI / 180), 900f, true, SkillshotType.SkillshotCone);
-            Variables.R.SetSkillshot(250f, 130f, 1600f, false, SkillshotType.SkillshotLine);
+            Variables.W = new Spell(SpellSlot.W, ObjectManager.Player.BoundingRadius + 1200f);
+            Variables.E = new Spell(SpellSlot.E, float.MaxValue);
+            Variables.R = new Spell(SpellSlot.R, float.MaxValue);
+
+            Variables.W.SetSkillshot(0.25f, (float)(45f * Math.PI / 180), 2000f, true, SkillshotType.SkillshotCone);
+            Variables.R.SetSkillshot(0.25f, 130f, 1600f, false, SkillshotType.SkillshotLine);
         }
 
         public static void SetMenu()

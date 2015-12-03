@@ -18,10 +18,10 @@ namespace ExorAIO.Champions.Cassiopeia
         {
             Variables.Q = new Spell(SpellSlot.Q, 850f);
             Variables.W = new Spell(SpellSlot.W, 850f);
-            Variables.E = new Spell(SpellSlot.E, 750f);
+            Variables.E = new Spell(SpellSlot.E, 700f);
             Variables.R = new Spell(SpellSlot.R, 800f);
 
-            Variables.Q.SetSkillshot(0.75f, Variables.Q.Instance.SData.CastRadius, float.MaxValue, false, SkillshotType.SkillshotCircle);
+            Variables.Q.SetSkillshot(0.4f, Variables.Q.Instance.SData.CastRadius, float.MaxValue, false, SkillshotType.SkillshotCircle);
             Variables.W.SetSkillshot(0.5f, Variables.W.Instance.SData.CastRadius, Variables.W.Instance.SData.MissileSpeed, false, SkillshotType.SkillshotCircle);
             Variables.R.SetSkillshot(0.3f, (float)(80 * Math.PI / 180), float.MaxValue, false, SkillshotType.SkillshotCone);
         }

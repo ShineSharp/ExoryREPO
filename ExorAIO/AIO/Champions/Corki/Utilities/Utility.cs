@@ -17,12 +17,12 @@ namespace ExorAIO.Champions.Corki
         public static void SetSpells()
         {
             Variables.Q = new Spell(SpellSlot.Q, 825f);
-            Variables.E = new Spell(SpellSlot.E, 500f);
-            Variables.R = new Spell(SpellSlot.R, 1300f);
+            Variables.E = new Spell(SpellSlot.E, 600f);
+            Variables.R = new Spell(SpellSlot.R, 1225f);
 
-            Variables.Q.SetSkillshot(0.35f, 250f, 1000f, false, SkillshotType.SkillshotCircle);
-            Variables.E.SetSkillshot(0f, (float)(45*Math.PI/180), 1500, false, SkillshotType.SkillshotCone);
-            Variables.R.SetSkillshot(0.2f, 40f, 2000f, true, SkillshotType.SkillshotLine);
+            Variables.Q.SetSkillshot(0.35f, 250f, 1300f, false, SkillshotType.SkillshotCircle);
+            Variables.E.SetSkillshot(0f, (float)(45f * Math.PI / 180), 1500, false, SkillshotType.SkillshotCone);
+            Variables.R.SetSkillshot(0.2f, 75f, 1950f, true, SkillshotType.SkillshotLine);
         }
 
         public static void SetMenu()

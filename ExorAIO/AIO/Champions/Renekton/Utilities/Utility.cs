@@ -17,7 +17,7 @@ namespace ExorAIO.Champions.Renekton
         public static void SetSpells()
         {
             Variables.Q = new Spell(SpellSlot.Q, ObjectManager.Player.BoundingRadius + 225f);
-            Variables.W = new Spell(SpellSlot.W, ObjectManager.Player.BoundingRadius + 176f);
+            Variables.W = new Spell(SpellSlot.W, ObjectManager.Player.BoundingRadius + 175f);
             Variables.E = new Spell(SpellSlot.E, 450f);
             Variables.R = new Spell(SpellSlot.R, ObjectManager.Player.BoundingRadius + 175f);
         }
