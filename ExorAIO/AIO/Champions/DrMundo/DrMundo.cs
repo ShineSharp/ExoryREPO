@@ -35,12 +35,6 @@ namespace ExorAIO.Champions.DrMundo
             {
                 Logics.ExecuteAuto(args);
             }
-
-            if (Targets.Minions != null &&
-                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear)
-            {
-                Logics.ExecuteFarm(args);
-            }
         }
 
         /// <summary>
@@ -51,10 +45,10 @@ namespace ExorAIO.Champions.DrMundo
         public static void Obj_AI_Base_OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             if (sender.IsMe &&
-                Orbwalking.IsAutoAttack(args.SData.Name) &&
-                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo)
+                Orbwalking.IsAutoAttack(args.SData.Name))
             {
-                if (args.Target.IsValid<Obj_AI_Hero>())
+                if (args.Target.IsValid<Obj_AI_Hero>() &&
+                    Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo)
                 {
                     Logics.ExecuteModes(sender, args);
                 }

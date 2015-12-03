@@ -17,8 +17,8 @@ namespace ExorAIO.Champions.DrMundo
         public static void SetSpells()
         {
             Variables.Q = new Spell(SpellSlot.Q, 1000);
-            Variables.W = new Spell(SpellSlot.W, 160);
-            Variables.E = new Spell(SpellSlot.E, 150);
+            Variables.W = new Spell(SpellSlot.W, 300);
+            Variables.E = new Spell(SpellSlot.E, 300);
             Variables.R = new Spell(SpellSlot.R);
             
             Variables.Q.SetSkillshot(0.25f, 60, 1500, true, SkillshotType.SkillshotLine);
@@ -51,7 +51,7 @@ namespace ExorAIO.Champions.DrMundo
                 // E Options
                 Variables.EMenu = new Menu("E Settings", $"{Variables.MainMenuName}.esettingsmenu");
                 {
-                    Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.useecombo", "Use E in Combo.")).SetValue(true);
+                    Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.useecombo", "Use E in Combo")).SetValue(true);
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.EMenu);
 
@@ -93,7 +93,7 @@ namespace ExorAIO.Champions.DrMundo
     /// </summary>
     public class Targets
     {
-        public static Obj_AI_Hero Target => TargetSelector.GetTarget(Variables.W.Range, TargetSelector.DamageType.Physical);
+        public static Obj_AI_Hero Target => TargetSelector.GetTarget(Variables.Q.Range, TargetSelector.DamageType.Physical);
         public static List<LeagueSharp.Obj_AI_Base> Minions => 
             MinionManager.GetMinions(
                 ObjectManager.Player.ServerPosition,

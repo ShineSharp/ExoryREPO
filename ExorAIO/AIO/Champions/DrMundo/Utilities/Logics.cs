@@ -38,18 +38,44 @@ namespace ExorAIO.Champions.DrMundo
                 W Combo Logic;
             */
             if (Variables.W.IsReady() &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>() &&
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo)
             {
                 if ((!ObjectManager.Player.HasBuff("BurningAgony") &&
-                        Targets.Target.IsValidTarget(Variables.W.Range) &&
-                        ObjectManager.Player.HealthPercent >= 35) ||
+                        (Targets.Target.IsValidTarget(Variables.W.Range) &&
+                        ObjectManager.Player.HealthPercent >= 35)) ||
 
                     (ObjectManager.Player.HasBuff("BurningAgony") && 
                         (!Targets.Target.IsValidTarget(Variables.W.Range) ||
-                        ObjectManager.Player.HealthPercent < 35)))
+                        ObjectManager.Player.HealthPercent < 35 ||
+                        !Targets.Target.IsValid)))
                 {
                     Variables.W.Cast();
+                    return;
                 }
+                Variables.W.Cast();
+            }
+            
+            /*
+                W Farm Logic;
+            */
+            if (Variables.W.IsReady() &&
+                ObjectManager.Player.HealthPercent >= 35 &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarm").GetValue<bool>() &&
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear)
+            {
+                if ((!ObjectManager.Player.HasBuff("BurningAgony") &&
+                        Targets.Minions.Count() >= 2 &&
+                        ObjectManager.Player.Health >= Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarmhp").GetValue<Slider>().Value) ||
+
+                    (ObjectManager.Player.HasBuff("BurningAgony") &&
+                        (Targets.Minions.Count() < 2 ||
+                        ObjectManager.Player.Health < Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarmhp").GetValue<Slider>().Value)))
+                {
+                    Variables.W.Cast();
+                    return;
+                }
+                Variables.W.Cast();
             }
 
             /*
@@ -92,28 +118,6 @@ namespace ExorAIO.Champions.DrMundo
                     {
                         ItemData.Titanic_Hydra_Melee_Only.GetItem().Cast();
                     }
-                }
-            }
-        }
-
-        public static void ExecuteFarm(EventArgs args)
-        {
-            /*
-                W Farm Logic;
-            */
-            if (Variables.W.IsReady() &&
-                ObjectManager.Player.HealthPercent >= 35 &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarm").GetValue<bool>())
-            {
-                if ((!ObjectManager.Player.HasBuff("BurningAgony") &&
-                        Targets.Minions.Count() >= 2 &&
-                        ObjectManager.Player.Health >= Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarmhp").GetValue<Slider>().Value) ||
-
-                    (ObjectManager.Player.HasBuff("BurningAgony") &&
-                        (Targets.Minions.Count() < 2 ||
-                        ObjectManager.Player.Health < Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarmhp").GetValue<Slider>().Value)))
-                {
-                    Variables.W.Cast();
                 }
             }
         }
