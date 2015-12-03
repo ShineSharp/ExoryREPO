@@ -35,10 +35,7 @@ namespace ExorAIO.Champions.Vayne
                 {
                     Logics.ExecuteAuto(args);
                 }
-                
-                if (Targets.FarmMinion != null &&
-                    Targets.FarmMinion.IsValid &&
-                    Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
+                if (Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo)
                 {
                     Logics.ExecuteFarm(args);
                 }

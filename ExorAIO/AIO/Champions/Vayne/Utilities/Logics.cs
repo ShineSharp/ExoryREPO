@@ -55,7 +55,7 @@ namespace ExorAIO.Champions.Vayne
             /// </summary>
             if (Variables.Q.IsReady() &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqks").GetValue<bool>() &&
-                Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(null) + 240f) &&
+                Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(null) + Variables.Q.Range) &&
                 Targets.Target.ServerPosition.Distance(ObjectManager.Player.ServerPosition) >= Orbwalking.GetRealAutoAttackRange(null) &&
                 HealthPrediction.GetHealthPrediction(Targets.Target, (int) (250 + Game.Ping / 2f)) < ObjectManager.Player.GetAutoAttackDamage(Targets.Target))
             {
@@ -72,14 +72,10 @@ namespace ExorAIO.Champions.Vayne
             /// The Q Farm Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
-                !ObjectManager.Player.IsWindingUp &&
-                Targets.FarmMinion.IsValidTarget(Orbwalking.GetRealAutoAttackRange(null) + 240f) &&
-                ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>() && Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo)
+                Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>())
             {
                 Orbwalking.ResetAutoAttackTimer();
-                Variables.Q.Cast(Targets.FarmMinion);
-                Variables.Orbwalker.ForceTarget(Targets.FarmMinion);
+                Variables.Q.Cast(minions);
             }
         }
 
@@ -89,7 +85,7 @@ namespace ExorAIO.Champions.Vayne
             /// The Q Combo Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>() && Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo)
+                (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>() && Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo))
             {
                 Orbwalking.ResetAutoAttackTimer();
                 Variables.Q.Cast(Game.CursorPos);
