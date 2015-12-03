@@ -10,6 +10,7 @@ using ExorAIO.Champions.Ashe;
 using ExorAIO.Champions.Cassiopeia;
 using ExorAIO.Champions.Corki;
 using ExorAIO.Champions.DrMundo;
+using ExorAIO.Champions.Ezreal;
 using ExorAIO.Champions.Graves;
 using ExorAIO.Champions.KogMaw;
 using ExorAIO.Champions.Renekton;
@@ -52,6 +53,7 @@ namespace ExorAIO.Core
                     case "Cassiopeia": new Cassiopeia().OnLoad(); break;
                     case "Corki":      new Corki()     .OnLoad(); break;
                     case "DrMundo":    new DrMundo()   .OnLoad(); break;
+                    case "Ezreal":     new Ezreal()    .OnLoad(); break;
                     case "Graves":     new Graves()    .OnLoad(); break;
                     case "KogMaw":     new KogMaw()    .OnLoad(); break;
                     case "Renekton":   new Renekton()  .OnLoad(); break;

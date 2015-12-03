@@ -31,7 +31,7 @@ namespace ExorAIO.Champions.DrMundo
                 (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqks").GetValue<bool>() &&
                     Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health))
             {
-                Variables.Q.CastIfHitchanceEquals(Targets.Target, HitChance.VeryHigh);
+                Variables.Q.CastIfHitchanceEquals(Targets.Target, HitChance.VeryHigh, false);
             }
 
             /*

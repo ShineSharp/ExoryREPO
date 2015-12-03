@@ -72,6 +72,9 @@
     <Compile Include="AIO\Champions\DrMundo\Utilities\Logics.cs" />
     <Compile Include="AIO\Champions\DrMundo\Utilities\Utility.cs" />
     <Compile Include="AIO\Champions\DrMundo\DrMundo.cs" />
+    <Compile Include="AIO\Champions\Ezreal\Utilities\Logics.cs" />
+    <Compile Include="AIO\Champions\Ezreal\Utilities\Utility.cs" />
+    <Compile Include="AIO\Champions\Ezreal\Ezreal.cs" />
     <Compile Include="AIO\Champions\Graves\Utilities\Logics.cs" />
     <Compile Include="AIO\Champions\Graves\Utilities\Utility.cs" />
     <Compile Include="AIO\Champions\Graves\Graves.cs" />

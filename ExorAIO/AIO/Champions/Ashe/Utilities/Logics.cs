@@ -31,8 +31,8 @@ namespace ExorAIO.Champions.Ashe
                 W KillSteal Logic;
             */
             if (Variables.W.IsReady() &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewks").GetValue<bool>() && Targets.Target.Health < Variables.W.GetDamage(Targets.Target) ||
-                Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewimmobile").GetValue<bool>() && Bools.IsImmobile(Targets.Target))
+                (Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewks").GetValue<bool>() && Targets.Target.Health < Variables.W.GetDamage(Targets.Target)) ||
+                (Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewimmobile").GetValue<bool>() && Bools.IsImmobile(Targets.Target)))
             {
                 Variables.W.Cast(Targets.Target.Position);
             }
@@ -53,6 +53,7 @@ namespace ExorAIO.Champions.Ashe
                 }
 
                 if (Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.userks").GetValue<bool>() &&
+                    Targets.Target.IsValidTarget(1500) &&
                     Targets.Target.Health < Variables.R.GetDamage(Targets.Target) &&
                     (!Variables.W.IsReady() || !Targets.Target.IsValidTarget(Variables.W.Range)))
                 {

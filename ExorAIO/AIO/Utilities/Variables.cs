@@ -99,6 +99,6 @@ namespace ExorAIO.Utilities
         /// <summary>
         /// The supported champions list.
         /// </summary>
-        public static readonly string LoadableChampions = "Ashe, Cassiopeia, Corki, DrMundo, Graves, KogMaw, Renekton, Sivir, Tristana, Vayne.";
+        public static readonly string LoadableChampions = "Ashe, Cassiopeia, Corki, DrMundo, Ezreal, Graves, KogMaw, Renekton, Sivir, Tristana, Vayne.";
     }
 }

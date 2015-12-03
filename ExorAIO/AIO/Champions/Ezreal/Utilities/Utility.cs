@@ -1,4 +1,4 @@
-namespace ExorAIO.Champions.DrMundo
+namespace ExorAIO.Champions.Ezreal
 {
     using System;
     using System.Linq;
@@ -34,7 +34,11 @@ namespace ExorAIO.Champions.DrMundo
                 {
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqcombo", "Use Q in Combo")).SetValue(true);
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqks", "Use Q to Automatically KillSteal")).SetValue(true);
-                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqautoharass", "Use Q AutoHarass")).SetValue(true);
+                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqfarm", "Use Q to Farm")).SetValue(true);
+                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqimmobile", "Use Q to Harass Immobile")).SetValue(true);
+                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqautoharass", "Use Q to AutoHarass")).SetValue(true);
+                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.qmana", "Use Q to AutoHarass if Mana >= x"))
+                        .SetValue(new Slider(50, 10, 99));
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.QMenu);
 
@@ -42,30 +46,50 @@ namespace ExorAIO.Champions.DrMundo
                 Variables.WMenu = new Menu("W Settings", $"{Variables.MainMenuName}.wsettingsmenu");
                 {
                     Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wsettings.usewcombo", "Use W in Combo")).SetValue(true);
-                    Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wsettings.usewfarm", "Use W to Farm")).SetValue(true);
-                    Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wsettings.usewfarmhp", "Use W to Farm if HP >= x"))
+                    Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wsettings.usewks", "Use W to Automatically KillSteal")).SetValue(true);
+                    Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wsettings.usewimmobile", "Use W to Harass Immobile")).SetValue(true);
+                    Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wsettings.usewautoharass", "Use W to AutoHarass")).SetValue(true);
+                    Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wsettings.wmana", "Use W to AutoHarass if Mana >= x"))
                         .SetValue(new Slider(50, 10, 99));
+                    
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.WMenu);
 
                 // E Options
                 Variables.EMenu = new Menu("E Settings", $"{Variables.MainMenuName}.esettingsmenu");
                 {
-                    Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.useecombo", "Use E in Combo.")).SetValue(true);
+                    Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.useecombo", "Use E in Combo")).SetValue(true);
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.EMenu);
 
                 // R Options
                 Variables.RMenu = new Menu("R Settings", $"{Variables.MainMenuName}.rsettingsmenu");
                 {
-                    Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rsettings.userlifesaver", "Use R LifeSaver")).SetValue(true);
+                    Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rsettings.usercombo", "Use R in Combo")).SetValue(true);
+                    Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rsettings.userks", "Use R to KillSteal")).SetValue(true);
+                    Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rsettings.usermechanic", "Use Doublelift's E->R Mechanic")).SetValue(true);
+                    {
+                        //Ult Whitelist Menu
+                        Variables.WhiteListMenu = new Menu("Ultimate Whitelist Menu", $"{Variables.MainMenuName}.rsettings.rwhitelist");
+                        {
+                            foreach (Obj_AI_Hero champ in HeroManager.Enemies)
+                            {
+                                Variables.WhiteListMenu.AddItem(
+                                    new MenuItem($"{Variables.MainMenuName}.rsettings.rwhitelist.{champ.ChampionName.ToLower()}",
+                                        $"Ult Only: {champ.ChampionName}").SetValue(true));
+                            }
+                        }
+                        Variables.RMenu.AddSubMenu(Variables.WhiteListMenu);
+                    }
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.RMenu);
 
                 // Miscellaneous Options
                 Variables.MiscMenu = new Menu("Misc. Settings", $"{Variables.MainMenuName}.miscsettingsmenu");
                 {
-                    Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.miscsettings.useresetters", "Use Smart Tiamat/Ravenous/Titanic")).SetValue(true);
+                    Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.misc.stacktear", "Stack Tear of the Goddess")).SetValue(true);
+                    Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.misc.stacktearmana", "Stack Tear only if Mana > x%"))
+                        .SetValue(new Slider(80, 1, 95));
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.MiscMenu);
             }
@@ -83,8 +107,8 @@ namespace ExorAIO.Champions.DrMundo
 
         public static void SetMethods()
         {
-            Game.OnUpdate += DrMundo.Game_OnGameUpdate;
-            Obj_AI_Base.OnDoCast += DrMundo.Obj_AI_Base_OnDoCast;
+            Game.OnUpdate += Ezreal.Game_OnGameUpdate;
+            Obj_AI_Base.OnDoCast += Ezreal.Obj_AI_Base_OnDoCast;
         }
     }
 
@@ -94,13 +118,12 @@ namespace ExorAIO.Champions.DrMundo
     public class Targets
     {
         public static Obj_AI_Hero Target => TargetSelector.GetTarget(Variables.W.Range, TargetSelector.DamageType.Physical);
-        public static List<LeagueSharp.Obj_AI_Base> Minions => 
-            MinionManager.GetMinions(
-                ObjectManager.Player.ServerPosition,
-                Variables.W.Range,
-                MinionTypes.All,
-                MinionTeam.Enemy,
-                MinionOrderTypes.Health
-            );
+        public static Obj_AI_Base FarmMinion
+        => 
+            MinionManager.GetMinions(ObjectManager.Player.ServerPosition, Variables.Q.Range, MinionTypes.All, MinionTeam.Enemy, MinionOrderTypes.Health)
+                .Where(
+                    m =>
+                        m.Health < Variables.Q.GetDamage(m))
+                .FirstOrDefault();
     }
 }
