@@ -15,10 +15,10 @@ namespace ExorAIO.Champions.Olaf
     {
         public static void ExecuteAuto(EventArgs args)
         {
-            /*
-                Q Harass/Farm Logic;
-                Q KillSteal Logic;
-            */
+            /// <summary>
+            /// The Q Harass/Farm Logic.
+            /// The Q KillSteal.
+            /// </summary>
             if (Variables.Q.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
                 (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqautoharass").GetValue<bool>() && 
@@ -30,9 +30,9 @@ namespace ExorAIO.Champions.Olaf
                 Variables.Q.CastIfHitchanceEquals(Targets.Target, HitChance.VeryHigh, false);
             }
 
-            /*
-                W Combo Logic;
-            */
+            /// <summary>
+            /// The W Combo Logic.
+            /// </summary>
             if (Variables.W.IsReady() &&
                 Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(null)) &&
                 ObjectManager.Player.IsWindingUp &&
@@ -42,9 +42,9 @@ namespace ExorAIO.Champions.Olaf
                 Variables.W.Cast();
             }
 
-            /*
-                R LifeSaver Logic;
-            */
+            /// <summary>
+            /// The R Anti-HardCC Logic.
+            /// </summary>
             if (Variables.R.IsReady() &&
                 (Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.useranticc").GetValue<bool>() && Bools.ShouldCleanse()))
             {
@@ -54,9 +54,9 @@ namespace ExorAIO.Champions.Olaf
 
         public static void ExecuteModes(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            /*
-                Q Combo Logic;
-            */
+            /// <summary>
+            /// The Q Combo Logic.
+            /// </summary>
             if (Variables.Q.IsReady() &&
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.Q.Range) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>())
@@ -65,9 +65,9 @@ namespace ExorAIO.Champions.Olaf
                 return;
             }
 
-            /*
-                E Combo Logic;
-            */
+            /// <summary>
+            /// The E Combo Logic.
+            /// </summary>
             if (Variables.E.IsReady() &&
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.E.Range) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useecombo").GetValue<bool>())
@@ -91,6 +91,21 @@ namespace ExorAIO.Champions.Olaf
                         ItemData.Titanic_Hydra_Melee_Only.GetItem().Cast();
                     }
                 }
+            }
+        }
+
+        public static void ExecuteFarm(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
+        {
+            /// <summary>
+            /// The Q Farm Logic.
+            /// </summary>
+            if (Variables.Q.IsReady() &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>() &&
+                ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
+                Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 3)
+            {
+                var QFarmPosition = Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).Position;
+                Variables.Q.Cast(QFarmPosition);
             }
         }
     }

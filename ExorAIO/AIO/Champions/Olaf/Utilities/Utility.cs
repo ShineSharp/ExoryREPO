@@ -33,9 +33,10 @@ namespace ExorAIO.Champions.Olaf
                 Variables.QMenu = new Menu("Q Settings", $"{Variables.MainMenuName}.qsettingsmenu");
                 {
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqcombo", "Use Q in Combo")).SetValue(true);
+                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqfarm", "Use Q to Farm")).SetValue(true);
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqks", "Use Q to Automatically KillSteal")).SetValue(true);
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqautoharass", "Use Q AutoHarass")).SetValue(true);
-                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqmana", "Use Q to AutoHarass if Mana >= x"))
+                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqmana", "Use Q to Farm/Harass if Mana >= x"))
                         .SetValue(new Slider(50, 10, 99));
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.QMenu);
@@ -81,8 +82,8 @@ namespace ExorAIO.Champions.Olaf
 
         public static void SetMethods()
         {
-            Game.OnUpdate += DrMundo.Game_OnGameUpdate;
-            Obj_AI_Base.OnDoCast += DrMundo.Obj_AI_Base_OnDoCast;
+            Game.OnUpdate += Olaf.Game_OnGameUpdate;
+            Obj_AI_Base.OnDoCast += Olaf.Obj_AI_Base_OnDoCast;
         }
     }
 

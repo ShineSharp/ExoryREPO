@@ -108,7 +108,7 @@ namespace ExorAIO.Champions.Sivir
             /// The Q Farm Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqharassfarm").GetValue<bool>() &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>() &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
                 Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 3)
             {
