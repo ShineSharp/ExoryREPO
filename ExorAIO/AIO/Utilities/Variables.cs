@@ -100,5 +100,10 @@ namespace ExorAIO.Utilities
         /// The supported champions list.
         /// </summary>
         public static readonly string LoadableChampions = "Ashe, Cassiopeia, Corki, DrMundo, Ezreal, Graves, KogMaw, Olaf, Renekton, Sivir, Tristana, Vayne.";
+
+        /// <summary>
+        /// Kurumi is a god.
+        /// </summary>
+        public static readonly string Kappa = "jesuske12.";
     }
 }
