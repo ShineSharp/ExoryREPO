@@ -8,6 +8,8 @@ namespace ExorAIO.Champions.Ashe
     using LeagueSharp.Common;
 
     using ExorAIO.Utilities;
+    
+    using Orbwalking = SFXTargetSelector.Orbwalking;
 
     /// <summary>
     ///     The main class.

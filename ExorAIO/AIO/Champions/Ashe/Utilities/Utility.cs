@@ -6,7 +6,10 @@ namespace ExorAIO.Champions.Ashe
 
     using LeagueSharp;
     using LeagueSharp.Common;
-    
+
+    using Orbwalking = SFXTargetSelector.Orbwalking;
+    using TargetSelector = SFXTargetSelector.TargetSelector;
+
     using ExorAIO.Utilities;
 
     /// <summary>
@@ -96,7 +99,7 @@ namespace ExorAIO.Champions.Ashe
     /// </summary>
     public class Targets
     {
-        public static Obj_AI_Hero Target => TargetSelector.GetTarget(Orbwalking.GetRealAutoAttackRange(ObjectManager.Player), TargetSelector.DamageType.Physical);
+        public static Obj_AI_Hero Target => TargetSelector.GetTarget(Orbwalking.GetRealAutoAttackRange(ObjectManager.Player), LeagueSharp.DamageType.Physical);
         public static List<LeagueSharp.Obj_AI_Base> Minions => 
             MinionManager.GetMinions(
                 ObjectManager.Player.ServerPosition,

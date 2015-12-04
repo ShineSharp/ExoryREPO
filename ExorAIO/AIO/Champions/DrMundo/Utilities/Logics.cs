@@ -8,6 +8,7 @@ namespace ExorAIO.Champions.DrMundo
     using LeagueSharp.Common;
 
     using ItemData = LeagueSharp.Common.Data.ItemData;
+    using Orbwalking = SFXTargetSelector.Orbwalking;
 
     using ExorAIO.Utilities;
 

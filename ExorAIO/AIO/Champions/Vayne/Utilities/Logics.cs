@@ -9,6 +9,8 @@ namespace ExorAIO.Champions.Vayne
 
     using SharpDX;
 
+    using Orbwalking = SFXTargetSelector.Orbwalking;
+
     using ExorAIO.Utilities;
 
     public class Logics

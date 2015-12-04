@@ -9,6 +9,8 @@ namespace ExorAIO.Champions.Olaf
 
     using ItemData = LeagueSharp.Common.Data.ItemData;
 
+    using Orbwalking = SFXTargetSelector.Orbwalking;
+
     using ExorAIO.Utilities;
 
     public class Logics

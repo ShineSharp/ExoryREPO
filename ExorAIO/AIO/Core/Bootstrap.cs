@@ -19,6 +19,9 @@ using ExorAIO.Champions.Sivir;
 using ExorAIO.Champions.Tristana;
 using ExorAIO.Champions.Vayne;
 
+using Orbwalking = SFXTargetSelector.Orbwalking;
+using TargetSelector = SFXTargetSelector.TargetSelector;
+
 using Variables = ExorAIO.Utilities.Variables;
 
 namespace ExorAIO.Core
@@ -32,11 +35,17 @@ namespace ExorAIO.Core
         {
             Variables.Menu = new Menu($"[ExorAIO]: {ObjectManager.Player.ChampionName}", $"{Variables.MainMenuName}", true);
             {
-                Variables.OrbwalkerMenu = new Menu($"Orbwalker", $"{Variables.MainMenuName}.orbwalker");
+                Variables.OrbwalkerMenu = new Menu("Orbwalker", $"{Variables.MainMenuName}.orbwalker");
                 {
                     Variables.Orbwalker = new Orbwalking.Orbwalker(Variables.OrbwalkerMenu);
                 }
                 Variables.Menu.AddSubMenu(Variables.OrbwalkerMenu);
+
+                Variables.TargetSelectorMenu = new Menu("[SFX]Target Selector", $"{Variables.MainMenuName}.targetselector");
+                {
+                    TargetSelector.AddToMenu(Variables.TargetSelectorMenu);
+                }
+                Variables.Menu.AddSubMenu(Variables.TargetSelectorMenu);
             }
             Variables.Menu.AddToMainMenu();
         }

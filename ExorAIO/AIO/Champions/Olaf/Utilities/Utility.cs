@@ -6,7 +6,10 @@ namespace ExorAIO.Champions.Olaf
 
     using LeagueSharp;
     using LeagueSharp.Common;
-    
+
+    using Orbwalking = SFXTargetSelector.Orbwalking;
+    using TargetSelector = SFXTargetSelector.TargetSelector;
+
     using ExorAIO.Utilities;
 
     /// <summary>
@@ -92,7 +95,7 @@ namespace ExorAIO.Champions.Olaf
     /// </summary>
     public class Targets
     {
-        public static Obj_AI_Hero Target => TargetSelector.GetTarget(Variables.Q.Range, TargetSelector.DamageType.Physical);
+        public static Obj_AI_Hero Target => TargetSelector.GetTarget(Variables.Q.Range, LeagueSharp.DamageType.Physical);
         public static List<LeagueSharp.Obj_AI_Base> Minions => 
             MinionManager.GetMinions(
                 ObjectManager.Player.ServerPosition,

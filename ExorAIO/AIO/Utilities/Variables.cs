@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using LeagueSharp;
 using LeagueSharp.Common;
 
+using Orbwalking = SFXTargetSelector.Orbwalking;
+
 namespace ExorAIO.Utilities
 {
     /// <summary>
@@ -40,7 +42,12 @@ namespace ExorAIO.Utilities
         /// Gets or sets the orbwalker menu.
         /// </summary>
         public static Menu OrbwalkerMenu { get; set; }
-        
+
+        /// <summary>
+        /// Gets or sets the targetselector menu.
+        /// </summary>
+        public static Menu TargetSelectorMenu { get; set; }
+
         /// <summary>
         /// Gets or sets the settings menu.
         /// </summary>

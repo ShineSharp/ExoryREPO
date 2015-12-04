@@ -6,7 +6,9 @@ namespace ExorAIO.Champions.Vayne
 
     using LeagueSharp;
     using LeagueSharp.Common;
-    
+
+    using Orbwalking = SFXTargetSelector.Orbwalking;
+
     using ExorAIO.Utilities;
 
     /// <summary>

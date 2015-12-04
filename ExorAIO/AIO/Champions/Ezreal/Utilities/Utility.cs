@@ -6,7 +6,10 @@ namespace ExorAIO.Champions.Ezreal
 
     using LeagueSharp;
     using LeagueSharp.Common;
-    
+
+    using Orbwalking = SFXTargetSelector.Orbwalking;
+    using TargetSelector = SFXTargetSelector.TargetSelector;
+
     using ExorAIO.Utilities;
 
     /// <summary>
@@ -118,7 +121,7 @@ namespace ExorAIO.Champions.Ezreal
     /// </summary>
     public class Targets
     {
-        public static Obj_AI_Hero Target => TargetSelector.GetTarget(Variables.W.Range, TargetSelector.DamageType.Physical);
+        public static Obj_AI_Hero Target => TargetSelector.GetTarget(Variables.W.Range, LeagueSharp.DamageType.Physical);
         public static Obj_AI_Base FarmMinion
         => 
             MinionManager.GetMinions(ObjectManager.Player.ServerPosition, Variables.Q.Range, MinionTypes.All, MinionTeam.Enemy, MinionOrderTypes.Health)

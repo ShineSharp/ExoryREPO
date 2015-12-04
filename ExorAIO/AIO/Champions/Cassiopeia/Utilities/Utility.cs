@@ -6,7 +6,10 @@ namespace ExorAIO.Champions.Cassiopeia
 
     using LeagueSharp;
     using LeagueSharp.Common;
-    
+
+    using Orbwalking = SFXTargetSelector.Orbwalking;
+    using TargetSelector = SFXTargetSelector.TargetSelector;
+
     using ExorAIO.Utilities;
 
     /// <summary>
@@ -104,7 +107,7 @@ namespace ExorAIO.Champions.Cassiopeia
     /// </summary>
     public class Targets
     {
-        public static Obj_AI_Hero Target => TargetSelector.GetTarget(Variables.R.Range, TargetSelector.DamageType.Magical);
+        public static Obj_AI_Hero Target => TargetSelector.GetTarget(Variables.R.Range, LeagueSharp.DamageType.Magical);
         public static List<LeagueSharp.Obj_AI_Base> Minions => 
             MinionManager.GetMinions(
                 ObjectManager.Player.ServerPosition,

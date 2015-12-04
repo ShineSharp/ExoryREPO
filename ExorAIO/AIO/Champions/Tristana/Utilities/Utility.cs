@@ -7,6 +7,9 @@ namespace ExorAIO.Champions.Tristana
     using LeagueSharp;
     using LeagueSharp.Common;
 
+    using Orbwalking = SFXTargetSelector.Orbwalking;
+    using TargetSelector = SFXTargetSelector.TargetSelector;
+
     using ExorAIO.Utilities;
 
     /// <summary>

@@ -9,6 +9,8 @@ namespace ExorAIO.Champions.Renekton
 
     using ItemData = LeagueSharp.Common.Data.ItemData;
 
+    using Orbwalking = SFXTargetSelector.Orbwalking;
+
     using ExorAIO.Utilities;
 
     public class Logics
