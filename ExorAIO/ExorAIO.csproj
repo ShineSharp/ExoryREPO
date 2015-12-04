@@ -81,6 +81,9 @@
     <Compile Include="AIO\Champions\KogMaw\Utilities\Logics.cs" />
     <Compile Include="AIO\Champions\KogMaw\Utilities\Utility.cs" />
     <Compile Include="AIO\Champions\KogMaw\KogMaw.cs" />
+    <Compile Include="AIO\Champions\Olaf\Utilities\Logics.cs" />
+    <Compile Include="AIO\Champions\Olaf\Utilities\Utility.cs" />
+    <Compile Include="AIO\Champions\Olaf\Olaf.cs" />
     <Compile Include="AIO\Champions\Renekton\Utilities\Logics.cs" />
     <Compile Include="AIO\Champions\Renekton\Utilities\Utility.cs" />
     <Compile Include="AIO\Champions\Renekton\Renekton.cs" />

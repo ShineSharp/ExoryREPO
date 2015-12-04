@@ -1,4 +1,4 @@
-namespace ExorAIO.Champions.Tristana
+namespace ExorAIO.Champions.Olaf
 {
     using System;
     using System.Linq;
@@ -12,7 +12,7 @@ namespace ExorAIO.Champions.Tristana
     /// <summary>
     /// The main class.
     /// </summary>
-    public class Tristana
+    public class Olaf
     {
         public void OnLoad()
         {
@@ -23,15 +23,17 @@ namespace ExorAIO.Champions.Tristana
         }
 
         /// <summary>
-        /// Called before the next aa is fired.
+        /// Called when the game updates itself.
         /// </summary>
-        /// <param name="args">The <see cref="Orbwalking.BeforeAttackEventArgs"/> instance containing the beforeattack data.</param>
-        public static void Orbwalking_BeforeAttack(Orbwalking.BeforeAttackEventArgs args)
+        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
+        public static void Game_OnGameUpdate(EventArgs args)
         {
-            if (args.Target != null &&
-                args.Target.IsValid<Obj_AI_Base>())
-            {    
-                Logics.ExecuteBeforeAttack(args);
+            if (!ObjectManager.Player.IsDead &&
+                Targets.Target != null &&
+                Targets.Target.IsValid &&
+                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
+            {
+                Logics.ExecuteAuto(args);
             }
         }
 
@@ -42,16 +44,15 @@ namespace ExorAIO.Champions.Tristana
         /// <param name="args">The args.</param>
         public static void Obj_AI_Base_OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            if (Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None &&
-                sender.IsMe &&
-                Orbwalking.IsAutoAttack(args.SData.Name))
+            if (sender.IsMe &&
+                Orbwalking.IsAutoAttack(args.SData.Name) &&
+                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
                 if (args.Target.IsValid<Obj_AI_Hero>())
                 {
                     Logics.ExecuteModes(sender, args);
                 }
-                else if (args.Target.IsValid<Obj_AI_Base>() &&
-                    !(args.Target is Obj_AI_Hero))
+                else if (args.Target.IsValid<Obj_AI_Minion>())
                 {
                     Logics.ExecuteFarm(sender, args);
                 }

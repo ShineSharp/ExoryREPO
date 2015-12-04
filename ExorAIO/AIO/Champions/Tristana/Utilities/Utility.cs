@@ -105,7 +105,7 @@ namespace ExorAIO.Champions.Tristana
     }
 
     /// <summary>
-    ///    The killsteal class.
+    /// The killsteal class.
     /// </summary>
     public class KillSteal
     {
@@ -120,7 +120,7 @@ namespace ExorAIO.Champions.Tristana
     }
 
     /// <summary>
-    ///    The targets class.
+    /// The targets class.
     /// </summary>
     public class Targets
     {

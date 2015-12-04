@@ -10,7 +10,7 @@ namespace ExorAIO.Champions.Ezreal
     using ExorAIO.Utilities;
 
     /// <summary>
-    ///    The settings class.
+    /// The settings class.
     /// </summary>
     public class Settings
     {
@@ -114,7 +114,7 @@ namespace ExorAIO.Champions.Ezreal
     }
 
     /// <summary>
-    ///    The targets class.
+    /// The targets class.
     /// </summary>
     public class Targets
     {

@@ -104,7 +104,7 @@ namespace ExorAIO.Champions.Vayne
     }
 
     /// <summary>
-    ///    The targets class.
+    /// The targets class.
     /// </summary>
     public class Targets
     {

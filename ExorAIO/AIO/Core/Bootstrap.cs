@@ -13,6 +13,7 @@ using ExorAIO.Champions.DrMundo;
 using ExorAIO.Champions.Ezreal;
 using ExorAIO.Champions.Graves;
 using ExorAIO.Champions.KogMaw;
+using ExorAIO.Champions.Olaf;
 using ExorAIO.Champions.Renekton;
 using ExorAIO.Champions.Sivir;
 using ExorAIO.Champions.Tristana;
@@ -56,6 +57,7 @@ namespace ExorAIO.Core
                     case "Ezreal":     new Ezreal()    .OnLoad(); break;
                     case "Graves":     new Graves()    .OnLoad(); break;
                     case "KogMaw":     new KogMaw()    .OnLoad(); break;
+                    case "Olaf":       new Olaf()      .OnLoad(); break;
                     case "Renekton":   new Renekton()  .OnLoad(); break;
                     case "Sivir":      new Sivir()     .OnLoad(); break;
                     case "Tristana":   new Tristana()  .OnLoad(); break;

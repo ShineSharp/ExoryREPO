@@ -1,4 +1,4 @@
-namespace ExorAIO.Champions.DrMundo
+namespace ExorAIO.Champions.Olaf
 {
     using System;
     using System.Linq;
@@ -17,11 +17,11 @@ namespace ExorAIO.Champions.DrMundo
         public static void SetSpells()
         {
             Variables.Q = new Spell(SpellSlot.Q, 1000f);
-            Variables.W = new Spell(SpellSlot.W, ObjectManager.Player.BoundingRadius + 162.5f);
-            Variables.E = new Spell(SpellSlot.E, ObjectManager.Player.BoundingRadius + 150f);
+            Variables.W = new Spell(SpellSlot.W);
+            Variables.E = new Spell(SpellSlot.E, ObjectManager.Player.BoundingRadius + 325f);
             Variables.R = new Spell(SpellSlot.R);
             
-            Variables.Q.SetSkillshot(0.25f, 60f, 1850f, true, SkillshotType.SkillshotLine);
+            Variables.Q.SetSkillshot(0.25f, 80f, 1550f, false, SkillshotType.SkillshotLine);
         }
 
         public static void SetMenu()
@@ -35,6 +35,8 @@ namespace ExorAIO.Champions.DrMundo
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqcombo", "Use Q in Combo")).SetValue(true);
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqks", "Use Q to Automatically KillSteal")).SetValue(true);
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqautoharass", "Use Q AutoHarass")).SetValue(true);
+                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqmana", "Use Q to AutoHarass if Mana >= x"))
+                        .SetValue(new Slider(50, 10, 99));
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.QMenu);
 
@@ -42,9 +44,6 @@ namespace ExorAIO.Champions.DrMundo
                 Variables.WMenu = new Menu("W Settings", $"{Variables.MainMenuName}.wsettingsmenu");
                 {
                     Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wsettings.usewcombo", "Use W in Combo")).SetValue(true);
-                    Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wsettings.usewfarm", "Use W to Farm")).SetValue(true);
-                    Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wsettings.usewfarmhp", "Use W to Farm if HP >= x"))
-                        .SetValue(new Slider(50, 10, 99));
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.WMenu);
 
@@ -58,7 +57,7 @@ namespace ExorAIO.Champions.DrMundo
                 // R Options
                 Variables.RMenu = new Menu("R Settings", $"{Variables.MainMenuName}.rsettingsmenu");
                 {
-                    Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rsettings.userlifesaver", "Use R LifeSaver")).SetValue(true);
+                    Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rsettings.useranticc", "Use Smart R Anti-HardCC")).SetValue(true);
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.RMenu);
 
@@ -75,7 +74,6 @@ namespace ExorAIO.Champions.DrMundo
             Variables.DrawingsMenu = new Menu("Drawings Menu", $"{Variables.MainMenuName}.drawingsmenu");
             {
                 Variables.DrawingsMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.q", "Show Q Range")).SetValue(true);
-                Variables.DrawingsMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.w", "Show W Range")).SetValue(true);
                 Variables.DrawingsMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.e", "Show E Range")).SetValue(true);
             }
             Variables.Menu.AddSubMenu(Variables.DrawingsMenu);
@@ -97,7 +95,7 @@ namespace ExorAIO.Champions.DrMundo
         public static List<LeagueSharp.Obj_AI_Base> Minions => 
             MinionManager.GetMinions(
                 ObjectManager.Player.ServerPosition,
-                Variables.W.Range,
+                Variables.Q.Range,
                 MinionTypes.All,
                 MinionTeam.Enemy,
                 MinionOrderTypes.Health
