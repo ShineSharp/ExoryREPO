@@ -22,7 +22,7 @@ namespace ExorAIO.Champions.Vayne
             Variables.Q = new Spell(SpellSlot.Q, 300f);
             Variables.E = new Spell(SpellSlot.E, ObjectManager.Player.BoundingRadius + 550f);
             
-            Variables.E.SetTargetted(0.25f, 2200f);
+            Variables.E.SetTargetted(0.25f, 1250f);
         }
 
         /// <summary>
@@ -41,8 +41,8 @@ namespace ExorAIO.Champions.Vayne
                 Variables.QMenu = new Menu("Q Settings", $"{Variables.MainMenuName}.qsettingsmenu");
                 {
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqcombo", "Use Q in Combo")).SetValue(true);
-                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqks", "Use Q to Automatically KillSteal")).SetValue(true);
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqfarm", "Use Q LastHit Helper")).SetValue(true);
+                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqks", "Use Q to Automatically KillSteal")).SetValue(true);
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.qmana", "Use Q in Harass/Farm only if Mana >= x%"))
                         .SetValue(new Slider(50, 0, 99));
                 }
@@ -109,24 +109,20 @@ namespace ExorAIO.Champions.Vayne
     public class Targets
     {
         public static Obj_AI_Hero Target => TargetSelector.GetTarget(Orbwalking.GetRealAutoAttackRange(null) + 240f, TargetSelector.DamageType.Physical);
-        public static IEnumerable<Obj_AI_Base> FarmMinions
+        public static List<Obj_AI_Base> FarmMinions
         =>
-            MinionManager.GetMinions(ObjectManager.Player.Position, Variables.Q.Range)
+            MinionManager.GetMinions(ObjectManager.Player.ServerPosition, Orbwalking.GetRealAutoAttackRange(null) + 240f)
                 .Where(
-                    minions =>
-                        minions.Health < ObjectManager.Player.GetSpellDamage(minions, SpellSlot.Q));
-    }
+                    m =>
+                        m.Health < ObjectManager.Player.GetAutoAttackDamage(m) + Variables.Q.GetDamage(m))
+                .ToList();
 
-    /// <summary>
-    ///    The killsteal class.
-    /// </summary>
-    public class KillSteal
-    {
-        public static int Damage()
-        => 
-            Bools.Has2WStacks(Targets.Target) ?
-                (int)(ObjectManager.Player.GetSpellDamage(Targets.Target, SpellSlot.E) + ObjectManager.Player.GetSpellDamage(Targets.Target, SpellSlot.W))
-                :
-                (int)(ObjectManager.Player.GetSpellDamage(Targets.Target, SpellSlot.E));
+        public static Obj_AI_Base FarmMinion
+        =>
+            Targets.FarmMinions
+                .OrderBy(
+                    m =>
+                        m.HealthPercent)
+                .First();
     }
 }

@@ -35,10 +35,6 @@ namespace ExorAIO.Champions.Vayne
                 {
                     Logics.ExecuteAuto(args);
                 }
-                if (Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo)
-                {
-                    Logics.ExecuteFarm(args);
-                }
             }
         }
 
@@ -56,6 +52,10 @@ namespace ExorAIO.Champions.Vayne
                 if (args.Target.IsValid<Obj_AI_Hero>())
                 {
                     Logics.ExecuteModes(sender, args);
+                }
+                else if (args.Target.IsValid<Obj_AI_Base>())
+                {
+                    Logics.ExecuteFarm(sender, args);
                 }
             }
         }

@@ -27,7 +27,8 @@ namespace ExorAIO.Champions.Vayne
                 /// The Condemn Logic.
                 /// </summary>
                 if (Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useeauto").GetValue<bool>() &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.esettings.ewhitelist.{Targets.Target.ChampionName.ToLower()}").GetValue<bool>())
+                    Variables.Menu.Item($"{Variables.MainMenuName}.esettings.ewhitelist.{Targets.Target.ChampionName.ToLower()}").GetValue<bool>()
+                    && ObjectManager.Player.Distance(Targets.Target) >= 150f)
                 {
                     for (int i = 1; i <= 9; i++)
                     {
@@ -35,6 +36,7 @@ namespace ExorAIO.Champions.Vayne
                         {
                             Orbwalking.ResetAutoAttackTimer();
                             Variables.E.CastOnUnit(Targets.Target);
+                            return;
                         }
                     }
                 }
@@ -43,7 +45,8 @@ namespace ExorAIO.Champions.Vayne
                 /// The E KillSteal Logic.
                 /// </summary>
                 if (Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useeks").GetValue<bool>() &&
-                    Targets.Target.Health < KillSteal.Damage())
+                    !Targets.Target.IsInvulnerable &&
+                    Targets.Target.Health + 60 <= (ObjectManager.Player.GetSpellDamage(Targets.Target, SpellSlot.E) + ObjectManager.Player.GetSpellDamage(Targets.Target, SpellSlot.W)))
                 {
                     Orbwalking.ResetAutoAttackTimer();
                     Variables.E.CastOnUnit(Targets.Target);
@@ -66,19 +69,20 @@ namespace ExorAIO.Champions.Vayne
             }
         }
 
-        public static void ExecuteFarm(EventArgs args)
+        public static void ExecuteFarm(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             /// <summary>
             /// The Q Farm Logic.
             /// </summary>
-            if (Variables.Q.IsReady() &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>())
+            if (Targets.FarmMinions.Count() > 1 &&
+                (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>() && Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo))
             {
                 Orbwalking.ResetAutoAttackTimer();
-                Variables.Q.Cast(Targets.FarmMinions.FirstOrDefault());
+                Variables.Q.Cast(Game.CursorPos);
+                Variables.Orbwalker.ForceTarget(Targets.FarmMinion);
             }
         }
-
+        
         public static void ExecuteModes(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             /// <summary>
