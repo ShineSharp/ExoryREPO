@@ -63,14 +63,13 @@ namespace ExorAIO.Core
                     case "Tristana":   new Tristana()  .OnLoad(); break;
                     case "Vayne":      new Vayne()     .OnLoad(); break;
                 }
-                
-                if (Variables.Kappa.Contains(ObjectManager.Player.Name))
-                {
-                    Game.PrintChat($"{Variables.MainMenuCodeName} - {ObjectManager.Player.ChampionName} Loaded. Thanks Kurumi!");
-                    return;
-                }
 
                 Game.PrintChat($"{Variables.MainMenuCodeName} - {ObjectManager.Player.ChampionName} Loaded.");
+
+                if (Variables.Kappa.Contains(ObjectManager.Player.Name))
+                {
+                    Game.PrintChat("~Thanks Kurumi <3!");
+                }
                 return;
             }
             Game.PrintChat($"{Variables.MainMenuCodeName}- {ObjectManager.Player.ChampionName} not supported.");
