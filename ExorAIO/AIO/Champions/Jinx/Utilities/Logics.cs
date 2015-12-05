@@ -103,8 +103,8 @@ namespace ExorAIO.Champions.Jinx
             {
                 if (args.Slot == SpellSlot.R ||
                     (args.Slot == SpellSlot.Q && 
-                        (((Obj_AI_Hero)sender).ChampionName == "Blitzcrank" ||
-                        ((Obj_AI_Hero)sender).ChampionName == "Thresh")))
+                        (((Obj_AI_Hero)sender).ChampionName.Equals("Blitzcrank") ||
+                        ((Obj_AI_Hero)sender).ChampionName.Equals("Thresh"))))
                 {
                     if (ObjectManager.Player.Distance(sender) / 2000 < 0.4f)
                     {
