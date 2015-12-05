@@ -70,11 +70,11 @@ namespace ExorKalista
                                 Drawing.WorldToScreen(target.Position).X,
                                 Drawing.WorldToScreen(target.Position).Y - 100,
                                 
-                                (Variables.E.GetDamage(target)/target.Health)*100 >= 100 ?
+                                (Variables.GetPerfectRendDamage(target)/target.Health)*100 >= 100 ?
                                     Color.Red :
                                     Color.GreenYellow,
 
-                                ((Variables.E.GetDamage(target)/target.Health)*100).ToString("0.0")
+                                ((Variables.GetPerfectRendDamage(target)/target.Health)*100).ToString("0.0")
                             );
                         }
                         
@@ -89,13 +89,11 @@ namespace ExorKalista
                                 Drawing.WorldToScreen(miniontarget.Position).X,
                                 Drawing.WorldToScreen(miniontarget.Position).Y - 100,
 
-                                (Targets.Dragon != null ?
-                                    Variables.GetDragonReduction(miniontarget) :
-                                    Variables.GetBaronReduction(miniontarget) /miniontarget.Health)*100 >= 100 ?
+                                (Variables.GetPerfectRendDamage(miniontarget)/miniontarget.Health)*100 >= 100 ?
                                     Color.Red :
                                     Color.GreenYellow,
 
-                                ((Variables.E.GetDamage(miniontarget)/miniontarget.Health)*100).ToString("0.0")
+                                ((Variables.GetPerfectRendDamage(miniontarget)/miniontarget.Health)*100).ToString("0.0")
                             );
                         }
                     }

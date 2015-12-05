@@ -7,6 +7,7 @@ namespace ExorKalista
     using LeagueSharp.Common;
 
     using Orbwalking = SFXTargetSelector.Orbwalking;
+    using TargetSelector = SFXTargetSelector.TargetSelector;
 
     /// <summary>
     /// The Variables class.
@@ -109,29 +110,72 @@ namespace ExorKalista
         public static readonly string MainMenuName = $"exor.{ObjectManager.Player.ChampionName}";
 
         /// <summary>
-        /// Gets the baron reduction.
+        /// Gets the perfect damage reduction from sources.
         /// </summary>
         /// <param name="target">The target.</param>
         /// <returns>
-        /// The damage dealt against the baron.
+        /// The damage dealt against all the sources
         /// </returns>
-        public static float GetBaronReduction(Obj_AI_Base target)
-        =>
-            ObjectManager.Player.HasBuff("barontarget") ?
-                Variables.E.GetDamage(target) * 0.5f :
-                Variables.E.GetDamage(target);
+        public static float GetPerfectRendDamage(Obj_AI_Base target)
+        {
+            /// <summary>
+            /// Gets the reduction from protected and the revivable targets.
+            /// </summary>
+            /// <param name="target">The target.</param>
+            /// <returns>
+            /// 0
+            /// </returns>
+            if (!Bools.HasNoProtection((Obj_AI_Hero)target))
+            {
+                return 0f;
+            }
+            
+            var RendDamage = (float)(ObjectManager.Player.CalcDamage(target, LeagueSharp.Common.Damage.DamageType.Physical, Variables.E.GetDamage(target)));
 
-        /// <summary>
-        /// Gets the dragon reduction.
-        /// </summary>
-        /// <param name="target">The target.</param>
-        /// <returns>
-        /// The damage dealt against the dragon.
-        /// </returns>
-        public static float GetDragonReduction(Obj_AI_Base target)
-        =>
-            ObjectManager.Player.HasBuff("s5test_dragonslayerbuff") ?
-                Variables.E.GetDamage(target) * (1 - (.07f * ObjectManager.Player.GetBuffCount("s5test_dragonslayerbuff"))) :
-                Variables.E.GetDamage(target);
+            /// <summary>
+            /// Gets the reduction from the baron nashor.
+            /// </summary>
+            /// <returns>
+            /// Common calculation *= 0.5 since the baron halves all the incoming damage.
+            /// </returns>
+            if (ObjectManager.Player.HasBuff("barontarget"))
+            {
+                RendDamage *= 0.5f;
+            }
+
+            /// <summary>
+            /// Gets the reduction from the dragon.
+            /// </summary>
+            /// <returns>
+            /// Common calculation with dragonbuffstacking management (1 - .07f per stack).
+            /// </returns>
+            if (ObjectManager.Player.HasBuff("s5test_dragonslayerbuff"))
+            {
+                RendDamage *= (1 - (.07f * ObjectManager.Player.GetBuffCount("s5test_dragonslayerbuff")));
+            }
+            /// <summary>
+            /// Gets the reduction from the exhaust spell.
+            /// </summary>
+            /// <returns>
+            /// Common calculation *= 0.4f since you only do 40% of you total damage while exhausted.
+            /// </returns>
+            if (ObjectManager.Player.HasBuff("summonerexhaust"))
+            {
+                RendDamage *= 0.4f;
+            }
+
+            /// <summary>
+            /// Gets the reduction from the Alistar R.
+            /// </summary>
+            /// <returns>
+            /// Common calculation *= 0.35f since you only do 35% of you total damage while alistar is in ultimate stance.
+            /// </returns>
+            if (target.HasBuff("FerociousHowl"))
+            {
+                RendDamage *= 0.35f;
+            }
+            
+            return RendDamage;
+        }
     }
 }

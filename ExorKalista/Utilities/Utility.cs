@@ -153,7 +153,7 @@ namespace ExorKalista
             )
             .FirstOrDefault(
                 x =>
-                    x.IsValidTarget(Variables.E.Range) && x.Health < Variables.GetBaronReduction(x) && x.CharData.BaseSkinName.Contains("baron"));
+                    x.IsValidTarget(Variables.E.Range) && x.Health < Variables.GetPerfectRendDamage(x) && x.CharData.BaseSkinName.Contains("baron"));
 
         public static Obj_AI_Base Dragon =>
             MinionManager.GetMinions(
@@ -165,6 +165,6 @@ namespace ExorKalista
             )
             .FirstOrDefault(
                 x =>
-                    x.IsValidTarget(Variables.E.Range) && x.Health < Variables.GetDragonReduction(x) && x.CharData.BaseSkinName.Contains("dragon"));
+                    x.IsValidTarget(Variables.E.Range) && x.Health < Variables.GetPerfectRendDamage(x) && x.CharData.BaseSkinName.Contains("dragon"));
     }
 }

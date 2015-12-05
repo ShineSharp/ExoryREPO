@@ -116,7 +116,7 @@ namespace ExorKalista
                             h.IsVisible &&
                             Variables.E.CanCast(h) &&
                             h.IsValidTarget(Variables.E.Range) &&
-                            h.Health < Variables.E.GetDamage(h)))
+                            h.Health < Variables.GetPerfectRendDamage(h)))
                 {
                     Orbwalking.ResetAutoAttackTimer();
                     Variables.E.Cast();
@@ -138,7 +138,7 @@ namespace ExorKalista
                             y.IsVisible &&
                             Variables.E.CanCast(y) &&
                             y.IsValidTarget(Variables.E.Range) &&
-                            (y.Health < (Targets.Dragon != null ? Variables.GetDragonReduction(y) : Variables.GetBaronReduction(y)))))
+                            (y.Health < Variables.GetPerfectRendDamage(y))))
                 {
                     Orbwalking.ResetAutoAttackTimer();
                     Variables.E.Cast();
@@ -173,7 +173,7 @@ namespace ExorKalista
                             x.IsVisible &&
                             Variables.E.CanCast(x) &&
                             x.IsValidTarget(Variables.E.Range) &&
-                            x.Health < Variables.E.GetDamage(x)) >= 2)
+                            x.Health < (float)(ObjectManager.Player.CalcDamage(x, LeagueSharp.Common.Damage.DamageType.Physical, Variables.E.GetDamage(x)))) >= 2)
                 {
                     Orbwalking.ResetAutoAttackTimer();
                     Variables.E.Cast();
