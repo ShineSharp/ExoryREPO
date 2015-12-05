@@ -46,6 +46,28 @@ namespace ExorKalista
             }
 
             /// <summary>
+            /// The Q Farm Logic.
+            /// </summary>
+            if (Variables.Q.IsReady() &&
+                !ObjectManager.Player.IsWindingUp &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>() &&
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
+                ObjectManager.Player.ManaPercent > ManaManager.NeededQMana)
+            {
+                if (Targets.Minions
+                    .Count(
+                        m => 
+                            m != null &&
+                            m.IsValidTarget(Variables.Q.Range) &&
+                            (m.Health < Variables.Q.GetDamage(m))) > 2 &&
+                    Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit > 2)
+                {
+                    //Orbwalking.ResetAutoAttackTimer();
+                    Variables.Q.Cast(Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).Position);
+                }
+            }
+
+            /// <summary>
             /// The W Logic.
             /// </summary>
             if (Variables.W.IsReady() &&

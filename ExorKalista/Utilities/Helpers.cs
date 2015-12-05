@@ -64,7 +64,7 @@ namespace ExorKalista
                                 x => 
                                     !x.IsDead &&
                                     x.IsVisible &&
-                                    (Variables.E.GetDamage(x)/x.Health)*100 > 0))
+                                    x.HasBuff("kalistaexpungemarker")))
                         {
                             Drawing.DrawText(
                                 Drawing.WorldToScreen(target.Position).X,
@@ -83,7 +83,7 @@ namespace ExorKalista
                                 y => 
                                     !y.IsDead &&
                                     y.IsVisible &&
-                                    (Variables.E.GetDamage(y)/y.Health)*100 > 0))
+                                    y.HasBuff("kalistaexpungemarker")))
                         {
                             Drawing.DrawText(
                                 Drawing.WorldToScreen(miniontarget.Position).X,

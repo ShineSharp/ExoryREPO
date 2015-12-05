@@ -142,7 +142,7 @@ namespace ExorKalista
     public class Targets
     {
         public static Obj_AI_Hero Target => TargetSelector.GetTarget(Variables.Q.Range, LeagueSharp.DamageType.Physical);
-        public static List<Obj_AI_Base> Minions => MinionManager.GetMinions(Variables.E.Range);            
+        public static List<Obj_AI_Base> Minions => MinionManager.GetMinions(Variables.E.Range, MinionTypes.All, MinionTeam.Enemy);            
         public static Obj_AI_Base Baron =>
             MinionManager.GetMinions(
                 ObjectManager.Player.ServerPosition,
