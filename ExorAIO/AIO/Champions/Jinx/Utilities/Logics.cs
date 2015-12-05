@@ -66,13 +66,17 @@ namespace ExorAIO.Champions.Jinx
             }
 
             /// <summary>
-            /// The E Immobile Harass Logic.
+            /// The E against Immobile Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.E.Range) &&
-                (Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useeimmobile").GetValue<bool>() && Bools.IsImmobile(Targets.Target)))
+                ((Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useeimmobile").GetValue<bool>() && Bools.IsImmobile(Targets.Target)) ||
+                (Targets.Target.GetEnemiesInRange(350f)
+                    .Count(
+                        enemy =>
+                            Variables.E.GetPrediction(enemy).Hitchance >= HitChance.VeryHigh) >= 2)))
             {
-                Variables.E.Cast(Targets.Target.Position);
+                Variables.E.Cast(Variables.E.GetPrediction(Targets.Target).CastPosition);
             }
 
             /// <summary>
@@ -122,7 +126,7 @@ namespace ExorAIO.Champions.Jinx
                 Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>() &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo)
             {
-                Variables.W.Cast(Variables.W.GetPrediction(((Obj_AI_Hero)args.Target)).UnitPosition);
+                Variables.W.Cast(Variables.W.GetPrediction((Obj_AI_Hero)args.Target).UnitPosition);
             }
         }
     }
