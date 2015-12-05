@@ -115,28 +115,31 @@ namespace NabbActivator
 
         public static bool HasNoProtection(Obj_AI_Hero target)
         =>
+            !target.IsInvulnerable &&
             !target.HasBuffOfType(BuffType.SpellShield) &&
             !target.HasBuffOfType(BuffType.SpellImmunity);
 
         public static bool ShouldUseCleanse(Obj_AI_Hero target)
         =>  
-            target.HasBuffOfType(BuffType.Charm) ||
+            Bools.HasNoProtection(ObjectManager.Player) &&
+            (target.HasBuffOfType(BuffType.Charm) ||
             target.HasBuffOfType(BuffType.Flee) ||
             target.HasBuffOfType(BuffType.Polymorph) ||
             target.HasBuffOfType(BuffType.Snare) ||
             target.HasBuffOfType(BuffType.Stun) ||
             target.HasBuffOfType(BuffType.Taunt) ||
             target.HasBuff("summonerexhaust") ||
-            target.HasBuff("summonerdot");
+            target.HasBuff("summonerdot"));
 
         public static bool ShouldUseCleanser()
         =>
-            Bools.HasZedMark(ObjectManager.Player) ||
+            Bools.HasNoProtection(ObjectManager.Player) &&
+            (Bools.HasZedMark(ObjectManager.Player) ||
             ObjectManager.Player.HasBuff("VladimirHemoplague") ||
             ObjectManager.Player.HasBuff("MordekaiserChildrenOfTheGrave") ||
             ObjectManager.Player.HasBuff("PoppyDiplomaticImmunity") ||
             ObjectManager.Player.HasBuff("FizzMarinerDoom") ||
-            ObjectManager.Player.HasBuffOfType(BuffType.Suppression);
+            ObjectManager.Player.HasBuffOfType(BuffType.Suppression));
 
         public static bool IsSpellAvailable(SpellSlot arg)
         =>
