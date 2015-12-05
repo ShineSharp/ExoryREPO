@@ -7,6 +7,8 @@ namespace ExorKalista
     using LeagueSharp;
     using LeagueSharp.Common;
 
+    using Orbwalking = SFXTargetSelector.Orbwalking;
+
     /// <summary>
     /// The main class.
     /// </summary>
@@ -26,9 +28,7 @@ namespace ExorKalista
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void Game_OnGameUpdate(EventArgs args)
         {
-            if (!ObjectManager.Player.IsDead &&
-                Targets.Target != null &&
-                Targets.Target.IsValid)
+            if (!ObjectManager.Player.IsDead)
             {
                 Logics.ExecuteAuto(args);
             }
@@ -53,6 +53,18 @@ namespace ExorKalista
                 {
                     Logics.ExecuteFarm(sender, args);
                 }
+            }
+        }
+
+        public static void OnNonKillableMinion(AttackableUnit minion)
+        {
+            if (Variables.E.IsReady() &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>() &&
+                Variables.E.GetDamage((Obj_AI_Base)minion) > ((Obj_AI_Base)minion).Health)
+            {
+                Orbwalking.ResetAutoAttackTimer();
+                Variables.E.Cast();
+                return;
             }
         }
     }

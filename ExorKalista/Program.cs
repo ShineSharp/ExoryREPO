@@ -2,7 +2,7 @@
 using LeagueSharp;
 using LeagueSharp.Common;
 
-namespace ExorRenekton
+namespace ExorKalista
 {
     class Program
     {
@@ -19,7 +19,7 @@ namespace ExorRenekton
             }
 
             Kalista.OnLoad();
-            Game.PrintChat("<b>[<font color='#009aff'>Exor</font>]</b>Kalista: [<font color='#009aff'>Ultima</font>] - Loaded!");
+            Game.PrintChat("<b><font color='#009aff'>Exor</font></b>Kalista: <font color='#009aff'>Ultima</font> - Loaded!");
         }
     }
 }

@@ -29,7 +29,7 @@ namespace ExorAIO.Champions.Vayne
         }
 
         /// <summary>
-        /// The menu.
+        /// The main menu.
         /// </summary>
         public static void SetMenu()
         {

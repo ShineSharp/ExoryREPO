@@ -1,4 +1,4 @@
-namespace ExorRenekton
+namespace ExorKalista
 {
     using System;
     using System.Linq;
@@ -7,49 +7,77 @@ namespace ExorRenekton
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using Orbwalking = ExorKalista.Utilities.Orbwalking;
+    using Orbwalking = SFXTargetSelector.Orbwalking;
+    using TargetSelector = SFXTargetSelector.TargetSelector;
 
     /// <summary>
     /// The settings class.
     /// </summary>
     public class Settings
-    {
+    {    
+        /// <summary>
+        /// The spells.
+        /// </summary>
         public static void SetSpells()
         {
-            Variables.Q = new Spell(SpellSlot.Q, ObjectManager.Player.BoundingRadius + 1150f);
-            Variables.W = new Spell(SpellSlot.W, ObjectManager.Player.BoundingRadius + 5000f);
+            Variables.Q = new Spell(SpellSlot.Q, 1150f);
+            Variables.W = new Spell(SpellSlot.W, 5000f);
             Variables.E = new Spell(SpellSlot.E, ObjectManager.Player.BoundingRadius + 950f);
-            Variables.R = new Spell(SpellSlot.R, ObjectManager.Player.BoundingRadius + 1500f);
+            Variables.R = new Spell(SpellSlot.R, 1200f);
 
-            Variables.Q.SetSkillshot(0.35f, 40f, 2100f, true, SkillshotType.SkillshotLine);
+            Variables.Q.SetSkillshot(0.25f, 40f, 2100f, true, SkillshotType.SkillshotLine);
         }
-
+        
+        /// <summary>
+        /// The menu builder.
+        /// </summary>
         public static void SetMenu()
         {
-            // Main Menu
+            /// <summary>
+            /// The main menu.
+            /// </summary>
             Variables.Menu = new Menu("ExorKalista", $"{Variables.MainMenuName}", true);
             {
-                //Orbwalker
+                /// <summary>
+                /// The ExOrbwalker menu.
+                /// </summary>
                 Variables.OrbwalkerMenu = new Menu("Orbwalker", $"{Variables.MainMenuName}.orbwalkermenu");
                 {
                     Variables.Orbwalker = new Orbwalking.Orbwalker(Variables.OrbwalkerMenu);
                 }
                 Variables.Menu.AddSubMenu(Variables.OrbwalkerMenu);
+                
+                /// <summary>
+                /// The SFX TargetSelector Menu menu.
+                /// </summary>
+                Variables.TargetSelectorMenu = new Menu("[SFX]Target Selector", $"{Variables.MainMenuName}.targetselector");
+                {
+                    TargetSelector.AddToMenu(Variables.TargetSelectorMenu);
+                }
+                Variables.Menu.AddSubMenu(Variables.TargetSelectorMenu);
 
-                //Settings Menu
+                /// <summary>
+                /// The settings menu.
+                /// </summary>
                 Variables.SettingsMenu = new Menu("Spell Menu", $"{Variables.MainMenuName}.settingsmenu");
                 {
-                    // Q Options
+                    /// <summary>
+                    /// The menu for the Q spell.
+                    /// </summary>
                     Variables.QMenu = new Menu("Q Settings", $"{Variables.MainMenuName}.qsettingsmenu");
                     {
                         Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqcombo", "Use Q in Combo")).SetValue(true);
                         Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqks", "Use Q to Automatically KillSteal")).SetValue(true);
-                        Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqfarm", "Use Q to Farm"))
+                        Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqimmobile", "Use Q against Immobile Enemies")).SetValue(true);
+                        Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqfarm", "Use Q to Farm")).SetValue(true);
+                        Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqmana", "Use Q to Farm if Mana >= %"))
                             .SetValue(new Slider(50, 0, 99));
                     }
                     Variables.SettingsMenu.AddSubMenu(Variables.QMenu);
 
-                    // W Options
+                    /// <summary>
+                    /// The menu for the W spell.
+                    /// </summary>
                     Variables.WMenu = new Menu("W Settings", $"{Variables.MainMenuName}.wsettingsmenu");
                     {
                         Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wsettings.usewauto", "Use Smart W to Dragon & Baron")).SetValue(true);
@@ -58,20 +86,22 @@ namespace ExorRenekton
                     }
                     Variables.SettingsMenu.AddSubMenu(Variables.WMenu);
 
-                    // E Options
+                    /// <summary>
+                    /// The menu for the E spell.
+                    /// </summary>
                     Variables.EMenu = new Menu("E Settings", $"{Variables.MainMenuName}.esettingsmenu");
                     {
                         Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.useecombo", "Automatically Execute Enemies with E")).SetValue(true);
                         Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.useemonsters", "Automatically Execute Monsters with E")).SetValue(true);
-                        Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.useeautoharass", "Automatically Harass Enemies (Minions -> E)")).SetValue(true);
+                        Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.useeharass", "Automatically use E to Harass (Minions -> E)")).SetValue(true);
                         Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.useedie", "Use E just before Dying")).SetValue(true);
                         Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.useefarm", "Use E to Farm")).SetValue(true);
-                        Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.useemana", "Automatically Harass Enemies if Mana >= %"))
-                            .SetValue(new Slider(50, 0, 99));
                     }
                     Variables.SettingsMenu.AddSubMenu(Variables.EMenu);
 
-                    // R Options
+                    /// <summary>
+                    /// The menu for the R spell.
+                    /// </summary>
                     Variables.RMenu = new Menu("R Settings", $"{Variables.MainMenuName}.rsettingsmenu");
                     {
                         Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rsettings.userlifesaver", "Use R LifeSaver")).SetValue(true);
@@ -80,102 +110,61 @@ namespace ExorRenekton
                 }
                 Variables.Menu.AddSubMenu(Variables.SettingsMenu);
 
-                //Drawings Menu
+                /// <summary>
+                /// The menu for the drawings.
+                /// </summary>
                 Variables.DrawingsMenu = new Menu("Drawings Menu", $"{Variables.MainMenuName}.drawingsmenu");
                 {
                     Variables.DrawingsMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.q", "Show Q Range")).SetValue(true);
                     Variables.DrawingsMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.e", "Show E Range")).SetValue(true);
+                    Variables.DrawingsMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.edmg", "Show E Damage")).SetValue(true);
                     Variables.DrawingsMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.r", "Show R Range")).SetValue(true);
                 }
                 Variables.Menu.AddSubMenu(Variables.DrawingsMenu);
             }
             Variables.Menu.AddToMainMenu();
         }
-
+        
+        /// <summary>
+        /// The loaded methods.
+        /// </summary>
         public static void SetMethods()
         {
             Game.OnUpdate += Kalista.Game_OnGameUpdate;
             Obj_AI_Base.OnDoCast += Kalista.Obj_AI_Base_OnDoCast;
+            Orbwalking.OnNonKillableMinion += Kalista.OnNonKillableMinion;
         }
     }
 
     /// <summary>
-    ///    The variables class.
-    /// </summary>
-    public class Variables
-    {
-        public static Menu Menu, OrbwalkerMenu, SettingsMenu, QMenu, WMenu, EMenu, RMenu, DrawingsMenu;
-        public static Spell Q, W, E, R;
-        public static Orbwalking.Orbwalker Orbwalker { get; set; }
-        public static string MainMenuName => $"exor.{ObjectManager.Player.ChampionName.ToLower()}";
-    }
-
-    /// <summary>
-    ///    The Mana manager class.
-    /// </summary>
-    public class ManaManager
-    {
-    }
-
-    /// <summary>
-    ///    The targets class.
+    /// The targets class.
     /// </summary>
     public class Targets
     {
-        public static Obj_AI_Hero Target => TargetSelector.GetTarget(Variables.W.Range, TargetSelector.DamageType.Physical);
-        public static List<LeagueSharp.Obj_AI_Base> Minions => 
+        public static Obj_AI_Hero Target => TargetSelector.GetTarget(Variables.Q.Range, LeagueSharp.DamageType.Physical);
+        public static List<Obj_AI_Base> Minions => MinionManager.GetMinions(Variables.E.Range);            
+        public static Obj_AI_Base Baron =>
             MinionManager.GetMinions(
                 ObjectManager.Player.ServerPosition,
-                Variables.Q.Range,
+                Variables.E.Range,
                 MinionTypes.All,
-                MinionTeam.Enemy,
-                MinionOrderTypes.Health
-            );
-    }
+                MinionTeam.Neutral,
+                MinionOrderTypes.MaxHealth
+            )
+            .FirstOrDefault(
+                x =>
+                    x.IsValidTarget(Variables.E.Range) && x.Health < Variables.GetBaronReduction(x) && x.CharData.BaseSkinName.Contains("baron"));
 
-    /// <summary>
-    ///    The bools class.
-    /// </summary>
-    public class Bools
-    {
-        public static bool IsImmobile(Obj_AI_Hero Target)
-        => 
-            Target.HasBuffOfType(BuffType.Stun) ||
-            Target.HasBuffOfType(BuffType.Snare) ||
-            Target.HasBuffOfType(BuffType.Knockup) ||
-            Target.HasBuffOfType(BuffType.Charm) ||
-            Target.HasBuffOfType(BuffType.Flee) || 
-            Target.HasBuffOfType(BuffType.Taunt) ||
-            Target.HasBuffOfType(BuffType.Suppression);
-    }
-
-    /// <summary>
-    ///    The drawings class.
-    /// </summary>
-    public class Drawings
-    {
-        public static void Load()
-        {
-            Drawing.OnDraw += delegate
-            {
-                if (Variables.Q.IsReady() &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.drawings.q").GetValue<bool>())
-                {
-                    Render.Circle.DrawCircle(ObjectManager.Player.Position, Variables.Q.Range, System.Drawing.Color.Green);
-                }
-
-                if (Variables.W.IsReady() &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.drawings.w").GetValue<bool>())
-                {
-                    Render.Circle.DrawCircle(ObjectManager.Player.Position, Variables.W.Range, System.Drawing.Color.Purple);
-                }
-
-                if (Variables.E.IsReady() &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.drawings.e").GetValue<bool>())
-                {
-                    Render.Circle.DrawCircle(ObjectManager.Player.Position, Variables.E.Range, System.Drawing.Color.Cyan);
-                }
-            };
-        }
+        public static Obj_AI_Base Dragon =>
+            MinionManager.GetMinions(
+                ObjectManager.Player.ServerPosition,
+                Variables.E.Range,
+                MinionTypes.All,
+                MinionTeam.Neutral,
+                MinionOrderTypes.MaxHealth
+            )
+            .FirstOrDefault(
+                x =>
+                    x.IsValidTarget(Variables.E.Range) && x.Health < Variables.GetDragonReduction(x) && x.CharData.BaseSkinName.Contains("dragon"));
     }
 }

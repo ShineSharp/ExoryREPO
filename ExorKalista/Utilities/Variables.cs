@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-
-using LeagueSharp;
-using LeagueSharp.Common;
-
-using Orbwalking = SFXTargetSelector.Orbwalking;
-
-namespace ExorAIO.Utilities
+namespace ExorKalista
 {
+    using System;
+    using System.Collections.Generic;
+
+    using LeagueSharp;
+    using LeagueSharp.Common;
+
+    using Orbwalking = SFXTargetSelector.Orbwalking;
+
     /// <summary>
     /// The Variables class.
     /// </summary>
@@ -89,6 +89,11 @@ namespace ExorAIO.Utilities
         public static Menu DrawingsMenu { get; set; }
 
         /// <summary>
+        /// Gets or sets the Soulbound.
+        /// </summary>
+        public static Obj_AI_Hero SoulBound { get; set; }
+
+        /// <summary>
         /// Gets or sets the orbwalker.
         /// </summary>
         public static Orbwalking.Orbwalker Orbwalker { get; set; }
@@ -96,21 +101,37 @@ namespace ExorAIO.Utilities
         /// <summary>
         /// The main menu name.
         /// </summary>
-        public static readonly string MainMenuCodeName = "[ExorAIO]: Ultima";
+        public static readonly string MainMenuCodeName = "[Exor<font color='#FFF000'>AIO</font>]: Ultima";
 
         /// <summary>
         /// The main menu codename.
         /// </summary>
-        public static readonly string MainMenuName = $"exoraio.{ObjectManager.Player.ChampionName}";
+        public static readonly string MainMenuName = $"exor.{ObjectManager.Player.ChampionName}";
 
         /// <summary>
-        /// The supported champions list.
+        /// Gets the baron reduction.
         /// </summary>
-        public static readonly string LoadableChampions = "Ashe, Cassiopeia, Corki, DrMundo, Ezreal, Graves, Jinx, KogMaw, Olaf, Renekton, Sivir, Tristana, Vayne.";
+        /// <param name="target">The target.</param>
+        /// <returns>
+        /// The damage dealt against the baron.
+        /// </returns>
+        public static float GetBaronReduction(Obj_AI_Base target)
+        =>
+            ObjectManager.Player.HasBuff("barontarget") ?
+                Variables.E.GetDamage(target) * 0.5f :
+                Variables.E.GetDamage(target);
 
         /// <summary>
-        /// Kurumi is a god.
+        /// Gets the dragon reduction.
         /// </summary>
-        public static readonly string Kappa = "jesuske12.";
+        /// <param name="target">The target.</param>
+        /// <returns>
+        /// The damage dealt against the dragon.
+        /// </returns>
+        public static float GetDragonReduction(Obj_AI_Base target)
+        =>
+            ObjectManager.Player.HasBuff("s5test_dragonslayerbuff") ?
+                Variables.E.GetDamage(target) * (1 - (.07f * ObjectManager.Player.GetBuffCount("s5test_dragonslayerbuff"))) :
+                Variables.E.GetDamage(target);
     }
 }
