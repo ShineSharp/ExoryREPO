@@ -10,6 +10,7 @@ namespace ExorKalista
     using SharpDX;
 
     using Orbwalking = SFXTargetSelector.Orbwalking;
+    using TargetSelector = SFXTargetSelector.TargetSelector;
 
     public class Logics
     {
@@ -26,6 +27,19 @@ namespace ExorKalista
                     .Any(b =>
                         b.Caster.IsMe &&
                         b.Name.Contains("kalistacoopstrikeally")));
+            }
+
+            /// <summary>
+            /// The Target preference.
+            /// </summary>
+            if (TargetSelector.Weights.GetItem("low-health") != null)
+            {
+                TargetSelector.Weights.GetItem("low-health").ValueFunction = hero => hero.Health - Variables.GetPerfectRendDamage(hero);
+                TargetSelector.Weights.GetItem("low-health").Tooltip = "Low Health (Health - Rend Damage) = Higher Weight";
+                TargetSelector.Weights.Register(
+                    new TargetSelector.Weights.Item(
+                        "w-stack", "W Stack", 10, false, hero => hero.HasBuff("kalistacoopstrikemarkally") ? 1 : 0,
+                        "Has W Debuff = Higher Weight"));
             }
 
             /// <summary>
