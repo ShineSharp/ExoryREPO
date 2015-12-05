@@ -64,5 +64,7 @@ namespace ExorAIO.Utilities
             || ObjectManager.Player.HasBuffOfType(BuffType.Taunt)
             || ObjectManager.Player.HasBuffOfType(BuffType.Suppression)
             || ObjectManager.Player.HasBuff("summonerexhaust");
+
+        public static bool IsUsingFishBones() => ObjectManager.Player.HasBuff("JinxQ");
     }
 }

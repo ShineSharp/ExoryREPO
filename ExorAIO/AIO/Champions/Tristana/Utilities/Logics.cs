@@ -72,6 +72,7 @@ namespace ExorAIO.Champions.Tristana
             if (Variables.E.IsReady() &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>() &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
+                ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
                 Targets.EMinions.Any())
             {
                 Variables.E.Cast(Targets.EMinion);

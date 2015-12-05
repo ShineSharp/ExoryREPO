@@ -15,21 +15,32 @@ namespace ExorAIO.Champions.KogMaw
     {
         public static void ExecuteAuto(EventArgs args)
         {
-            /*
-                Q KillSteal Logic,
-                Q Immobile Harass Logic.
-            */
+            /// <summary>
+            /// The Q KillSteal Logic,
+            /// The Q Immobile Harass Logic.
+            /// </summary>
             if (Variables.Q.IsReady() &&
                 (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqks").GetValue<bool>() && Targets.Target.Health < Variables.Q.GetDamage(Targets.Target)) ||
                 (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqimmobile").GetValue<bool>() && Bools.IsImmobile(Targets.Target)))
             {
                 Variables.Q.CastIfHitchanceEquals(Targets.Target, HitChance.VeryHigh, false);
             }
+            
+            /// <summary>
+            /// The W Combo Logic.
+            /// </summary>
+            if (Variables.W.IsReady() &&
+                Targets.Target.IsValidTarget(Variables.W.Range) &&
+                (Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>() &&
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo))
+            {
+                Variables.W.Cast();
+            }
 
-            /*
-                E KillSteal Logic,
-                E Immobile Harass Logic.
-            */
+            /// <summary>
+            /// The E KillSteal Logic,
+            /// The E Immobile Harass Logic.
+            /// </summary>
             if (Variables.E.IsReady() &&
                 (Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useeks").GetValue<bool>() && Targets.Target.Health < Variables.E.GetDamage(Targets.Target)) ||
                 (Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useeimmobile").GetValue<bool>() && Bools.IsImmobile(Targets.Target)))
@@ -37,14 +48,14 @@ namespace ExorAIO.Champions.KogMaw
                 Variables.E.CastIfHitchanceEquals(Targets.Target, HitChance.VeryHigh, false);
             }
 
-            /*
-                R Combo Logic,
-                R KillSteal Logic,
-                R Farm Logic.
-            */
-            if (Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.user").GetValue<bool>() &&
-                Variables.R.IsReady() &&
-                !ObjectManager.Player.IsWindingUp)
+            /// <summary>
+            /// The R Combo Logic,
+            /// The R KillSteal Logic,
+            /// The R Farm Logic.
+            /// </summary>
+            if (Variables.R.IsReady() &&
+                !ObjectManager.Player.IsWindingUp &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.user").GetValue<bool>())
             {
                 if (Targets.Target.HealthPercent < 50 &&
                     (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
@@ -55,69 +66,50 @@ namespace ExorAIO.Champions.KogMaw
                     return;
                 }
                 else if (Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.userfarm").GetValue<bool>() &&
-                    Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.rfarmkeepstacks").GetValue<Slider>().Value <= ObjectManager.Player.GetBuffCount("kogmawlivingartillerycost") &&
+                    Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                     Variables.R.GetCircularFarmLocation(Targets.Minions, Variables.R.Width).MinionsHit >= 3 &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.rfarmkeepstacks").GetValue<Slider>().Value >= ObjectManager.Player.GetBuffCount("kogmawlivingartillerycost") &&
                     ObjectManager.Player.ManaPercent > ManaManager.NeededRMana)
                 {
-                    var RFarm = Variables.R.GetCircularFarmLocation(Targets.Minions, Variables.R.Width);
-                    {
-                        Variables.R.Cast(RFarm.Position);
-                        return;
-                    }
+                    Variables.R.Cast(Variables.R.GetCircularFarmLocation(Targets.Minions, Variables.R.Width).Position);
                 }
             }
         }
 
         public static void ExecuteModes(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            /*
-                Q Combo Logic.
-            */
-            var tg = args.Target as Obj_AI_Hero;
+            /// <summary>
+            /// The Q Combo Logic.
+            /// </summary>
             if (Variables.Q.IsReady() &&
-                (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>() && Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo) ||
-                (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqharass").GetValue<bool>() && ObjectManager.Player.ManaPercent > ManaManager.NeededQMana))
+                ((Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>() && Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo) ||
+                (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqharass").GetValue<bool>() && ObjectManager.Player.ManaPercent > ManaManager.NeededQMana)))
             {
-                Variables.Q.CastIfHitchanceEquals(tg, HitChance.VeryHigh, false);
-            }
-
-            /*
-                W Combo Logic.
-            */
-            if (Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>() &&
-                Variables.W.IsReady() &&
-                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo)
-            {
-                Variables.W.Cast();
+                Variables.Q.CastIfHitchanceEquals((Obj_AI_Hero)args.Target, HitChance.VeryHigh, false);
                 return;
             }
 
-            /*
-                E Combo Logic.
-            */
+            /// <summary>
+            /// The E Combo Logic.
+            /// </summary>
             if (Variables.E.IsReady() &&
                 (Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useecombo").GetValue<bool>() && Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo) ||
                 (Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useeharassfarm").GetValue<bool>() && ObjectManager.Player.ManaPercent > ManaManager.NeededEMana))
             {
-                Variables.E.CastIfHitchanceEquals(tg, HitChance.VeryHigh, false);
+                Variables.E.CastIfHitchanceEquals((Obj_AI_Hero)args.Target, HitChance.VeryHigh, false);
             }
         }
 
         public static void ExecuteFarm(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            /*
-                E Farming Logic.
-            */
+            /// <summary>
+            /// The E Farm Logic.
+            /// </summary>
             if (Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useeharassfarm").GetValue<bool>() &&
                 Variables.E.GetLineFarmLocation(Targets.Minions, Variables.E.Width).MinionsHit >= 3 &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededEMana)
             {
-                var EFarm = Variables.E.GetLineFarmLocation(Targets.Minions, Variables.E.Width);
-                {
-                    Variables.E.Cast(EFarm.Position);
-                    return;
-                }
+                Variables.E.Cast(Variables.E.GetLineFarmLocation(Targets.Minions, Variables.E.Width).Position);
             }
         }
     }    
