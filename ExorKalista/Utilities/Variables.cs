@@ -124,43 +124,44 @@ namespace ExorKalista
             /// Gets the reduction from the baron nashor.
             /// </summary>
             /// <returns>
-            /// Common calculation *= 0.5 since the baron halves all the incoming damage.
+            /// You deal 50% reduced damage to Baron Nashor.
             /// </returns>
             if (ObjectManager.Player.HasBuff("barontarget"))
             {
-                RendDamage *= 0.5f;
+                RendDamage *= 0.50f;
             }
 
             /// <summary>
             /// Gets the reduction from the dragon.
             /// </summary>
             /// <returns>
-            /// Common calculation with dragonbuffstacking management (1 - .07f per stack).
+            /// The Dragon receives 7% reduced damage per stack.
             /// </returns>
             if (ObjectManager.Player.HasBuff("s5test_dragonslayerbuff"))
             {
-                RendDamage *= (1 - (.07f * ObjectManager.Player.GetBuffCount("s5test_dragonslayerbuff")));
+                RendDamage *= 0.03f * ObjectManager.Player.GetBuffCount("s5test_dragonslayerbuff")));
             }
+
             /// <summary>
             /// Gets the reduction from the exhaust spell.
             /// </summary>
             /// <returns>
-            /// Common calculation *= 0.4f since you only do 40% of you total damage while exhausted.
+            /// You deal 40% of you total damage while exhausted.
             /// </returns>
             if (ObjectManager.Player.HasBuff("summonerexhaust"))
             {
-                RendDamage *= 0.4f;
+                RendDamage *= 0.60f;
             }
 
             /// <summary>
             /// Gets the reduction from the Alistar R.
             /// </summary>
             /// <returns>
-            /// Common calculation *= 0.35f since you only do 35% of you total damage while alistar is in ultimate stance.
+            /// You deal 70% reducted damage to Alistar if he's in Ultimate Stance.
             /// </returns>
             if (target.HasBuff("FerociousHowl"))
             {
-                RendDamage *= 0.35f;
+                RendDamage *= 0.30f;
             }
             
             return RendDamage - 20; // First world problems Kappa
