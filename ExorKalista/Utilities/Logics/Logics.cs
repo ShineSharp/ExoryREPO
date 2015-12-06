@@ -45,40 +45,16 @@ namespace ExorKalista
             /// <summary>
             /// The Q KillSteal Logic,
             /// The Q Immobile Harass Logic.
-            /// The Q Combo Part.1 Logic
             /// </summary>
-            if (Variables.Q.IsReady() &&
-                Targets.Target != null &&
+            if (Targets.Target != null &&
+                Variables.Q.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
                 Variables.Q.GetPrediction(Targets.Target).Hitchance >= HitChance.VeryHigh &&
                 ((Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqks").GetValue<bool>() && Targets.Target.Health <= ObjectManager.Player.GetSpellDamage(Targets.Target, SpellSlot.Q)) ||
-                (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqimmobile").GetValue<bool>() && Bools.IsImmobile(Targets.Target)) ||
-                (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>() && Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo)))
+                (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqimmobile").GetValue<bool>() && Bools.IsImmobile(Targets.Target))))
             {
                 //Orbwalking.ResetAutoAttackTimer();
                 Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
-            }
-
-            /// <summary>
-            /// The Q Farm Logic.
-            /// </summary>
-            if (Variables.Q.IsReady() &&
-                !ObjectManager.Player.IsWindingUp &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>() &&
-                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                ObjectManager.Player.ManaPercent > ManaManager.NeededQMana)
-            {
-                if (Targets.Minions
-                    .Count(
-                        m => 
-                            m != null &&
-                            m.IsValidTarget(Variables.Q.Range) &&
-                            (m.Health < Variables.Q.GetDamage(m))) > 2 &&
-                    Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit > 2)
-                {
-                    //Orbwalking.ResetAutoAttackTimer();
-                    Variables.Q.Cast(Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).Position);
-                }
             }
 
             /// <summary>
@@ -102,8 +78,8 @@ namespace ExorKalista
             /// <summary>
             /// The E before Dying Logic.
             /// </summary>
-            if (Variables.E.IsReady() &&
-                Targets.Target != null &&
+            if (Targets.Target != null &&
+                Variables.E.IsReady() &&
                 !Targets.Target.IsDead &&
                 Targets.Target.IsVisible &&
                 Variables.E.CanCast(Targets.Target) &&
@@ -114,28 +90,6 @@ namespace ExorKalista
                 Orbwalking.ResetAutoAttackTimer();
                 Variables.E.Cast();
                 return;
-            }
-
-            /// <summary>
-            /// The E Combo Logic.
-            /// </summary>
-            if (Variables.E.IsReady() &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useecombo").GetValue<bool>())
-            {
-                foreach (var unit in ObjectManager.Get<Obj_AI_Hero>()
-                    .Where(
-                        h =>
-                            h != null &&
-                            !h.IsDead &&
-                            h.IsVisible &&
-                            Variables.E.CanCast(h) &&
-                            h.IsValidTarget(Variables.E.Range) &&
-                            h.Health < Variables.GetPerfectRendDamage(h)))
-                {
-                    Orbwalking.ResetAutoAttackTimer();
-                    Variables.E.Cast();
-                    return;
-                }
             }
 
             /// <summary>
@@ -175,6 +129,28 @@ namespace ExorKalista
         public static void ExecuteFarm(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             /// <summary>
+            /// The Q Farm Logic.
+            /// </summary>
+            if (Variables.Q.IsReady() &&
+                !ObjectManager.Player.IsWindingUp &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>() &&
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
+                ObjectManager.Player.ManaPercent > ManaManager.NeededQMana)
+            {
+                if (Targets.Minions
+                    .Count(
+                        m => 
+                            m != null &&
+                            m.IsValidTarget(Variables.Q.Range) &&
+                            (m.Health < Variables.Q.GetDamage(m))) > 2 &&
+                    Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit > 2)
+                {
+                    //Orbwalking.ResetAutoAttackTimer();
+                    Variables.Q.Cast(Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).Position);
+                }
+            }
+
+            /// <summary>
             /// The E Farm Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
@@ -199,16 +175,38 @@ namespace ExorKalista
         public static void ExecuteModes(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             /// <summary>
-            /// The Q Combo Part2 Logic.
+            /// The Q Combo Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.Q.Range) &&
-                Variables.Q.GetPrediction(((Obj_AI_Hero)args.Target)).Hitchance >= HitChance.VeryHigh &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>() &&
+                Variables.Q.GetPrediction(((Obj_AI_Hero)args.Target)).Hitchance >= HitChance.VeryHigh &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo)
             {
                 //Orbwalking.ResetAutoAttackTimer();
                 Variables.Q.Cast(Variables.Q.GetPrediction((Obj_AI_Hero)args.Target).UnitPosition);
+            }
+            
+            /// <summary>
+            /// The E Combo Logic.
+            /// </summary>
+            if (Variables.E.IsReady() &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useecombo").GetValue<bool>())
+            {
+                foreach (var unit in ObjectManager.Get<Obj_AI_Hero>()
+                    .Where(
+                        h =>
+                            h != null &&
+                            !h.IsDead &&
+                            h.IsVisible &&
+                            Variables.E.CanCast(h) &&
+                            h.IsValidTarget(Variables.E.Range) &&
+                            h.Health < Variables.GetPerfectRendDamage(h)))
+                {
+                    Orbwalking.ResetAutoAttackTimer();
+                    Variables.E.Cast();
+                    return;
+                }
             }
         }
     }

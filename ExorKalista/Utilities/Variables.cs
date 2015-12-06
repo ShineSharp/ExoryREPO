@@ -175,7 +175,7 @@ namespace ExorKalista
                 RendDamage *= 0.35f;
             }
             
-            return RendDamage;
+            return RendDamage - 20; // First world problems Kappa
         }
     }
 }
