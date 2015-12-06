@@ -33,6 +33,7 @@ namespace NabbActivator
                 Variables.Menu.AddItem(new MenuItem($"{Variables.MainMenuName}.spells", "Enable Spells")).SetValue(true);
                 Variables.Menu.AddItem(new MenuItem($"{Variables.MainMenuName}.cleansers", "Enable Cleansers")).SetValue(true);
                 Variables.Menu.AddItem(new MenuItem($"{Variables.MainMenuName}.consumables", "Enable Potions")).SetValue(true);
+                Variables.Menu.AddItem(new MenuItem($"{Variables.MainMenuName}.resetters", "Enable Tiamat/Hydra/Titanic")).SetValue(false);
                 Variables.Menu.AddItem(new MenuItem($"{Variables.MainMenuName}.randomizer", "Enable NabbHumanizer")).SetValue(true);
                 Variables.Menu.AddItem(new MenuItem($"{Variables.MainMenuName}.separator", ""));
                 Variables.Menu.AddItem(new MenuItem($"{Variables.MainMenuName}.combo_button1", "!(Must be the same as your Combo key)!"));
@@ -125,7 +126,7 @@ namespace NabbActivator
             (target.HasBuffOfType(BuffType.Charm) ||
             target.HasBuffOfType(BuffType.Flee) ||
             target.HasBuffOfType(BuffType.Polymorph) ||
-            target.HasBuffOfType(BuffType.Snare) ||
+            (target.HasBuffOfType(BuffType.Snare) && Bools.IsValidRoot()) ||
             target.HasBuffOfType(BuffType.Stun) ||
             target.HasBuffOfType(BuffType.Taunt) ||
             target.HasBuff("summonerexhaust") ||
@@ -140,6 +141,14 @@ namespace NabbActivator
             ObjectManager.Player.HasBuff("PoppyDiplomaticImmunity") ||
             ObjectManager.Player.HasBuff("FizzMarinerDoom") ||
             ObjectManager.Player.HasBuffOfType(BuffType.Suppression));
+
+        public static bool IsValidRoot()
+        =>
+            ObjectManager.Player.Buffs
+                .Any(
+                    buff =>
+                        buff.Type.Equals(BuffType.Snare) &&
+                        !(((Obj_AI_Hero)buff.Caster).ChampionName.Equals("Leona") || ((Obj_AI_Hero)buff.Caster).ChampionName.Equals("Amumu")));
 
         public static bool IsSpellAvailable(SpellSlot arg)
         =>

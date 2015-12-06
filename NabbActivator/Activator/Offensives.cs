@@ -92,4 +92,39 @@ namespace NabbActivator
             }
         }
     }
+    
+    /// <summary>
+    /// The resetter items class.
+    /// </summary>
+    public class Resetters
+    {
+        public static void Execute(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
+        {
+            /// <summary>
+            /// The Tiamat.
+            /// </summary>
+            if (ItemData.Tiamat_Melee_Only.GetItem().IsReady())
+            {
+                ItemData.Tiamat_Melee_Only.GetItem().Cast();
+                return;
+            }
+
+            /// <summary>
+            /// The Ravenous Hydra.
+            /// </summary>
+            if (ItemData.Ravenous_Hydra_Melee_Only.GetItem().IsReady())
+            {
+                ItemData.Ravenous_Hydra_Melee_Only.GetItem().Cast();
+                return;
+            }
+
+            /// <summary>
+            /// The Titanic Hydra.
+            /// </summary>
+            if (ItemData.Titanic_Hydra_Melee_Only.GetItem().IsReady())
+            {
+                ItemData.Titanic_Hydra_Melee_Only.GetItem().Cast();
+            }
+        }
+    }
 }

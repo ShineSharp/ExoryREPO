@@ -112,4 +112,21 @@ namespace NabbActivator
             }
         }
     }
+
+    /// <summary>
+    /// The ohmwrecker class.
+    /// </summary>
+    public class Ohmwrecker
+    {
+        public static void Execute(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
+        {
+            /// <summary>
+            /// The Ohmwrecker.
+            /// </summary>        
+            if (ItemData.Ohmwrecker.GetItem().IsReady())
+            {
+                ItemData.Ohmwrecker.GetItem().Cast((Obj_AI_Turret)args.Target);
+            }
+        }
+    }
 }
