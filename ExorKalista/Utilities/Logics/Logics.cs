@@ -91,6 +91,28 @@ namespace ExorKalista
                 Variables.E.Cast();
                 return;
             }
+            
+            /// <summary>
+            /// The E Combo Logic.
+            /// </summary>
+            if (Variables.E.IsReady() &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useecombo").GetValue<bool>())
+            {
+                foreach (var unit in ObjectManager.Get<Obj_AI_Hero>()
+                    .Where(
+                        h =>
+                            h != null &&
+                            !h.IsDead &&
+                            h.IsVisible &&
+                            Variables.E.CanCast(h) &&
+                            h.IsValidTarget(Variables.E.Range) &&
+                            h.Health < Variables.GetPerfectRendDamage(h)))
+                {
+                    Orbwalking.ResetAutoAttackTimer();
+                    Variables.E.Cast();
+                    return;
+                }
+            }
 
             /// <summary>
             /// The E against Monsters Logic.
@@ -185,28 +207,6 @@ namespace ExorKalista
             {
                 //Orbwalking.ResetAutoAttackTimer();
                 Variables.Q.Cast(Variables.Q.GetPrediction((Obj_AI_Hero)args.Target).UnitPosition);
-            }
-            
-            /// <summary>
-            /// The E Combo Logic.
-            /// </summary>
-            if (Variables.E.IsReady() &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useecombo").GetValue<bool>())
-            {
-                foreach (var unit in ObjectManager.Get<Obj_AI_Hero>()
-                    .Where(
-                        h =>
-                            h != null &&
-                            !h.IsDead &&
-                            h.IsVisible &&
-                            Variables.E.CanCast(h) &&
-                            h.IsValidTarget(Variables.E.Range) &&
-                            h.Health < Variables.GetPerfectRendDamage(h)))
-                {
-                    Orbwalking.ResetAutoAttackTimer();
-                    Variables.E.Cast();
-                    return;
-                }
             }
         }
     }
