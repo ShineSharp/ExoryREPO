@@ -139,7 +139,7 @@ namespace ExorKalista
             /// </returns>
             if (ObjectManager.Player.HasBuff("s5test_dragonslayerbuff"))
             {
-                RendDamage *= 0.03f * ObjectManager.Player.GetBuffCount("s5test_dragonslayerbuff")));
+                RendDamage *= 0.03f * ObjectManager.Player.GetBuffCount("s5test_dragonslayerbuff");
             }
 
             /// <summary>
