@@ -28,9 +28,19 @@ namespace ExorKalista
         /// <summary>
         /// Returns true if the target has no protection.
         /// </summary>   
-        public static bool HasNoProtection(Obj_AI_Hero target)
+        public static bool HasNoProtection(Obj_AI_Base target)
         =>
             !target.IsInvulnerable &&
             !target.HasBuffOfType(BuffType.SpellShield);
+        
+        public static bool IsPerfectRendTarget(Obj_AI_Base target)
+        =>
+            target != null &&
+            !target.IsDead &&
+            Variables.E.CanCast(target) &&
+            Bools.HasNoProtection(target) &&
+            target.IsValidTarget(Variables.E.Range) &&
+            target.GetBuffCount("kalistaexpungemarker") >= 2 &&
+            target.Health < Variables.GetPerfectRendDamage(target);
     }
 }

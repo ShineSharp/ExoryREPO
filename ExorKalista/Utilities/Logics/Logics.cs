@@ -78,12 +78,7 @@ namespace ExorKalista
             /// <summary>
             /// The E before Dying Logic.
             /// </summary>
-            if (Targets.Target != null &&
-                Variables.E.IsReady() &&
-                !Targets.Target.IsDead &&
-                Targets.Target.IsVisible &&
-                Variables.E.CanCast(Targets.Target) &&
-                Targets.Target.IsValidTarget(Variables.E.Range) &&
+            if (Bools.IsPerfectRendTarget(Targets.Target) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useedie").GetValue<bool>() &&
                 HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(250 + Game.Ping / 2f)) <= 0)
             {
@@ -98,15 +93,10 @@ namespace ExorKalista
             if (Variables.E.IsReady() &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useecombo").GetValue<bool>())
             {
-                foreach (var unit in ObjectManager.Get<Obj_AI_Hero>()
+                foreach (var unit in HeroManager.Enemies
                     .Where(
                         h =>
-                            h != null &&
-                            !h.IsDead &&
-                            h.IsVisible &&
-                            Variables.E.CanCast(h) &&
-                            h.IsValidTarget(Variables.E.Range) &&
-                            h.Health < Variables.GetPerfectRendDamage(h)))
+                            Bools.IsPerfectRendTarget(h)))
                 {
                     Orbwalking.ResetAutoAttackTimer();
                     Variables.E.Cast();
@@ -122,13 +112,8 @@ namespace ExorKalista
             {
                 foreach (var miniontarget in MinionManager.GetMinions(Variables.E.Range, MinionTypes.All, MinionTeam.Neutral)
                     .Where(
-                        y => 
-                            y != null &&
-                            !y.IsDead &&
-                            y.IsVisible &&
-                            Variables.E.CanCast(y) &&
-                            y.IsValidTarget(Variables.E.Range) &&
-                            (y.Health < Variables.GetPerfectRendDamage(y))))
+                        m => 
+                            Bools.IsPerfectRendTarget(m)))
                 {
                     Orbwalking.ResetAutoAttackTimer();
                     Variables.E.Cast();

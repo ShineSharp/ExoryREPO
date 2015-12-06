@@ -118,18 +118,6 @@ namespace ExorKalista
         /// </returns>
         public static float GetPerfectRendDamage(Obj_AI_Base target)
         {
-            /// <summary>
-            /// Gets the reduction from protected and the revivable targets.
-            /// </summary>
-            /// <param name="target">The target.</param>
-            /// <returns>
-            /// 0
-            /// </returns>
-            if (!Bools.HasNoProtection((Obj_AI_Hero)target))
-            {
-                return 0f;
-            }
-            
             var RendDamage = (float)(ObjectManager.Player.CalcDamage(target, LeagueSharp.Common.Damage.DamageType.Physical, Variables.E.GetDamage(target)));
 
             /// <summary>
