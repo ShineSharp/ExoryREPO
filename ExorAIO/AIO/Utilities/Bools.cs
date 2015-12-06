@@ -59,11 +59,19 @@ namespace ExorAIO.Utilities
             || ObjectManager.Player.HasBuffOfType(BuffType.Polymorph)
             || ObjectManager.Player.HasBuffOfType(BuffType.Knockback)
             || ObjectManager.Player.HasBuffOfType(BuffType.Knockup)
-            || ObjectManager.Player.HasBuffOfType(BuffType.Snare)
+            || (ObjectManager.Player.HasBuffOfType(BuffType.Snare) && Bools.IsValidRoot())
             || ObjectManager.Player.HasBuffOfType(BuffType.Stun)
             || ObjectManager.Player.HasBuffOfType(BuffType.Taunt)
             || ObjectManager.Player.HasBuffOfType(BuffType.Suppression)
             || ObjectManager.Player.HasBuff("summonerexhaust");
+
+        public static bool IsValidRoot()
+        =>
+            ObjectManager.Player.Buffs
+                .Any(
+                    buff =>
+                        buff.Type.Equals(BuffType.Snare) &&
+                        !(((Obj_AI_Hero)buff.Caster).ChampionName.Equals("Leona") || ((Obj_AI_Hero)buff.Caster).ChampionName.Equals("Amumu")));
 
         public static bool IsUsingFishBones() => ObjectManager.Player.HasBuff("JinxQ");
     }
