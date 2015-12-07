@@ -119,6 +119,8 @@ namespace ExorKalista
                     Variables.DrawingsMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.e", "Show E Range")).SetValue(true);
                     Variables.DrawingsMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.edmg", "Show E Damage")).SetValue(true);
                     Variables.DrawingsMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.r", "Show R Range")).SetValue(true);
+                    Variables.DrawingsMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.dragon_stacks_debug", "Show Stacks")).SetValue(true);
+                    Variables.DrawingsMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.dragon_damage_debug", "Show Damage")).SetValue(true);
                 }
                 Variables.Menu.AddSubMenu(Variables.DrawingsMenu);
             }
@@ -142,29 +144,6 @@ namespace ExorKalista
     public class Targets
     {
         public static Obj_AI_Hero Target => TargetSelector.GetTarget(Variables.Q.Range, LeagueSharp.DamageType.Physical);
-        public static List<Obj_AI_Base> Minions => MinionManager.GetMinions(Variables.E.Range, MinionTypes.All, MinionTeam.Enemy);            
-        public static Obj_AI_Base Baron =>
-            MinionManager.GetMinions(
-                ObjectManager.Player.ServerPosition,
-                Variables.E.Range,
-                MinionTypes.All,
-                MinionTeam.Neutral,
-                MinionOrderTypes.MaxHealth
-            )
-            .FirstOrDefault(
-                x =>
-                    x.IsValidTarget(Variables.E.Range) && x.Health < Variables.GetPerfectRendDamage(x) && x.CharData.BaseSkinName.Contains("baron"));
-
-        public static Obj_AI_Base Dragon =>
-            MinionManager.GetMinions(
-                ObjectManager.Player.ServerPosition,
-                Variables.E.Range,
-                MinionTypes.All,
-                MinionTeam.Neutral,
-                MinionOrderTypes.MaxHealth
-            )
-            .FirstOrDefault(
-                x =>
-                    x.IsValidTarget(Variables.E.Range) && x.Health < Variables.GetPerfectRendDamage(x) && x.CharData.BaseSkinName.Contains("dragon"));
+        public static List<Obj_AI_Base> Minions => MinionManager.GetMinions(Variables.E.Range, MinionTypes.All, MinionTeam.Enemy);
     }
 }

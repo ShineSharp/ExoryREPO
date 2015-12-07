@@ -126,20 +126,21 @@ namespace ExorKalista
             /// <returns>
             /// You deal 50% reduced damage to Baron Nashor.
             /// </returns>
-            if (ObjectManager.Player.HasBuff("barontarget"))
+            if (target.CharData.BaseSkinName.Equals("SRU_Baron"))
             {
                 RendDamage *= 0.50f;
             }
-
+            
             /// <summary>
             /// Gets the reduction from the dragon.
             /// </summary>
             /// <returns>
             /// The Dragon receives 7% reduced damage per stack.
             /// </returns>
-            if (ObjectManager.Player.HasBuff("s5test_dragonslayerbuff"))
+            if (ObjectManager.Player.HasBuff("s5test_dragonslayerbuff") &&
+                target.CharData.BaseSkinName.Equals("SRU_Dragon"))
             {
-                RendDamage *= 0.03f * ObjectManager.Player.GetBuffCount("s5test_dragonslayerbuff");
+                RendDamage *= 1 - (.07f * ObjectManager.Player.GetBuffCount("s5test_dragonslayerbuff"));
             }
 
             /// <summary>
@@ -164,7 +165,7 @@ namespace ExorKalista
                 RendDamage *= 0.30f;
             }
             
-            return RendDamage - 20; // First world problems Kappa
+            return RendDamage;
         }
     }
 }

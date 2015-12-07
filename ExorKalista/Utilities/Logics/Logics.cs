@@ -22,11 +22,13 @@ namespace ExorKalista
             if (Variables.SoulBound == null)
             {
                 Variables.SoulBound = HeroManager.Allies
-                    .Find(h => 
-                        h.Buffs
-                    .Any(b =>
-                        b.Caster.IsMe &&
-                        b.Name.Contains("kalistacoopstrikeally")));
+                    .Find(
+                        h => 
+                            h.Buffs
+                    .Any(
+                        b =>
+                            b.Caster.IsMe &&
+                            b.Name.Contains("kalistacoopstrikeally")));
             }
 
             /// <summary>
@@ -164,13 +166,14 @@ namespace ExorKalista
                 Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>())
             {
                 if (Targets.Minions.Any() &&
-                    Targets.Minions.Count(
-                        x =>
-                            !x.IsDead &&
-                            x.IsVisible &&
-                            Variables.E.CanCast(x) &&
-                            x.IsValidTarget(Variables.E.Range) &&
-                            x.Health < (float)(ObjectManager.Player.CalcDamage(x, LeagueSharp.Common.Damage.DamageType.Physical, Variables.E.GetDamage(x)))) >= 2)
+                    Targets.Minions
+                        .Count(
+                            x =>
+                                !x.IsDead &&
+                                x.IsVisible &&
+                                Variables.E.CanCast(x) &&
+                                x.IsValidTarget(Variables.E.Range) &&
+                                (x.Health < Variables.GetPerfectRendDamage(x))) >= 2)
                 {
                     Orbwalking.ResetAutoAttackTimer();
                     Variables.E.Cast();
@@ -187,7 +190,6 @@ namespace ExorKalista
             if (Variables.Q.IsReady() &&
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.Q.Range) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>() &&
-                Variables.Q.GetPrediction(((Obj_AI_Hero)args.Target)).Hitchance >= HitChance.VeryHigh &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo)
             {
                 //Orbwalking.ResetAutoAttackTimer();
