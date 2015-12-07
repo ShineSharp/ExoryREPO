@@ -206,13 +206,14 @@ namespace ExorKalista
             /// <summary>
             /// Gets the predicted reduction from Blitacrank Shield.
             /// </summary>
-            if (!target.HasBuff("BlitzcrankManaBarrierCD") &&
+            if (((Obj_AI_Hero)target).ChampionName.Equals("Blitzcrank") &&
+                !target.HasBuff("BlitzcrankManaBarrierCD") &&
                 !target.HasBuff("ManaBarrier"))
             {
                 healthDebuffer += target.Mana / 2;
             }
             
-            return RendDamage * Calculator;
+            return (RendDamage * Calculator) - healthDebuffer;
         }
     }
 }
