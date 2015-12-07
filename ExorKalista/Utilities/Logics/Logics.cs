@@ -56,7 +56,7 @@ namespace ExorKalista
                 (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqimmobile").GetValue<bool>() && Bools.IsImmobile(Targets.Target))))
             {
                 //Orbwalking.ResetAutoAttackTimer();
-                Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
+                Variables.Q.Cast(Targets.Target.Position);
             }
 
             /// <summary>
@@ -193,7 +193,7 @@ namespace ExorKalista
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo)
             {
                 //Orbwalking.ResetAutoAttackTimer();
-                Variables.Q.Cast(Variables.Q.GetPrediction((Obj_AI_Hero)args.Target).UnitPosition);
+                Variables.Q.Cast(args.Target.Position);
             }
         }
     }

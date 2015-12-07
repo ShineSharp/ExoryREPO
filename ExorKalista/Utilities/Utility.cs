@@ -25,7 +25,7 @@ namespace ExorKalista
             Variables.E = new Spell(SpellSlot.E, ObjectManager.Player.BoundingRadius + 950f);
             Variables.R = new Spell(SpellSlot.R, 1200f);
 
-            Variables.Q.SetSkillshot(0.25f, 40f, 2100f, true, SkillshotType.SkillshotLine);
+            Variables.Q.SetSkillshot(0.35f, 40f, 2100f, true, SkillshotType.SkillshotLine);
         }
         
         /// <summary>
@@ -70,7 +70,7 @@ namespace ExorKalista
                         Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqks", "Use Q to Automatically KillSteal")).SetValue(true);
                         Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqimmobile", "Use Q against Immobile Enemies")).SetValue(true);
                         Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqfarm", "Use Q to Farm")).SetValue(true);
-                        Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqmana", "Use Q to Farm if Mana >= %"))
+                        Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.qmana", "Use Q to Farm if Mana >= %"))
                             .SetValue(new Slider(50, 0, 99));
                     }
                     Variables.SettingsMenu.AddSubMenu(Variables.QMenu);
@@ -81,7 +81,7 @@ namespace ExorKalista
                     Variables.WMenu = new Menu("W Settings", $"{Variables.MainMenuName}.wsettingsmenu");
                     {
                         Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wsettings.usewauto", "Use Smart W to Dragon & Baron")).SetValue(true);
-                        Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wsettings.usewmana", "Use Smart W if Mana >= %"))
+                        Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wsettings.wmana", "Use Smart W if Mana >= %"))
                             .SetValue(new Slider(50, 0, 99));
                     }
                     Variables.SettingsMenu.AddSubMenu(Variables.WMenu);
@@ -93,7 +93,6 @@ namespace ExorKalista
                     {
                         Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.useecombo", "Automatically Execute Enemies with E")).SetValue(true);
                         Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.useemonsters", "Automatically Execute Monsters with E")).SetValue(true);
-                        Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.useeharass", "Automatically use E to Harass (Minions -> E)")).SetValue(true);
                         Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.useedie", "Use E just before Dying")).SetValue(true);
                         Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.useefarm", "Use E to Farm")).SetValue(true);
                     }
@@ -119,8 +118,6 @@ namespace ExorKalista
                     Variables.DrawingsMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.e", "Show E Range")).SetValue(true);
                     Variables.DrawingsMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.edmg", "Show E Damage")).SetValue(true);
                     Variables.DrawingsMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.r", "Show R Range")).SetValue(true);
-                    Variables.DrawingsMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.dragon_stacks_debug", "Show Stacks")).SetValue(true);
-                    Variables.DrawingsMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.dragon_damage_debug", "Show Damage")).SetValue(true);
                 }
                 Variables.Menu.AddSubMenu(Variables.DrawingsMenu);
             }

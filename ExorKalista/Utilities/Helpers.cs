@@ -14,10 +14,10 @@ namespace ExorKalista
     /// </summary>
     class ManaManager
     {
-        public static int NeededQMana => Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.qmana") != null ? Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.qmana").GetValue<Slider>().Value : 0;
-        public static int NeededWMana => Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.wmana") != null ? Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.wmana").GetValue<Slider>().Value : 0;
-        public static int NeededEMana => Variables.Menu.Item($"{Variables.MainMenuName}.esettings.emana") != null ? Variables.Menu.Item($"{Variables.MainMenuName}.esettings.emana").GetValue<Slider>().Value : 0;
-        public static int NeededRMana => Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.rmana") != null ? Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.rmana").GetValue<Slider>().Value : 0;
+        public static int NeededQMana => Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.qmana").GetValue<Slider>().Value;
+        public static int NeededWMana => Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.wmana").GetValue<Slider>().Value;
+        public static int NeededEMana => Variables.Menu.Item($"{Variables.MainMenuName}.esettings.emana").GetValue<Slider>().Value;
+        public static int NeededRMana => Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.rmana").GetValue<Slider>().Value;
     }
 
     /// <summary>
@@ -25,87 +25,70 @@ namespace ExorKalista
     /// </summary>
     public class Drawings
     {
-        public static void Load()
+        public static void LoadRange()
         {
             Drawing.OnDraw += delegate
             {
-                if (Variables.Q != null &&
-                    Variables.Q.IsReady() &&
-                    Variables.Q.Range != 0 &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.drawings.q") != null &&
+                if (Variables.Q.IsReady() &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.drawings.q").GetValue<bool>())
                 {
                     Render.Circle.DrawCircle(ObjectManager.Player.Position, Variables.Q.Range, System.Drawing.Color.Green);
                 }
 
-                if (Variables.W != null &&
-                    Variables.W.IsReady() &&
-                    Variables.W.Range != 0 &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.drawings.w") != null &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.drawings.w").GetValue<bool>())
+                if (Variables.E.IsReady() &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.drawings.e").GetValue<bool>())
                 {
-                    Render.Circle.DrawCircle(ObjectManager.Player.Position, Variables.W.Range, System.Drawing.Color.Purple);
+                    Render.Circle.DrawCircle(ObjectManager.Player.Position, Variables.E.Range, System.Drawing.Color.Cyan);
                 }
 
-                if (Variables.E != null &&
-                    Variables.E.IsReady() &&
-                    Variables.E.Range != 0)
-                {
-                    if (Variables.Menu.Item($"{Variables.MainMenuName}.drawings.e") != null &&
-                        Variables.Menu.Item($"{Variables.MainMenuName}.drawings.e").GetValue<bool>())
-                    {
-                        Render.Circle.DrawCircle(ObjectManager.Player.Position, Variables.E.Range, System.Drawing.Color.Cyan);
-                    }
-
-                    if (Variables.Menu.Item($"{Variables.MainMenuName}.drawings.edmg").GetValue<bool>())
-                    {
-                        foreach (var target in HeroManager.Enemies
-                            .Where(
-                                x => 
-                                    !x.IsDead &&
-                                    x.IsVisible &&
-                                    x.HasBuff("kalistaexpungemarker")))
-                        {
-                            Drawing.DrawText(
-                                Drawing.WorldToScreen(target.Position).X,
-                                Drawing.WorldToScreen(target.Position).Y - 100,
-                                
-                                (Variables.GetPerfectRendDamage(target)/target.Health)*100 >= 100 ?
-                                    Color.Red :
-                                    Color.GreenYellow,
-
-                                ((Variables.GetPerfectRendDamage(target)/target.Health)*100).ToString("0.0")
-                            );
-                        }
-                        
-                        foreach (var miniontarget in MinionManager.GetMinions(Variables.Q.Range, MinionTypes.All, MinionTeam.Neutral)
-                            .Where(
-                                y => 
-                                    !y.IsDead &&
-                                    y.IsVisible &&
-                                    y.HasBuff("kalistaexpungemarker")))
-                        {
-                            Drawing.DrawText(
-                                Drawing.WorldToScreen(miniontarget.Position).X,
-                                Drawing.WorldToScreen(miniontarget.Position).Y - 100,
-
-                                (Variables.GetPerfectRendDamage(miniontarget)/miniontarget.Health)*100 >= 100 ?
-                                    Color.Red :
-                                    Color.GreenYellow,
-
-                                ((Variables.GetPerfectRendDamage(miniontarget)/miniontarget.Health)*100).ToString("0.0")
-                            );
-                        }
-                    }
-                }
-
-                if (Variables.R != null &&
-                    Variables.R.IsReady() &&
-                    Variables.R.Range != 0 &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.drawings.r") != null &&
+                if (Variables.R.IsReady() &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.drawings.r").GetValue<bool>())
                 {
                     Render.Circle.DrawCircle(ObjectManager.Player.Position, Variables.R.Range, System.Drawing.Color.Red);
+                }
+            };
+        }
+    
+        public static void LoadDamage()
+        {
+            Drawing.OnDraw += delegate
+            {
+                if (Variables.Menu.Item($"{Variables.MainMenuName}.drawings.edmg").GetValue<bool>())
+                {
+                    const int XOffset = 10;
+                    const int YOffset = 20;
+                    const int Width = 103;
+                    const int Height = 8;
+
+                    foreach (var unit in HeroManager.Enemies
+                        .Where(
+                            h => h.IsValid &&
+                            h.IsHPBarRendered))
+                    {
+                        var barPos = unit.HPBarPosition;
+
+                        var percentHealthAfterDamage = Math.Max(0, unit.Health - Variables.GetPerfectRendDamage(unit))/unit.MaxHealth;
+                        var yPos = barPos.Y + YOffset;
+                        var xPosDamage = barPos.X + XOffset + Width*percentHealthAfterDamage;
+                        var xPosCurrentHp = barPos.X + XOffset + Width*unit.Health/unit.MaxHealth;
+
+                        var differenceInHp = xPosCurrentHp - xPosDamage;
+                        var pos1 = barPos.X + 9 + 107*percentHealthAfterDamage;
+
+                        for (var i = 0; i < differenceInHp; i++)
+                        {
+                            Drawing.DrawLine(
+                                pos1 + i,
+                                yPos,
+                                pos1 + i,
+                                yPos + Height,
+                                1,
+                                Variables.GetPerfectRendDamage(unit) > unit.Health ?
+                                    Color.Blue :
+                                    Color.Red
+                            );
+                        }
+                    }
                 }
             };
         }

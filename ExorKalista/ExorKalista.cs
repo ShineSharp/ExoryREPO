@@ -61,7 +61,7 @@ namespace ExorKalista
         {
             if (Variables.E.IsReady() &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>() &&
-                Variables.E.GetDamage((Obj_AI_Base)minion) > ((Obj_AI_Base)minion).Health)
+                Variables.GetPerfectRendDamage((Obj_AI_Base)minion) > ((Obj_AI_Base)minion).Health)
             {
                 Orbwalking.ResetAutoAttackTimer();
                 Variables.E.Cast();
