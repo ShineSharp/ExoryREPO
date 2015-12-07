@@ -19,7 +19,8 @@ namespace ExorKalista
             Settings.SetSpells();
             Settings.SetMenu();
             Settings.SetMethods();
-            Drawings.Load();
+            Drawings.LoadRange();
+            Drawings.LoadDamage();
         }
 
         /// <summary>

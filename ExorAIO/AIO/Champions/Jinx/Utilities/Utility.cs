@@ -22,7 +22,7 @@ namespace ExorAIO.Champions.Jinx
         /// </summary>
         public static void SetSpells()
         {
-            Variables.Q = new Spell(SpellSlot.Q, ObjectManager.Player.BoundingRadius + 600f + (25f * (ObjectManager.Player.Spellbook.GetSpell(SpellSlot.Q).Level + 1)));
+            Variables.Q = new Spell(SpellSlot.Q, ObjectManager.Player.BoundingRadius*2 + 600f + (25f * (ObjectManager.Player.Spellbook.GetSpell(SpellSlot.Q).Level - 1)));
             Variables.W = new Spell(SpellSlot.W, 1500f);
             Variables.E = new Spell(SpellSlot.E, 900f);
             Variables.R = new Spell(SpellSlot.R, 4000f);
