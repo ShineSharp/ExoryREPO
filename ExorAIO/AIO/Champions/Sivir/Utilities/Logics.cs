@@ -21,15 +21,11 @@ namespace ExorAIO.Champions.Sivir
             /// The Q Immobile Harass Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
-                ((Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqharassfarm").GetValue<bool>() &&
-                    ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
-                    Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo) ||
-                    
                 (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqks").GetValue<bool>() &&
                     (Variables.Q.GetDamage(Targets.Target)*2) > Targets.Target.Health) ||
                     
                 (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqimmobile").GetValue<bool>() &&
-                    Bools.IsImmobile(Targets.Target))))
+                    Bools.IsImmobile(Targets.Target)))
             {
                 Variables.Q.CastIfHitchanceEquals(Targets.Target, HitChance.VeryHigh, false);
             }
@@ -73,8 +69,7 @@ namespace ExorAIO.Champions.Sivir
             /// The W Harass Logic.
             /// </summary>
             if (Variables.W.IsReady() &&
-                ((Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>() && Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo) ||
-                (Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewharassfarm").GetValue<bool>() && ObjectManager.Player.ManaPercent > ManaManager.NeededWMana)))
+                (Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>() && Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo))
             {
                 Orbwalking.ResetAutoAttackTimer();
                 Variables.W.Cast();
@@ -89,7 +84,6 @@ namespace ExorAIO.Champions.Sivir
             {
                 Variables.Q.CastIfHitchanceEquals((Obj_AI_Hero)args.Target, HitChance.VeryHigh, false);
             }
-
         }
 
         public static void ExecuteFarm(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
@@ -98,8 +92,8 @@ namespace ExorAIO.Champions.Sivir
             /// The W Farm Logic.
             /// </summary>
             if (Variables.W.IsReady() &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewharassfarm").GetValue<bool>() &&
-                ObjectManager.Player.ManaPercent > ManaManager.NeededWMana &&
+                (Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarm").GetValue<bool>() && ObjectManager.Player.ManaPercent > ManaManager.NeededWMana) &&
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                 Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 3)
             {
                 Orbwalking.ResetAutoAttackTimer();
@@ -110,12 +104,11 @@ namespace ExorAIO.Champions.Sivir
             /// The Q Farm Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>() &&
-                ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
+                (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>() && ObjectManager.Player.ManaPercent > ManaManager.NeededQMana) &&
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                 Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 3)
             {
-                var QFarmPosition = Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).Position;
-                Variables.Q.Cast(QFarmPosition);
+                Variables.Q.Cast(Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).Position);
             }
         }
     }
