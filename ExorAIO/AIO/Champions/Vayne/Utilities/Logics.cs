@@ -79,7 +79,7 @@ namespace ExorAIO.Champions.Vayne
             if (Targets.FarmMinions.Count() > 1 &&
                 (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>() && Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo))
             {
-                Orbwalking.ResetAutoAttackTimer();
+                //Orbwalking.ResetAutoAttackTimer();
                 Variables.Q.Cast(Game.CursorPos);
                 Variables.Orbwalker.ForceTarget(Targets.FarmMinion);
             }
