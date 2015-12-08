@@ -135,28 +135,33 @@ namespace ExorKalista
                 Calculator *= 0.60f;
             }
 
-            /// <summary>
-            /// Gets the reduction from the baron nashor.
-            /// </summary>
-            /// <returns>
-            /// You deal 50% reduced damage to Baron Nashor.
-            /// </returns>
-            if (target.CharData.BaseSkinName.Equals("SRU_Baron") &&
-                ObjectManager.Player.HasBuff("barontarget"))
+            if (!target.IsChampion())
             {
-                Calculator *= 0.50f;
-            }
+                /// <summary>
+                /// Gets the reduction from the baron nashor.
+                /// </summary>
+                /// <returns>
+                /// You deal 50% reduced damage to Baron Nashor.
+                /// </returns>
+                if (target.CharData.BaseSkinName.Equals("SRU_Baron") &&
+                    ObjectManager.Player.HasBuff("barontarget"))
+                {
+                    Calculator *= 0.50f;
+                }
 
-            /// <summary>
-            /// Gets the reduction from the dragon.
-            /// </summary>
-            /// <returns>
-            /// The Dragon receives 7% reduced damage per stack.
-            /// </returns>
-            if (target.CharData.BaseSkinName.Equals("SRU_Dragon") &&
-                ObjectManager.Player.GetBuffCount("s5test_dragonslayerbuff") > 0)
-            {
-                Calculator *= 1f - (ObjectManager.Player.GetBuffCount("s5test_dragonslayerbuff") * 0.07f);
+                /// <summary>
+                /// Gets the reduction from the dragon.
+                /// </summary>
+                /// <returns>
+                /// The Dragon receives 7% reduced damage per stack.
+                /// </returns>
+                if (target.CharData.BaseSkinName.Equals("SRU_Dragon") &&
+                    ObjectManager.Player.GetBuffCount("s5test_dragonslayerbuff") > 0)
+                {
+                    Calculator *= 1f - (ObjectManager.Player.GetBuffCount("s5test_dragonslayerbuff") * 0.07f);
+                }
+
+                return (RendDamage * Calculator);
             }
 
             /// <summary>
@@ -212,7 +217,7 @@ namespace ExorKalista
             {
                 healthDebuffer += target.Mana / 2;
             }
-            
+
             return (RendDamage * Calculator) - healthDebuffer;
         }
     }

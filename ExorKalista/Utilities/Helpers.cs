@@ -85,7 +85,7 @@ namespace ExorKalista
                                 1,
                                 Variables.GetPerfectRendDamage(unit) > unit.Health ?
                                     Color.Blue :
-                                    Color.Red
+                                    Color.Orange
                             );
                         }
                     }
