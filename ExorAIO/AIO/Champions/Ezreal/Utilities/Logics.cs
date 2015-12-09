@@ -20,12 +20,12 @@ namespace ExorAIO.Champions.Ezreal
                 Q KillSteal Logic;
             */
             if (Variables.Q.IsReady() &&
-                Targets.Target.IsValidTarget(1000) &&
+                Targets.Target.IsValidTarget(Variables.Q.Range) &&
                 (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqks").GetValue<bool>() && Targets.Target.Health < Variables.Q.GetDamage(Targets.Target)) ||
                 (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqimmobile").GetValue<bool>() && Bools.IsImmobile(Targets.Target)) ||
                 (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqautoharass").GetValue<bool>() && ObjectManager.Player.ManaPercent > ManaManager.NeededQMana))
             {
-                Variables.Q.CastIfHitchanceEquals(Targets.Target, HitChance.VeryHigh, false);
+                Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
             }
 
             /*
@@ -34,25 +34,24 @@ namespace ExorAIO.Champions.Ezreal
             */
             if (Variables.W.IsReady() &&
                 !Variables.Q.IsReady() &&
-                Targets.Target.IsValidTarget(900) &&
-                (Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewks").GetValue<bool>() && Targets.Target.Health < Variables.W.GetDamage(Targets.Target)) ||
+                Targets.Target.IsValidTarget(Variables.W.Range) &&
+                ((Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewks").GetValue<bool>() && Targets.Target.Health < Variables.W.GetDamage(Targets.Target)) ||
                 (Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewimmobile").GetValue<bool>() && Bools.IsImmobile(Targets.Target)) ||
-                (Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewautoharass").GetValue<bool>() && ObjectManager.Player.ManaPercent > ManaManager.NeededWMana))
+                (Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewautoharass").GetValue<bool>() && ObjectManager.Player.ManaPercent > ManaManager.NeededWMana)))
             {
-                Variables.W.Cast(Targets.Target.Position, false);
+                Variables.W.Cast(Variables.W.GetPrediction(Targets.Target).UnitPosition);
             }
             
             /*
                 R KillSteal Logic;
             */
             if (Variables.R.IsReady() &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.userks").GetValue<bool>() &&
-                Targets.Target.IsValidTarget(1500) &&
-                Targets.Target.Health < Variables.R.GetDamage(Targets.Target) &&
                 !Variables.W.IsReady() &&
-                (!Variables.Q.IsReady() || !Targets.Target.IsValidTarget(Variables.Q.Range)))
+                Targets.Target.IsValidTarget(1500) &&
+                (!Variables.Q.IsReady() || !Targets.Target.IsValidTarget(Variables.Q.Range)) &&
+                ((Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.userks").GetValue<bool>() && Targets.Target.Health < Variables.R.GetDamage(Targets.Target))))
             {
-                Variables.R.CastIfHitchanceEquals(Targets.Target, HitChance.VeryHigh, false);
+                Variables.R.Cast(Variables.R.GetPrediction(Targets.Target).UnitPosition);
             }
 
         }
@@ -65,7 +64,7 @@ namespace ExorAIO.Champions.Ezreal
             if (Variables.Q.IsReady() && 
                 Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>())
             {
-                Variables.Q.CastIfHitchanceEquals((Obj_AI_Hero)args.Target, HitChance.VeryHigh, false);
+                Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
                 return;
             }
 
@@ -75,7 +74,7 @@ namespace ExorAIO.Champions.Ezreal
             if (Variables.W.IsReady() && 
                 Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>())
             {
-                Variables.W.CastIfHitchanceEquals((Obj_AI_Hero)args.Target, HitChance.VeryHigh, false);
+                Variables.W.Cast(Variables.W.GetPrediction(Targets.Target).UnitPosition);
                 
                 if (Variables.E.IsReady() && 
                     Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useecombo").GetValue<bool>())
@@ -92,7 +91,7 @@ namespace ExorAIO.Champions.Ezreal
                 Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.usercombo").GetValue<bool>() &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.rwhitelist.{((Obj_AI_Hero)args.Target).ChampionName.ToLower()}").GetValue<bool>())
             {
-                Variables.R.CastIfHitchanceEquals((Obj_AI_Hero)args.Target, HitChance.VeryHigh, false);
+                Variables.R.Cast(Variables.R.GetPrediction(Targets.Target).UnitPosition);
             }
         }
 
@@ -104,9 +103,7 @@ namespace ExorAIO.Champions.Ezreal
             if (Variables.Q.IsReady() &&
                 Targets.FarmMinion != null &&
                 Targets.FarmMinion.IsValid &&
-                !ObjectManager.Player.IsWindingUp &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>() &&
-                ObjectManager.Player.ManaPercent > ManaManager.NeededQMana)
+                (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>() && ObjectManager.Player.ManaPercent > ManaManager.NeededQMana))
             {
                 Variables.Q.Cast(Targets.FarmMinion.Position);
             }
