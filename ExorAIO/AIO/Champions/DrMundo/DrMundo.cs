@@ -49,8 +49,7 @@ namespace ExorAIO.Champions.DrMundo
             if (sender.IsMe &&
                 Orbwalking.IsAutoAttack(args.SData.Name))
             {
-                if (args.Target.IsValid<Obj_AI_Hero>() &&
-                    Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo)
+                if (args.Target.IsValid<Obj_AI_Hero>())
                 {
                     Logics.ExecuteModes(sender, args);
                 }

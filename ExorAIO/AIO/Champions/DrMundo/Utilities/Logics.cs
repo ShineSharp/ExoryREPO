@@ -23,14 +23,9 @@ namespace ExorAIO.Champions.DrMundo
             if (Variables.Q.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
                 ObjectManager.Player.HealthPercent > 10 &&
-                (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>() &&
-                    Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo) ||
-
-                (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqautoharass").GetValue<bool>() && 
-                    ObjectManager.Player.HealthPercent >= 50) ||
-
-                (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqks").GetValue<bool>() &&
-                    Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health))
+                ((Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>() && Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo) ||
+                (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqautoharass").GetValue<bool>() && ObjectManager.Player.HealthPercent >= 50) ||
+                (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqks").GetValue<bool>() && Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health)))
             {
                 Variables.Q.CastIfHitchanceEquals(Targets.Target, HitChance.VeryHigh, false);
             }
@@ -39,17 +34,10 @@ namespace ExorAIO.Champions.DrMundo
                 W Combo Logic;
             */
             if (Variables.W.IsReady() &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>() &&
-                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo)
+                (Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>() && Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo))
             {
-                if ((!ObjectManager.Player.HasBuff("BurningAgony") &&
-                        (Targets.Target.IsValidTarget(Variables.W.Range) &&
-                        ObjectManager.Player.HealthPercent >= 35)) ||
-
-                    (ObjectManager.Player.HasBuff("BurningAgony") && 
-                        (!Targets.Target.IsValidTarget(Variables.W.Range) ||
-                        ObjectManager.Player.HealthPercent < 35 ||
-                        !Targets.Target.IsValid)))
+                if ((!ObjectManager.Player.HasBuff("BurningAgony") && (Targets.Target.IsValidTarget(Variables.W.Range) && ObjectManager.Player.HealthPercent >= 35)) ||
+                    (ObjectManager.Player.HasBuff("BurningAgony") && (!Targets.Target.IsValidTarget(Variables.W.Range) || ObjectManager.Player.HealthPercent < 35)))
                 {
                     Variables.W.Cast();
                     return;
@@ -62,15 +50,11 @@ namespace ExorAIO.Champions.DrMundo
             */
             if (Variables.W.IsReady() &&
                 ObjectManager.Player.HealthPercent >= 35 &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarm").GetValue<bool>() &&
-                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear)
+                (Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarm").GetValue<bool>() && Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear))
             {
-                if ((!ObjectManager.Player.HasBuff("BurningAgony") &&
-                        Targets.Minions.Count() >= 2 &&
-                        ObjectManager.Player.Health >= Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarmhp").GetValue<Slider>().Value) ||
-
-                    (ObjectManager.Player.HasBuff("BurningAgony") &&
-                        (Targets.Minions.Count() < 2 ||
+                if ((!ObjectManager.Player.HasBuff("BurningAgony") && Targets.Minions.Count() >= 2 &&
+                    ObjectManager.Player.Health >= Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarmhp").GetValue<Slider>().Value) ||
+                    (ObjectManager.Player.HasBuff("BurningAgony") && (Targets.Minions.Count() < 2 ||
                         ObjectManager.Player.Health < Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarmhp").GetValue<Slider>().Value)))
                 {
                     Variables.W.Cast();
@@ -98,7 +82,7 @@ namespace ExorAIO.Champions.DrMundo
             */
             if (Variables.E.IsReady() &&
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.E.Range) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useecombo").GetValue<bool>())
+                (Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useecombo").GetValue<bool>() && Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo))
             {
                 Orbwalking.ResetAutoAttackTimer();
                 Variables.E.Cast();
