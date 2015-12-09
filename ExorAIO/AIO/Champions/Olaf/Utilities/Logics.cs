@@ -26,17 +26,16 @@ namespace ExorAIO.Champions.Olaf
                 (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqautoharass").GetValue<bool>() && ObjectManager.Player.ManaPercent >= ManaManager.NeededQMana) ||
                 (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqks").GetValue<bool>() && Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health))
             {
-                Variables.Q.Cast(Targets.Target.Position.Extend(Targets.Target.Position, 300));
+                Variables.Q.Cast(Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition));
             }
 
             /// <summary>
             /// The W Combo Logic.
             /// </summary>
             if (Variables.W.IsReady() &&
-                Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(null)) &&
                 ObjectManager.Player.IsWindingUp &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>() &&
-                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo)
+                Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(null)) &&
+                (Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>() && Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo))
             {
                 Variables.W.Cast();
             }
@@ -60,7 +59,7 @@ namespace ExorAIO.Champions.Olaf
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.Q.Range) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>())
             {
-                Variables.Q.Cast(Targets.Target.Position.Extend(Targets.Target.Position, 300));
+                Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
                 return;
             }
 
@@ -99,12 +98,10 @@ namespace ExorAIO.Champions.Olaf
             /// The Q Farm Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>() &&
-                ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
-                Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 3)
+                Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 3 &&
+                (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>() && ObjectManager.Player.ManaPercent > ManaManager.NeededQMana))
             {
-                var QFarmPosition = Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).Position;
-                Variables.Q.Cast(QFarmPosition);
+                Variables.Q.Cast(Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).Position);
             }
         }
     }
