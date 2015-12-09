@@ -32,16 +32,14 @@ namespace ExorAIO.Utilities
                     Variables.Menu.Item($"{Variables.MainMenuName}.drawings.q") != null &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.drawings.q").GetValue<bool>())
                 {
-                    if (ObjectManager.Player.ChampionName.Equals("Jinx"))
+                    if (ObjectManager.Player.ChampionName.Equals("Jinx") &&
+                        Bools.IsUsingFishBones())
                     {
-                        if (Bools.IsUsingFishBones())
-                        {
-                            Render.Circle.DrawCircle(ObjectManager.Player.Position, ObjectManager.Player.BoundingRadius*2 + 525f, System.Drawing.Color.Green);
-                        }
-                        else
-                        {
-                            Render.Circle.DrawCircle(ObjectManager.Player.Position, Variables.Q.Range, System.Drawing.Color.Green);
-                        }
+                        Render.Circle.DrawCircle(ObjectManager.Player.Position, ObjectManager.Player.BoundingRadius*2 + 525f, System.Drawing.Color.Green);
+                    }
+                    else
+                    {
+                        Render.Circle.DrawCircle(ObjectManager.Player.Position, Variables.Q.Range, System.Drawing.Color.Green);
                     }
                 }
 

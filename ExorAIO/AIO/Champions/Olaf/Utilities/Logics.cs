@@ -23,13 +23,10 @@ namespace ExorAIO.Champions.Olaf
             /// </summary>
             if (Variables.Q.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
-                (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqautoharass").GetValue<bool>() && 
-                    ObjectManager.Player.ManaPercent >= ManaManager.NeededQMana) ||
-
-                (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqks").GetValue<bool>() &&
-                    Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health))
+                (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqautoharass").GetValue<bool>() && ObjectManager.Player.ManaPercent >= ManaManager.NeededQMana) ||
+                (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqks").GetValue<bool>() && Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health))
             {
-                Variables.Q.CastIfHitchanceEquals(Targets.Target, HitChance.VeryHigh, false);
+                Variables.Q.Cast(Targets.Target.Position.Extend(Targets.Target.Position, 300));
             }
 
             /// <summary>
@@ -63,7 +60,7 @@ namespace ExorAIO.Champions.Olaf
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.Q.Range) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>())
             {
-                Variables.Q.Cast();
+                Variables.Q.Cast(Targets.Target.Position.Extend(Targets.Target.Position, 300));
                 return;
             }
 
@@ -74,7 +71,7 @@ namespace ExorAIO.Champions.Olaf
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.E.Range) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useecombo").GetValue<bool>())
             {
-                Variables.E.Cast();
+                Variables.E.Cast((Obj_AI_Hero)args.Target);
 
                 if (Variables.Menu.Item($"{Variables.MainMenuName}.miscsettings.useresetters").GetValue<bool>())
                 {
