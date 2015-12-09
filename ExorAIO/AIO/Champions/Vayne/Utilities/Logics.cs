@@ -76,7 +76,8 @@ namespace ExorAIO.Champions.Vayne
             /// <summary>
             /// The Q Farm Logic.
             /// </summary>
-            if (Targets.FarmMinions.Count() > 1 &&
+            if (Variables.Q.IsReady() &&
+                Targets.FarmMinions.Count() > 1 &&
                 (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>() && Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo))
             {
                 //Orbwalking.ResetAutoAttackTimer();
