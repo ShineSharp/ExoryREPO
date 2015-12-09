@@ -25,8 +25,6 @@ namespace ExorAIO.Core
     using Orbwalking = SFXTargetSelector.Orbwalking;
     using TargetSelector = SFXTargetSelector.TargetSelector;
 
-    using Variables = ExorAIO.Utilities.Variables;
-
     class Bootstrap
     {
         /// <summary>

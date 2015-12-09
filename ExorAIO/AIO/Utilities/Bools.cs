@@ -73,6 +73,8 @@ namespace ExorAIO.Utilities
                         buff.Type.Equals(BuffType.Snare) &&
                         !(((Obj_AI_Hero)buff.Caster).ChampionName.Equals("Leona") || ((Obj_AI_Hero)buff.Caster).ChampionName.Equals("Amumu")));
 
-        public static bool IsUsingFishBones() => ObjectManager.Player.HasBuff("JinxQ");
+        public static bool IsUsingFishBones()
+        =>
+            ObjectManager.Player.HasBuff("JinxQ");
     }
 }

@@ -31,10 +31,10 @@ namespace ExorAIO.Champions.Ashe
         public static void Game_OnGameUpdate(EventArgs args)
         {
             if (!ObjectManager.Player.IsDead &&
-                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None &&
-                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear &&
                 Targets.Target != null &&
-                Targets.Target.IsValid)
+                Targets.Target.IsValid &&
+                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None &&
+                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear)
             {
                 Logics.ExecuteAuto(args);
             }
