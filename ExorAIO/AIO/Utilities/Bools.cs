@@ -76,5 +76,13 @@ namespace ExorAIO.Utilities
         public static bool IsUsingFishBones()
         =>
             ObjectManager.Player.HasBuff("JinxQ");
+
+        public static bool ShouldAttack(Obj_AI_Base target)
+        =>
+            target != null &&
+            target.IsValid &&
+            (ObjectManager.Player.HasBuff("NasusQ") ?
+                Variables.Q.GetDamage(target) > target.Health :
+                ObjectManager.Player.GetAutoAttackDamage(target) < target.Health);
     }
 }

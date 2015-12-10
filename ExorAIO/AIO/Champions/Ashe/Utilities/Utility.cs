@@ -100,7 +100,7 @@ namespace ExorAIO.Champions.Ashe
     public class Targets
     {
         public static Obj_AI_Hero Target => TargetSelector.GetTarget(Orbwalking.GetRealAutoAttackRange(ObjectManager.Player), LeagueSharp.DamageType.Physical);
-        public static List<LeagueSharp.Obj_AI_Base> Minions => 
+        public static List<Obj_AI_Base> Minions => 
             MinionManager.GetMinions(
                 ObjectManager.Player.ServerPosition,
                 Variables.W.Range,
