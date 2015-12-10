@@ -29,7 +29,8 @@ namespace ExorKalista
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void Game_OnGameUpdate(EventArgs args)
         {
-            if (!ObjectManager.Player.IsDead)
+            if (!ObjectManager.Player.IsDead &&
+                !ObjectManager.Player.IsRecalling())
             {
                 Logics.ExecuteAuto(args);
             }
