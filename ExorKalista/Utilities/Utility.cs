@@ -71,7 +71,7 @@ namespace ExorKalista
                         Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqks", "Use Q to Automatically KillSteal")).SetValue(true);
                         Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqimmobile", "Use Q against Immobile Enemies")).SetValue(true);
                         Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqfarm", "Use Q to Farm")).SetValue(true);
-                        Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.qmana", "Use Q to Farm if Mana >= %"))
+                        Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.qmana", "Use Q to Harass/Farm if Mana >= %"))
                             .SetValue(new Slider(50, 0, 99));
                     }
                     Variables.SettingsMenu.AddSubMenu(Variables.QMenu);

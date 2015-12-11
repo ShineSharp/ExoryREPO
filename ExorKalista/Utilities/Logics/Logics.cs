@@ -52,9 +52,15 @@ namespace ExorKalista
                 Variables.Q.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
                 Variables.Q.GetPrediction(Targets.Target).Hitchance >= HitChance.VeryHigh &&
-                ((Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqautoharass").GetValue<bool>() && Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo) ||
-                (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqks").GetValue<bool>() && Targets.Target.Health <= ObjectManager.Player.GetSpellDamage(Targets.Target, SpellSlot.Q)) ||
-                (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqimmobile").GetValue<bool>() && Bools.IsImmobile(Targets.Target))))
+                ((Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqautoharass").GetValue<bool>() &&
+                    Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                    ObjectManager.Player.ManaPercent > ManaManager.NeededQMana) ||
+
+                (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqks").GetValue<bool>() &&
+                    Targets.Target.Health <= ObjectManager.Player.GetSpellDamage(Targets.Target, SpellSlot.Q)) ||
+
+                (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqimmobile").GetValue<bool>() &&
+                    Bools.IsImmobile(Targets.Target))))
             {
                 //Orbwalking.ResetAutoAttackTimer();
                 Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
