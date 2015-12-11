@@ -82,7 +82,7 @@ namespace ExorAIO.Champions.Ashe
         public static void ExecuteModes(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             /// <summary>
-            /// W Combo Logic.
+            /// The W Combo Logic.
             /// </summary>
             if (Variables.W.IsReady() &&
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
@@ -95,7 +95,7 @@ namespace ExorAIO.Champions.Ashe
         public static void ExecuteFarm(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             /// <summary>
-            /// W Farm Logic.
+            /// The W Farm Logic.
             /// </summary>
             if (Variables.W.IsReady() &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&

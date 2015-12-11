@@ -16,8 +16,8 @@ namespace ExorAIO.Champions.Corki
         public static void ExecuteAuto(EventArgs args)
         {
             /// <summary>
-            /// Q KillSteal Logic,
-            /// Q Immobile Harass Logic.
+            /// The Q KillSteal Logic,
+            /// The Q Immobile Harass Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
                 ((Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health &&
@@ -30,7 +30,7 @@ namespace ExorAIO.Champions.Corki
             }
 
             /// <summary>
-            /// E Combo Logic.
+            /// The E Combo Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
@@ -40,8 +40,8 @@ namespace ExorAIO.Champions.Corki
             }
 
             /// <summary>
-            /// R KillSteal Logic,
-            /// R AutoHarass Logic.
+            /// The R KillSteal Logic,
+            /// The R AutoHarass Logic.
             /// </summary>
             if (Variables.R.IsReady() &&
                 Variables.R.GetPrediction(Targets.Target).Hitchance >= HitChance.VeryHigh &&
@@ -59,7 +59,7 @@ namespace ExorAIO.Champions.Corki
         public static void ExecuteModes(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             /// <summary>
-            /// Q Combo Logic.
+            /// The Q Combo Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
@@ -69,7 +69,7 @@ namespace ExorAIO.Champions.Corki
             }
 
             /// <summary>
-            /// R Combo Logic.
+            /// The R Combo Logic.
             /// </summary>
             if (Variables.R.IsReady() &&
                 Variables.R.GetPrediction(Targets.Target).Hitchance >= HitChance.VeryHigh &&
@@ -83,7 +83,7 @@ namespace ExorAIO.Champions.Corki
         public static void ExecuteFarm(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             /// <summary>
-            /// Q Farm Logic.
+            /// The Q Farm Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
@@ -95,7 +95,7 @@ namespace ExorAIO.Champions.Corki
             }
 
             /// <summary>
-            /// E Farm Logic.
+            /// The E Farm Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
@@ -107,7 +107,7 @@ namespace ExorAIO.Champions.Corki
             }
 
             /// <summary>
-            /// R Farm Logic.
+            /// The R Farm Logic.
             /// </summary>
             if (Variables.R.IsReady() &&
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
