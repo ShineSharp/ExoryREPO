@@ -70,6 +70,7 @@ namespace ExorAIO.Champions.Ashe
                     Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.rwhitelist.{Targets.Target.ChampionName.ToLower()}").GetValue<bool>())
                 {
                     if (Variables.E.IsReady() &&
+                        !Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(null)) &&
                         Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.usermechanic").GetValue<bool>())
                     {
                         Variables.E.Cast(Variables.E.GetPrediction(Targets.Target).UnitPosition);
