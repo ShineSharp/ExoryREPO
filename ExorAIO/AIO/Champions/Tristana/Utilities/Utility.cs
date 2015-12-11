@@ -95,7 +95,7 @@ namespace ExorAIO.Champions.Tristana
         public static int Damage(Obj_AI_Hero target)
         =>
             Bools.IsCharged(target) ?
-                (int)(Variables.E.GetDamage(target) * ((0.30f * target.GetBuffCount("TristanaECharge")) + 1f) + Variables.R.GetDamage(target)) :
+                (int)(Variables.E.GetDamage(target) * ((0.30f * (target.GetBuffCount("TristanaECharge")+1)) + 1f) + Variables.R.GetDamage(target)) :
                 (int)Variables.R.GetDamage(target);
     }
 

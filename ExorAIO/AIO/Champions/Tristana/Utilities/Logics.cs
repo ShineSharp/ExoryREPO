@@ -54,7 +54,8 @@ namespace ExorAIO.Champions.Tristana
             if (Variables.R.IsReady() &&
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.userks").GetValue<bool>() &&
-                KillSteal.Damage((Obj_AI_Hero)args.Target) > ((Obj_AI_Hero)args.Target).Health))
+                KillSteal.Damage((Obj_AI_Hero)args.Target) > ((Obj_AI_Hero)args.Target).Health &&
+                ObjectManager.Player.GetAutoAttackDamage((Obj_AI_Hero)args.Target)*2 < ((Obj_AI_Hero)args.Target).Health))
             {
                 Orbwalking.ResetAutoAttackTimer();
                 Variables.R.Cast((Obj_AI_Hero)args.Target);
