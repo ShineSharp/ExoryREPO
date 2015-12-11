@@ -18,30 +18,32 @@ namespace ExorAIO.Champions.Jinx
             /// <summary>
             /// The Q Switching Logic.
             /// </summary>
-            if (Variables.Q.IsReady() &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqauto").GetValue<bool>())
+            if (Variables.Q.IsReady())
             {
                 switch (Variables.Orbwalker.ActiveMode)
                 {
                     case Orbwalking.OrbwalkingMode.Combo:
-                        if ((Bools.IsUsingFishBones() && Targets.Target.IsValidTarget(ObjectManager.Player.BoundingRadius + 525f)) ||
-                            (!Bools.IsUsingFishBones() && (Targets.Target.IsValidTarget(Variables.Q.Range) &&
-                                                          !Targets.Target.IsValidTarget(ObjectManager.Player.BoundingRadius + 525f))))
+                        if (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqauto").GetValue<bool>() &&
+                            ((Bools.IsUsingFishBones() && Targets.Target.IsValidTarget(ObjectManager.Player.BoundingRadius + 525f)) ||
+                            (!Bools.IsUsingFishBones() && 
+                                (Targets.Target.IsValidTarget(Variables.Q.Range) &&
+                                !Targets.Target.IsValidTarget(ObjectManager.Player.BoundingRadius + 525f)))))
                         {
                             Variables.Q.Cast();
                         }
                     break;
 
                     case Orbwalking.OrbwalkingMode.LaneClear:
-                        if ((Targets.QMinions.Any() && !Bools.IsUsingFishBones()) ||
+                        if (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>() &&
+                            ((Targets.QMinions.Any() && !Bools.IsUsingFishBones()) ||
                             (!Targets.QMinions.Any() && Bools.IsUsingFishBones()) ||
-                            (Bools.IsUsingFishBones() && ObjectManager.Player.ManaPercent < ManaManager.NeededQMana))
+                            (Bools.IsUsingFishBones() && ObjectManager.Player.ManaPercent < ManaManager.NeededQMana)))
                         {
                             Variables.Q.Cast();
                         }
                     break;
 
-                    default:
+                    case Orbwalking.OrbwalkingMode.None:
                         if (Bools.IsUsingFishBones())
                         {
                             Variables.Q.Cast();
@@ -62,7 +64,8 @@ namespace ExorAIO.Champions.Jinx
                 (Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewimmobile").GetValue<bool>() && Bools.IsImmobile(Targets.Target)) ||
                 (Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>() && Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo)))
             {
-                Variables.W.Cast(Variables.W.GetPrediction(Targets.Target).UnitPosition);
+                //Variables.W.Cast(Variables.W.GetPrediction(Targets.Target).UnitPosition);
+                Variables.W.CastIfHitchanceEquals(Targets.Target, HitChance.VeryHigh, false);
             }
 
             /// <summary>
@@ -83,9 +86,8 @@ namespace ExorAIO.Champions.Jinx
             /// The R KillSteal Logic.
             /// </summary>
             if (Variables.R.IsReady() &&
-                (!Variables.W.IsReady() || !Targets.Target.IsValidTarget(Variables.W.Range)) &&
                 Targets.Target.IsValidTarget(Variables.W.Range + 200f) &&
-                Variables.R.GetPrediction(Targets.Target).Hitchance >= HitChance.VeryHigh &&
+                (!Variables.W.IsReady() || !Targets.Target.IsValidTarget(Variables.W.Range)) &&
                 (Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.userks").GetValue<bool>() && Targets.Target.Health <= Variables.R.GetDamage(Targets.Target)))
             {
                 Variables.R.Cast(Variables.R.GetPrediction(Targets.Target).UnitPosition);
@@ -120,13 +122,13 @@ namespace ExorAIO.Champions.Jinx
             /// The W Combo Part2 Logic.
             /// </summary>
             if (Variables.W.IsReady() &&
-                !(((Obj_AI_Hero)args.Target).IsValidTarget(ObjectManager.Player.BoundingRadius + 525f)) &&
+                !((Obj_AI_Hero)args.Target).IsValidTarget(ObjectManager.Player.BoundingRadius + 525f) &&
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.W.Range) &&
-                Variables.W.GetPrediction(((Obj_AI_Hero)args.Target)).Hitchance >= HitChance.VeryHigh &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>() &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo)
             {
-                Variables.W.Cast(Variables.W.GetPrediction((Obj_AI_Hero)args.Target).UnitPosition);
+                //Variables.W.Cast(Variables.W.GetPrediction((Obj_AI_Hero)args.Target).UnitPosition);
+                Variables.W.CastIfHitchanceEquals(Targets.Target, HitChance.VeryHigh, false);
             }
         }
     }
