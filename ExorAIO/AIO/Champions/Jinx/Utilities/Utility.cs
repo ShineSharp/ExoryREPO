@@ -73,7 +73,7 @@ namespace ExorAIO.Champions.Jinx
                 Variables.EMenu = new Menu("E Settings", $"{Variables.MainMenuName}.esettingsmenu");
                 {
                     Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.useeauto", "Use Smart E Logic")).SetValue(true);
-                    Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.useeimmobile", "Use E against Immobile Targets")).SetValue(false);
+                    Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.useeimmobile", "Use E against Immobile Targets")).SetValue(true);
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.EMenu);
 
