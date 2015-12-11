@@ -119,15 +119,10 @@ namespace ExorAIO.Champions.Jinx
     {
         public static Obj_AI_Hero Target => TargetSelector.GetTarget(Variables.W.Range + 200f, LeagueSharp.DamageType.Physical);
 
-        public static IEnumerable<Obj_AI_Minion> QMinions => GameObjects.EnemyMinions
-            .Where(
-                qminion =>
-                    qminion.IsValidTarget(Orbwalking.GetRealAutoAttackRange(null) + Variables.Q.Range) &&
-                    GameObjects.EnemyMinions
-                        .Count(
-                            minions =>
-                                minions.Distance(qminion) < 225f) > 2);
-
-        public static Obj_AI_Minion QMinion => Targets.QMinions.FirstOrDefault();
+        public static IEnumerable<Obj_AI_Minion> QMinions => 
+            GameObjects.EnemyMinions
+                .Where(
+                    qminion =>
+                        qminion.IsValidTarget(Variables.Q.Range));
     }
 }

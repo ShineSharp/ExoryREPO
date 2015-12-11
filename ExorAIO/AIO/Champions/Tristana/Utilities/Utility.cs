@@ -18,7 +18,7 @@ namespace ExorAIO.Champions.Tristana
     public class Settings
     {
         /// <summary>
-        /// The spells.
+        /// Sets the spells.
         /// </summary>
         public static void SetSpells()
         {
@@ -28,30 +28,19 @@ namespace ExorAIO.Champions.Tristana
         }
 
         /// <summary>
-        /// The menu.
+        /// Sets the menu.
         /// </summary>
         public static void SetMenu()
         {
-            /// <summary>
-            /// The settings menu.
-            /// </summary>
             Variables.SettingsMenu = new Menu("Spell Menu", $"{Variables.MainMenuName}.settingsmenu");
             {
-                /// <summary>
-                /// The settings menu for the Q spell.
-                /// </summary>
                 Variables.QMenu = new Menu("Q Settings", $"{Variables.MainMenuName}.qsettingsmenu");
                 {
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqauto", "Use Smart Q")).SetValue(true);
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqfarm", "Use Q to Farm")).SetValue(true);
-                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.qmana", "Use Q in Farm only if Mana >= x%"))
-                        .SetValue(new Slider(50, 0, 99));
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.QMenu);
 
-                /// <summary>
-                /// The settings menu for the E spell.
-                /// </summary>
                 Variables.EMenu = new Menu("E Settings", $"{Variables.MainMenuName}.esettingsmenu");
                 {
                     Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.useeauto", "Use E Combo")).SetValue(true);
@@ -60,9 +49,6 @@ namespace ExorAIO.Champions.Tristana
                     Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.emana", "Use E in Farm only if Mana >= x%"))
                         .SetValue(new Slider(50, 0, 99));
                     {
-                        /// <summary>
-                        /// The whitelist menu for the E spell.
-                        /// </summary>
                         Variables.WhiteListMenu = new Menu("E Whitelist Menu", $"{Variables.MainMenuName}.esettings.ewhitelist");
                         {
                             foreach (Obj_AI_Hero champ in HeroManager.Enemies)
@@ -75,9 +61,6 @@ namespace ExorAIO.Champions.Tristana
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.EMenu);
 
-                /// <summary>
-                /// The settings menu for the R spell.
-                /// </summary>
                 Variables.RMenu = new Menu("R Settings", $"{Variables.MainMenuName}.rsettingsmenu");
                 {
                     Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rsettings.userks", "Use Smart E & R KillSteal")).SetValue(true);
@@ -86,9 +69,6 @@ namespace ExorAIO.Champions.Tristana
             }
             Variables.Menu.AddSubMenu(Variables.SettingsMenu);
 
-            /// <summary>
-            /// The drawings menu.
-            /// </summary>
             Variables.DrawingsMenu = new Menu("Drawings Menu", $"{Variables.MainMenuName}.drawingsmenu");
             {
                 Variables.DrawingsMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.e", "Show E Range")).SetValue(true);
@@ -98,7 +78,7 @@ namespace ExorAIO.Champions.Tristana
         }
 
         /// <summary>
-        /// The methods.
+        /// Sets the methods.
         /// </summary>
         public static void SetMethods()
         {
@@ -115,10 +95,7 @@ namespace ExorAIO.Champions.Tristana
         public static int Damage(Obj_AI_Hero target)
         =>
             Bools.IsCharged(target) ?
-                (int)(Variables.E.GetDamage(target) *
-                    ((0.30f * target.GetBuffCount("TristanaECharge")) + 1f) + 
-                    Variables.R.GetDamage(target))
-            :
+                (int)(Variables.E.GetDamage(target) * ((0.30f * target.GetBuffCount("TristanaECharge")) + 1f) + Variables.R.GetDamage(target)) :
                 (int)Variables.R.GetDamage(target);
     }
 
@@ -127,15 +104,14 @@ namespace ExorAIO.Champions.Tristana
     /// </summary>
     public class Targets
     {
-        public static IEnumerable<Obj_AI_Minion> EMinions => GameObjects.EnemyMinions
-            .Where(
-                eminion =>
-                    eminion.IsValidTarget(Variables.E.Range) &&
-                    GameObjects.EnemyMinions
-                        .Count(
-                            minions =>
-                                minions.Distance(eminion) < 150f) > 2);
-
-        public static Obj_AI_Minion EMinion => Targets.EMinions.FirstOrDefault();
+        /// <summary>
+        /// The E spell's minion targets.
+        /// </summary>
+        public static IEnumerable<Obj_AI_Minion> EMinions
+        => 
+            GameObjects.EnemyMinions
+                .Where(
+                    eminion =>
+                        eminion.IsValidTarget(Variables.E.Range));
     }
 }

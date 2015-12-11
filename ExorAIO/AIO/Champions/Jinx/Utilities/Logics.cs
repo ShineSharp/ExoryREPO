@@ -35,8 +35,8 @@ namespace ExorAIO.Champions.Jinx
 
                     case Orbwalking.OrbwalkingMode.LaneClear:
                         if (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>() &&
-                            ((Targets.QMinions.Any() && !Bools.IsUsingFishBones()) ||
-                            (!Targets.QMinions.Any() && Bools.IsUsingFishBones()) ||
+                            ((GameObjects.EnemyMinions.Count(minions => minions.Distance(Targets.QMinions.FirstOrDefault()) < 225f) > 2 && !Bools.IsUsingFishBones()) ||
+                            (GameObjects.EnemyMinions.Count(minions => minions.Distance(Targets.QMinions.FirstOrDefault()) < 225f) < 2 && Bools.IsUsingFishBones()) ||
                             (Bools.IsUsingFishBones() && ObjectManager.Player.ManaPercent < ManaManager.NeededQMana)))
                         {
                             Variables.Q.Cast();
@@ -86,6 +86,7 @@ namespace ExorAIO.Champions.Jinx
             /// The R KillSteal Logic.
             /// </summary>
             if (Variables.R.IsReady() &&
+                !Targets.Target.IsValidTarget(Variables.W.Range) &&
                 Targets.Target.IsValidTarget(Variables.W.Range + 200f) &&
                 (!Variables.W.IsReady() || !Targets.Target.IsValidTarget(Variables.W.Range)) &&
                 (Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.userks").GetValue<bool>() && Targets.Target.Health <= Variables.R.GetDamage(Targets.Target)))

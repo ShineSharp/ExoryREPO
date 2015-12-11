@@ -44,18 +44,12 @@ namespace ExorAIO.Champions.Tristana
         /// <param name="args">The args.</param>
         public static void Obj_AI_Base_OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            if (Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None &&
-                sender.IsMe &&
-                Orbwalking.IsAutoAttack(args.SData.Name))
+            if (sender.IsMe &&
+                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
                 if (args.Target.IsValid<Obj_AI_Hero>())
                 {
                     Logics.ExecuteModes(sender, args);
-                }
-                else if (args.Target.IsValid<Obj_AI_Base>() &&
-                    !(args.Target is Obj_AI_Hero))
-                {
-                    Logics.ExecuteFarm(sender, args);
                 }
             }
         }

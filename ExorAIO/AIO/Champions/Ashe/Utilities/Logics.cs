@@ -15,50 +15,65 @@ namespace ExorAIO.Champions.Ashe
     {
         public static void ExecuteAuto(EventArgs args)
         {
-            /*
-                Q Combo Logic;
-                Q Farm Logic;
-            */
+            /// <summary>
+            /// The Q Combo Logic,
+            /// The Q Farm Logic.
+            /// </summary>
             if (Variables.Q.IsReady() &&
                 ObjectManager.Player.HasBuff("AsheQCastReady") &&
-                ((Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>() && Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo) ||
-                (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>() && ObjectManager.Player.ManaPercent > ManaManager.NeededQMana)))
+                ((Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>()) ||
+
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
+                    ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>())))
             {
                 Variables.Q.Cast();
-                return;
             }
 
-            /*
-                W Immobile Harass Logic;
-                W KillSteal Logic;
-            */
+            /// <summary>
+            /// The W Immobile Harass Logic,
+            /// The W KillSteal Logic.
+            /// </summary>
             if (Variables.W.IsReady() &&
-                ((Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewks").GetValue<bool>() && Targets.Target.Health < Variables.W.GetDamage(Targets.Target)) ||
-                (Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewimmobile").GetValue<bool>() && Bools.IsImmobile(Targets.Target))))
+                ((Targets.Target.Health < Variables.W.GetDamage(Targets.Target) &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewks").GetValue<bool>())) ||
+
+                (Bools.IsImmobile(Targets.Target) &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewimmobile").GetValue<bool>()))
             {
                 Variables.W.CastIfHitchanceEquals(Targets.Target, HitChance.VeryHigh, false);
             }
             
-            /*
-                R Doublelift Mechanic;
-                R KillSteal Logic;
-            */
-            if (Variables.R.IsReady())
+            /// <summary>
+            /// The R Logics.
+            /// </summary>
+            if (Variables.R.IsReady() &&
+                Targets.Target.IsValidTarget(1200))
             {
-                if (Variables.E.IsReady() &&
-                    Targets.Target.IsValidTarget(1200) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.usermechanic").GetValue<bool>() &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.rwhitelist.{Targets.Target.ChampionName.ToLower()}").GetValue<bool>())
+                /// <summary>
+                /// R KillSteal Logic.
+                /// </summary>
+                if ((!Variables.W.IsReady() || !Targets.Target.IsValidTarget(Variables.W.Range)) &&
+                    (Targets.Target.Health < Variables.R.GetDamage(Targets.Target) &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.userks").GetValue<bool>()))
                 {
-                    Variables.E.Cast(Variables.E.GetPrediction(Targets.Target).UnitPosition);
                     Variables.R.Cast(Variables.R.GetPrediction(Targets.Target).UnitPosition);
-                    return;
                 }
 
-                if (Targets.Target.IsValidTarget(1200) &&
-                    (!Variables.W.IsReady() || !Targets.Target.IsValidTarget(Variables.W.Range)) &&
-                    (Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.userks").GetValue<bool>() && Targets.Target.Health < Variables.R.GetDamage(Targets.Target)))
+                /// <summary>
+                /// The R Doublelift Mechanic Logic,
+                /// The R Normal Combo Logic.
+                /// </summary>
+                if (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.usercombo").GetValue<bool>() &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.rwhitelist.{Targets.Target.ChampionName.ToLower()}").GetValue<bool>())
                 {
+                    if (Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.usermechanic").GetValue<bool>())
+                    {
+                        Variables.E.Cast(Variables.E.GetPrediction(Targets.Target).UnitPosition);
+                    }
+
                     Variables.R.Cast(Variables.R.GetPrediction(Targets.Target).UnitPosition);
                 }
             }
@@ -66,36 +81,27 @@ namespace ExorAIO.Champions.Ashe
 
         public static void ExecuteModes(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            /*
-                W Combo Logic;
-            */
-            if (Variables.W.IsReady() && 
-                (Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>() && Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo))
+            /// <summary>
+            /// W Combo Logic.
+            /// </summary>
+            if (Variables.W.IsReady() &&
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>()))
             {
                 Variables.W.CastIfHitchanceEquals((Obj_AI_Hero)args.Target, HitChance.VeryHigh, false);
-                return;
-            }
-            
-            /*
-                R Combo Logic;
-            */
-            if (Variables.R.IsReady() &&
-                (Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.usercombo").GetValue<bool>() && Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.rwhitelist.{((Obj_AI_Hero)args.Target).ChampionName.ToLower()}").GetValue<bool>())
-            {
-                Variables.R.Cast(Variables.R.GetPrediction(Targets.Target).UnitPosition);
             }
         }
 
         public static void ExecuteFarm(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            /*
-                W Farm Logic;
-            */
+            /// <summary>
+            /// W Farm Logic.
+            /// </summary>
             if (Variables.W.IsReady() &&
-                (Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarm").GetValue<bool>() && Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear) &&
-                ObjectManager.Player.ManaPercent > ManaManager.NeededWMana &&
-                Variables.W.GetLineFarmLocation(Targets.Minions, Variables.W.Width).MinionsHit >= 3)
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
+                (Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarm").GetValue<bool>() &&
+                    ObjectManager.Player.ManaPercent > ManaManager.NeededWMana &&
+                    Variables.W.GetLineFarmLocation(Targets.Minions, Variables.W.Width).MinionsHit >= 3))
             {
                 Variables.W.Cast(Variables.W.GetLineFarmLocation(Targets.Minions, Variables.W.Width).Position);
             }

@@ -33,8 +33,7 @@ namespace ExorAIO.Champions.Ashe
             if (!ObjectManager.Player.IsDead &&
                 Targets.Target != null &&
                 Targets.Target.IsValid &&
-                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None &&
-                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear)
+                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
                 Logics.ExecuteAuto(args);
             }
