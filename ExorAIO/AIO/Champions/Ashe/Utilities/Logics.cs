@@ -69,7 +69,8 @@ namespace ExorAIO.Champions.Ashe
                     Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.usercombo").GetValue<bool>() &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.rwhitelist.{Targets.Target.ChampionName.ToLower()}").GetValue<bool>())
                 {
-                    if (Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.usermechanic").GetValue<bool>())
+                    if (Variables.E.IsReady() &&
+                        Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.usermechanic").GetValue<bool>())
                     {
                         Variables.E.Cast(Variables.E.GetPrediction(Targets.Target).UnitPosition);
                     }
@@ -88,7 +89,7 @@ namespace ExorAIO.Champions.Ashe
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>()))
             {
-                Variables.W.CastIfHitchanceEquals((Obj_AI_Hero)args.Target, HitChance.VeryHigh, false);
+                Variables.W.CastIfHitchanceEquals((Obj_AI_Hero)args.Target, HitChance.High, false);
             }
         }
 
