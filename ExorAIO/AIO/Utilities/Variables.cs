@@ -111,6 +111,6 @@ namespace ExorAIO.Utilities
         /// <summary>
         /// Kurumi is a god.
         /// </summary>
-        public static readonly string Kappa = "jesuske12.";
+        public static readonly string Kappa = "jesuske12, Im gay 69.";
     }
 }
