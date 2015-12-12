@@ -36,7 +36,7 @@ namespace ExorAIO.Champions.Vayne
                 /// <summary>
                 /// The Condemn Logic.
                 /// </summary>
-                if (ObjectManager.Player.Distance(Targets.Target) >= 150f &&
+                if (ObjectManager.Player.Distance(Targets.Target) >= ObjectManager.Player.BoundingRadius + 150f &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useeauto").GetValue<bool>() &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.esettings.ewhitelist.{Targets.Target.ChampionName.ToLower()}").GetValue<bool>())
                 {
@@ -65,6 +65,7 @@ namespace ExorAIO.Champions.Vayne
             /// </summary>
             if (Variables.Q.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
+                !ObjectManager.Player.IsWindingUp &&
 
                 (Targets.Target.ServerPosition.Distance(ObjectManager.Player.ServerPosition) >= Orbwalking.GetRealAutoAttackRange(null) &&
                     HealthPrediction.GetHealthPrediction(Targets.Target, (int) (250 + Game.Ping / 2f)) < ObjectManager.Player.GetAutoAttackDamage(Targets.Target) &&
@@ -86,6 +87,7 @@ namespace ExorAIO.Champions.Vayne
             /// The Q Farm Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
+                !ObjectManager.Player.IsWindingUp &&
                 Targets.FarmMinions.Count() > 1 &&
                 (Targets.FarmMinions.FirstOrDefault()).IsValidTarget(Variables.Q.Range) &&
 
@@ -108,6 +110,7 @@ namespace ExorAIO.Champions.Vayne
             /// The Q Combo Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
+                !ObjectManager.Player.IsWindingUp &&
 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>()))
