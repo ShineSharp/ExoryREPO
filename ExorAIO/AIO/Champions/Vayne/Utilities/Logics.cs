@@ -40,9 +40,9 @@ namespace ExorAIO.Champions.Vayne
                     Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useeauto").GetValue<bool>() &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.esettings.ewhitelist.{Targets.Target.ChampionName.ToLower()}").GetValue<bool>())
                 {
-                    for (int i = 1; i <= 9; i++)
+                    for (int i = 1; i <= 10; i++)
                     {
-                        if ((Variables.E.GetPrediction(Targets.Target).UnitPosition + Vector3.Normalize(Targets.Target.ServerPosition - ObjectManager.Player.Position) * i * 52 - Targets.Target.BoundingRadius).IsWall())
+                        if ((Variables.E.GetPrediction(Targets.Target).UnitPosition + Vector3.Normalize(Targets.Target.ServerPosition - ObjectManager.Player.Position) * i * 43).IsWall())
                         {
                             Variables.E.CastOnUnit(Targets.Target);
                             return;
