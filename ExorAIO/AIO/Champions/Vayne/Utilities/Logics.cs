@@ -36,7 +36,7 @@ namespace ExorAIO.Champions.Vayne
                     {
                         if ((Variables.E.GetPrediction(Targets.Target).UnitPosition + Vector3.Normalize(Targets.Target.ServerPosition - ObjectManager.Player.Position) * i * 50).IsWall())
                         {
-                            Orbwalking.ResetAutoAttackTimer();
+                            //Orbwalking.ResetAutoAttackTimer();
                             Variables.E.CastOnUnit(Targets.Target);
                             return;
                         }
@@ -50,7 +50,7 @@ namespace ExorAIO.Champions.Vayne
                     !Targets.Target.IsInvulnerable &&
                     Targets.Target.Health + 60 <= (ObjectManager.Player.GetSpellDamage(Targets.Target, SpellSlot.E) + ObjectManager.Player.GetSpellDamage(Targets.Target, SpellSlot.W)))
                 {
-                    Orbwalking.ResetAutoAttackTimer();
+                    //Orbwalking.ResetAutoAttackTimer();
                     Variables.E.CastOnUnit(Targets.Target);
                 }
             }
@@ -64,10 +64,9 @@ namespace ExorAIO.Champions.Vayne
                 Targets.Target.ServerPosition.Distance(ObjectManager.Player.ServerPosition) >= Orbwalking.GetRealAutoAttackRange(null) &&
                 HealthPrediction.GetHealthPrediction(Targets.Target, (int) (250 + Game.Ping / 2f)) < ObjectManager.Player.GetAutoAttackDamage(Targets.Target))
             {
-                Orbwalking.ResetAutoAttackTimer();
+                //Orbwalking.ResetAutoAttackTimer();
                 Variables.Q.Cast(Targets.Target.Position);
                 TargetSelector.SetTarget(Targets.Target);
-                return;
             }
         }
 
@@ -94,7 +93,7 @@ namespace ExorAIO.Champions.Vayne
             if (Variables.Q.IsReady() &&
                 (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>() && Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo))
             {
-                Orbwalking.ResetAutoAttackTimer();
+                //Orbwalking.ResetAutoAttackTimer();
                 Variables.Q.Cast(Game.CursorPos);
             }
         }
