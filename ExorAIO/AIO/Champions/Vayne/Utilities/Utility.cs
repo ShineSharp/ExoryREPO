@@ -18,29 +18,23 @@ namespace ExorAIO.Champions.Vayne
     public class Settings
     {
         /// <summary>
-        /// The spells.
+        /// Sets the spells.
         /// </summary>
         public static void SetSpells()
         {
-            Variables.Q = new Spell(SpellSlot.Q, 300f);
+            Variables.Q = new Spell(SpellSlot.Q, ObjectManager.Player.BoundingRadius + (ObjectManager.Player.AttackRange + 300f));
             Variables.E = new Spell(SpellSlot.E, ObjectManager.Player.BoundingRadius + 550f);
             
             Variables.E.SetTargetted(0.25f, 1250f);
         }
 
         /// <summary>
-        /// The main menu.
+        /// Sets the menu.
         /// </summary>
         public static void SetMenu()
         {
-            /// <summary>
-            /// The settings menu.
-            /// </summary>
             Variables.SettingsMenu = new Menu("Spell Menu", $"{Variables.MainMenuName}.settingsmenu");
             {
-                /// <summary>
-                /// The settings menu for the Q spell.
-                /// </summary>
                 Variables.QMenu = new Menu("Q Settings", $"{Variables.MainMenuName}.qsettingsmenu");
                 {
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqcombo", "Use Q in Combo")).SetValue(true);
@@ -51,17 +45,11 @@ namespace ExorAIO.Champions.Vayne
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.QMenu);
 
-                /// <summary>
-                /// The settings menu for the E spell.
-                /// </summary>
                 Variables.EMenu = new Menu("E Settings", $"{Variables.MainMenuName}.esettingsmenu");
                 {
                     Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.useeauto", "Use E")).SetValue(true);
                     Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.useeks", "Use E to Automatically KillSteal")).SetValue(false);
                     {
-                        /// <summary>
-                        /// The whitelist menu for the E spell.
-                        /// </summary>
                         Variables.WhiteListMenu = new Menu("Condemn Whitelist Menu", $"{Variables.MainMenuName}.esettings.ewhitelist");
                         {
                             foreach (Obj_AI_Hero champ in HeroManager.Enemies)
@@ -76,18 +64,12 @@ namespace ExorAIO.Champions.Vayne
             }
             Variables.Menu.AddSubMenu(Variables.SettingsMenu);
 
-            /// <summary>
-            /// The settings menu for the miscellaneous settings.
-            /// </summary>
             Variables.MiscMenu = new Menu("Miscellaneous Menu", $"{Variables.MainMenuName}.miscsettingsmenu");
             {
                 Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.miscsettings.noaastealth", "Use Don't AA when Stealthed Logic")).SetValue(false);
             }
             Variables.SettingsMenu.AddSubMenu(Variables.MiscMenu);
 
-            /// <summary>
-            /// The drawings menu.
-            /// </summary>
             Variables.DrawingsMenu = new Menu("Drawings Menu", $"{Variables.MainMenuName}.drawingsmenu");
             {
                 Variables.DrawingsMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.q", "Show Q Range")).SetValue(true);
@@ -97,7 +79,7 @@ namespace ExorAIO.Champions.Vayne
         }
 
         /// <summary>
-        /// The methods.
+        /// Sets the methods.
         /// </summary>
         public static void SetMethods()
         {
@@ -107,22 +89,50 @@ namespace ExorAIO.Champions.Vayne
     }
 
     /// <summary>
+    /// The killsteal class.
+    /// </summary>
+    public class KillSteal
+    {
+        /// <summary>
+        /// Gets the Killsteal damage.
+        /// </summary>
+        public static float GetDamage(Obj_AI_Hero target)
+        {
+            float dmg = 0f;
+
+            if (Bools.Has2WStacks(target))
+            {
+                dmg += Variables.W.GetDamage(target);
+            }
+            
+            if (Variables.E.IsReady())
+            {
+                dmg += Variables.E.GetDamage(target);
+            }
+            
+            return dmg;
+        }
+    }
+
+    /// <summary>
     /// The targets class.
     /// </summary>
     public class Targets
     {
-        public static Obj_AI_Hero Target => TargetSelector.GetTarget(Orbwalking.GetRealAutoAttackRange(null) + 240f, LeagueSharp.DamageType.Physical);
-        public static List<Obj_AI_Base> FarmMinions
+        /// <summary>
+        /// The main hero target.
+        /// </summary>
+        public static Obj_AI_Hero Target => TargetSelector.GetTarget(Variables.Q.Range, LeagueSharp.DamageType.Physical);
+
+        /// <summary>
+        /// The minion targets.
+        /// </summary>       
+        public static Obj_AI_Base FarmMinion
         =>
-            MinionManager.GetMinions(ObjectManager.Player.ServerPosition, Orbwalking.GetRealAutoAttackRange(null) + 240f)
+            MinionManager.GetMinions(ObjectManager.Player.ServerPosition, Variables.Q.Range, MinionTypes.All)
                 .Where(
                     m =>
                         m.Health < ObjectManager.Player.GetAutoAttackDamage(m) + Variables.Q.GetDamage(m))
-                .ToList();
-
-        public static Obj_AI_Base FarmMinion
-        =>
-            Targets.FarmMinions
                 .OrderBy(
                     m =>
                         m.HealthPercent)
