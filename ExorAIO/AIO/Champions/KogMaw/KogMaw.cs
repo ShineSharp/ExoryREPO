@@ -16,6 +16,9 @@ namespace ExorAIO.Champions.KogMaw
     /// </summary>
     public class KogMaw
     {
+        /// <summary>
+        /// Triggers when the champion is loaded.
+        /// </summary>
         public void OnLoad()
         {
             Settings.SetSpells();
@@ -31,9 +34,9 @@ namespace ExorAIO.Champions.KogMaw
         public static void Game_OnGameUpdate(EventArgs args)
         {
             if (!ObjectManager.Player.IsDead &&
-                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None &&
                 Targets.Target != null &&
-                Targets.Target.IsValid)
+                Targets.Target.IsValid &&
+                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
                 Logics.ExecuteAuto(args);
             }

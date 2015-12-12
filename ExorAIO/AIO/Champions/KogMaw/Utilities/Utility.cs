@@ -13,10 +13,13 @@ namespace ExorAIO.Champions.KogMaw
     using ExorAIO.Utilities;
 
     /// <summary>
-    ///    The settings class.
+    /// The settings class.
     /// </summary>
     public class Settings
     {
+        /// <summary>
+        /// Sets the spells.
+        /// </summary>
         public static void SetSpells()
         {
             Variables.Q = new Spell(SpellSlot.Q, 1100f);
@@ -29,12 +32,13 @@ namespace ExorAIO.Champions.KogMaw
             Variables.R.SetSkillshot(1.2f, 120f, float.MaxValue, false, SkillshotType.SkillshotCircle);
         }
 
+        /// <summary>
+        /// Sets the menu.
+        /// </summary>
         public static void SetMenu()
         {
-            //Settings Menu
             Variables.SettingsMenu = new Menu("Spell Menu", $"{Variables.MainMenuName}.settingsmenu");
             {
-                // Q Options
                 Variables.QMenu = new Menu("Q Settings", $"{Variables.MainMenuName}.qsettingsmenu");
                 {
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqcombo", "Use Q in Combo")).SetValue(true); //
@@ -46,7 +50,6 @@ namespace ExorAIO.Champions.KogMaw
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.QMenu);
 
-                // W Options
                 Variables.WMenu = new Menu("W Settings", $"{Variables.MainMenuName}.wsettingsmenu");
                 {
                     Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wsettings.usewcombo", "Use W in Combo")).SetValue(true); //
@@ -54,7 +57,6 @@ namespace ExorAIO.Champions.KogMaw
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.WMenu);
 
-                // E Options
                 Variables.EMenu = new Menu("E Settings", $"{Variables.MainMenuName}.esettingsmenu");
                 {
                     Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.useecombo", "Use E in Combo")).SetValue(true); // 
@@ -66,7 +68,6 @@ namespace ExorAIO.Champions.KogMaw
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.EMenu);
 
-                // R Options
                 Variables.RMenu = new Menu("R Settings", $"{Variables.MainMenuName}.rsettingsmenu");
                 {
                     Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rsettings.user", "Use R")).SetValue(true);
@@ -79,7 +80,6 @@ namespace ExorAIO.Champions.KogMaw
                     Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rsettings.rfarmkeepstacks", "Use R in Farm only if Stacks <= x"))
                         .SetValue(new Slider(1, 1, 10));
                     {
-                        //Ult Whitelist Menu
                         Variables.WhiteListMenu = new Menu("Ultimate Whitelist Menu", $"{Variables.MainMenuName}.rsettings.rwhitelist");
                         {
                             foreach (Obj_AI_Hero champ in HeroManager.Enemies)
@@ -91,8 +91,7 @@ namespace ExorAIO.Champions.KogMaw
                     }
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.RMenu);
-                
-                //Miscellaneous Menu
+
                 Variables.MiscMenu = new Menu("Miscellaneous Menu", $"{Variables.MainMenuName}.miscmenu");
                 {
                     Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.misc.stacktear", "Stack Tear of the Goddess")).SetValue(true);
@@ -101,7 +100,6 @@ namespace ExorAIO.Champions.KogMaw
                 }
                 Variables.Menu.AddSubMenu(Variables.MiscMenu);
 
-                //Drawings Menu
                 Variables.DrawingsMenu = new Menu("Drawings Menu", $"{Variables.MainMenuName}.drawingsmenu");
                 {
                     Variables.DrawingsMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.q", "Show Q Range")).SetValue(true);
@@ -114,6 +112,9 @@ namespace ExorAIO.Champions.KogMaw
             Variables.Menu.AddSubMenu(Variables.SettingsMenu);
         }
 
+        /// <summary>
+        /// Sets the methods.
+        /// </summary>
         public static void SetMethods()
         {
             Game.OnUpdate += KogMaw.Game_OnGameUpdate;
@@ -122,11 +123,24 @@ namespace ExorAIO.Champions.KogMaw
     }
 
     /// <summary>
-    ///    The targets class.
+    /// The targets class.
     /// </summary>
     public class Targets
     {
+        /// <summary>
+        /// The main hero target.
+        /// </summary>
         public static Obj_AI_Hero Target => TargetSelector.GetTarget(Variables.R.Range, LeagueSharp.DamageType.Physical);
-        public static List<LeagueSharp.Obj_AI_Base> Minions => MinionManager.GetMinions(ObjectManager.Player.ServerPosition, Variables.R.Range, MinionTypes.All);
+
+        /// <summary>
+        /// The minion targets.
+        /// </summary>      
+        public static List<Obj_AI_Base> Minions
+        => 
+            MinionManager.GetMinions(
+                ObjectManager.Player.ServerPosition, 
+                Variables.R.Range,
+                MinionTypes.All
+            );
     }
 }
