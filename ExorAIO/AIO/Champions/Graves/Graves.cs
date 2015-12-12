@@ -12,10 +12,13 @@ namespace ExorAIO.Champions.Graves
     using ExorAIO.Utilities;
 
     /// <summary>
-    ///     The main class.
+    /// The main class.
     /// </summary>
     public class Graves
     {
+        /// <summary>
+        /// Triggers when the champion is loaded.
+        /// </summary>
         public void OnLoad()
         {
             Settings.SetSpells();
@@ -31,10 +34,9 @@ namespace ExorAIO.Champions.Graves
         public static void Game_OnGameUpdate(EventArgs args)
         {
             if (!ObjectManager.Player.IsDead &&
-                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None &&
-                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear &&
                 Targets.Target != null &&
-                Targets.Target.IsValid)
+                Targets.Target.IsValid &&
+                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
                 Logics.ExecuteAuto(args);
             }
@@ -51,7 +53,6 @@ namespace ExorAIO.Champions.Graves
                 Orbwalking.IsAutoAttack(args.SData.Name) &&
                 Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
-                
                 if (args.Target.IsValid<Obj_AI_Hero>())
                 {
                     Logics.ExecuteModes(sender, args);

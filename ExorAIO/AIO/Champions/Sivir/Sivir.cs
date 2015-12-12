@@ -17,7 +17,7 @@ namespace ExorAIO.Champions.Sivir
     public class Sivir
     {   
         /// <summary>
-        /// Called when the game loads itself.
+        /// Triggers when the champion is loaded.
         /// </summary>
         public void OnLoad()
         {

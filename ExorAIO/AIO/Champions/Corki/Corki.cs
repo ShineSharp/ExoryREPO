@@ -12,10 +12,13 @@ namespace ExorAIO.Champions.Corki
     using ExorAIO.Utilities;
 
     /// <summary>
-    ///     The main class.
+    /// The main class.
     /// </summary>
     public class Corki
     {
+        /// <summary>
+        /// Triggers when the champion is loaded.
+        /// </summary>
         public void OnLoad()
         {
             Settings.SetSpells();

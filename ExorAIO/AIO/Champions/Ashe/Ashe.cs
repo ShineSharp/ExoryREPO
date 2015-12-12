@@ -12,10 +12,13 @@ namespace ExorAIO.Champions.Ashe
     using Orbwalking = SFXTargetSelector.Orbwalking;
 
     /// <summary>
-    ///     The main class.
+    /// The main class.
     /// </summary>
     public class Ashe
     {
+        /// <summary>
+        /// Triggers when the champion is loaded.
+        /// </summary>
         public void OnLoad()
         {
             Settings.SetSpells();
