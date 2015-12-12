@@ -23,6 +23,7 @@ namespace ExorAIO.Champions.Vayne
             Variables.Orbwalker.SetAttack(!Bools.ShouldStayFaded());
 
             if (Variables.E.IsReady() &&
+                //
                 Targets.Target.IsValidTarget(Variables.E.Range))
             {
                 /// <summary>
