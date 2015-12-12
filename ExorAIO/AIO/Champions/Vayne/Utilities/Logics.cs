@@ -42,7 +42,7 @@ namespace ExorAIO.Champions.Vayne
                 {
                     for (int i = 1; i <= 9; i++)
                     {
-                        if ((Variables.E.GetPrediction(Targets.Target).UnitPosition + Vector3.Normalize(Targets.Target.ServerPosition - ObjectManager.Player.Position) * i * 49).IsWall())
+                        if ((Variables.E.GetPrediction(Targets.Target).UnitPosition + Vector3.Normalize(Targets.Target.ServerPosition - ObjectManager.Player.Position) * i * 52 - Targets.Target.BoundingRadius).IsWall())
                         {
                             Variables.E.CastOnUnit(Targets.Target);
                             return;
