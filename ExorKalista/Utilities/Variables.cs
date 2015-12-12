@@ -82,11 +82,6 @@ namespace ExorKalista
         public static Menu MiscMenu { get; set; }
 
         /// <summary>
-        /// Gets or sets the Whitelist menu.
-        /// </summary>
-        public static Menu WhiteListMenu { get; set; }
-
-        /// <summary>
         /// Gets or sets the Drawings menu.
         /// </summary>
         public static Menu DrawingsMenu { get; set; }
@@ -100,11 +95,6 @@ namespace ExorKalista
         /// Gets or sets the orbwalker.
         /// </summary>
         public static Orbwalking.Orbwalker Orbwalker { get; set; }
-
-        /// <summary>
-        /// The main menu name.
-        /// </summary>
-        public static readonly string MainMenuCodeName = "[Exor<font color='#FFF000'>AIO</font>]: Ultima";
 
         /// <summary>
         /// The main menu codename.

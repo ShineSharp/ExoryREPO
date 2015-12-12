@@ -32,15 +32,25 @@ namespace ExorKalista
         =>
             !target.IsInvulnerable &&
             !target.HasBuffOfType(BuffType.SpellShield);
-        
+
+        /// <summary>
+        /// Returns true if the target is a perfectly valid rend target.
+        /// </summary>   
         public static bool IsPerfectRendTarget(Obj_AI_Base target)
         =>
             target != null &&
             !target.IsDead &&
+            !target.IsZombie &&
             Variables.E.CanCast(target) &&
             Bools.HasNoProtection(target) &&
             target.IsValidTarget(Variables.E.Range) &&
-            target.GetBuffCount("kalistaexpungemarker") >= 2 &&
+            target.GetBuffCount("kalistaexpungemarker") > 0;
+
+        /// <summary>
+        /// Returns true if the target is killable by Rend.
+        /// </summary>   
+        public static bool IsKillableRendTarget(Obj_AI_Base target)
+        =>
             target.Health < Variables.GetPerfectRendDamage(target);
     }
 }

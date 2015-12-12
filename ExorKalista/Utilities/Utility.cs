@@ -16,54 +16,39 @@ namespace ExorKalista
     public class Settings
     {    
         /// <summary>
-        /// The spells.
+        /// Sets the spells.
         /// </summary>
         public static void SetSpells()
         {
             Variables.Q = new Spell(SpellSlot.Q, 1150f);
             Variables.W = new Spell(SpellSlot.W, 5000f);
-            Variables.E = new Spell(SpellSlot.E, ObjectManager.Player.BoundingRadius + 950f);
+            Variables.E = new Spell(SpellSlot.E, 950f);
             Variables.R = new Spell(SpellSlot.R, 1200f);
 
             Variables.Q.SetSkillshot(0.35f, 40f, 2100f, true, SkillshotType.SkillshotLine);
         }
         
         /// <summary>
-        /// The menu builder.
+        /// Sets the menu.
         /// </summary>
         public static void SetMenu()
         {
-            /// <summary>
-            /// The main menu.
-            /// </summary>
             Variables.Menu = new Menu("ExorKalista", $"{Variables.MainMenuName}", true);
             {
-                /// <summary>
-                /// The ExOrbwalker menu.
-                /// </summary>
                 Variables.OrbwalkerMenu = new Menu("Orbwalker", $"{Variables.MainMenuName}.orbwalkermenu");
                 {
                     Variables.Orbwalker = new Orbwalking.Orbwalker(Variables.OrbwalkerMenu);
                 }
                 Variables.Menu.AddSubMenu(Variables.OrbwalkerMenu);
-                
-                /// <summary>
-                /// The SFX TargetSelector Menu menu.
-                /// </summary>
+
                 Variables.TargetSelectorMenu = new Menu("[SFX]Target Selector", $"{Variables.MainMenuName}.targetselector");
                 {
                     TargetSelector.AddToMenu(Variables.TargetSelectorMenu);
                 }
                 Variables.Menu.AddSubMenu(Variables.TargetSelectorMenu);
 
-                /// <summary>
-                /// The settings menu.
-                /// </summary>
                 Variables.SettingsMenu = new Menu("Spell Menu", $"{Variables.MainMenuName}.settingsmenu");
                 {
-                    /// <summary>
-                    /// The menu for the Q spell.
-                    /// </summary>
                     Variables.QMenu = new Menu("Q Settings", $"{Variables.MainMenuName}.qsettingsmenu");
                     {
                         Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqcombo", "Use Q in Combo")).SetValue(true);
@@ -76,9 +61,6 @@ namespace ExorKalista
                     }
                     Variables.SettingsMenu.AddSubMenu(Variables.QMenu);
 
-                    /// <summary>
-                    /// The menu for the W spell.
-                    /// </summary>
                     Variables.WMenu = new Menu("W Settings", $"{Variables.MainMenuName}.wsettingsmenu");
                     {
                         Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wsettings.usewauto", "Use Smart W to Dragon & Baron")).SetValue(true);
@@ -87,9 +69,6 @@ namespace ExorKalista
                     }
                     Variables.SettingsMenu.AddSubMenu(Variables.WMenu);
 
-                    /// <summary>
-                    /// The menu for the E spell.
-                    /// </summary>
                     Variables.EMenu = new Menu("E Settings", $"{Variables.MainMenuName}.esettingsmenu");
                     {
                         Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.useecombo", "Automatically Execute Enemies with E")).SetValue(true);
@@ -99,9 +78,6 @@ namespace ExorKalista
                     }
                     Variables.SettingsMenu.AddSubMenu(Variables.EMenu);
 
-                    /// <summary>
-                    /// The menu for the R spell.
-                    /// </summary>
                     Variables.RMenu = new Menu("R Settings", $"{Variables.MainMenuName}.rsettingsmenu");
                     {
                         Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rsettings.userlifesaver", "Use R LifeSaver")).SetValue(true);
@@ -110,9 +86,6 @@ namespace ExorKalista
                 }
                 Variables.Menu.AddSubMenu(Variables.SettingsMenu);
 
-                /// <summary>
-                /// The menu for the drawings.
-                /// </summary>
                 Variables.DrawingsMenu = new Menu("Drawings Menu", $"{Variables.MainMenuName}.drawingsmenu");
                 {
                     Variables.DrawingsMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.q", "Show Q Range")).SetValue(true);
@@ -126,13 +99,14 @@ namespace ExorKalista
         }
         
         /// <summary>
-        /// The loaded methods.
+        /// Sets the methods.
         /// </summary>
         public static void SetMethods()
         {
             Game.OnUpdate += Kalista.Game_OnGameUpdate;
             Obj_AI_Base.OnDoCast += Kalista.Obj_AI_Base_OnDoCast;
             Orbwalking.OnNonKillableMinion += Kalista.OnNonKillableMinion;
+            Obj_AI_Base.OnProcessSpellCast += Kalista.OnProcessSpellCast;
         }
     }
 
@@ -141,7 +115,30 @@ namespace ExorKalista
     /// </summary>
     public class Targets
     {
+        /// <summary>
+        /// The main hero target.
+        /// </summary>
         public static Obj_AI_Hero Target => TargetSelector.GetTarget(Variables.Q.Range, LeagueSharp.DamageType.Physical);
-        public static List<Obj_AI_Base> Minions => MinionManager.GetMinions(Variables.E.Range, MinionTypes.All, MinionTeam.Enemy);
+
+        /// <summary>
+        /// The hero targets with E stacks on them.
+        /// </summary>
+        public static IEnumerable<Obj_AI_Hero> ETarget
+        =>
+            ObjectManager.Get<Obj_AI_Hero>()
+                .Where(
+                    h =>
+                        Bools.IsPerfectRendTarget(h));
+
+        /// <summary>
+        /// The minion targets.
+        /// </summary>
+        public static List<Obj_AI_Base> Minions
+        => 
+            MinionManager.GetMinions(
+                Variables.E.Range,
+                MinionTypes.All,
+                MinionTeam.Enemy
+            );
     }
 }
