@@ -110,11 +110,8 @@ namespace ExorAIO.Champions.KogMaw
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
                 Variables.Q.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
 
-                ((Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>()) ||
-
-                (ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqharass").GetValue<bool>())))
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>()))
             {
                 Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
                 return;
@@ -128,8 +125,9 @@ namespace ExorAIO.Champions.KogMaw
                 ((Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useecombo").GetValue<bool>()) ||
 
-                (ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useeharassfarm").GetValue<bool>())))
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
+                    ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>())))
             {
                 Variables.E.Cast(Variables.E.GetPrediction(Targets.Target).UnitPosition);
             }
@@ -148,7 +146,7 @@ namespace ExorAIO.Champions.KogMaw
             if (Variables.E.IsReady() &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
                 Variables.E.GetLineFarmLocation(Targets.Minions, Variables.E.Width).MinionsHit >= 3 &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useeharassfarm").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>())
             {
                 Variables.E.Cast(Variables.E.GetLineFarmLocation(Targets.Minions, Variables.E.Width).Position);
             }
