@@ -18,7 +18,7 @@ namespace ExorAIO.Champions.Sivir
     public class Settings
     {
         /// <summary>
-        /// The spells.
+        /// Sets the spells.
         /// </summary>
         public static void SetSpells()
         {
@@ -30,18 +30,12 @@ namespace ExorAIO.Champions.Sivir
         }
 
         /// <summary>
-        /// The menu.
+        /// Sets the menu.
         /// </summary>
         public static void SetMenu()
         {
-            /// <summary>
-            /// The settings menu.
-            /// </summary>
             Variables.SettingsMenu = new Menu("Spell Menu", $"{Variables.MainMenuName}.settingsmenu");
             {
-                /// <summary>
-                /// The settings menu for the Q spell.
-                /// </summary>
                 Variables.QMenu = new Menu("Q Settings", $"{Variables.MainMenuName}.qsettingsmenu");
                 {
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqcombo", "Use Q in Combo")).SetValue(true);
@@ -53,9 +47,6 @@ namespace ExorAIO.Champions.Sivir
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.QMenu);
 
-                /// <summary>
-                /// The settings menu for the W spell.
-                /// </summary>
                 Variables.WMenu = new Menu("W Settings", $"{Variables.MainMenuName}.wsettingsmenu");
                 {
                     Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wsettings.usewcombo", "Use W in Combo")).SetValue(true);
@@ -65,9 +56,6 @@ namespace ExorAIO.Champions.Sivir
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.WMenu);
 
-                /// <summary>
-                /// The settings menu for the E spell.
-                /// </summary>
                 Variables.EMenu = new Menu("E Settings", $"{Variables.MainMenuName}.esettingsmenu");
                 {
                     Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.useelogic", "Use Shield Logic")).SetValue(true);
@@ -76,9 +64,6 @@ namespace ExorAIO.Champions.Sivir
             }
             Variables.Menu.AddSubMenu(Variables.SettingsMenu);
 
-            /// <summary>
-            /// The drawings menu.
-            /// </summary>
             Variables.DrawingsMenu = new Menu("Drawings Menu", $"{Variables.MainMenuName}.drawingsmenu");
             {
                 Variables.DrawingsMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.q", "Show Q Range")).SetValue(true);
@@ -87,7 +72,7 @@ namespace ExorAIO.Champions.Sivir
         }
 
         /// <summary>
-        /// The methods.
+        /// Sets the methods.
         /// </summary>
         public static void SetMethods()
         {
@@ -98,18 +83,24 @@ namespace ExorAIO.Champions.Sivir
     }
 
     /// <summary>
-    ///    The targets class.
+    /// The targets class.
     /// </summary>
     public class Targets
     {
+        /// <summary>
+        /// The main hero target.
+        /// </summary>
         public static Obj_AI_Hero Target => TargetSelector.GetTarget(Variables.Q.Range, LeagueSharp.DamageType.Physical);
-        public static List<LeagueSharp.Obj_AI_Base> Minions => 
+
+        /// <summary>
+        /// The minion targets.
+        /// </summary>
+        public static List<Obj_AI_Base> Minions
+        => 
             MinionManager.GetMinions(
                 ObjectManager.Player.ServerPosition,
                 Variables.Q.Range,
-                MinionTypes.All,
-                MinionTeam.Enemy,
-                MinionOrderTypes.Health
+                MinionTypes.All
             );
     }
 }

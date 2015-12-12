@@ -12,7 +12,7 @@ namespace ExorAIO.Champions.Sivir
     using ExorAIO.Utilities;
 
     /// <summary>
-    ///     The main class.
+    /// The main class.
     /// </summary>
     public class Sivir
     {   

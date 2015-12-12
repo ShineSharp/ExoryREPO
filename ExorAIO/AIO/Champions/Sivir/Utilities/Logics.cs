@@ -13,24 +13,34 @@ namespace ExorAIO.Champions.Sivir
 
     public class Logics
     {
+        /// <summary>
+        /// Called when the game updates itself.
+        /// </summary>
+        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void ExecuteAuto(EventArgs args)
         {
             /// <summary>
-            /// The Q Harass Logic.
-            /// The Q KillSteal Logic.
+            /// The Q KillSteal Logic,
             /// The Q Immobile Harass Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
-                (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqks").GetValue<bool>() &&
-                    (Variables.Q.GetDamage(Targets.Target)*2) > Targets.Target.Health) ||
+                Targets.Target.IsValidTarget(Variables.Q.Range) &&
+
+                ((Variables.Q.GetDamage(Targets.Target)*2) > Targets.Target.Health &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqks").GetValue<bool>()) ||
                     
-                (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqimmobile").GetValue<bool>() &&
-                    Bools.IsImmobile(Targets.Target)))
+                (Bools.IsImmobile(Targets.Target) &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqimmobile").GetValue<bool>()))
             {
-                Variables.Q.CastIfHitchanceEquals(Targets.Target, HitChance.VeryHigh, false);
+                Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
             }
         }
 
+        /// <summary>
+        /// Called while processing Spellcast operations.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The args.</param>
         public static void ExecuteShield(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             /// <summary>
@@ -62,16 +72,21 @@ namespace ExorAIO.Champions.Sivir
             }
         }
 
+        /// <summary>
+        /// Called on do-cast.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The args.</param>
         public static void ExecuteModes(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             /// <summary>
             /// The W Combo Logic.
-            /// The W Harass Logic.
             /// </summary>
             if (Variables.W.IsReady() &&
-                (Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>() && Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo))
+
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>()))
             {
-                Orbwalking.ResetAutoAttackTimer();
                 Variables.W.Cast();
                 return;
             }
@@ -80,33 +95,45 @@ namespace ExorAIO.Champions.Sivir
             /// The Q Combo Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>())
+                ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.Q.Range) &&
+
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>()))
             {
-                Variables.Q.CastIfHitchanceEquals((Obj_AI_Hero)args.Target, HitChance.VeryHigh, false);
+                Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
             }
         }
 
+        /// <summary>
+        /// Called on do-cast.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The args.</param>
         public static void ExecuteFarm(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             /// <summary>
             /// The W Farm Logic.
             /// </summary>
             if (Variables.W.IsReady() &&
-                (Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarm").GetValue<bool>() && ObjectManager.Player.ManaPercent > ManaManager.NeededWMana) &&
-                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 3)
+
+                (ObjectManager.Player.ManaPercent > ManaManager.NeededWMana &&
+                    Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
+                    Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 3 &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarm").GetValue<bool>()))
             {
-                Orbwalking.ResetAutoAttackTimer();
                 Variables.W.Cast();
+                return;
             }
 
             /// <summary>
             /// The Q Farm Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
-                (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>() && ObjectManager.Player.ManaPercent > ManaManager.NeededQMana) &&
-                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 3)
+
+                (ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
+                    Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
+                    Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 3 &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>()))
             {
                 Variables.Q.Cast(Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).Position);
             }

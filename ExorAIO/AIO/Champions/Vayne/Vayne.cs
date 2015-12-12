@@ -33,13 +33,11 @@ namespace ExorAIO.Champions.Vayne
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void Game_OnGameUpdate(EventArgs args)
         {
-            if (!ObjectManager.Player.IsDead)
+            if (!ObjectManager.Player.IsDead &&
+                Targets.Target != null &&
+                Targets.Target.IsValid)
             {
-                if (Targets.Target != null &&
-                    Targets.Target.IsValid)
-                {
-                    Logics.ExecuteAuto(args);
-                }
+                Logics.ExecuteAuto(args);
             }
         }
 
