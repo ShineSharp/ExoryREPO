@@ -42,7 +42,7 @@ namespace ExorAIO.Champions.Ashe
                 (Bools.IsImmobile(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewimmobile").GetValue<bool>()))
             {
-                Variables.W.CastIfHitchanceEquals(Targets.Target, HitChance.VeryHigh, false);
+                Variables.W.Cast(Targets.Target.Position);
             }
             
             /// <summary>
