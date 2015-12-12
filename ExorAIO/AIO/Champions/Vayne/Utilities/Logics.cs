@@ -30,7 +30,7 @@ namespace ExorAIO.Champions.Vayne
             /// The E Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
-                //
+                !ObjectManager.Player.IsDashing() &&
                 Targets.Target.IsValidTarget(Variables.E.Range))
             {
                 /// <summary>
@@ -42,7 +42,7 @@ namespace ExorAIO.Champions.Vayne
                 {
                     for (int i = 1; i <= 9; i++)
                     {
-                        if ((Variables.E.GetPrediction(Targets.Target).UnitPosition + Vector3.Normalize(Targets.Target.ServerPosition - ObjectManager.Player.Position) * i * 50).IsWall())
+                        if ((Variables.E.GetPrediction(Targets.Target).UnitPosition + Vector3.Normalize(Targets.Target.ServerPosition - ObjectManager.Player.Position) * i * 49).IsWall())
                         {
                             Variables.E.CastOnUnit(Targets.Target);
                             return;
@@ -86,14 +86,14 @@ namespace ExorAIO.Champions.Vayne
             /// The Q Farm Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
-                Targets.FarmMinion != null &&
-                Targets.FarmMinion.IsValidTarget(Variables.Q.Range) &&
+                Targets.FarmMinions.Count() > 1 &&
+                (Targets.FarmMinions.FirstOrDefault()).IsValidTarget(Variables.Q.Range) &&
 
                 (Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>()))
             {
                 Variables.Q.Cast(Game.CursorPos);
-                Variables.Orbwalker.ForceTarget(Targets.FarmMinion);
+                Variables.Orbwalker.ForceTarget(Targets.FarmMinions.FirstOrDefault());
             }
         }
 

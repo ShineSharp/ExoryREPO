@@ -23,7 +23,8 @@ namespace ExorAIO.Champions.Vayne
         public static void SetSpells()
         {
             Variables.Q = new Spell(SpellSlot.Q, ObjectManager.Player.BoundingRadius + (ObjectManager.Player.AttackRange + 300f));
-            Variables.E = new Spell(SpellSlot.E, ObjectManager.Player.BoundingRadius + 550f);
+            Variables.W = new Spell(SpellSlot.W);
+            Variables.E = new Spell(SpellSlot.E, ObjectManager.Player.BoundingRadius + 600f);
             
             Variables.E.SetTargetted(0.25f, 1250f);
         }
@@ -127,7 +128,7 @@ namespace ExorAIO.Champions.Vayne
         /// <summary>
         /// The minion targets.
         /// </summary>       
-        public static Obj_AI_Base FarmMinion
+        public static IOrderedEnumerable<Obj_AI_Base> FarmMinions
         =>
             MinionManager.GetMinions(ObjectManager.Player.ServerPosition, Variables.Q.Range, MinionTypes.All)
                 .Where(
@@ -135,7 +136,6 @@ namespace ExorAIO.Champions.Vayne
                         m.Health < ObjectManager.Player.GetAutoAttackDamage(m) + Variables.Q.GetDamage(m))
                 .OrderBy(
                     m =>
-                        m.HealthPercent)
-                .First();
+                        m.HealthPercent);
     }
 }
