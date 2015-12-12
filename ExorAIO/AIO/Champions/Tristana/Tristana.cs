@@ -25,6 +25,19 @@ namespace ExorAIO.Champions.Tristana
         }
 
         /// <summary>
+        /// Called when the game updates itself.
+        /// </summary>
+        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
+        public static void Game_OnGameUpdate(EventArgs args)
+        {
+            if (!ObjectManager.Player.IsDead &&
+                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
+            {
+                Logics.ExecuteAuto(args);
+            }
+        }
+
+        /// <summary>
         /// Called before the next aa is fired.
         /// </summary>
         /// <param name="args">The <see cref="Orbwalking.BeforeAttackEventArgs"/> instance containing the beforeattack data.</param>
@@ -34,23 +47,6 @@ namespace ExorAIO.Champions.Tristana
                 args.Target.IsValid<Obj_AI_Base>())
             {    
                 Logics.ExecuteBeforeAttack(args);
-            }
-        }
-
-        /// <summary>
-        /// Called on do-cast.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="args">The args.</param>
-        public static void Obj_AI_Base_OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
-        {
-            if (sender.IsMe &&
-                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
-            {
-                if (args.Target.IsValid<Obj_AI_Hero>())
-                {
-                    Logics.ExecuteModes(sender, args);
-                }
             }
         }
     }

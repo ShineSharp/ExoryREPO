@@ -13,6 +13,34 @@ namespace ExorAIO.Champions.Tristana
 
     public class Logics
     {
+        public static void ExecuteAuto(EventArgs args)
+        {
+            /// <summary>
+            /// Sets the target.
+            /// </summary>
+            if (Targets.ETarget != null &&
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo && Targets.ETarget.IsValid<Obj_AI_Hero>()) ||
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear && Targets.ETarget.IsValid<Obj_AI_Base>())
+            {
+                Variables.Orbwalker.ForceTarget(Targets.ETarget);
+            }
+
+            /// <summary>
+            /// The R KillSteal Logic.
+            /// </summary>
+            if (Variables.R.IsReady() &&
+                Targets.Target != null &&
+                !ObjectManager.Player.IsWindingUp &&
+                KillSteal.Damage(Targets.Target) > (Targets.Target).Health &&
+            
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.userks").GetValue<bool>()))
+            {
+                Orbwalking.ResetAutoAttackTimer();
+                Variables.R.CastOnUnit(Targets.Target);
+            }
+        }
+
         public static void ExecuteBeforeAttack(Orbwalking.BeforeAttackEventArgs args)
         {
             /// <summary>
@@ -40,26 +68,13 @@ namespace ExorAIO.Champions.Tristana
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                     ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
                     ((Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useebuildings").GetValue<bool>() && args.Target.IsValid<Obj_AI_Turret>()) ||
-                    (Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>() && GameObjects.EnemyMinions.Count(minions => minions.Distance(Targets.EMinions.FirstOrDefault()) < 150f) > 2)))))
+                    (Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>() &&
+                        GameObjects.Minions.Count(
+                            units =>
+                                units.IsEnemy &&
+                                units.Distance(Targets.Minions.FirstOrDefault()) < 150f) > 2)))))
             {
                 Variables.E.CastOnUnit((Obj_AI_Base)args.Target);
-            }
-        }
-
-        public static void ExecuteModes(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
-        {
-            /// <summary>
-            /// The R KillSteal Logic.
-            /// </summary>
-            if (Variables.R.IsReady() &&
-                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.userks").GetValue<bool>() &&
-                KillSteal.Damage((Obj_AI_Hero)args.Target) > ((Obj_AI_Hero)args.Target).Health &&
-                ObjectManager.Player.GetAutoAttackDamage((Obj_AI_Hero)args.Target)*2 < ((Obj_AI_Hero)args.Target).Health))
-            {
-                Orbwalking.ResetAutoAttackTimer();
-                Variables.R.Cast((Obj_AI_Hero)args.Target);
-                return;
             }
         }
     }

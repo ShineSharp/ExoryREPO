@@ -32,7 +32,8 @@ namespace ExorAIO.Champions.Ezreal
         {
             if (!ObjectManager.Player.IsDead &&
                 Targets.Target != null &&
-                Targets.Target.IsValid)
+                Targets.Target.IsValid &&
+                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
                 Logics.ExecuteAuto(args);
             }
@@ -46,15 +47,14 @@ namespace ExorAIO.Champions.Ezreal
         public static void Obj_AI_Base_OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             if (sender.IsMe &&
-                Orbwalking.IsAutoAttack(args.SData.Name))
+                Orbwalking.IsAutoAttack(args.SData.Name) &&
+                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
-                if (args.Target.IsValid<Obj_AI_Hero>() &&
-                    Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo)
+                if (args.Target.IsValid<Obj_AI_Hero>())
                 {
                     Logics.ExecuteModes(sender, args);
                 }
-                else if (args.Target.IsValid<Obj_AI_Minion>() &&
-                    Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo)
+                else if (args.Target.IsValid<Obj_AI_Minion>())
                 {
                     Logics.ExecuteFarm(sender, args);
                 }

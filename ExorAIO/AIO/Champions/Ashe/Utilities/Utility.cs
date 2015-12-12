@@ -108,13 +108,12 @@ namespace ExorAIO.Champions.Ashe
         /// <summary>
         /// The minion targets.
         /// </summary>
-        public static List<Obj_AI_Base> Minions => 
+        public static List<Obj_AI_Base> Minions
+        => 
             MinionManager.GetMinions(
                 ObjectManager.Player.ServerPosition,
                 Variables.W.Range,
-                MinionTypes.All,
-                MinionTeam.Enemy,
-                MinionOrderTypes.Health
+                MinionTypes.All
             );
     }
 }

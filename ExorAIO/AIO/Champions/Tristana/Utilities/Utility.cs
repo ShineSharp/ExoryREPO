@@ -72,6 +72,7 @@ namespace ExorAIO.Champions.Tristana
             Variables.DrawingsMenu = new Menu("Drawings Menu", $"{Variables.MainMenuName}.drawingsmenu");
             {
                 Variables.DrawingsMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.e", "Show E Range")).SetValue(true);
+                Variables.DrawingsMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.ks", "Show KillSteal Damage")).SetValue(true);
                 Variables.DrawingsMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.r", "Show R Range")).SetValue(true);
             }
             Variables.Menu.AddSubMenu(Variables.DrawingsMenu);
@@ -82,8 +83,8 @@ namespace ExorAIO.Champions.Tristana
         /// </summary>
         public static void SetMethods()
         {
+            Game.OnUpdate += Tristana.Game_OnGameUpdate;
             Orbwalking.BeforeAttack += Tristana.Orbwalking_BeforeAttack;
-            Obj_AI_Base.OnDoCast += Tristana.Obj_AI_Base_OnDoCast;
         }
     }
 
@@ -92,11 +93,32 @@ namespace ExorAIO.Champions.Tristana
     /// </summary>
     public class KillSteal
     {
-        public static int Damage(Obj_AI_Hero target)
-        =>
-            Bools.IsCharged(target) ?
-                (int)(Variables.E.GetDamage(target) * ((0.30f * (target.GetBuffCount("TristanaECharge")+1)) + 1f) + Variables.R.GetDamage(target)) :
-                (int)Variables.R.GetDamage(target);
+        public static float GetRealEDamage(Obj_AI_Hero target)
+        {
+            return 
+                (float)
+                    (ObjectManager.Player.CalcDamage(target, LeagueSharp.Common.Damage.DamageType.Physical, Variables.E.GetDamage(target)) +
+                    (18 + (3 * ObjectManager.Player.Spellbook.GetSpell(SpellSlot.E).Level)) +
+                    ((0.15 + (0.045 * ObjectManager.Player.Spellbook.GetSpell(SpellSlot.E).Level)) * ObjectManager.Player.FlatPhysicalDamageMod) +
+                    0.15 * ObjectManager.Player.AbilityPower());
+        }
+
+        public static float Damage(Obj_AI_Hero target)
+        {
+            float dmg = 0f;
+
+            if (Bools.IsCharged(target))
+            {
+                dmg += GetRealEDamage(target);
+            }
+            
+            if (Variables.R.IsReady())
+            {
+                dmg += Variables.R.GetDamage(target);
+            }
+            
+            return dmg;
+        }
     }
 
     /// <summary>
@@ -105,13 +127,29 @@ namespace ExorAIO.Champions.Tristana
     public class Targets
     {
         /// <summary>
-        /// The E spell's minion targets.
+        /// The main hero target.
         /// </summary>
-        public static IEnumerable<Obj_AI_Minion> EMinions
-        => 
-            GameObjects.EnemyMinions
+        public static Obj_AI_Hero Target => TargetSelector.GetTarget(Variables.E.Range, LeagueSharp.DamageType.Physical);
+
+        /// <summary>
+        /// The charged target.
+        /// </summary>
+        public static Obj_AI_Base ETarget
+        =>
+            ObjectManager.Get<Obj_AI_Base>()
                 .Where(
-                    eminion =>
-                        eminion.IsValidTarget(Variables.E.Range));
+                    unit =>
+                        Bools.IsCharged(unit)).FirstOrDefault();
+
+        /// <summary>
+        /// The minions target.
+        /// </summary>
+        public static List<Obj_AI_Base> Minions
+        => 
+            MinionManager.GetMinions(
+                ObjectManager.Player.ServerPosition,
+                Variables.E.Range,
+                MinionTypes.All
+            );
     }
 }

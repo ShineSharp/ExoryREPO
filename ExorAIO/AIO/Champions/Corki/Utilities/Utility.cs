@@ -116,13 +116,12 @@ namespace ExorAIO.Champions.Corki
         /// <summary>
         /// The minion targets.
         /// </summary>
-        public static List<LeagueSharp.Obj_AI_Base> Minions => 
+        public static List<Obj_AI_Base> Minions
+        => 
             MinionManager.GetMinions(
                 ObjectManager.Player.ServerPosition,
                 Variables.R.Range,
-                MinionTypes.All,
-                MinionTeam.Enemy,
-                MinionOrderTypes.Health
+                MinionTypes.All
             );
     }
 }
