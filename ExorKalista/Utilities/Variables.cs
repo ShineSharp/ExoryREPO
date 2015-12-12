@@ -122,7 +122,7 @@ namespace ExorKalista
             /// </returns>
             if (ObjectManager.Player.HasBuff("summonerexhaust"))
             {
-                Calculator *= 0.60f;
+                Calculator *= 0.6f;
             }
 
             if (!target.IsChampion())
@@ -136,7 +136,7 @@ namespace ExorKalista
                 if (target.CharData.BaseSkinName.Equals("SRU_Baron") &&
                     ObjectManager.Player.HasBuff("barontarget"))
                 {
-                    Calculator *= 0.50f;
+                    Calculator *= 0.5f;
                 }
 
                 /// <summary>
@@ -163,7 +163,7 @@ namespace ExorKalista
             if (target.CharData.BaseSkinName.Equals("Alistar") &&
                 target.HasBuff("FerociousHowl"))
             {
-                Calculator *= 0.30f;
+                Calculator *= 0.3f;
             }
 
             /// <summary>
@@ -175,7 +175,7 @@ namespace ExorKalista
             if (target.CharData.BaseSkinName.Equals("Garen") &&
                 target.HasBuff("GarenW"))
             {
-                Calculator *= 0.70f;
+                Calculator *= 0.7f;
             }
 
             /// <summary>
