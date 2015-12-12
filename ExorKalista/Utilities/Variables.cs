@@ -160,7 +160,8 @@ namespace ExorKalista
             /// <returns>
             /// You deal 70% reducted damage to Alistar if he's in Ultimate Stance.
             /// </returns>
-            if (target.HasBuff("FerociousHowl"))
+            if (target.CharData.BaseSkinName.Equals("Alistar") &&
+                target.HasBuff("FerociousHowl"))
             {
                 Calculator *= 0.30f;
             }
@@ -171,7 +172,8 @@ namespace ExorKalista
             /// <returns>
             /// You deal 30% reducted damage to Garen if he's in W Stance.
             /// </returns>
-            if (target.HasBuff("GarenW"))
+            if (target.CharData.BaseSkinName.Equals("Garen") &&
+                target.HasBuff("GarenW"))
             {
                 Calculator *= 0.70f;
             }
@@ -182,7 +184,8 @@ namespace ExorKalista
             /// <returns>
             /// You deal 45% reduced damage + Master Yi's W Level (70% Reducted Damage at Level 5).
             /// </returns>
-            if (target.HasBuff("Medidate"))
+            if (target.CharData.BaseSkinName.Equals("MasterYi") &&
+                target.HasBuff("Medidate"))
             {
                 Calculator *= 0.55f - (target.Spellbook.GetSpell(SpellSlot.W).Level * 0.05f);
             }
@@ -193,9 +196,10 @@ namespace ExorKalista
             /// <returns>
             /// You deal 8% reduced damage + Gragas's W Level (18% Reducted Damage at Level 5).
             /// </returns>
-            if (target.HasBuff("gragaswself"))
+            if (target.CharData.BaseSkinName.Equals("Gragas") &&
+                target.HasBuff("gragaswself"))
             {
-                Calculator *= 0.92f + (target.Spellbook.GetSpell(SpellSlot.W).Level * 0.02f);
+                Calculator *= 0.92f - (target.Spellbook.GetSpell(SpellSlot.W).Level * 0.02f);
             }
 
             /// <summary>
@@ -208,7 +212,7 @@ namespace ExorKalista
                 healthDebuffer += target.Mana / 2;
             }
 
-            return (RendDamage * Calculator) - healthDebuffer;
+            return RendDamage * Calculator - healthDebuffer;
         }
     }
 }
