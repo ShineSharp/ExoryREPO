@@ -71,8 +71,8 @@ namespace ExorAIO.Champions.Tristana
                     (Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>() &&
                         GameObjects.Minions.Count(
                             units =>
-                                units.IsEnemy &&
-                                units.Distance(Targets.Minions.FirstOrDefault()) < 150f) > 2)))))
+                                units.IsValidTarget(Variables.E.Range) &&
+                                units.Distance(Targets.Minions.FirstOrDefault(), false) < 150f) > 2)))))
             {
                 Variables.E.CastOnUnit((Obj_AI_Base)args.Target);
             }
