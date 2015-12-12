@@ -15,25 +15,30 @@ namespace ExorAIO.Champions.Renekton
 
     public class Logics
     {
+        /// <summary>
+        /// Called when the game updates itself.
+        /// </summary>
+        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void ExecuteAuto(EventArgs args)
         {
-            /*
-                E Combo Logic;
-            */
+            /// <summary>
+            /// The E Combo Logic.
+            /// </summary>
             if (Variables.E.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.E.Range + Orbwalking.GetRealAutoAttackRange(null)) &&
                 !ObjectManager.Player.HasBuff("renektonsliceanddicedelay") &&
-                (Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useecombo").GetValue<bool>() && Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo))
+                
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useecombo").GetValue<bool>()))
             {
                 Variables.E.Cast(Targets.Target.Position);
                 return;
             }
 
-            /*
-                Tiamat/Ravenous/Titanic Logic;
-                Q Combo Logic;
-                E Combo Logic;
-            */
+            /// <summary>
+            /// The Tiamat/Ravenous/Titanic Logic,
+            /// The Q Combo Logic.
+            /// </summary>
             if (!Variables.W.IsReady() &&
                 !ObjectManager.Player.HasBuff("renektonpreexecute") &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo)
@@ -57,59 +62,78 @@ namespace ExorAIO.Champions.Renekton
                 }
 
                 if (Variables.Q.IsReady() &&
+                    Targets.Target.IsValidTarget(Variables.Q.Range) &&
+
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>())
                 {
                     Variables.Q.Cast();
                 }
             }
 
-            /*
-                Q Harass/Farm Logic;
-                Q KillSteal Logic;
-                Q Immobile Harass Logic;
-            */
+            /// <summary>
+            /// The Q AutoHarass Logic,
+            /// The Q KillSteal Logic.
+            /// </summary>
             if (Variables.Q.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
-                ((Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqautoharass").GetValue<bool>() && ObjectManager.Player.ManaPercent >= 50) ||
-                (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqks").GetValue<bool>() && Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health)))
+
+                ((ObjectManager.Player.ManaPercent >= 50 &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqautoharass").GetValue<bool>()) ||
+
+                (Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health) &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqks").GetValue<bool>()))
             {
                 Variables.Q.Cast();
             }
 
-            /*
-                R LifeSaver Logic;
-            */
+            /// <summary>
+            /// The R Lifesaver Logic.
+            /// </summary>
             if (Variables.R.IsReady() &&
                 ObjectManager.Player.CountEnemiesInRange(700) > 0 &&
-                (Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.userlifesaver").GetValue<bool>() &&
-                    HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(250 + Game.Ping / 2f)) <= ObjectManager.Player.MaxHealth/4))
+
+                (HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(250 + Game.Ping / 2f)) <= ObjectManager.Player.MaxHealth/4 &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.userlifesaver").GetValue<bool>()))
             {
                 Variables.R.Cast();
             }
         }
 
+        /// <summary>
+        /// Called on do-cast.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The args.</param>
         public static void ExecuteModes(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            /*
-                W Combo Logic;
-            */
+            /// <summary>
+            /// The W Combo Logic.
+            /// </summary>
             if (Variables.W.IsReady() &&
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.W.Range) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>())
+
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>()))
             {
-                Orbwalking.ResetAutoAttackTimer();
                 Variables.W.Cast();
             }
         }
 
+        /// <summary>
+        /// Called on do-cast.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The args.</param>
         public static void ExecuteFarm(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            /*
-                Q Farm Logic;
-            */
+            /// <summary>
+            /// The Q Farm Logic.
+            /// </summary>
             if (Variables.Q.IsReady() &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>() &&
-                Targets.Minions.Count() >= 3)
+                Targets.Minions.Count() >= 3 &&
+                
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>()))
             {
                 Variables.Q.Cast();
             }

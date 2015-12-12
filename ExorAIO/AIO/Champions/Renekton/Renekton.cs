@@ -16,6 +16,9 @@ namespace ExorAIO.Champions.Renekton
     /// </summary>
     public class Renekton
     {
+        /// <summary>
+        /// Called when the game loads itself.
+        /// </summary>
         public void OnLoad()
         {
             Settings.SetSpells();
