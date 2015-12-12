@@ -13,6 +13,10 @@ namespace ExorAIO.Champions.Ezreal
 
     public class Logics
     {
+        /// <summary>
+        /// Called when the game updates itself.
+        /// </summary>
+        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void ExecuteAuto(EventArgs args)
         {
             /// <summary>
@@ -22,7 +26,7 @@ namespace ExorAIO.Champions.Ezreal
             /// </summary>
             if (Variables.Q.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
-                Variables.Q.GetPrediction(Targets.Target).Hitchance >= HitChance.VeryHigh &&
+                Variables.Q.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
 
                 ((Targets.Target.Health < Variables.Q.GetDamage(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqks").GetValue<bool>()) ||
@@ -73,6 +77,11 @@ namespace ExorAIO.Champions.Ezreal
 
         }
 
+        /// <summary>
+        /// Called on do-cast.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The args.</param>
         public static void ExecuteModes(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             /// <summary>
@@ -125,6 +134,11 @@ namespace ExorAIO.Champions.Ezreal
             }
         }
 
+        /// <summary>
+        /// Called on do-cast.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The args.</param>
         public static void ExecuteFarm(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             /// <summary>
