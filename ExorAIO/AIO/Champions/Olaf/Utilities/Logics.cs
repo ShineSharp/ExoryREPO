@@ -31,8 +31,9 @@ namespace ExorAIO.Champions.Olaf
             if (Variables.Q.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
 
-                ((ObjectManager.Player.ManaPercent >= ManaManager.NeededQMana &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqautoharass").GetValue<bool>()) ||
+                ((Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo ||
+                    (ObjectManager.Player.ManaPercent >= ManaManager.NeededQMana &&
+                        Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqautoharass").GetValue<bool>())) ||
 
                 (Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqks").GetValue<bool>())))
