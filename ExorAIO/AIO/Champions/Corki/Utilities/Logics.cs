@@ -27,6 +27,7 @@ namespace ExorAIO.Champions.Corki
             /// The Q Immobile Harass Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
+                Targets.Target.IsValidTarget(Variables.Q.Range) &&
 
                 ((Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqks").GetValue<bool>()) ||
@@ -41,6 +42,7 @@ namespace ExorAIO.Champions.Corki
             /// The E Combo Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
+                Targets.Target.IsValidTarget(Variables.E.Range) &&
 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useecombo").GetValue<bool>()))
@@ -53,6 +55,7 @@ namespace ExorAIO.Champions.Corki
             /// The R AutoHarass Logic.
             /// </summary>
             if (Variables.R.IsReady() &&
+                Targets.Target.IsValidTarget(Variables.R.Range) &&
                 Variables.R.GetPrediction(Targets.Target).Hitchance >= HitChance.VeryHigh &&
 
                 ((Variables.R.GetDamage(Targets.Target) > Targets.Target.Health &&
@@ -77,6 +80,7 @@ namespace ExorAIO.Champions.Corki
             /// The Q Combo Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
+                Targets.Target.IsValidTarget(Variables.Q.Range) &&
 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>()))
@@ -88,6 +92,7 @@ namespace ExorAIO.Champions.Corki
             /// The R Combo Logic.
             /// </summary>
             if (Variables.R.IsReady() &&
+                Targets.Target.IsValidTarget(Variables.R.Range) &&
                 Variables.R.GetPrediction(Targets.Target).Hitchance >= HitChance.VeryHigh &&
 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
