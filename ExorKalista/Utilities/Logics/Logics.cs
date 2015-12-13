@@ -152,7 +152,7 @@ namespace ExorKalista
                     .Count(
                         x =>
                             Bools.IsPerfectRendTarget(x) &&
-                            Bools.IsKillableRendTarget(x)) >= (Targets.ETarget.Any() ? 2 : 1))
+                            Bools.IsKillableRendTarget(x)) >= (Targets.ETarget.Any() ? 1 : 2))
                 {
                     Variables.E.Cast();
                     return;
