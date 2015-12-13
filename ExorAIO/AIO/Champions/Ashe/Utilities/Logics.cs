@@ -36,6 +36,7 @@ namespace ExorAIO.Champions.Ashe
             /// The W KillSteal Logic.
             /// </summary>
             if (Variables.W.IsReady() &&
+
                 ((Targets.Target.Health < Variables.W.GetDamage(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewks").GetValue<bool>())) ||
 
@@ -48,15 +49,16 @@ namespace ExorAIO.Champions.Ashe
             /// <summary>
             /// The R Logics.
             /// </summary>
-            if (Variables.R.IsReady() &&
-                Targets.Target.IsValidTarget(1200))
+            if (Targets.Target.IsValidTarget(1200))
             {
                 /// <summary>
                 /// R KillSteal Logic.
                 /// </summary>
-                if ((!Variables.W.IsReady() || !Targets.Target.IsValidTarget(Variables.W.Range)) &&
+                if (Variables.R.IsReady() &&
+                    (!Variables.W.IsReady() || !Targets.Target.IsValidTarget(Variables.W.Range)) &&
+
                     (Targets.Target.Health < Variables.R.GetDamage(Targets.Target) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.userks").GetValue<bool>()))
+                        Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.userks").GetValue<bool>()))
                 {
                     Variables.R.Cast(Variables.R.GetPrediction(Targets.Target).UnitPosition);
                 }
@@ -65,12 +67,14 @@ namespace ExorAIO.Champions.Ashe
                 /// The R Doublelift Mechanic Logic,
                 /// The R Normal Combo Logic.
                 /// </summary>
-                if (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.usercombo").GetValue<bool>() &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.rwhitelist.{Targets.Target.ChampionName.ToLower()}").GetValue<bool>())
+                if (Variables.R.IsReady() &&
+                    !Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(null)) &&
+
+                    (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                        Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.usercombo").GetValue<bool>() &&
+                        Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.rwhitelist.{Targets.Target.ChampionName.ToLower()}").GetValue<bool>()))
                 {
                     if (Variables.E.IsReady() &&
-                        !Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(null)) &&
                         Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.usermechanic").GetValue<bool>())
                     {
                         Variables.E.Cast(Variables.E.GetPrediction(Targets.Target).UnitPosition);
@@ -87,8 +91,9 @@ namespace ExorAIO.Champions.Ashe
             /// The W Combo Logic.
             /// </summary>
             if (Variables.W.IsReady() &&
+
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>()))
+                    Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>()))
             {
                 Variables.W.CastIfHitchanceEquals((Obj_AI_Hero)args.Target, HitChance.High, false);
             }
@@ -100,10 +105,11 @@ namespace ExorAIO.Champions.Ashe
             /// The W Farm Logic.
             /// </summary>
             if (Variables.W.IsReady() &&
-                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                (Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarm").GetValue<bool>() &&
+
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                     ObjectManager.Player.ManaPercent > ManaManager.NeededWMana &&
-                    Variables.W.GetLineFarmLocation(Targets.Minions, Variables.W.Width).MinionsHit >= 3))
+                    Variables.W.GetLineFarmLocation(Targets.Minions, Variables.W.Width).MinionsHit >= 3 &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarm").GetValue<bool>()))
             {
                 Variables.W.Cast(Variables.W.GetLineFarmLocation(Targets.Minions, Variables.W.Width).Position);
             }
