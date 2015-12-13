@@ -13,6 +13,9 @@ namespace ExorAIO.Champions.Vayne
 
     using ExorAIO.Utilities;
 
+    /// <summary>
+    /// The logics class.
+    /// </summary>
     public class Logics
     {
         /// <summary>

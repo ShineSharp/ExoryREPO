@@ -13,6 +13,9 @@ namespace ExorAIO.Champions.Renekton
 
     using ExorAIO.Utilities;
 
+    /// <summary>
+    /// The logics class.
+    /// </summary>
     public class Logics
     {
         /// <summary>
@@ -63,7 +66,6 @@ namespace ExorAIO.Champions.Renekton
 
                 if (Variables.Q.IsReady() &&
                     Targets.Target.IsValidTarget(Variables.Q.Range) &&
-
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>())
                 {
                     Variables.Q.Cast();

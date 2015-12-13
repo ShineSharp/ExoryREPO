@@ -11,6 +11,9 @@ namespace ExorAIO.Champions.Sivir
 
     using ExorAIO.Utilities;
 
+    /// <summary>
+    /// The logics class.
+    /// </summary>
     public class Logics
     {
         /// <summary>

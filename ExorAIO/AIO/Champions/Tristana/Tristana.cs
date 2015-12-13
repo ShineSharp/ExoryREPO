@@ -16,6 +16,9 @@ namespace ExorAIO.Champions.Tristana
     /// </summary>
     public class Tristana
     {
+        /// <summary>
+        /// Triggers when the champion is loaded.
+        /// </summary>
         public void OnLoad()
         {
             Settings.SetSpells();

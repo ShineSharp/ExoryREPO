@@ -16,6 +16,9 @@ namespace ExorAIO.Champions.DrMundo
     /// </summary>
     public class DrMundo
     {
+        /// <summary>
+        /// Triggers when the champion is loaded.
+        /// </summary>
         public void OnLoad()
         {
             Settings.SetSpells();

@@ -16,6 +16,9 @@ namespace ExorAIO.Champions.Ezreal
     /// </summary>
     public class Ezreal
     {
+        /// <summary>
+        /// Triggers when the champion is loaded.
+        /// </summary>
         public void OnLoad()
         {
             Settings.SetSpells();

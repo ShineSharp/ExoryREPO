@@ -11,8 +11,15 @@ namespace ExorAIO.Champions.Tristana
 
     using ExorAIO.Utilities;
 
+    /// <summary>
+    /// The logics class.
+    /// </summary>
     public class Logics
     {
+        /// <summary>
+        /// Called when the game updates itself.
+        /// </summary>
+        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void ExecuteAuto(EventArgs args)
         {
             /// <summary>
@@ -41,6 +48,10 @@ namespace ExorAIO.Champions.Tristana
             }
         }
 
+        /// <summary>
+        /// Called before the next aa is fired.
+        /// </summary>
+        /// <param name="args">The <see cref="Orbwalking.BeforeAttackEventArgs"/> instance containing the beforeattack data.</param>
         public static void ExecuteBeforeAttack(Orbwalking.BeforeAttackEventArgs args)
         {
             /// <summary>
@@ -48,6 +59,7 @@ namespace ExorAIO.Champions.Tristana
             /// </summary>
             if (Variables.Q.IsReady() &&
                 (Bools.IsCharged((Obj_AI_Base)args.Target) || !Variables.E.IsReady()) &&
+
                 ((Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqauto").GetValue<bool>()) ||
 
