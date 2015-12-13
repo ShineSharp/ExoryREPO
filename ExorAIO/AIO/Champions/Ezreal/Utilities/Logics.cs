@@ -107,15 +107,6 @@ namespace ExorAIO.Champions.Ezreal
                     Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>()))
             {
                 Variables.W.Cast(((Obj_AI_Hero)args.Target).Position);
-                
-                if (Variables.E.IsReady() &&
-                    !(Utility.UnderTurret((Obj_AI_Hero)args.Target)) &&
-                    
-                    (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                        Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useecombo").GetValue<bool>()))
-                {
-                    Variables.E.Cast(((Obj_AI_Hero)args.Target).Position);
-                }
                 return;
             }
 

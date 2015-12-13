@@ -23,7 +23,7 @@ namespace ExorAIO.Champions.Ezreal
         public static void SetSpells()
         {
             Variables.Q = new Spell(SpellSlot.Q, 1150f);
-            Variables.W = new Spell(SpellSlot.W, 1000f);
+            Variables.W = new Spell(SpellSlot.W, 900f);
             Variables.E = new Spell(SpellSlot.E, ObjectManager.Player.BoundingRadius + 500f);
             Variables.R = new Spell(SpellSlot.R, 3000f);
 
@@ -62,12 +62,6 @@ namespace ExorAIO.Champions.Ezreal
                     
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.WMenu);
-
-                Variables.EMenu = new Menu("E Settings", $"{Variables.MainMenuName}.esettingsmenu");
-                {
-                    Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.useecombo", "Use Smart E in Combo")).SetValue(true);
-                }
-                Variables.SettingsMenu.AddSubMenu(Variables.EMenu);
 
                 Variables.RMenu = new Menu("R Settings", $"{Variables.MainMenuName}.rsettingsmenu");
                 {
