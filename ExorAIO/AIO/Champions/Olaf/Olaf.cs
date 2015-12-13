@@ -16,6 +16,9 @@ namespace ExorAIO.Champions.Olaf
     /// </summary>
     public class Olaf
     {
+        /// <summary>
+        /// Triggers when the champion is loaded.
+        /// </summary>
         public void OnLoad()
         {
             Settings.SetSpells();

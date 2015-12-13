@@ -13,8 +13,15 @@ namespace ExorAIO.Champions.Olaf
 
     using ExorAIO.Utilities;
 
+    /// <summary>
+    /// The logics class.
+    /// </summary>
     public class Logics
     {
+        /// <summary>
+        /// Called when the game updates itself.
+        /// </summary>
+        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void ExecuteAuto(EventArgs args)
         {
             /// <summary>
@@ -23,10 +30,14 @@ namespace ExorAIO.Champions.Olaf
             /// </summary>
             if (Variables.Q.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
-                (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqautoharass").GetValue<bool>() && ObjectManager.Player.ManaPercent >= ManaManager.NeededQMana) ||
-                (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqks").GetValue<bool>() && Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health))
+
+                ((ObjectManager.Player.ManaPercent >= ManaManager.NeededQMana &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqautoharass").GetValue<bool>()) ||
+
+                (Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqks").GetValue<bool>())))
             {
-                Variables.Q.Cast(Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition));
+                Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
             }
 
             /// <summary>
@@ -35,7 +46,9 @@ namespace ExorAIO.Champions.Olaf
             if (Variables.W.IsReady() &&
                 ObjectManager.Player.IsWindingUp &&
                 Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(null)) &&
-                (Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>() && Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo))
+
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>()))
             {
                 Variables.W.Cast();
             }
@@ -44,12 +57,19 @@ namespace ExorAIO.Champions.Olaf
             /// The R Anti-HardCC Logic.
             /// </summary>
             if (Variables.R.IsReady() &&
-                (Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.useranticc").GetValue<bool>() && Bools.ShouldCleanse()))
+
+                (Bools.ShouldCleanse() &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.useranticc").GetValue<bool>() && Bools.ShouldCleanse()))
             {
                 Variables.R.Cast();
             }
         }
 
+        /// <summary>
+        /// Called on do-cast.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The args.</param>
         public static void ExecuteModes(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             /// <summary>
@@ -57,7 +77,9 @@ namespace ExorAIO.Champions.Olaf
             /// </summary>
             if (Variables.Q.IsReady() &&
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.Q.Range) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>())
+
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>()))
             {
                 Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
                 return;
@@ -68,7 +90,9 @@ namespace ExorAIO.Champions.Olaf
             /// </summary>
             if (Variables.E.IsReady() &&
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.E.Range) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useecombo").GetValue<bool>())
+
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>()))
             {
                 Variables.E.Cast((Obj_AI_Hero)args.Target);
 
@@ -92,14 +116,22 @@ namespace ExorAIO.Champions.Olaf
             }
         }
 
+        /// <summary>
+        /// Called on do-cast.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The args.</param>
         public static void ExecuteFarm(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             /// <summary>
             /// The Q Farm Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
-                Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 3 &&
-                (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>() && ObjectManager.Player.ManaPercent > ManaManager.NeededQMana))
+
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
+                    ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
+                    Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 3 &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>()))
             {
                 Variables.Q.Cast(Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).Position);
             }

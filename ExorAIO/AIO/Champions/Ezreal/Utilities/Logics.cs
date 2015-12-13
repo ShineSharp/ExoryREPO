@@ -20,6 +20,19 @@ namespace ExorAIO.Champions.Ezreal
         public static void ExecuteAuto(EventArgs args)
         {
             /// <summary>
+            /// The Tear Stacking Logic
+            /// </summary>
+            if (Variables.Q.IsReady() &&
+                Bools.HasTear(ObjectManager.Player) &&
+                !ObjectManager.Player.IsRecalling() &&
+                ObjectManager.Player.CountEnemiesInRange(1500) == 0 &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.misc.stacktear").GetValue<bool>() &&
+                ObjectManager.Player.ManaPercent > Variables.Menu.Item($"{Variables.MainMenuName}.misc.stacktearmana").GetValue<Slider>().Value)
+            {
+                Variables.Q.Cast(Game.CursorPos);
+            }
+
+            /// <summary>
             /// The Q KillSteal Logic,
             /// The Q Immobile Harass Logic,
             /// The Q AutoHarass Logic.
