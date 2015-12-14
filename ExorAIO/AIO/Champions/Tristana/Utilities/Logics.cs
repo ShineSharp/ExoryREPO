@@ -7,9 +7,9 @@ namespace ExorAIO.Champions.Tristana
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using Orbwalking = SFXTargetSelector.Orbwalking;
-
     using ExorAIO.Utilities;
+
+    using Orbwalking = SFXTargetSelector.Orbwalking;
 
     /// <summary>
     /// The logics class.
@@ -38,6 +38,7 @@ namespace ExorAIO.Champions.Tristana
             if (Variables.R.IsReady() &&
                 Targets.Target != null &&
                 !ObjectManager.Player.IsWindingUp &&
+                Targets.Target.IsValidTarget(Variables.R.Range) &&
                 KillSteal.Damage(Targets.Target) > (Targets.Target).Health &&
             
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
@@ -73,6 +74,7 @@ namespace ExorAIO.Champions.Tristana
             /// The E Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
+                Targets.Target.IsValidTarget(Variables.E.Range) &&
                 ((Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useeauto").GetValue<bool>() &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.esettings.ewhitelist.{((Obj_AI_Hero)args.Target).ChampionName.ToLower()}").GetValue<bool>()) ||
