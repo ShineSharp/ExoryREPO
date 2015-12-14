@@ -35,15 +35,15 @@ namespace ExorAIO.Champions.Jinx
 
                     case Orbwalking.OrbwalkingMode.LaneClear:
                         if (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>() &&
+                            (Bools.IsUsingFishBones() && ObjectManager.Player.ManaPercent < ManaManager.NeededQMana) &&
                             ((GameObjects.EnemyMinions.Count(minions => minions.Distance(Targets.QMinions.FirstOrDefault()) < 225f) > 2 && !Bools.IsUsingFishBones()) ||
-                            (GameObjects.EnemyMinions.Count(minions => minions.Distance(Targets.QMinions.FirstOrDefault()) < 225f) < 2 && Bools.IsUsingFishBones()) ||
-                            (Bools.IsUsingFishBones() && ObjectManager.Player.ManaPercent < ManaManager.NeededQMana)))
+                            (GameObjects.EnemyMinions.Count(minions => minions.Distance(Targets.QMinions.FirstOrDefault()) < 225f) < 2 && Bools.IsUsingFishBones())))
                         {
                             Variables.Q.Cast();
                         }
                     break;
 
-                    case Orbwalking.OrbwalkingMode.None:
+                    default:
                         if (Bools.IsUsingFishBones())
                         {
                             Variables.Q.Cast();

@@ -12,32 +12,51 @@ namespace ExorAIO.Champions.DrMundo
 
     using ExorAIO.Utilities;
 
+    /// <summary>
+    /// The logics class.
+    /// </summary>
     public class Logics
     {
+        /// <summary>
+        /// Called when the game updates itself.
+        /// </summary>
+        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void ExecuteAuto(EventArgs args)
         {
-            /*
-                Q Harass/Farm Logic;
-                Q KillSteal Logic;
-            */
+            /// <summary>
+            /// The Q Combo Logic,
+            /// The Q AutoHarass Logic,
+            /// The Q Killsteal Logic.
+            /// </summary>
             if (Variables.Q.IsReady() &&
-                Targets.Target.IsValidTarget(Variables.Q.Range) &&
                 ObjectManager.Player.HealthPercent > 10 &&
-                ((Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>() && Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo) ||
-                (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqautoharass").GetValue<bool>() && ObjectManager.Player.HealthPercent >= 50) ||
-                (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqks").GetValue<bool>() && Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health)))
+                Targets.Target.IsValidTarget(Variables.Q.Range) &&
+                Variables.R.GetPrediction(Targets.Target).Hitchance >= HitChance.VeryHigh &&
+
+                ((Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>()) ||
+
+                (ObjectManager.Player.HealthPercent >= 50 &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqautoharass").GetValue<bool>()) ||
+
+                (Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqks").GetValue<bool>())))
             {
-                Variables.Q.CastIfHitchanceEquals(Targets.Target, HitChance.VeryHigh, false);
+                Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
             }
 
-            /*
-                W Combo Logic;
-            */
+            /// <summary>
+            /// The W Combo Logic.
+            /// </summary>
             if (Variables.W.IsReady() &&
-                (Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>() && Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo))
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>()))
             {
-                if ((!ObjectManager.Player.HasBuff("BurningAgony") && (Targets.Target.IsValidTarget(Variables.W.Range) && ObjectManager.Player.HealthPercent >= 35)) ||
-                    (ObjectManager.Player.HasBuff("BurningAgony") && (!Targets.Target.IsValidTarget(Variables.W.Range) || ObjectManager.Player.HealthPercent < 35)))
+                if (((Targets.Target.IsValidTarget(Variables.W.Range) && ObjectManager.Player.HealthPercent >= 35) &&
+                        !ObjectManager.Player.HasBuff("BurningAgony")) ||
+
+                    ((!Targets.Target.IsValidTarget(Variables.W.Range) || ObjectManager.Player.HealthPercent < 35) &&
+                        ObjectManager.Player.HasBuff("BurningAgony")))
                 {
                     Variables.W.Cast();
                     return;
@@ -45,15 +64,16 @@ namespace ExorAIO.Champions.DrMundo
                 Variables.W.Cast();
             }
             
-            /*
-                W Farm Logic;
-            */
+            /// <summary>
+            /// The W Farm Logic.
+            /// </summary>
             if (Variables.W.IsReady() &&
-                ObjectManager.Player.HealthPercent >= 35 &&
-                (Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarm").GetValue<bool>() && Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear))
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarm").GetValue<bool>()))
             {
-                if ((!ObjectManager.Player.HasBuff("BurningAgony") && Targets.Minions.Count() >= 2 &&
-                    ObjectManager.Player.Health >= Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarmhp").GetValue<Slider>().Value) ||
+                if ((!ObjectManager.Player.HasBuff("BurningAgony") && (Targets.Minions.Count() >= 2 &&
+                        ObjectManager.Player.Health >= Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarmhp").GetValue<Slider>().Value)) ||
+
                     (ObjectManager.Player.HasBuff("BurningAgony") && (Targets.Minions.Count() < 2 ||
                         ObjectManager.Player.Health < Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarmhp").GetValue<Slider>().Value)))
                 {
@@ -63,9 +83,9 @@ namespace ExorAIO.Champions.DrMundo
                 Variables.W.Cast();
             }
 
-            /*
-                R LifeSaver Logic;
-            */
+            /// <summary>
+            /// The R Lifesaver Logic.
+            /// </summary>
             if (Variables.R.IsReady() &&
                 ObjectManager.Player.CountEnemiesInRange(700) > 0 &&
                 (Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.userlifesaver").GetValue<bool>() &&
@@ -75,16 +95,21 @@ namespace ExorAIO.Champions.DrMundo
             }
         }
 
+        /// <summary>
+        /// Called on do-cast.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The args.</param>
         public static void ExecuteModes(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            /*
-                E Combo Logic;
-            */
+            /// <summary>
+            /// The E Combo Logic.
+            /// </summary>
             if (Variables.E.IsReady() &&
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.E.Range) &&
-                (Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useecombo").GetValue<bool>() && Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo))
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useecombo").GetValue<bool>()))
             {
-                Orbwalking.ResetAutoAttackTimer();
                 Variables.E.Cast();
 
                 if (Variables.Menu.Item($"{Variables.MainMenuName}.miscsettings.useresetters").GetValue<bool>())
