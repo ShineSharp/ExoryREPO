@@ -9,6 +9,8 @@ namespace ExorAIO.Champions.Jinx
 
     using ExorAIO.Utilities;
 
+    using ItemData = LeagueSharp.Common.Data.ItemData;
+
     using Orbwalking = SFXTargetSelector.Orbwalking;
 
     /// <summary>
@@ -22,6 +24,8 @@ namespace ExorAIO.Champions.Jinx
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void ExecuteAuto(EventArgs args)
         {
+            var fishbonesRange = Variables.Q.Range + (25f * ObjectManager.Player.Spellbook.GetSpell(SpellSlot.Q).Level);
+
             /// <summary>
             /// The Q Switching Logic.
             /// </summary>
@@ -34,9 +38,12 @@ namespace ExorAIO.Champions.Jinx
                     /// </summary>
                     case Orbwalking.OrbwalkingMode.Combo:
 
-                        if (((Bools.IsUsingFishBones() && Targets.Target.IsValidTarget(ObjectManager.Player.BoundingRadius + 525f)) ||
-                                (!Bools.IsUsingFishBones() && (!Targets.Target.IsValidTarget(ObjectManager.Player.BoundingRadius + 525f) && Targets.Target.IsValidTarget(Variables.Q.Range))) &&
-                                Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqauto").GetValue<bool>()))
+                        if (((Bools.IsUsingFishBones() && Targets.Target.IsValidTarget(Ranges.staticMinigunRange)) ||
+                                (!Bools.IsUsingFishBones() &&
+                                    (!Targets.Target.IsValidTarget(Ranges.staticMinigunRange) &&
+                                    Targets.Target.IsValidTarget(fishbonesRange)))) &&
+
+                                Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqauto").GetValue<bool>())
                         {
                             Variables.Q.Cast();
                         }
@@ -48,10 +55,24 @@ namespace ExorAIO.Champions.Jinx
                     /// </summary>
                     case Orbwalking.OrbwalkingMode.LaneClear:
 
-                        if (((Bools.IsUsingFishBones() && ObjectManager.Player.ManaPercent < ManaManager.NeededQMana) &&
-                                ((GameObjects.EnemyMinions.Count(minions => minions.Distance(Targets.QMinions.FirstOrDefault()) < 225f) > 2 && !Bools.IsUsingFishBones()) ||
-                                (GameObjects.EnemyMinions.Count(minions => minions.Distance(Targets.QMinions.FirstOrDefault()) < 225f) < 2 && Bools.IsUsingFishBones()))) &&
-                                Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>())
+                        if ((Bools.IsUsingFishBones() && ObjectManager.Player.ManaPercent < ManaManager.NeededQMana) &&
+                            (((GameObjects.EnemyMinions.Count(
+                                minions =>
+                                    minions.Distance(
+                                        GameObjects.EnemyMinions.Where(
+                                            qminion =>
+                                                qminion.IsValidTarget(fishbonesRange)).FirstOrDefault()) < 225f) > 2 &&
+                                !Bools.IsUsingFishBones()) ||
+
+                                (GameObjects.EnemyMinions.Count(
+                                    minions =>
+                                        minions.Distance(
+                                            GameObjects.EnemyMinions.Where(
+                                                qminion =>
+                                                    qminion.IsValidTarget(fishbonesRange)).FirstOrDefault()) < 225f) < 2 &&
+                                    Bools.IsUsingFishBones())) &&
+
+                                Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>()))
                         {
                             Variables.Q.Cast();
                         }
@@ -66,7 +87,9 @@ namespace ExorAIO.Champions.Jinx
             /// The W Combo Part.1 Logic.
             /// </summary>
             if (Variables.W.IsReady() &&
-                (!Targets.Target.IsValidTarget(Variables.Q.Range) && Targets.Target.IsValidTarget(Variables.W.Range)) &&
+                (!Targets.Target.IsValidTarget(fishbonesRange) &&
+                    Targets.Target.IsValidTarget(Variables.W.Range)) &&
+
                 Variables.W.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
 
                 ((Targets.Target.Health < Variables.W.GetDamage(Targets.Target) &&
@@ -152,7 +175,7 @@ namespace ExorAIO.Champions.Jinx
             if (Variables.W.IsReady() &&
                 Variables.W.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
                 (((Obj_AI_Hero)args.Target).IsValidTarget(Variables.W.Range) &&
-                    !((Obj_AI_Hero)args.Target).IsValidTarget(ObjectManager.Player.BoundingRadius + 525f)) &&
+                    !((Obj_AI_Hero)args.Target).IsValidTarget(Ranges.staticMinigunRange)) &&
 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>()))

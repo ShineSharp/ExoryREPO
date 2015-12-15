@@ -7,10 +7,12 @@ namespace ExorAIO.Champions.Jinx
     using LeagueSharp;
     using LeagueSharp.Common;
 
+    using ExorAIO.Utilities;
+
+    using ItemData = LeagueSharp.Common.Data.ItemData;
+
     using Orbwalking = SFXTargetSelector.Orbwalking;
     using TargetSelector = SFXTargetSelector.TargetSelector;
-
-    using ExorAIO.Utilities;
 
     /// <summary>
     /// The settings class.
@@ -22,7 +24,7 @@ namespace ExorAIO.Champions.Jinx
         /// </summary>
         public static void SetSpells()
         {
-            Variables.Q = new Spell(SpellSlot.Q, ObjectManager.Player.BoundingRadius*2 + 600f + (25f * (ObjectManager.Player.Spellbook.GetSpell(SpellSlot.Q).Level - 1)));
+            Variables.Q = new Spell(SpellSlot.Q, Ranges.staticMinigunRange + 50f);
             Variables.W = new Spell(SpellSlot.W, 1500f);
             Variables.E = new Spell(SpellSlot.E, 900f);
             Variables.R = new Spell(SpellSlot.R, 4000f);
@@ -95,6 +97,45 @@ namespace ExorAIO.Champions.Jinx
     }
 
     /// <summary>
+    /// The ranges class.
+    /// </summary>
+    public class Ranges
+    {
+        /// <summary>
+        /// Gets the real character radius.
+        /// </summary>
+        public static float Radius = ObjectManager.Player.BoundingRadius*2;
+
+        /// <summary>
+        /// Gets the range increasement from the rapidfire cannon item.
+        /// </summary>
+        public static float GetRapidFireCannonIncreasement(float sum)
+        {
+            float tot = (sum / 100f) * 35f;
+
+            if (!ItemData.Rapid_Firecannon.GetItem().IsReady() ||
+                ObjectManager.Player.GetBuffCount("itemstatikshankcharge") < 100)
+            {
+                tot = 0f;
+            }
+            
+            if (tot > 150f)
+            {
+                tot = 150f;
+            }
+            
+            return tot;
+        }
+        
+        /// <summary>
+        /// Gets the static minigun stance range
+        /// </summary>
+        public static float staticMinigunRange
+        =>
+            Radius + 525f + GetRapidFireCannonIncreasement(Radius + 525f);
+    }
+    
+    /// <summary>
     /// The targets class.
     /// </summary>
     public class Targets
@@ -103,15 +144,5 @@ namespace ExorAIO.Champions.Jinx
         /// The main hero target.
         /// </summary>
         public static Obj_AI_Hero Target => TargetSelector.GetTarget(Variables.W.Range + 200f, LeagueSharp.DamageType.Physical);
-
-        /// <summary>
-        /// The minion targets.
-        /// </summary>
-        public static IEnumerable<Obj_AI_Minion> QMinions
-        => 
-            GameObjects.EnemyMinions
-                .Where(
-                    qminion =>
-                        qminion.IsValidTarget(Variables.Q.Range));
     }
 }
