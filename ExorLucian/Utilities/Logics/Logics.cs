@@ -29,14 +29,14 @@ namespace ExorLucian
                 /// <summary>
                 /// The Q AutoHarass Logic.
                 /// </summary>
-                if (ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
+                if (!Targets.Target.IsValidTarget(Variables.Q.Range) &&
+                    ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
                     (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Mixed || Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqautoharass").GetValue<bool>())
                 {
                     foreach (var obj in Targets.Minions
                         .Where(
                             obj =>
-                                !Targets.Target.IsValidTarget(Variables.Q.Range) &&
                                 !(new Geometry.Polygon.Rectangle(ObjectManager.Player.Position, ObjectManager.Player.Position.Extend(obj.Position, Variables.Q.Range + 600f), Variables.Q.Width)
                                 .IsOutside(Variables.Q.GetPrediction(Targets.Target).UnitPosition.To2D()))))
                     {
