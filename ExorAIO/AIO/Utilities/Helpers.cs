@@ -77,14 +77,18 @@ namespace ExorAIO.Utilities
                     Variables.Menu.Item($"{Variables.MainMenuName}.drawings.q") != null &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.drawings.q").GetValue<bool>())
                 {
-                    if (ObjectManager.Player.ChampionName.Equals("Jinx") &&
-                        Bools.IsUsingFishBones())
+                    if (ObjectManager.Player.ChampionName.Equals("Jinx"))
                     {
-                        Render.Circle.DrawCircle(ObjectManager.Player.Position, Ranges.StaticMinigunRange, System.Drawing.Color.Green, 1);
+                        if(Bools.IsUsingFishBones())
+                        {
+                            Render.Circle.DrawCircle(ObjectManager.Player.Position, Ranges.StaticMinigunRange, System.Drawing.Color.Green, 1);
+                            return;
+                        }
+                        
+                        Render.Circle.DrawCircle(ObjectManager.Player.Position, fishbonesRange, System.Drawing.Color.Green, 1);
                         return;
                     }
-
-                    Render.Circle.DrawCircle(ObjectManager.Player.Position, fishbonesRange, System.Drawing.Color.Green, 1);
+                    Render.Circle.DrawCircle(ObjectManager.Player.Position, Variables.Q.Range, System.Drawing.Color.Green, 1);
                 }
 
                 /// <summary>
