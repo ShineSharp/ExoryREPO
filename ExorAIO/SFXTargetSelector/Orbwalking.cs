@@ -437,6 +437,16 @@ namespace SFXTargetSelector
         /// <returns><c>true</c> if this instance can attack; otherwise, <c>false</c>.</returns>
         public static bool CanAttack(float extraDelay = 0)
         {
+            if (Player.ChampionName == "Graves" && Attack)
+            {
+                var attackDelay = 1.0740296828d * 1000 * Player.AttackDelay - 716.2381256175d;
+                if (LeagueSharp.Common.Utils.GameTimeTickCount >= LastAaTick + attackDelay &&
+                    Player.HasBuff("GravesBasicAttackAmmo1"))
+                {
+                    return true;
+                }
+                return false;
+            }
             return LeagueSharp.Common.Utils.GameTimeTickCount >= LastAaTick + Player.AttackDelay * 1000 + extraDelay && Attack;
         }
 
