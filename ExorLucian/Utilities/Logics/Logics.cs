@@ -30,7 +30,7 @@ namespace ExorLucian
                 /// The Q AutoHarass Logic.
                 /// </summary>
                 if (ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
-                    Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo &&
+                    (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Mixed || Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqautoharass").GetValue<bool>())
                 {
                     foreach (var obj in Targets.Minions
