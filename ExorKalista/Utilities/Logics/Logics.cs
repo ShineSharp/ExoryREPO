@@ -43,7 +43,7 @@ namespace ExorKalista
             if (Targets.Target != null &&
                 Variables.Q.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
-                Variables.Q.GetPrediction(Targets.Target).Hitchance >= HitChance.VeryHigh &&
+                Variables.Q.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
 
                 ((Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
@@ -201,7 +201,7 @@ namespace ExorKalista
             /// </summary>
             if (Variables.Q.IsReady() &&
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.Q.Range) &&
-                Variables.Q.GetPrediction(Targets.Target).Hitchance >= HitChance.VeryHigh &&
+                Variables.Q.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>()))
