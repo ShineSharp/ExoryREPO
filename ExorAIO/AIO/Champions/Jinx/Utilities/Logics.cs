@@ -42,13 +42,6 @@ namespace ExorAIO.Champions.Jinx
                             Variables.Q.Cast();
                         }
                     break;
-
-                    default:
-                        if (Bools.IsUsingFishBones())
-                        {
-                            Variables.Q.Cast();
-                        }
-                    break;
                 }
             }
 
