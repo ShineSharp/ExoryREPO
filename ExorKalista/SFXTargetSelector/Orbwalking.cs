@@ -449,18 +449,7 @@ namespace SFXTargetSelector
         /// <returns><c>true</c> if this instance can attack; otherwise, <c>false</c>.</returns>
         public static bool CanAttack(float extraDelay = 0)
         {
-            if (Player.ChampionName == "Graves" && Attack)
-            {
-                var attackDelay = 1.0740296828d * 1000 * Player.AttackDelay - 716.2381256175d;
-                if (LeagueSharp.Common.Utils.GameTimeTickCount + Game.Ping / 2 + 25 >= LastAaTick + attackDelay &&
-                    Player.HasBuff("GravesBasicAttackAmmo1"))
-                {
-                    return true;
-                }
-                return false;
-            }
-            return LeagueSharp.Common.Utils.GameTimeTickCount + Game.Ping / 2 + 25 >=
-                   LastAaTick + Player.AttackDelay * 1000 + extraDelay && Attack;
+            return LeagueSharp.Common.Utils.GameTimeTickCount >= LastAaTick + Player.AttackDelay * 1000 + extraDelay && Attack;
         }
 
         /// <summary>
@@ -690,7 +679,7 @@ namespace SFXTargetSelector
         }
 
         /// <summary>
-        ///     Orbwalks a target while moving to Position.
+        /// Orbwalks a target while moving to Position.
         /// </summary>
         /// <param name="target">The target.</param>
         /// <param name="position">The position.</param>
@@ -705,44 +694,31 @@ namespace SFXTargetSelector
             bool useFixedDistance = true,
             bool randomizeMinDistance = true)
         {
-            if (LeagueSharp.Common.Utils.GameTimeTickCount - LastAttackCommandT < 70 + Math.Min(60, Game.Ping))
+            if (LeagueSharp.Common.Utils.GameTimeTickCount - LastAttackCommandT < (70 + Math.Min(60, Game.Ping)))
             {
                 return;
             }
 
             try
             {
-                var randomize = Randomizes[OrbwalkingRandomize.Attack];
-                if (target.IsValidTarget() && CanAttack(randomize.Current))
+                if (target.IsValidTarget() && CanAttack())
                 {
-                    SetRandomizeCurrent(randomize);
                     DisableNextAttack = false;
                     FireBeforeAttack(target);
-
+                    _autoattackCounter++;
+                    Player.IssueOrder(GameObjectOrder.AttackUnit, target);
                     if (!DisableNextAttack)
                     {
-                        if (!NoCancelChamps.Contains(ChampionName))
-                        {
-                            _missileLaunched = false;
-                        }
-
                         if (Player.IssueOrder(GameObjectOrder.AttackUnit, target))
                         {
                             LastAttackCommandT = LeagueSharp.Common.Utils.GameTimeTickCount;
                             _lastTarget = target;
                         }
-
-                        return;
                     }
                 }
 
-                if (CanMove(extraWindup))
+                else if (CanMove(extraWindup))
                 {
-                    if (Orbwalker.LimitAttackSpeed && (Player.AttackDelay < 1 / 2.6f) && _autoattackCounter % 3 != 0 &&
-                        !CanMove(500, true))
-                    {
-                        return;
-                    }
                     MoveTo(position, holdAreaRadius, false, useFixedDistance, randomizeMinDistance);
                 }
             }
@@ -821,11 +797,6 @@ namespace SFXTargetSelector
             try
             {
                 var spellName = spell.SData.Name;
-
-                if (unit.IsMe && IsAutoAttackReset(spellName) && Math.Abs(spell.SData.SpellCastTime) <= 0)
-                {
-                    ResetAutoAttackTimer();
-                }
 
                 if (!IsAutoAttack(spellName))
                 {
