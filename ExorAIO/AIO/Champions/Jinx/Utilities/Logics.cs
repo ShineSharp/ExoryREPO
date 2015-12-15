@@ -38,9 +38,9 @@ namespace ExorAIO.Champions.Jinx
                     /// </summary>
                     case Orbwalking.OrbwalkingMode.Combo:
 
-                        if (((Bools.IsUsingFishBones() && Targets.Target.IsValidTarget(Ranges.staticMinigunRange)) ||
+                        if (((Bools.IsUsingFishBones() && Targets.Target.IsValidTarget(Ranges.StaticMinigunRange)) ||
                                 (!Bools.IsUsingFishBones() &&
-                                    (!Targets.Target.IsValidTarget(Ranges.staticMinigunRange) &&
+                                    (!Targets.Target.IsValidTarget(Ranges.StaticMinigunRange) &&
                                     Targets.Target.IsValidTarget(fishbonesRange)))) &&
 
                                 Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqauto").GetValue<bool>())
@@ -175,7 +175,7 @@ namespace ExorAIO.Champions.Jinx
             if (Variables.W.IsReady() &&
                 Variables.W.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
                 (((Obj_AI_Hero)args.Target).IsValidTarget(Variables.W.Range) &&
-                    !((Obj_AI_Hero)args.Target).IsValidTarget(Ranges.staticMinigunRange)) &&
+                    !((Obj_AI_Hero)args.Target).IsValidTarget(Ranges.StaticMinigunRange)) &&
 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>()))

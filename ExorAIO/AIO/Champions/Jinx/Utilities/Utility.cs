@@ -24,7 +24,7 @@ namespace ExorAIO.Champions.Jinx
         /// </summary>
         public static void SetSpells()
         {
-            Variables.Q = new Spell(SpellSlot.Q, Ranges.staticMinigunRange + 50f);
+            Variables.Q = new Spell(SpellSlot.Q, Ranges.StaticMinigunRange + 50f);
             Variables.W = new Spell(SpellSlot.W, 1500f);
             Variables.E = new Spell(SpellSlot.E, 900f);
             Variables.R = new Spell(SpellSlot.R, 4000f);
@@ -105,34 +105,13 @@ namespace ExorAIO.Champions.Jinx
         /// Gets the real character radius.
         /// </summary>
         public static float Radius = ObjectManager.Player.BoundingRadius*2;
-
-        /// <summary>
-        /// Gets the range increasement from the rapidfire cannon item.
-        /// </summary>
-        public static float GetRapidFireCannonIncreasement(float sum)
-        {
-            float tot = (sum / 100f) * 35f;
-
-            if (!ItemData.Rapid_Firecannon.GetItem().IsReady() ||
-                ObjectManager.Player.GetBuffCount("itemstatikshankcharge") < 100)
-            {
-                tot = 0f;
-            }
-            
-            if (tot > 150f)
-            {
-                tot = 150f;
-            }
-            
-            return tot;
-        }
         
         /// <summary>
         /// Gets the static minigun stance range
         /// </summary>
-        public static float staticMinigunRange
+        public static float StaticMinigunRange
         =>
-            Radius + 525f + GetRapidFireCannonIncreasement(Radius + 525f);
+            Radius + 525f + Variables.GetRapidFireCannonIncreasement(Radius + 525f);
     }
     
     /// <summary>
