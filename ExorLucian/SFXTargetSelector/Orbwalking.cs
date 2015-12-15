@@ -135,7 +135,7 @@ namespace SFXTargetSelector
         {
             "dariusnoxiantacticsonh", "fioraflurry", "garenq",
             "gravesmove", "hecarimrapidslash", "jaxempowertwo", "jaycehypercharge", "leonashieldofdaybreak", "luciane",
-            "lucianq", "monkeykingdoubleattack", "mordekaisermaceofspades", "nasusq", "nautiluspiercinggaze",
+            "monkeykingdoubleattack", "mordekaisermaceofspades", "nasusq", "nautiluspiercinggaze",
             "netherblade", "gangplankqwrapper", "poppydevastatingblow", "powerfist", "renektonpreexecute", "rengarq",
             "shyvanadoubleattack", "sivirw", "takedown", "talonnoxiandiplomacy", "trundletrollsmash", "vaynetumble",
             "vie", "volibearq", "xenzhaocombotarget", "yorickspectral", "reksaiq", "itemtitanichydracleave", "masochism",
@@ -164,7 +164,7 @@ namespace SFXTargetSelector
         private static readonly string[] Attacks =
         {
             "caitlynheadshotmissile", "frostarrow", "garenslash2",
-            "kennenmegaproc", "lucianpassiveattack", "masteryidoublestrike", "quinnwenhanced", "renektonexecute",
+            "kennenmegaproc", "masteryidoublestrike", "quinnwenhanced", "renektonexecute",
             "renektonsuperexecute", "rengarnewpassivebuffdash", "trundleq", "xenzhaothrust", "xenzhaothrust2",
             "xenzhaothrust3", "viktorqbuff"
         };

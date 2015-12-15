@@ -44,21 +44,21 @@ namespace ExorLucian
                 }
 
                 /// <summary>
-                /// Loads the E drawing.
+                /// Loads the W drawing.
                 /// </summary>
-                if (Variables.E.IsReady() &&
+                if (Variables.W.IsReady() &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.drawings.w").GetValue<bool>())
                 {
                     Render.Circle.DrawCircle(ObjectManager.Player.Position, Variables.W.Range, System.Drawing.Color.Cyan);
                 }
 
                 /// <summary>
-                /// Loads the R drawing.
+                /// Loads the E drawing.
                 /// </summary>
-                if (Variables.R.IsReady() &&
+                if (Variables.E.IsReady() &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.drawings.e").GetValue<bool>())
                 {
-                    Render.Circle.DrawCircle(ObjectManager.Player.Position, Variables.E.Range, System.Drawing.Color.Red);
+                    Render.Circle.DrawCircle(ObjectManager.Player.Position, Variables.E.Range, System.Drawing.Color.Purple);
                 }
             };
         }

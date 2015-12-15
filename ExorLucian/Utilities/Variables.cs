@@ -87,11 +87,6 @@ namespace ExorLucian
         public static Menu DrawingsMenu { get; set; }
 
         /// <summary>
-        /// Gets or sets the Soulbound.
-        /// </summary>
-        public static Obj_AI_Hero SoulBound { get; set; }
-
-        /// <summary>
         /// Gets or sets the orbwalker.
         /// </summary>
         public static Orbwalking.Orbwalker Orbwalker { get; set; }

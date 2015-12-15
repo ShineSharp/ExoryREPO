@@ -30,12 +30,13 @@ namespace ExorLucian
                 /// The Q AutoHarass Logic.
                 /// </summary>
                 if (ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
+                    Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqautoharass").GetValue<bool>())
                 {
                     foreach (var obj in Targets.Minions
                         .Where(
                             obj =>
-                                !(obj is Obj_AI_Hero) &&
+                                !Targets.Target.IsValidTarget(Variables.Q.Range) &&
                                 !(new Geometry.Polygon.Rectangle(ObjectManager.Player.Position, ObjectManager.Player.Position.Extend(obj.Position, Variables.Q.Range + 600f), Variables.Q.Width)
                                 .IsOutside(Variables.Q.GetPrediction(Targets.Target).UnitPosition.To2D()))))
                     {
@@ -96,7 +97,6 @@ namespace ExorLucian
             /// </summary>
             if (Variables.E.IsReady() &&
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.E.Range) &&
-                ObjectManager.Player.CountEnemiesInRange(1500) < 2 &&
 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useeauto").GetValue<bool>()))
