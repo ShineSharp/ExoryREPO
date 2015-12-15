@@ -65,6 +65,9 @@ namespace ExorAIO.Utilities
         {
             Drawing.OnDraw += delegate
             {
+                var RangeIncreaser = 7 * ObjectManager.Player.Level;
+                var fishbonesRange = Variables.Q.Range + (25f * ObjectManager.Player.Spellbook.GetSpell(SpellSlot.Q).Level);
+
                 /// <summary>
                 /// Loads the Q drawing.
                 /// </summary>
@@ -74,8 +77,6 @@ namespace ExorAIO.Utilities
                     Variables.Menu.Item($"{Variables.MainMenuName}.drawings.q") != null &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.drawings.q").GetValue<bool>())
                 {
-                    var fishbonesRange = Variables.Q.Range + (25f * ObjectManager.Player.Spellbook.GetSpell(SpellSlot.Q).Level);
-                    
                     if (ObjectManager.Player.ChampionName.Equals("Jinx") &&
                         Bools.IsUsingFishBones())
                     {
@@ -107,6 +108,12 @@ namespace ExorAIO.Utilities
                     Variables.Menu.Item($"{Variables.MainMenuName}.drawings.e") != null &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.drawings.e").GetValue<bool>())
                 {
+                    if (ObjectManager.Player.ChampionName.Equals("Tristana"))
+                    {
+                        Render.Circle.DrawCircle(ObjectManager.Player.Position, Variables.E.Range + RangeIncreaser, System.Drawing.Color.Cyan, 1);
+                        return;
+                    }
+
                     Render.Circle.DrawCircle(ObjectManager.Player.Position, Variables.E.Range, System.Drawing.Color.Cyan, 1);
                 }
 
@@ -119,6 +126,12 @@ namespace ExorAIO.Utilities
                     Variables.Menu.Item($"{Variables.MainMenuName}.drawings.r") != null &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.drawings.r").GetValue<bool>())
                 {
+                    if (ObjectManager.Player.ChampionName.Equals("Tristana"))
+                    {
+                        Render.Circle.DrawCircle(ObjectManager.Player.Position, Variables.R.Range + RangeIncreaser, System.Drawing.Color.Red, 1);
+                        return;
+                    }
+
                     Render.Circle.DrawCircle(ObjectManager.Player.Position, Variables.R.Range, System.Drawing.Color.Red, 1);
                 }
             };

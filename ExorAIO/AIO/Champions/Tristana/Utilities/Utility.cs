@@ -23,8 +23,8 @@ namespace ExorAIO.Champions.Tristana
         public static void SetSpells()
         {
             Variables.Q = new Spell(SpellSlot.Q);
-            Variables.E = new Spell(SpellSlot.E, ObjectManager.Player.BoundingRadius + (550 + (7 * ObjectManager.Player.Level)));
-            Variables.R = new Spell(SpellSlot.R, ObjectManager.Player.BoundingRadius + (550 + (7 * ObjectManager.Player.Level)));
+            Variables.E = new Spell(SpellSlot.E, ObjectManager.Player.BoundingRadius + 543f);
+            Variables.R = new Spell(SpellSlot.R, ObjectManager.Player.BoundingRadius + 543f);
         }
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace ExorAIO.Champions.Tristana
         /// <summary>
         /// The main hero target.
         /// </summary>
-        public static Obj_AI_Hero Target => TargetSelector.GetTarget(Variables.E.Range, LeagueSharp.DamageType.Physical);
+        public static Obj_AI_Hero Target => TargetSelector.GetTarget(Orbwalking.GetRealAutoAttackRange(null), LeagueSharp.DamageType.Physical);
 
         /// <summary>
         /// The charged target.
@@ -148,7 +148,7 @@ namespace ExorAIO.Champions.Tristana
         => 
             MinionManager.GetMinions(
                 ObjectManager.Player.ServerPosition,
-                Variables.E.Range,
+                Orbwalking.GetRealAutoAttackRange(null),
                 MinionTypes.All
             );
     }
