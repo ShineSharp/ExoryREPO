@@ -56,7 +56,7 @@ namespace ExorAIO.Champions.Corki
             /// </summary>
             if (Variables.R.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.R.Range) &&
-                Variables.R.GetPrediction(Targets.Target).Hitchance >= HitChance.VeryHigh &&
+                Variables.R.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
 
                 ((Variables.R.GetDamage(Targets.Target) > Targets.Target.Health &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.userks").GetValue<bool>()) ||
@@ -93,7 +93,7 @@ namespace ExorAIO.Champions.Corki
             /// </summary>
             if (Variables.R.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.R.Range) &&
-                Variables.R.GetPrediction(Targets.Target).Hitchance >= HitChance.VeryHigh &&
+                Variables.R.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.usercombo").GetValue<bool>()))
