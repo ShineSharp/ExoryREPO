@@ -724,7 +724,7 @@ namespace SFXTargetSelector
         {
             if (spellbook.Owner.IsValid && spellbook.Owner.IsMe && args.DestroyMissile && args.StopAnimation)
             {
-                ResetAutoAttackTimer();
+                //ResetAutoAttackTimer();
             }
         }
 
