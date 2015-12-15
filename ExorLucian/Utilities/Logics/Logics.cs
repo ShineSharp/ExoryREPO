@@ -63,7 +63,7 @@ namespace ExorLucian
             if (Variables.W.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.W.Range) &&
                 Variables.W.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
-                                
+
                 (Variables.W.GetDamage(Targets.Target) > Targets.Target.Health &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewks").GetValue<bool>()))
             {
@@ -149,7 +149,7 @@ namespace ExorLucian
                     Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 3 &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>()))
             {
-                Variables.Q.Cast(Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).Position);
+                Variables.Q.CastOnUnit(Targets.Minions.FirstOrDefault());
             }
         }
     }
