@@ -7,12 +7,19 @@ namespace ExorAIO.Champions.Jinx
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using Orbwalking = SFXTargetSelector.Orbwalking;
-
     using ExorAIO.Utilities;
 
+    using Orbwalking = SFXTargetSelector.Orbwalking;
+
+    /// <summary>
+    /// The logics class.
+    /// </summary>
     public class Logics
     {
+        /// <summary>
+        /// Called when the game updates itself.
+        /// </summary>
+        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void ExecuteAuto(EventArgs args)
         {
             /// <summary>
@@ -22,43 +29,56 @@ namespace ExorAIO.Champions.Jinx
             {
                 switch (Variables.Orbwalker.ActiveMode)
                 {
+                    /// <summary>
+                    /// The Q Combo Logic.
+                    /// </summary>
                     case Orbwalking.OrbwalkingMode.Combo:
-                        if (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqauto").GetValue<bool>() &&
-                            ((Bools.IsUsingFishBones() && Targets.Target.IsValidTarget(ObjectManager.Player.BoundingRadius + 525f)) ||
-                            (!Bools.IsUsingFishBones() && 
-                                (Targets.Target.IsValidTarget(Variables.Q.Range) &&
-                                !Targets.Target.IsValidTarget(ObjectManager.Player.BoundingRadius + 525f)))))
+
+                        if (((Bools.IsUsingFishBones() && Targets.Target.IsValidTarget(ObjectManager.Player.BoundingRadius + 525f)) ||
+                                (!Bools.IsUsingFishBones() && (!Targets.Target.IsValidTarget(ObjectManager.Player.BoundingRadius + 525f) && Targets.Target.IsValidTarget(Variables.Q.Range))) &&
+                                Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqauto").GetValue<bool>()))
                         {
                             Variables.Q.Cast();
                         }
+
                     break;
 
+                    /// <summary>
+                    /// The Q Farm Logic.
+                    /// </summary>
                     case Orbwalking.OrbwalkingMode.LaneClear:
-                        if (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>() &&
-                            (Bools.IsUsingFishBones() && ObjectManager.Player.ManaPercent < ManaManager.NeededQMana) &&
-                            ((GameObjects.EnemyMinions.Count(minions => minions.Distance(Targets.QMinions.FirstOrDefault()) < 225f) > 2 && !Bools.IsUsingFishBones()) ||
-                            (GameObjects.EnemyMinions.Count(minions => minions.Distance(Targets.QMinions.FirstOrDefault()) < 225f) < 2 && Bools.IsUsingFishBones())))
+
+                        if (((Bools.IsUsingFishBones() && ObjectManager.Player.ManaPercent < ManaManager.NeededQMana) &&
+                                ((GameObjects.EnemyMinions.Count(minions => minions.Distance(Targets.QMinions.FirstOrDefault()) < 225f) > 2 && !Bools.IsUsingFishBones()) ||
+                                (GameObjects.EnemyMinions.Count(minions => minions.Distance(Targets.QMinions.FirstOrDefault()) < 225f) < 2 && Bools.IsUsingFishBones()))) &&
+                                Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>())
                         {
                             Variables.Q.Cast();
                         }
+
                     break;
                 }
             }
 
             /// <summary>
             /// The W KillSteal Logic,
-            /// The W Immobile Harass Logic.
-            /// The W Combo Part.1 Logic
+            /// The W Immobile Harass Logic,
+            /// The W Combo Part.1 Logic.
             /// </summary>
             if (Variables.W.IsReady() &&
-                !Targets.Target.IsValidTarget(Variables.Q.Range) &&
-                Targets.Target.IsValidTarget(Variables.W.Range) &&
-                ((Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewks").GetValue<bool>() && Targets.Target.Health <= ObjectManager.Player.GetSpellDamage(Targets.Target, SpellSlot.W)) ||
-                (Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewimmobile").GetValue<bool>() && Bools.IsImmobile(Targets.Target)) ||
-                (Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>() && Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo)))
+                (!Targets.Target.IsValidTarget(Variables.Q.Range) && Targets.Target.IsValidTarget(Variables.W.Range)) &&
+                Variables.W.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
+
+                ((Targets.Target.Health < Variables.W.GetDamage(Targets.Target) &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewks").GetValue<bool>()) ||
+
+                (Bools.IsImmobile(Targets.Target) &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewimmobile").GetValue<bool>()) ||
+
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>())))
             {
-                //Variables.W.Cast(Variables.W.GetPrediction(Targets.Target).UnitPosition);
-                Variables.W.CastIfHitchanceEquals(Targets.Target, HitChance.VeryHigh, false);
+                Variables.W.Cast(Variables.W.GetPrediction(Targets.Target).UnitPosition);
             }
 
             /// <summary>
@@ -66,11 +86,15 @@ namespace ExorAIO.Champions.Jinx
             /// </summary>
             if (Variables.E.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.E.Range) &&
-                ((Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useeimmobile").GetValue<bool>() && Bools.IsImmobile(Targets.Target)) ||
-                (Targets.Target.GetEnemiesInRange(350f)
+                
+                ((Targets.Target.GetEnemiesInRange(350f)
                     .Count(
                         enemy =>
-                            Variables.E.GetPrediction(enemy).Hitchance >= HitChance.VeryHigh) >= 2)))
+                            Variables.E.GetPrediction(enemy).Hitchance >= HitChance.VeryHigh) >= 2 &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useeauto").GetValue<bool>()) ||
+                            
+                (Bools.IsImmobile(Targets.Target) &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useeimmobile").GetValue<bool>())))
             {
                 Variables.E.Cast(Variables.E.GetPrediction(Targets.Target).CastPosition);
             }
@@ -79,16 +103,21 @@ namespace ExorAIO.Champions.Jinx
             /// The R KillSteal Logic.
             /// </summary>
             if (Variables.R.IsReady() &&
-                !Targets.Target.IsValidTarget(Variables.W.Range) &&
-                Targets.Target.IsValidTarget(Variables.W.Range + 200f) &&
-                (!Variables.W.IsReady() || !Targets.Target.IsValidTarget(Variables.W.Range)) &&
-                (Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.userks").GetValue<bool>() && Targets.Target.Health <= Variables.R.GetDamage(Targets.Target)))
+                (!Variables.W.IsReady() ||
+                    (!Targets.Target.IsValidTarget(Variables.W.Range) && Targets.Target.IsValidTarget(Variables.W.Range + 200f))) &&
+
+                (Targets.Target.Health < Variables.R.GetDamage(Targets.Target) &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.userks").GetValue<bool>()))
             {
                 Variables.R.Cast(Variables.R.GetPrediction(Targets.Target).UnitPosition);
-                return;
             }
         }
 
+        /// <summary>
+        /// Called when a cast gets executed.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The args.</param>
         public static void ExecuteSpellCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             /// <summary>
@@ -110,19 +139,25 @@ namespace ExorAIO.Champions.Jinx
             }
         }
 
+        /// <summary>
+        /// Called when a cast gets executed.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The args.</param>
         public static void ExecuteModes(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             /// <summary>
             /// The W Combo Part2 Logic.
             /// </summary>
             if (Variables.W.IsReady() &&
-                !((Obj_AI_Hero)args.Target).IsValidTarget(ObjectManager.Player.BoundingRadius + 525f) &&
-                ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.W.Range) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>() &&
-                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo)
+                Variables.W.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
+                (((Obj_AI_Hero)args.Target).IsValidTarget(Variables.W.Range) &&
+                    !((Obj_AI_Hero)args.Target).IsValidTarget(ObjectManager.Player.BoundingRadius + 525f)) &&
+
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>()))
             {
-                //Variables.W.Cast(Variables.W.GetPrediction((Obj_AI_Hero)args.Target).UnitPosition);
-                Variables.W.CastIfHitchanceEquals(Targets.Target, HitChance.VeryHigh, false);
+                Variables.W.Cast(Variables.W.GetPrediction((Obj_AI_Hero)args.Target).UnitPosition);
             }
         }
     }
