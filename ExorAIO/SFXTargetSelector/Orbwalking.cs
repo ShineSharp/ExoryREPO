@@ -787,6 +787,11 @@ namespace SFXTargetSelector
             {
                 var spellName = spell.SData.Name;
 
+                if (unit.IsMe && IsAutoAttackReset(spellName) && Math.Abs(spell.SData.SpellCastTime) <= 0)
+                {
+                    ResetAutoAttackTimer();
+                }
+
                 if (!IsAutoAttack(spellName))
                 {
                     return;
