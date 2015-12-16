@@ -79,16 +79,19 @@ namespace ExorAIO.Utilities
                 {
                     if (ObjectManager.Player.ChampionName.Equals("Jinx"))
                     {
-                        if(Bools.IsUsingFishBones())
+                        if (Bools.IsUsingFishBones())
                         {
                             Render.Circle.DrawCircle(ObjectManager.Player.Position, Ranges.StaticMinigunRange, System.Drawing.Color.Green, 1);
-                            return;
                         }
-                        
-                        Render.Circle.DrawCircle(ObjectManager.Player.Position, fishbonesRange, System.Drawing.Color.Green, 1);
-                        return;
+                        else
+                        {
+                            Render.Circle.DrawCircle(ObjectManager.Player.Position, fishbonesRange, System.Drawing.Color.Green, 1);
+                        }
                     }
-                    Render.Circle.DrawCircle(ObjectManager.Player.Position, Variables.Q.Range, System.Drawing.Color.Green, 1);
+                    else
+                    {
+                        Render.Circle.DrawCircle(ObjectManager.Player.Position, Variables.Q.Range, System.Drawing.Color.Green, 1);
+                    }
                 }
 
                 /// <summary>
@@ -115,10 +118,11 @@ namespace ExorAIO.Utilities
                     if (ObjectManager.Player.ChampionName.Equals("Tristana"))
                     {
                         Render.Circle.DrawCircle(ObjectManager.Player.Position, Variables.E.Range + RangeIncreaser, System.Drawing.Color.Cyan, 1);
-                        return;
                     }
-
-                    Render.Circle.DrawCircle(ObjectManager.Player.Position, Variables.E.Range, System.Drawing.Color.Cyan, 1);
+                    else
+                    {
+                        Render.Circle.DrawCircle(ObjectManager.Player.Position, Variables.E.Range, System.Drawing.Color.Cyan, 1);
+                    }
                 }
 
                 /// <summary>
