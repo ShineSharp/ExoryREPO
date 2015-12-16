@@ -90,11 +90,11 @@ namespace ExorAIO.Champions.Vayne
             /// The Q Farm Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
-                !ObjectManager.Player.IsWindingUp &&
                 Targets.FarmMinions.Count() > 1 &&
                 (Targets.FarmMinions.FirstOrDefault()).IsValidTarget(Variables.Q.Range) &&
 
                 (Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo &&
+                    ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>()))
             {
                 Variables.Q.Cast(Game.CursorPos);
@@ -113,7 +113,6 @@ namespace ExorAIO.Champions.Vayne
             /// The Q Combo Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
-                !ObjectManager.Player.IsWindingUp &&
 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>()))
