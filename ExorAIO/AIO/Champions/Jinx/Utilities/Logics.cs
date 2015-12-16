@@ -129,7 +129,7 @@ namespace ExorAIO.Champions.Jinx
                 (!Variables.W.IsReady() ||
                     (!Targets.Target.IsValidTarget(Variables.W.Range) && Targets.Target.IsValidTarget(Variables.W.Range + 200f))) &&
 
-                (Targets.Target.Health < Variables.R.GetDamage(Targets.Target) &&
+                (HealthPrediction.GetHealthPrediction(Targets.Target, (int)(250 + Game.Ping / 2f)) < Variables.R.GetDamage(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.userks").GetValue<bool>()))
             {
                 Variables.R.Cast(Variables.R.GetPrediction(Targets.Target).UnitPosition);
