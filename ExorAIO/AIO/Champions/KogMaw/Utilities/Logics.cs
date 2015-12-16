@@ -89,10 +89,10 @@ namespace ExorAIO.Champions.KogMaw
                 }
 
                 if (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                    Variables.R.GetCircularFarmLocation(Targets.Minions, Variables.R.Width).MinionsHit >= 3 &&
-                    ObjectManager.Player.ManaPercent > ManaManager.NeededRMana &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.userfarm").GetValue<bool>() &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.rfarmkeepstacks").GetValue<Slider>().Value <= ObjectManager.Player.GetBuffCount("kogmawlivingartillerycost"))
+                        Variables.R.GetCircularFarmLocation(Targets.Minions, Variables.R.Width).MinionsHit >= 3 &&
+                        ObjectManager.Player.ManaPercent > ManaManager.NeededRMana &&
+                        Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.userfarm").GetValue<bool>() &&
+                        Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.rfarmkeepstacks").GetValue<Slider>().Value <= ObjectManager.Player.GetBuffCount("kogmawlivingartillerycost"))
                 {
                     Variables.R.Cast(Variables.R.GetCircularFarmLocation(Targets.Minions, Variables.R.Width).Position);
                 }
@@ -147,8 +147,12 @@ namespace ExorAIO.Champions.KogMaw
             /// The E Farm Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
-                ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
-                Variables.E.GetLineFarmLocation(Targets.Minions, Variables.E.Width).MinionsHit >= 3 &&
+
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
+                    ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
+                    Variables.E.GetLineFarmLocation(Targets.Minions, Variables.E.Width).MinionsHit >= 3 ||
+                    Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("SRU_") ||
+                    Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("Mini")) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>())
             {
                 Variables.E.Cast(Variables.E.GetLineFarmLocation(Targets.Minions, Variables.E.Width).Position);

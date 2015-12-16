@@ -152,11 +152,12 @@ namespace ExorAIO.Champions.Ezreal
             /// The Q Farm Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
-                Targets.Minions.Any() &&
-                Targets.Minions.FirstOrDefault().Health < Variables.Q.GetDamage(Targets.Minions.FirstOrDefault()) &&
-                
+
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                     ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
+                    (Targets.Minions.FirstOrDefault().Health < Variables.Q.GetDamage(Targets.Minions.FirstOrDefault()) ||                         
+                        Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("SRU_") ||
+                        Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("Mini")) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>()))
             {
                 Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Minions.FirstOrDefault()).UnitPosition);

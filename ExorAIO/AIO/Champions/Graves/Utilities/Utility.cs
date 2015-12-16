@@ -13,10 +13,13 @@ namespace ExorAIO.Champions.Graves
     using ExorAIO.Utilities;
 
     /// <summary>
-    ///    The settings class.
+    /// The settings class.
     /// </summary>
     public class Settings
     {
+        /// <summary>
+        /// Sets the spells.
+        /// </summary>
         public static void SetSpells()
         {
             Variables.Q = new Spell(SpellSlot.Q, 950f);
@@ -29,42 +32,37 @@ namespace ExorAIO.Champions.Graves
             Variables.R.SetSkillshot(0.25f, 120f, 2100f, false, SkillshotType.SkillshotLine);
         }
 
+        /// <summary>
+        /// Sets the menu.
+        /// </summary>
         public static void SetMenu()
         {
-            //Settings Menu
             Variables.SettingsMenu = new Menu("Spell Menu", $"{Variables.MainMenuName}.settingsmenu");
             {
-                // Q Options
                 Variables.QMenu = new Menu("Q Settings", $"{Variables.MainMenuName}.qsettingsmenu");
                 {
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqcombo", "Use Q in Combo")).SetValue(true);
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqks", "Use Q to Automatically KillSteal")).SetValue(true);
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqimmobile", "Use Q to Harass Immobile Champions")).SetValue(true);
-                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqharassfarm", "Use Q in Harass/Farm")).SetValue(true);
-                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.qmana", "Use Q in Harass/Farm only if Mana >= x%"))
+                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqfarm", "Use Q to Farm")).SetValue(true);
+                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.qmana", "Use Q to Farm only if Mana >= x%"))
                         .SetValue(new Slider(50, 0, 99));
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.QMenu);
 
-                // W Options
                 Variables.WMenu = new Menu("W Settings", $"{Variables.MainMenuName}.wsettingsmenu");
                 {
                     Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wsettings.usewcombo", "Use W in Combo")).SetValue(true);
                     Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wsettings.usewks", "Use W to Automatically KillSteal")).SetValue(true);
-                    Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wsettings.usewharass", "Use W in Harass")).SetValue(true);
-                    Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wsettings.wmana", "Use W in Harass/Farm only if Mana >= x%"))
-                        .SetValue(new Slider(50, 0, 99));
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.WMenu);
 
-                // E Options
                 Variables.EMenu = new Menu("E Settings", $"{Variables.MainMenuName}.esettingsmenu");
                 {
-                    Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.useereset", "Use E to Reset Ammos + AAs")).SetValue(true);
+                    Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.useeauto", "Use Smart E Logic")).SetValue(true);
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.EMenu);
 
-                // R Options
                 Variables.RMenu = new Menu("R Settings", $"{Variables.MainMenuName}.rsettingsmenu");
                 {
                     Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rsettings.userks", "Use R to KillSteal")).SetValue(true);
@@ -73,7 +71,6 @@ namespace ExorAIO.Champions.Graves
             }
             Variables.Menu.AddSubMenu(Variables.SettingsMenu);
 
-            //Drawings Menu
             Variables.DrawingsMenu = new Menu("Drawings Menu", $"{Variables.MainMenuName}.drawingsmenu");
             {
                 Variables.DrawingsMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.q", "Show Q Range")).SetValue(true);
@@ -83,6 +80,9 @@ namespace ExorAIO.Champions.Graves
             Variables.Menu.AddSubMenu(Variables.DrawingsMenu);
         }
 
+        /// <summary>
+        /// Sets the methods.
+        /// </summary>
         public static void SetMethods()
         {
             Game.OnUpdate += Graves.Game_OnGameUpdate;
@@ -91,18 +91,24 @@ namespace ExorAIO.Champions.Graves
     }
 
     /// <summary>
-    ///    The targets class.
+    /// The targets class.
     /// </summary>
     public class Targets
     {
+        /// <summary>
+        /// The main hero target.
+        /// </summary>
         public static Obj_AI_Hero Target => TargetSelector.GetTarget(Variables.R.Range, LeagueSharp.DamageType.Physical);
-        public static List<LeagueSharp.Obj_AI_Base> Minions => 
+
+        /// <summary>
+        /// The minion targets.
+        /// </summary>
+        public static List<Obj_AI_Base> Minions
+        => 
             MinionManager.GetMinions(
                 ObjectManager.Player.ServerPosition,
                 Variables.Q.Range,
-                MinionTypes.All,
-                MinionTeam.Enemy,
-                MinionOrderTypes.Health
+                MinionTypes.All
             );
     }
 }

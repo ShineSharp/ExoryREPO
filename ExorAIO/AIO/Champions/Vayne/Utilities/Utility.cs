@@ -128,7 +128,7 @@ namespace ExorAIO.Champions.Vayne
         /// <summary>
         /// The minion targets.
         /// </summary>       
-        public static IOrderedEnumerable<Obj_AI_Base> FarmMinions
+        public static IOrderedEnumerable<Obj_AI_Base> Minions
         =>
             MinionManager.GetMinions(ObjectManager.Player.ServerPosition, Variables.Q.Range, MinionTypes.All)
                 .Where(

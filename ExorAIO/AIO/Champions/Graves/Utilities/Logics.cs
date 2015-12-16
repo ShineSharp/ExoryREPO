@@ -11,89 +11,121 @@ namespace ExorAIO.Champions.Graves
 
     using ExorAIO.Utilities;
 
+    /// <summary>
+    /// The logics class.
+    /// </summary>
     public class Logics
     {
+        /// <summary>
+        /// Called when the game updates itself.
+        /// </summary>
+        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void ExecuteAuto(EventArgs args)
         {
-            /*
-                Q Harass/Farm Logic;
-                Q KillSteal Logic;
-                Q Immobile Harass Logic;
-            */
+            /// <summary>
+            /// The Q KillSteal Logic,
+            /// The Q Immobile Logic.
+            /// </summary>
             if (Variables.Q.IsReady() &&
-                ((Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqharassfarm").GetValue<bool>() && ObjectManager.Player.ManaPercent > ManaManager.NeededQMana) ||
-                (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqks").GetValue<bool>() && Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health) ||
-                (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqimmobile").GetValue<bool>() && Bools.IsImmobile(Targets.Target))))
+                Targets.Target.IsValidTarget(Variables.Q.Range) &&
+
+                ((Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqks").GetValue<bool>()) ||
+
+                (Bools.IsImmobile(Targets.Target) &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqimmobile").GetValue<bool>())))
             {
                 Variables.Q.CastIfHitchanceEquals(Targets.Target, HitChance.VeryHigh, false);
             }
 
-            /*
-                W Harass Logic;
-                W KillSteal Logic;
-            */
+            /// <summary>
+            /// The W KillSteal Logic.
+            /// </summary>
             if (Variables.W.IsReady() &&
-                ((Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewharass").GetValue<bool>() && ObjectManager.Player.ManaPercent > ManaManager.NeededWMana) ||
-                (Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewks").GetValue<bool>() && Variables.W.GetDamage(Targets.Target) > Targets.Target.Health)))
+                Targets.Target.IsValidTarget(Variables.W.Range) &&
+
+                (Variables.W.GetDamage(Targets.Target) > Targets.Target.Health &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewks").GetValue<bool>()))
             {
-                Variables.W.CastIfHitchanceEquals(Targets.Target, HitChance.VeryHigh, false);
+                Variables.W.Cast(Variables.W.GetPrediction(Targets.Target).CastPosition);
             }
 
-            /*
-                R KillSteal Logic;
-            */
+            /// <summary>
+            /// The R KillSteal Logic.
+            /// </summary>
             if (Variables.R.IsReady() &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.userks").GetValue<bool>() && Variables.R.GetDamage(Targets.Target) > Targets.Target.Health)
+                Targets.Target.IsValidTarget(Variables.R.Range) &&
+                
+                (Variables.R.GetDamage(Targets.Target) > Targets.Target.Health &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.userks").GetValue<bool>()))
             {
-                Variables.R.CastIfHitchanceEquals(Targets.Target, HitChance.VeryHigh, false);
+                Variables.R.Cast(Variables.R.GetPrediction(Targets.Target).UnitPosition);
             }
         }
 
+        ///<summary>
+        /// Called on do-cast.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The args.</param>
         public static void ExecuteModes(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            var tg = args.Target as Obj_AI_Hero;
-
-            /*
-                Q Combo Logic;
-            */
+            /// <summary>
+            /// The Q Combo Logic.
+            /// </summary>
             if (Variables.Q.IsReady() &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>())
+                ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.Q.Range) &&
+                
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>()))
             {
-                Variables.Q.CastIfHitchanceEquals(tg, HitChance.VeryHigh, false);
-            }
+                Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
+            }   
 
-            /*
-                W Combo Logic;
-            */
+            /// <summary>
+            /// The W Combo Logic.
+            /// </summary>
             if (Variables.W.IsReady() &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>())
+                ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.W.Range) &&
+                
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>()))
             {
-                Variables.W.CastIfHitchanceEquals(tg, HitChance.VeryHigh, false);
+                Variables.W.Cast(Variables.W.GetPrediction(Targets.Target).CastPosition);
             }
 
-            /*
-                E Reset Ammos + AAs Logic;
-            */
+            /// <summary>
+            /// The E Combo Logic.
+            /// </summary>
             if (Variables.E.IsReady() &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useereset").GetValue<bool>() && ObjectManager.Player.HasBuff("gravesbasicattackammo1"))
+
+                (ObjectManager.Player.HasBuff("gravesbasicattackammo1") &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useeauto").GetValue<bool>()))
             {
-                Orbwalking.ResetAutoAttackTimer();
                 Variables.E.Cast(Game.CursorPos);
             }
         }
 
+        /// <summary>
+        /// Called on do-cast.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The args.</param>
         public static void ExecuteFarm(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            /*
-                Q Farm Logic;
-            */
+            /// <summary>
+            /// The Q Farm Logic.
+            /// </summary>
             if (Variables.Q.IsReady() &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqharassfarm").GetValue<bool>() &&
-                ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
-                Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 3)
+
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
+                    ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
+                    (Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 3 ||
+                        Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("SRU_") ||
+                        Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("Mini")) &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>()))
             {
-                var QFarmPosition = Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).Position;
-                Variables.Q.Cast(QFarmPosition);
+                Variables.Q.Cast(Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).Position);
             }
         }
     }

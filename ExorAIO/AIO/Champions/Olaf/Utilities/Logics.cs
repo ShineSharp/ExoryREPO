@@ -131,7 +131,9 @@ namespace ExorAIO.Champions.Olaf
 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                     ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
-                    Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 3 &&
+                    (Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 3 ||
+                        Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("SRU_") ||
+                        Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("Mini")) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>()))
             {
                 Variables.Q.Cast(Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).Position);

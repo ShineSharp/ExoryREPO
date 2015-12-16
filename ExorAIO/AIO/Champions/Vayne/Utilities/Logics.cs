@@ -84,29 +84,6 @@ namespace ExorAIO.Champions.Vayne
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="args">The args.</param>
-        public static void ExecuteFarm(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
-        {
-            /// <summary>
-            /// The Q Farm Logic.
-            /// </summary>
-            if (Variables.Q.IsReady() &&
-                Targets.FarmMinions.Count() > 1 &&
-                (Targets.FarmMinions.FirstOrDefault()).IsValidTarget(Variables.Q.Range) &&
-
-                (Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo &&
-                    ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>()))
-            {
-                Variables.Q.Cast(Game.CursorPos);
-                Variables.Orbwalker.ForceTarget(Targets.FarmMinions.FirstOrDefault());
-            }
-        }
-
-        /// <summary>
-        /// Called on do-cast.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="args">The args.</param>
         public static void ExecuteModes(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             /// <summary>
@@ -116,6 +93,30 @@ namespace ExorAIO.Champions.Vayne
 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>()))
+            {
+                Variables.Q.Cast(Game.CursorPos);
+            }
+        }
+        
+        /// <summary>
+        /// Called on do-cast.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The args.</param>
+        public static void ExecuteFarm(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
+        {
+            /// <summary>
+            /// The Q Farm Logic.
+            /// </summary>
+            if (Variables.Q.IsReady() &&
+
+                (Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo &&
+                    ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
+                    ((Targets.Minions.Count() > 1 &&
+                        (Targets.Minions.FirstOrDefault()).IsValidTarget(Variables.Q.Range)) ||
+                        Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("SRU_") ||
+                        Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("Mini")) &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>()))
             {
                 Variables.Q.Cast(Game.CursorPos);
             }

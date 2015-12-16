@@ -71,10 +71,16 @@ namespace ExorAIO.Champions.DrMundo
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarm").GetValue<bool>()))
             {
-                if ((!ObjectManager.Player.HasBuff("BurningAgony") && (Targets.Minions.Count() >= 2 &&
+                if ((!ObjectManager.Player.HasBuff("BurningAgony") && 
+                        ((Targets.Minions.Count() >= 2 ||                         
+                            Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("SRU_") ||
+                            Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("Mini")) &&
                         ObjectManager.Player.Health >= Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarmhp").GetValue<Slider>().Value)) ||
 
-                    (ObjectManager.Player.HasBuff("BurningAgony") && (Targets.Minions.Count() < 2 ||
+                    (ObjectManager.Player.HasBuff("BurningAgony") && 
+                        ((Targets.Minions.Count() < 2 &&                        
+                            !Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("SRU_") &&
+                            !Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("Mini")) &&
                         ObjectManager.Player.Health < Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarmhp").GetValue<Slider>().Value)))
                 {
                     Variables.W.Cast();

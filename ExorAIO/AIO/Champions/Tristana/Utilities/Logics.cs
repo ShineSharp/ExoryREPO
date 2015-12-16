@@ -80,7 +80,7 @@ namespace ExorAIO.Champions.Tristana
                 ((Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqauto").GetValue<bool>()) ||
 
-                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear && 
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>())))
             {
                 Variables.Q.Cast();
@@ -90,14 +90,17 @@ namespace ExorAIO.Champions.Tristana
             /// The E Farm Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
+
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                     ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
                     ((Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useebuildings").GetValue<bool>() && args.Target.IsValid<Obj_AI_Turret>()) ||
                     (Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>() &&
-                        GameObjects.Minions.Count(
+                        (GameObjects.Minions.Count(
                             units =>
                                 units.IsValidTarget(Variables.E.Range + RangeIncreaser) &&
-                                units.Distance(Targets.Minions.FirstOrDefault(), false) < 150f) > 2))))
+                                units.Distance(Targets.Minions.FirstOrDefault(), false) < 150f) > 2) ||
+                        Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("SRU_") ||
+                        Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("Mini")))))
             {
                 Variables.E.CastOnUnit((Obj_AI_Base)args.Target);
             }

@@ -132,9 +132,11 @@ namespace ExorAIO.Champions.Renekton
             /// The Q Farm Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
-                Targets.Minions.Count() >= 3 &&
                 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
+                    (Targets.Minions.Count() >= 3 ||
+                        Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("SRU_") ||
+                        Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("Mini")) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>()))
             {
                 Variables.Q.Cast();

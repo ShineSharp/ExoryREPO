@@ -62,6 +62,7 @@ namespace ExorAIO.Champions.Corki
                     Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.userks").GetValue<bool>()) ||
 
                 (ObjectManager.Player.ManaPercent > ManaManager.NeededRMana &&
+                    !Targets.Target.UnderTurret() &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.userharass").GetValue<bool>() &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.rwhitelist.{Targets.Target.ChampionName.ToLower()}").GetValue<bool>())))
             {
@@ -142,7 +143,9 @@ namespace ExorAIO.Champions.Corki
 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                     ObjectManager.Player.ManaPercent > ManaManager.NeededRMana &&
-                    Variables.R.GetLineFarmLocation(Targets.Minions, Variables.R.Width).MinionsHit >= 2 &&
+                    (Variables.R.GetLineFarmLocation(Targets.Minions, Variables.R.Width).MinionsHit >= 2 ||
+                        Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("SRU_") ||
+                        Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("Mini")) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.userfarm").GetValue<bool>()))
             {
                 Variables.Q.Cast(Variables.R.GetLineFarmLocation(Targets.Minions, Variables.R.Width).Position);
