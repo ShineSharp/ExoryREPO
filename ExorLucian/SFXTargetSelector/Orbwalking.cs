@@ -435,7 +435,7 @@ namespace SFXTargetSelector
         /// </summary>
         /// <param name="extraDelay">The extra delay.</param>
         /// <returns><c>true</c> if this instance can attack; otherwise, <c>false</c>.</returns>
-        public static bool CanAttack(float extraDelay = 0)
+        public static bool CanAttack(float extraDelay = -100)
         {
             return LeagueSharp.Common.Utils.GameTimeTickCount >= LastAaTick + Player.AttackDelay * 1000 + extraDelay && Attack;
         }
@@ -668,7 +668,7 @@ namespace SFXTargetSelector
         /// <param name="randomizeMinDistance">if set to <c>true</c> [randomize minimum distance].</param>
         public static void Orbwalk(AttackableUnit target,
             Vector3 position,
-            float extraWindup = 0,
+            float extraWindup = 90,
             float holdAreaRadius = 0,
             bool useFixedDistance = true,
             bool randomizeMinDistance = true)
