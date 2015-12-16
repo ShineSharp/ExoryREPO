@@ -21,6 +21,11 @@ namespace ExorLucian
         public static void ExecuteAuto(EventArgs args)
         {
             /// <summary>
+            /// Block AA While R.
+            /// </summary>
+            Variables.Orbwalker.SetAttack(!ObjectManager.Player.IsChannelingImportantSpell());
+            
+            /// <summary>
             /// The Q Logics.
             /// </summary>
             if (Variables.Q.IsReady() &&
@@ -123,7 +128,6 @@ namespace ExorLucian
             /// </summary>
             if (Variables.W.IsReady() &&
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.W.Range) &&
-                Variables.W.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>()))
