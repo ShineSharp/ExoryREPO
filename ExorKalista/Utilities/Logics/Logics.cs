@@ -180,6 +180,7 @@ namespace ExorKalista
                 foreach (var miniontarget in GameObjects.Jungle
                     .Where(
                         m =>
+                            !m.CharData.BaseSkinName.Contains("Mini") &&
                             Bools.IsPerfectRendTarget(m) &&
                             Bools.IsKillableRendTarget(m)))
                 {
