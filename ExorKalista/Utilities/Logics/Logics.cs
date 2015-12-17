@@ -59,6 +59,29 @@ namespace ExorKalista
             }
 
             /// <summary>
+            /// The Q Farm Logic.
+            /// </summary>
+            if (Variables.Q.IsReady() &&
+                !ObjectManager.Player.IsWindingUp &&
+                !ObjectManager.Player.IsDashing() &&
+                
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
+                    ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>()))
+            {
+                if (Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit > 2 &&
+                    Targets.Minions
+                    .Count(
+                        m => 
+                            m != null &&
+                            m.IsValidTarget(Variables.Q.Range) &&
+                            m.Health < ObjectManager.Player.CalcDamage(m, LeagueSharp.Common.Damage.DamageType.Physical, Variables.Q.GetDamage(m))) > 2)
+                {
+                    Variables.Q.Cast(Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).Position);
+                }
+            }
+
+            /// <summary>
             /// The W Logic.
             /// </summary>
             if (Variables.W.IsReady() &&
@@ -95,6 +118,7 @@ namespace ExorKalista
             /// The E Combo Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
+                !ObjectManager.Player.IsDashing() &&
 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useecombo").GetValue<bool>()))
@@ -132,39 +156,18 @@ namespace ExorKalista
         public static void ExecuteFarm(EventArgs args)
         {
             /// <summary>
-            /// The Q Farm Logic.
-            /// </summary>
-            if (Variables.Q.IsReady() &&
-                !ObjectManager.Player.IsWindingUp &&
-                
-                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                    ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>()))
-            {
-                if (Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit > 2 &&
-                    Targets.Minions
-                    .Count(
-                        m => 
-                            m != null &&
-                            m.IsValidTarget(Variables.Q.Range) &&
-                            m.Health < ObjectManager.Player.CalcDamage(m, LeagueSharp.Common.Damage.DamageType.Physical, Variables.Q.GetDamage(m))) > 2)
-                {
-                    Variables.Q.Cast(Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).Position);
-                }
-            }
-
-            /// <summary>
             /// The E Farm Logic,
             /// The E Harass Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>())
+                !ObjectManager.Player.IsDashing())
             {
                 if (Targets.Minions
                     .Count(
                         x =>
                             Bools.IsPerfectRendTarget(x) &&
-                            Bools.IsKillableRendTarget(x)) >= (Targets.ETarget.Any() ? 1 : 2))
+                            Bools.IsKillableRendTarget(x)) >= (Targets.ETarget.Any() ? 1 : 2) &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>())
                 {
                     Variables.E.Cast();
                     return;
@@ -175,6 +178,7 @@ namespace ExorKalista
             /// The E against Monsters Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
+                !ObjectManager.Player.IsDashing() &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useemonsters").GetValue<bool>())
             {
                 foreach (var miniontarget in GameObjects.Jungle

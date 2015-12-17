@@ -78,6 +78,7 @@ namespace ExorKalista
         public static void OnNonKillableMinion(AttackableUnit minion)
         {
             if (Variables.E.IsReady() &&
+                !ObjectManager.Player.IsDashing() &&
             
                 (Bools.IsKillableRendTarget((Obj_AI_Base)minion) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>()))
