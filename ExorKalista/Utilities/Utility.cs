@@ -75,6 +75,8 @@ namespace ExorKalista
                         Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.useemonsters", "Automatically Execute Monsters with E")).SetValue(true);
                         Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.useedie", "Use E just before Dying")).SetValue(true);
                         Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.useefarm", "Use E to Farm")).SetValue(true);
+                        Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.emana", "Use E to Harass/Farm if Mana >= %"))
+                            .SetValue(new Slider(50, 0, 99));
                     }
                     Variables.SettingsMenu.AddSubMenu(Variables.EMenu);
 
