@@ -84,7 +84,6 @@ namespace ExorAIO.Champions.Tristana
         public static void SetMethods()
         {
             Game.OnUpdate += Tristana.Game_OnGameUpdate;
-            Orbwalking.BeforeAttack += Tristana.Orbwalking_BeforeAttack;
         }
     }
 

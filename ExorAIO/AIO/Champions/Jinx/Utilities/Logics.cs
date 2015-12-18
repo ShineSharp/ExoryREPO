@@ -87,10 +87,10 @@ namespace ExorAIO.Champions.Jinx
             /// The W Combo Part.1 Logic.
             /// </summary>
             if (Variables.W.IsReady() &&
+                Variables.W.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
+
                 (!Targets.Target.IsValidTarget(fishbonesRange) &&
                     Targets.Target.IsValidTarget(Variables.W.Range)) &&
-
-                Variables.W.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
 
                 ((Targets.Target.Health < Variables.W.GetDamage(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewks").GetValue<bool>()) ||
@@ -126,10 +126,13 @@ namespace ExorAIO.Champions.Jinx
             /// The R KillSteal Logic.
             /// </summary>
             if (Variables.R.IsReady() &&
-                (!Variables.W.IsReady() ||
-                    (!Targets.Target.IsValidTarget(Variables.W.Range) && Targets.Target.IsValidTarget(Variables.W.Range + 200f))) &&
+                Bools.HasNoProtection(Targets.Target) &&
 
-                (HealthPrediction.GetHealthPrediction(Targets.Target, (int)(250 + Game.Ping / 2f)) < Variables.R.GetDamage(Targets.Target) &&
+                (!Variables.W.IsReady() &&
+                    !Targets.Target.IsValidTarget(fishbonesRange) &&
+                    Targets.Target.IsValidTarget(Variables.W.Range)) &&
+
+                (HealthPrediction.GetHealthPrediction(Targets.Target, 550) < Variables.R.GetDamage(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.userks").GetValue<bool>()))
             {
                 Variables.R.Cast(Variables.R.GetPrediction(Targets.Target).UnitPosition);
@@ -169,13 +172,16 @@ namespace ExorAIO.Champions.Jinx
         /// <param name="args">The args.</param>
         public static void ExecuteModes(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
+            var fishbonesRange = Variables.Q.Range + (25f * ObjectManager.Player.Spellbook.GetSpell(SpellSlot.Q).Level);
+
             /// <summary>
             /// The W Combo Part2 Logic.
             /// </summary>
             if (Variables.W.IsReady() &&
                 Variables.W.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
-                (((Obj_AI_Hero)args.Target).IsValidTarget(Variables.W.Range) &&
-                    !((Obj_AI_Hero)args.Target).IsValidTarget(Ranges.StaticMinigunRange)) &&
+
+                (!((Obj_AI_Hero)args.Target).IsValidTarget(fishbonesRange) &&
+                    ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.W.Range)) &&
 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>()))

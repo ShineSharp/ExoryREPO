@@ -35,7 +35,7 @@ namespace ExorAIO.Champions.Graves
                 (Bools.IsImmobile(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqimmobile").GetValue<bool>())))
             {
-                Variables.Q.CastIfHitchanceEquals(Targets.Target, HitChance.VeryHigh, false);
+                Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
             }
 
             /// <summary>
@@ -54,6 +54,7 @@ namespace ExorAIO.Champions.Graves
             /// The R KillSteal Logic.
             /// </summary>
             if (Variables.R.IsReady() &&
+                Bools.HasNoProtection(Targets.Target) &&
                 Targets.Target.IsValidTarget(Variables.R.Range) &&
                 
                 (Variables.R.GetDamage(Targets.Target) > Targets.Target.Health &&

@@ -60,7 +60,7 @@ namespace ExorAIO.Champions.Olaf
             if (Variables.R.IsReady() &&
 
                 (Bools.ShouldCleanse() &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.useranticc").GetValue<bool>() && Bools.ShouldCleanse()))
+                    Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.useranticc").GetValue<bool>()))
             {
                 Variables.R.Cast();
             }
@@ -90,6 +90,7 @@ namespace ExorAIO.Champions.Olaf
             /// The E Combo Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
+                Bools.HasNoProtection((Obj_AI_Hero)args.Target) &&
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.E.Range) &&
 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&

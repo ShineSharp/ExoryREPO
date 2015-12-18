@@ -34,6 +34,7 @@ namespace ExorAIO.Champions.Vayne
             /// </summary>
             if (Variables.E.IsReady() &&
                 !ObjectManager.Player.IsDashing() &&
+                Bools.HasNoProtection(Targets.Target) &&
                 Targets.Target.IsValidTarget(Variables.E.Range))
             {
                 /// <summary>
@@ -56,8 +57,10 @@ namespace ExorAIO.Champions.Vayne
                 /// <summary>
                 /// The E KillSteal Logic.
                 /// </summary>
-                if (Targets.Target.Health <= KillSteal.GetDamage(Targets.Target) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useeks").GetValue<bool>())
+                if (Bools.HasNoProtection(Targets.Target) &&
+
+                    (Targets.Target.Health < KillSteal.GetDamage(Targets.Target) &&
+                        Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useeks").GetValue<bool>()))
                 {
                     Variables.E.CastOnUnit(Targets.Target);
                 }

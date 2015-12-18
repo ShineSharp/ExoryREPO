@@ -112,6 +112,7 @@ namespace ExorAIO.Champions.Renekton
             /// The W Combo Logic.
             /// </summary>
             if (Variables.W.IsReady() &&
+                Bools.HasNoProtection((Obj_AI_Hero)args.Target) &&
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.W.Range) &&
 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&

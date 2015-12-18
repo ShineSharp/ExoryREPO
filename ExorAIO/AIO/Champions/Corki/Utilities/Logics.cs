@@ -28,6 +28,7 @@ namespace ExorAIO.Champions.Corki
             /// </summary>
             if (Variables.Q.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
+                Bools.HasNoProtection(Targets.Target) &&
 
                 ((Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqks").GetValue<bool>()) ||
@@ -55,6 +56,7 @@ namespace ExorAIO.Champions.Corki
             /// The R AutoHarass Logic.
             /// </summary>
             if (Variables.R.IsReady() &&
+                Bools.HasNoProtection(Targets.Target) &&
                 Targets.Target.IsValidTarget(Variables.R.Range) &&
                 Variables.R.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
 
@@ -81,7 +83,8 @@ namespace ExorAIO.Champions.Corki
             /// The Q Combo Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
-                Targets.Target.IsValidTarget(Variables.Q.Range) &&
+                Bools.HasNoProtection((Obj_AI_Hero)args.Target) &&
+                ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.Q.Range) &&
 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>()))
@@ -93,8 +96,9 @@ namespace ExorAIO.Champions.Corki
             /// The R Combo Logic.
             /// </summary>
             if (Variables.R.IsReady() &&
-                Targets.Target.IsValidTarget(Variables.R.Range) &&
-                Variables.R.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
+                Bools.HasNoProtection((Obj_AI_Hero)args.Target) &&
+                ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.R.Range) &&
+                Variables.R.GetPrediction((Obj_AI_Hero)args.Target).Hitchance >= HitChance.High &&
 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.usercombo").GetValue<bool>()))

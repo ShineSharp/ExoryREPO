@@ -35,47 +35,10 @@ namespace ExorAIO.Champions.Tristana
             }
 
             /// <summary>
-            /// The R KillSteal Logic.
-            /// </summary>
-            if (Variables.R.IsReady() &&
-                Targets.Target != null &&
-                !ObjectManager.Player.IsWindingUp &&
-                Targets.Target.IsValidTarget(Variables.R.Range + RangeIncreaser) &&
-                KillSteal.Damage(Targets.Target) > Targets.Target.Health &&
-            
-                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.userks").GetValue<bool>()))
-            {
-                Orbwalking.ResetAutoAttackTimer();
-                Variables.R.CastOnUnit(Targets.Target);
-            }
-
-            /// <summary>
-            /// The E Combo Logic.
-            /// </summary>
-            if (Variables.E.IsReady() &&
-                Targets.Target.IsValidTarget(Variables.E.Range + RangeIncreaser) &&
-                ((Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useeauto").GetValue<bool>() &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.esettings.ewhitelist.{Targets.Target.ChampionName.ToLower()}").GetValue<bool>())))
-            {
-                Variables.E.CastOnUnit(Targets.Target);
-            }
-        }
-
-        /// <summary>
-        /// Called before the next aa is fired.
-        /// </summary>
-        /// <param name="args">The <see cref="Orbwalking.BeforeAttackEventArgs"/> instance containing the beforeattack data.</param>
-        public static void ExecuteBeforeAttack(Orbwalking.BeforeAttackEventArgs args)
-        {
-            var RangeIncreaser = 7 * ObjectManager.Player.Level;
-
-            /// <summary>
             /// The Q Combo Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
-                (Bools.IsCharged((Obj_AI_Base)args.Target) || !Variables.E.IsReady()) &&
+                (Bools.IsCharged(Targets.Target) || !Variables.E.IsReady()) &&
 
                 ((Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqauto").GetValue<bool>()) ||
@@ -87,13 +50,29 @@ namespace ExorAIO.Champions.Tristana
             }
 
             /// <summary>
+            /// The E Combo Logic.
+            /// </summary>
+            if (Variables.E.IsReady() &&
+                !ObjectManager.Player.IsWindingUp &&
+                Bools.HasNoProtection(Targets.Target) &&
+                Targets.Target.IsValidTarget(Variables.E.Range + RangeIncreaser) &&
+                
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useeauto").GetValue<bool>() &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.esettings.ewhitelist.{Targets.Target.ChampionName.ToLower()}").GetValue<bool>()))
+            {
+                Variables.E.CastOnUnit(Targets.Target);
+            }
+
+            /// <summary>
             /// The E Farm Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
+                !ObjectManager.Player.IsWindingUp &&
 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                     ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
-                    ((Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useebuildings").GetValue<bool>() && args.Target.IsValid<Obj_AI_Turret>()) ||
+                    ((Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useebuildings").GetValue<bool>() && Variables.Orbwalker.GetTarget().IsValid<Obj_AI_Turret>()) ||
                     (Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>() &&
                         (GameObjects.Minions.Count(
                             units =>
@@ -102,7 +81,23 @@ namespace ExorAIO.Champions.Tristana
                         Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("SRU_") ||
                         Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("Mini")))))
             {
-                Variables.E.CastOnUnit((Obj_AI_Base)args.Target);
+                Variables.E.CastOnUnit((Obj_AI_Base)Variables.Orbwalker.GetTarget());
+            }
+
+            /// <summary>
+            /// The R KillSteal Logic.
+            /// </summary>
+            if (Variables.R.IsReady() &&
+                !ObjectManager.Player.IsWindingUp &&
+                Bools.HasNoProtection(Targets.Target) &&
+                Targets.Target.IsValidTarget(Variables.R.Range + RangeIncreaser) &&
+                KillSteal.Damage(Targets.Target) > Targets.Target.Health &&
+            
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.userks").GetValue<bool>()))
+            {
+                Orbwalking.ResetAutoAttackTimer();
+                Variables.R.CastOnUnit(Targets.Target);
             }
         }
     }

@@ -13,6 +13,14 @@ namespace ExorAIO.Utilities
     class Bools
     {
         /// <summary>
+        /// Returns true if the target has no protection.
+        /// </summary>   
+        public static bool HasNoProtection(Obj_AI_Base target)
+        =>
+            !target.IsInvulnerable &&
+            !target.HasBuffOfType(BuffType.SpellShield);
+
+        /// <summary>
         /// Defines if a determined champion can move or not.
         /// </summary>
         public static bool IsImmobile(Obj_AI_Hero Target)

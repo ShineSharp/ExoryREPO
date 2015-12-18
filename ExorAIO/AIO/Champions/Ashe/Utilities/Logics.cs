@@ -44,6 +44,7 @@ namespace ExorAIO.Champions.Ashe
             /// The W KillSteal Logic.
             /// </summary>
             if (Variables.W.IsReady() &&
+                Bools.HasNoProtection(Targets.Target) &&
 
                 ((Targets.Target.Health < Variables.W.GetDamage(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewks").GetValue<bool>())) ||
@@ -57,7 +58,8 @@ namespace ExorAIO.Champions.Ashe
             /// <summary>
             /// The R Logics.
             /// </summary>
-            if (Targets.Target.IsValidTarget(1200))
+            if (Targets.Target.IsValidTarget(1200) &&
+                Bools.HasNoProtection(Targets.Target))
             {
                 /// <summary>
                 /// R KillSteal Logic.
@@ -104,6 +106,7 @@ namespace ExorAIO.Champions.Ashe
             /// The W Combo Logic.
             /// </summary>
             if (Variables.W.IsReady() &&
+                Bools.HasNoProtection((Obj_AI_Hero)args.Target) &&
 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>()))

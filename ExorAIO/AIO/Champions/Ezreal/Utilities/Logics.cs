@@ -41,6 +41,7 @@ namespace ExorAIO.Champions.Ezreal
             /// The Q AutoHarass Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
+                Bools.HasNoProtection(Targets.Target) &&
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
                 Variables.Q.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
 
@@ -81,6 +82,7 @@ namespace ExorAIO.Champions.Ezreal
             /// The R KillSteal Logic.
             /// </summary>
             if (Variables.R.IsReady() &&
+                Bools.HasNoProtection(Targets.Target) &&
                 ((!Variables.W.IsReady() || !Targets.Target.IsValidTarget(Variables.W.Range)) &&
                 (!Variables.Q.IsReady() || !Targets.Target.IsValidTarget(Variables.Q.Range))) &&
                 Targets.Target.IsValidTarget(1500) &&
@@ -90,7 +92,6 @@ namespace ExorAIO.Champions.Ezreal
             {
                 Variables.R.Cast(Variables.R.GetPrediction(Targets.Target).UnitPosition);
             }
-
         }
 
         /// <summary>
@@ -104,20 +105,22 @@ namespace ExorAIO.Champions.Ezreal
             /// The Q Combo Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
-                Variables.Q.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
+                Bools.HasNoProtection((Obj_AI_Hero)args.Target) &&
+                ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.Q.Range) &&
+                Variables.Q.GetPrediction((Obj_AI_Hero)args.Target).Hitchance >= HitChance.High &&
 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>()))
             {
-                Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
+                Variables.Q.Cast(Variables.Q.GetPrediction((Obj_AI_Hero)args.Target).UnitPosition);
                 return;
             }
 
             /// <summary>
-            /// The W Combo Logic,
-            /// The E Combo Logic.
+            /// The W Combo Logic.
             /// </summary>
             if (Variables.W.IsReady() &&
+                ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.W.Range) &&
 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>()))
@@ -132,12 +135,13 @@ namespace ExorAIO.Champions.Ezreal
             if (Variables.R.IsReady() &&
                 !Variables.Q.IsReady() &&
                 !Variables.W.IsReady() &&
+                Bools.HasNoProtection((Obj_AI_Hero)args.Target) &&
 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.usercombo").GetValue<bool>() &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.rwhitelist.{((Obj_AI_Hero)args.Target).ChampionName.ToLower()}").GetValue<bool>()))
             {
-                Variables.R.Cast(Variables.R.GetPrediction(Targets.Target).UnitPosition);
+                Variables.R.Cast(Variables.R.GetPrediction((Obj_AI_Hero)args.Target).UnitPosition);
             }
         }
 

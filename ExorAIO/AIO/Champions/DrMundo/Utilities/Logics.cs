@@ -29,6 +29,7 @@ namespace ExorAIO.Champions.DrMundo
             /// The Q Killsteal Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
+                Bools.HasNoProtection(Targets.Target) &&
                 ObjectManager.Player.HealthPercent > 10 &&
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
                 Variables.R.GetPrediction(Targets.Target).Hitchance >= HitChance.VeryHigh &&
@@ -112,7 +113,9 @@ namespace ExorAIO.Champions.DrMundo
             /// The E Combo Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
+                Bools.HasNoProtection((Obj_AI_Hero)args.Target) &&
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.E.Range) &&
+
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useecombo").GetValue<bool>()))
             {

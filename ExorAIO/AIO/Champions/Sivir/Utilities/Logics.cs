@@ -27,6 +27,7 @@ namespace ExorAIO.Champions.Sivir
             /// The Q Immobile Harass Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
+                Bools.HasNoProtection(Targets.Target) &&
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
 
                 ((Variables.Q.GetDamage(Targets.Target)*2) > Targets.Target.Health &&
@@ -49,7 +50,8 @@ namespace ExorAIO.Champions.Sivir
             /// <summary>
             /// The E Logic.
             /// </summary>
-            if (Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useelogic").GetValue<bool>())
+            if (Bools.HasNoProtection(ObjectManager.Player) &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useelogic").GetValue<bool>())
             {
                 if (sender.IsValid<Obj_AI_Hero>() &&
                     sender.IsEnemy &&
@@ -59,7 +61,7 @@ namespace ExorAIO.Champions.Sivir
                     !args.SData.TargettingType.Equals(SpellDataTargetType.SelfAoe) &&
                     !args.SData.IsAutoAttack())
                 {
-                    if (((Obj_AI_Hero)sender).ChampionName.Equals("Zed", StringComparison.OrdinalIgnoreCase) &&
+                    if (((Obj_AI_Hero)sender).ChampionName.Equals("Zed") &&
                         args.SData.TargettingType.Equals(SpellDataTargetType.Self))
                     {
                         Utility.DelayAction.Add(200,
@@ -98,6 +100,7 @@ namespace ExorAIO.Champions.Sivir
             /// The Q Combo Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
+                Bools.HasNoProtection((Obj_AI_Hero)args.Target) &&
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.Q.Range) &&
 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&

@@ -34,22 +34,11 @@ namespace ExorAIO.Champions.Tristana
         public static void Game_OnGameUpdate(EventArgs args)
         {
             if (!ObjectManager.Player.IsDead &&
+                Targets.Target != null &&
+                Targets.Target.IsValid &&
                 Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
                 Logics.ExecuteAuto(args);
-            }
-        }
-
-        /// <summary>
-        /// Called before the next aa is fired.
-        /// </summary>
-        /// <param name="args">The <see cref="Orbwalking.BeforeAttackEventArgs"/> instance containing the beforeattack data.</param>
-        public static void Orbwalking_BeforeAttack(Orbwalking.BeforeAttackEventArgs args)
-        {
-            if (args.Target != null &&
-                args.Target.IsValid<Obj_AI_Base>())
-            {    
-                Logics.ExecuteBeforeAttack(args);
             }
         }
     }

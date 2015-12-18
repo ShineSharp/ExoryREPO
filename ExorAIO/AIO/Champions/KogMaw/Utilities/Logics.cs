@@ -74,6 +74,7 @@ namespace ExorAIO.Champions.KogMaw
             /// </summary>
             if (Variables.R.IsReady() &&
                 !ObjectManager.Player.IsWindingUp &&
+                Bools.HasNoProtection(Targets.Target) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.user").GetValue<bool>())
             {
                 if (Targets.Target.HealthPercent < 50 &&
