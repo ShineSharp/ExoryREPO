@@ -4,10 +4,10 @@ namespace ExorKalista
     using System.Linq;
     using System.Collections.Generic;
 
+    using SharpDX;
+
     using LeagueSharp;
     using LeagueSharp.Common;
-
-    using SharpDX;
 
     using Orbwalking = SFXTargetSelector.Orbwalking;
     using TargetSelector = SFXTargetSelector.TargetSelector;
@@ -56,29 +56,6 @@ namespace ExorKalista
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqimmobile").GetValue<bool>())))
             {
                 Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
-            }
-
-            /// <summary>
-            /// The Q Farm Logic.
-            /// </summary>
-            if (Variables.Q.IsReady() &&
-                !ObjectManager.Player.IsWindingUp &&
-                !ObjectManager.Player.IsDashing() &&
-                
-                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                    ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>()))
-            {
-                if (Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit > 2 &&
-                    Targets.Minions
-                    .Count(
-                        m => 
-                            m != null &&
-                            m.IsValidTarget(Variables.Q.Range) &&
-                            m.Health < ObjectManager.Player.CalcDamage(m, LeagueSharp.Common.Damage.DamageType.Physical, Variables.Q.GetDamage(m))) > 2)
-                {
-                    Variables.Q.Cast(Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).Position);
-                }
             }
 
             /// <summary>
@@ -153,21 +130,66 @@ namespace ExorKalista
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="args">The args.</param>
+        public static void ExecuteModes(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
+        {
+            /// <summary>
+            /// The Q Combo Logic.
+            /// </summary>
+            if (Variables.Q.IsReady() &&
+                ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.Q.Range) &&
+                Variables.Q.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
+
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>()))
+            {
+                Variables.Q.Cast(Variables.Q.GetPrediction((Obj_AI_Hero)args.Target).UnitPosition);
+            }
+        }
+
+        /// <summary>
+        /// Called when the game updates itself.
+        /// </summary>
+        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void ExecuteFarm(EventArgs args)
         {
+        
+            /// <summary>
+            /// The Q Farm Logic.
+            /// </summary>
+            if (Variables.Q.IsReady() &&
+                !ObjectManager.Player.IsWindingUp &&
+                !ObjectManager.Player.IsDashing() &&
+                
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
+                    ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>()))
+            {
+                if (Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit > 2 &&
+                    Targets.Minions
+                    .Count(
+                        m => 
+                            m != null &&
+                            m.IsValidTarget(Variables.Q.Range) &&
+                            m.Health < ObjectManager.Player.CalcDamage(m, LeagueSharp.Common.Damage.DamageType.Physical, Variables.Q.GetDamage(m))) > 2)
+                {
+                    Variables.Q.Cast(Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).Position);
+                }
+            }
+
             /// <summary>
             /// The E Farm Logic,
             /// The E Harass Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
-                !ObjectManager.Player.IsDashing())
+                !ObjectManager.Player.IsDashing() &&
+                ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>())
             {
                 if (Targets.Minions
                     .Count(
                         x =>
                             Bools.IsPerfectRendTarget(x) &&
-                            Bools.IsKillableRendTarget(x)) >= (Targets.ETarget.Any() ? 1 : 2) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>())
+                            Bools.IsKillableRendTarget(x)) >= (Targets.ETarget.Any() ? 1 : 2))
                 {
                     Variables.E.Cast();
                     return;
@@ -191,27 +213,6 @@ namespace ExorKalista
                     Variables.E.Cast();
                     return;
                 }
-            }
-        }
-
-        /// <summary>
-        /// Called on do-cast.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="args">The args.</param>
-        public static void ExecuteModes(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
-        {
-            /// <summary>
-            /// The Q Combo Logic.
-            /// </summary>
-            if (Variables.Q.IsReady() &&
-                ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.Q.Range) &&
-                Variables.Q.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
-
-                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>()))
-            {
-                Variables.Q.Cast(Variables.Q.GetPrediction((Obj_AI_Hero)args.Target).UnitPosition);
             }
         }
     }

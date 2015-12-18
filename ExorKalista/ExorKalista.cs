@@ -8,6 +8,7 @@ namespace ExorKalista
     using LeagueSharp.Common;
 
     using Orbwalking = SFXTargetSelector.Orbwalking;
+    using TargetSelector = SFXTargetSelector.TargetSelector;
 
     /// <summary>
     /// The main class.
