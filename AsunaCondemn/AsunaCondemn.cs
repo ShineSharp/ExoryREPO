@@ -67,9 +67,9 @@
                     );
 
                     Render.Circle.DrawCircle(
-                        ObjectManager.Player.Position.Extend(e.ServerPosition, 425f - (ObjectManager.Player.BoundingRadius + 150f)),
+                        ObjectManager.Player.Position.Extend(e.ServerPosition, 425f),
                         50,
-                        ObjectManager.Player.Distance(e) < 425f - (ObjectManager.Player.BoundingRadius + 150f) ?
+                        ObjectManager.Player.Distance(e) < 425f - (ObjectManager.Player.BoundingRadius + 100f) ?
                             System.Drawing.Color.Green :
                             System.Drawing.Color.Red,
                         1
