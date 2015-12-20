@@ -40,13 +40,14 @@ namespace ExorAIO.Champions.Vayne
                 /// <summary>
                 /// The Condemn Logic.
                 /// </summary>
-                if (ObjectManager.Player.Distance(Targets.Target) >= ObjectManager.Player.BoundingRadius + 150f &&
+                if (ObjectManager.Player.Distance(Targets.Target) >= ObjectManager.Player.BoundingRadius + 75f &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useeauto").GetValue<bool>() &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.esettings.ewhitelist.{Targets.Target.ChampionName.ToLower()}").GetValue<bool>())
                 {
-                    for (int i = 1; i <= 10; i++)
+                    for (int i = 1; i < 10; i++)
                     {
-                        if ((Variables.E.GetPrediction(Targets.Target).UnitPosition + Vector3.Normalize(Targets.Target.ServerPosition - ObjectManager.Player.Position) * i * 42).IsWall())
+                        if ((Targets.Target.Position + Vector3.Normalize(Targets.Target.ServerPosition - ObjectManager.Player.Position) * i * 47).IsWall() &&
+                            (Variables.E.GetPrediction(Targets.Target).UnitPosition + Vector3.Normalize(Targets.Target.ServerPosition - ObjectManager.Player.Position) * i * 47).IsWall())
                         {
                             Variables.E.CastOnUnit(Targets.Target);
                             return;
@@ -115,8 +116,7 @@ namespace ExorAIO.Champions.Vayne
 
                 (Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo &&
                     ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
-                    ((Targets.Minions.Count() > 1 &&
-                        (Targets.Minions.FirstOrDefault()).IsValidTarget(Variables.Q.Range)) ||
+                    (Targets.Minions.Count() > 1 ||
                         Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("SRU_") ||
                         Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("Mini")) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>()))
