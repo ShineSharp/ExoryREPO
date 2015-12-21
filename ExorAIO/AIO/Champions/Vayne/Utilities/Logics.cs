@@ -116,7 +116,8 @@ namespace ExorAIO.Champions.Vayne
 
                 (Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo &&
                     ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
-                    (Targets.Minions.Count() > 1 ||
+                    ((Targets.Minions.Any() &&
+                        Targets.Minions.Count() > 1) ||
                         Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("SRU_") ||
                         Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("Mini")) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>()))
