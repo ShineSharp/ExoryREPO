@@ -16,7 +16,7 @@ namespace ExorAIO.Core
     using ExorAIO.Champions.Graves;
     using ExorAIO.Champions.Jinx;
     using ExorAIO.Champions.KogMaw;
-    using ExorAIO.Champions.Nasus;
+    //using ExorAIO.Champions.Nasus;
     using ExorAIO.Champions.Olaf;
     using ExorAIO.Champions.Renekton;
     using ExorAIO.Champions.Sivir;
@@ -70,7 +70,7 @@ namespace ExorAIO.Core
                     case "Graves":     new Graves()    .OnLoad(); break;
                     case "Jinx":       new Jinx()      .OnLoad(); break;
                     case "KogMaw":     new KogMaw()    .OnLoad(); break;
-                    case "Nasus":      new Nasus()     .OnLoad(); break;
+                    //case "Nasus":      new Nasus()     .OnLoad(); break;
                     case "Olaf":       new Olaf()      .OnLoad(); break;
                     case "Renekton":   new Renekton()  .OnLoad(); break;
                     case "Sivir":      new Sivir()     .OnLoad(); break;

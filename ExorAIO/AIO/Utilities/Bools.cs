@@ -57,7 +57,8 @@ namespace ExorAIO.Utilities
         public static bool HasTear(Obj_AI_Hero target) 
         =>
             target.InventoryItems.Any(
-                item => item.Id.Equals(ItemId.Tear_of_the_Goddess)
+                item => 
+                    item.Id.Equals(ItemId.Tear_of_the_Goddess)
                     || item.Id.Equals(ItemId.Archangels_Staff)
                     || item.Id.Equals(ItemId.Manamune)
                     || item.Id.Equals(ItemId.Tear_of_the_Goddess_Crystal_Scar)
@@ -112,16 +113,5 @@ namespace ExorAIO.Utilities
         public static bool IsUsingFishBones()
         =>
             ObjectManager.Player.HasBuff("JinxQ");
-
-        /// <summary>
-        /// Defines whether a the Nasus player should attack or wait for Q to execute an object.
-        /// </summary>
-        public static bool ShouldAttack(Obj_AI_Base target)
-        =>
-            target != null &&
-            target.IsValid &&
-            (ObjectManager.Player.HasBuff("NasusQ") ?
-                Variables.Q.GetDamage(target) > target.Health :
-                ObjectManager.Player.GetAutoAttackDamage(target) < target.Health);
     }
 }

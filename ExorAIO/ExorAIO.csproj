@@ -84,9 +84,6 @@
     <Compile Include="AIO\Champions\KogMaw\Utilities\Logics.cs" />
     <Compile Include="AIO\Champions\KogMaw\Utilities\Utility.cs" />
     <Compile Include="AIO\Champions\KogMaw\KogMaw.cs" />
-    <Compile Include="AIO\Champions\Nasus\Utilities\Logics.cs" />
-    <Compile Include="AIO\Champions\Nasus\Utilities\Utility.cs" />
-    <Compile Include="AIO\Champions\Nasus\Nasus.cs" />
     <Compile Include="AIO\Champions\Olaf\Utilities\Logics.cs" />
     <Compile Include="AIO\Champions\Olaf\Utilities\Utility.cs" />
     <Compile Include="AIO\Champions\Olaf\Olaf.cs" />
