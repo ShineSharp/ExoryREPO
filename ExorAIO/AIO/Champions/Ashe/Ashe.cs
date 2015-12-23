@@ -34,9 +34,9 @@ namespace ExorAIO.Champions.Ashe
         public static void Game_OnGameUpdate(EventArgs args)
         {
             if (!ObjectManager.Player.IsDead &&
-                Targets.Target != null &&
-                Targets.Target.IsValid &&
-                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
+                !Variables.Orbwalker.GetTarget().Equals(0) &&
+                !Variables.Orbwalker.GetTarget().IsValid &&
+                !Variables.Orbwalker.ActiveMode.Equals(Orbwalking.OrbwalkingMode.None))
             {
                 Logics.ExecuteAuto(args);
             }
@@ -51,16 +51,10 @@ namespace ExorAIO.Champions.Ashe
         {
             if (sender.IsMe &&
                 Orbwalking.IsAutoAttack(args.SData.Name) &&
-                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
+                !Variables.Orbwalker.ActiveMode.Equals(Orbwalking.OrbwalkingMode.None))
             {
-                if (args.Target.IsValid<Obj_AI_Hero>())
-                {
-                    Logics.ExecuteModes(sender, args);
-                }
-                else if (args.Target.IsValid<Obj_AI_Minion>())
-                {
-                    Logics.ExecuteFarm(sender, args);
-                }
+                Logics.ExecuteModes(sender, args);
+                Logics.ExecuteFarm(sender, args);
             }
         }
     }

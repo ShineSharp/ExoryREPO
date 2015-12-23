@@ -7,12 +7,12 @@ namespace ExorAIO.Champions.Cassiopeia
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using Orbwalking = SFXTargetSelector.Orbwalking;
-
     using ExorAIO.Utilities;
 
+    using Orbwalking = SFXTargetSelector.Orbwalking;
+
     /// <summary>
-    ///     The main class.
+    /// The main class.
     /// </summary>
     public class Cassiopeia
     {   
@@ -35,26 +35,16 @@ namespace ExorAIO.Champions.Cassiopeia
         {
             if (!ObjectManager.Player.IsDead)
             {
-                if (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.None)
-                {
-                    Logics.ExecuteTearStacking(args);
-                }
-
-                if (Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None &&
-                    Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear &&
-                    Targets.Target != null &&
-                    Targets.Target.IsValid)
+                if (!Variables.Orbwalker.GetTarget().Equals(0) &&
+                    Variables.Orbwalker.GetTarget().IsValid &&
+                    !Variables.Orbwalker.ActiveMode.Equals(Orbwalking.OrbwalkingMode.None))
                 {
                     Logics.ExecuteModes(args);
                 }
-
-                if (Targets.Minions != null &&
-                    Targets.Minions.Any() &&
-                    Targets.Minion.IsValid &&
-                    Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None &&
-                    Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo)
+                else
                 {
                     Logics.ExecuteFarm(args);
+                    Logics.ExecuteTearStacking(args);
                 }
             }
         }

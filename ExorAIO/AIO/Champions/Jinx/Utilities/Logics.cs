@@ -37,11 +37,12 @@ namespace ExorAIO.Champions.Jinx
                     /// The Q Combo Logic.
                     /// </summary>
                     case Orbwalking.OrbwalkingMode.Combo:
+                    case Orbwalking.OrbwalkingMode.Mixed:
 
                         if (((Bools.IsUsingFishBones() && Targets.Target.IsValidTarget(Ranges.StaticMinigunRange)) ||
-                                (!Bools.IsUsingFishBones() &&
-                                    (!Targets.Target.IsValidTarget(Ranges.StaticMinigunRange) &&
-                                    Targets.Target.IsValidTarget(fishbonesRange)))) &&
+                            (!Bools.IsUsingFishBones() &&
+                                (!Targets.Target.IsValidTarget(Ranges.StaticMinigunRange) &&
+                                Targets.Target.IsValidTarget(fishbonesRange)))) &&
 
                                 Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqauto").GetValue<bool>())
                         {

@@ -7,129 +7,158 @@ namespace ExorAIO.Champions.Cassiopeia
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using Orbwalking = SFXTargetSelector.Orbwalking;
-
     using ExorAIO.Utilities;
 
+    using Orbwalking = SFXTargetSelector.Orbwalking;
+
+    /// <summary>
+    /// The logics class.
+    /// </summary>
     public class Logics
     {
+        /// <summary>
+        /// Called when the game updates itself.
+        /// </summary>
+        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void ExecuteTearStacking(EventArgs args)
         {
-            /*
-                Tear Stacking Logic;
-            */
+            /// <summary>
+            /// The Tear Stacking Logic.
+            /// </summary>
             if (Variables.Q.IsReady() &&
                 Bools.HasTear(ObjectManager.Player) &&
                 !ObjectManager.Player.IsRecalling() &&
-                ObjectManager.Player.CountEnemiesInRange(1500) == 0 &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.misc.stacktear").GetValue<bool>() &&
-                ObjectManager.Player.ManaPercent > Variables.Menu.Item($"{Variables.MainMenuName}.misc.stacktearmana").GetValue<Slider>().Value)
+                ObjectManager.Player.CountEnemiesInRange(1500).Equals(0) &&
+
+                (Variables.Orbwalker.ActiveMode.Equals(Orbwalking.OrbwalkingMode.None) &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.misc.stacktear").GetValue<bool>() &&
+                    ObjectManager.Player.ManaPercent > Variables.Menu.Item($"{Variables.MainMenuName}.misc.stacktearmana").GetValue<Slider>().Value))
             {
                 Variables.Q.Cast(Game.CursorPos);
             }
         }
 
+        /// <summary>
+        /// Called when the game updates itself.
+        /// </summary>
+        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void ExecuteModes(EventArgs args)
         {
-            /*
-                No AA In combo.
-            */
-            if (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo)
-            {
-                Variables.Orbwalker.SetAttack(Variables.Menu.Item($"{Variables.MainMenuName}.misc.aa").GetValue<bool>());
-            }
-            
-            /*
-                E Combo Logic;
-            */
+            /// <summary>
+            /// The No AA while in Combo option.
+            /// </summary>
+            Variables.Orbwalker.SetAttack(
+                Variables.Orbwalker.ActiveMode.Equals(Orbwalking.OrbwalkingMode.Combo) &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.misc.aa").GetValue<bool>());
+
+            /// <summary>
+            /// The E Combo Logic.
+            /// </summary>
             if (Variables.E.IsReady() &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useecombo").GetValue<bool>() && Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Targets.Target.HasBuffOfType(BuffType.Poison))
+                ((Obj_AI_Hero)Variables.Orbwalker.GetTarget()).HasBuffOfType(BuffType.Poison) &&
+
+                (Variables.Orbwalker.ActiveMode.Equals(Orbwalking.OrbwalkingMode.Combo) &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useecombo").GetValue<bool>()))
             {
                 Utility.DelayAction.Add(Variables.Menu.Item($"{Variables.MainMenuName}.esettings.edelay").GetValue<Slider>().Value,
                 () =>
                     {
-                        Variables.E.CastOnUnit(Targets.Target);
+                        Variables.E.CastOnUnit((Obj_AI_Hero)Variables.Orbwalker.GetTarget());
                     }
                 ); 
             }
 
-            /*
-                R Combo Logic;
-            */
+            /// <summary>
+            /// The R Combo Logic.
+            /// </summary>
             if (Variables.R.IsReady() &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.usercombo").GetValue<bool>() && Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                (ObjectManager.Player.HealthPercent < 20 || Targets.RTargets.Count() >= Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.userminenemies").GetValue<Slider>().Value))
+
+                (Variables.Orbwalker.ActiveMode.Equals(Orbwalking.OrbwalkingMode.Combo) &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.usercombo").GetValue<bool>() &&
+                    Targets.RTargets.Count() >= Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.userminenemies").GetValue<Slider>().Value))
             {
-                Variables.R.Cast(Targets.Target.Position);
+                Variables.R.Cast(Targets.RTargets.FirstOrDefault().Position);
             }
 
-            /*
-                Q Combo Logic;
-            */
+            /// <summary>
+            /// The Q Combo Logic.
+            /// </summary>
             if (Variables.Q.IsReady() &&
-                !Targets.Target.HasBuffOfType(BuffType.Poison) &&
-                (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>() && Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo) ||
-                (Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqharassfarm").GetValue<bool>() && ObjectManager.Player.ManaPercent > ManaManager.NeededQMana))
+                ((Obj_AI_Hero)Variables.Orbwalker.GetTarget()).IsValidTarget(Variables.Q.Range) &&
+                !((Obj_AI_Hero)Variables.Orbwalker.GetTarget()).HasBuffOfType(BuffType.Poison) &&
+
+                (Variables.Orbwalker.ActiveMode.Equals(Orbwalking.OrbwalkingMode.Combo) &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>()))
             {
-                Variables.Q.CastIfHitchanceEquals(Targets.Target, HitChance.VeryHigh, false);
+                Variables.Q.Cast(Variables.Q.GetPrediction((Obj_AI_Hero)Variables.Orbwalker.GetTarget()).CastPosition);
                 return;
             }
 
-            /*
-                W Combo Logic;
-            */
+            /// <summary>
+            /// The W Combo Logic.
+            /// </summary>
             if (Variables.W.IsReady() &&
                 !Variables.Q.IsReady() &&
-                !Targets.Target.HasBuffOfType(BuffType.Poison) &&
-                (Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>() && Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo) ||
-                (Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewharassfarm").GetValue<bool>() && ObjectManager.Player.ManaPercent > ManaManager.NeededWMana))
+                ((Obj_AI_Hero)Variables.Orbwalker.GetTarget()).IsValidTarget(Variables.W.Range) &&
+                !((Obj_AI_Hero)Variables.Orbwalker.GetTarget()).HasBuffOfType(BuffType.Poison) &&
+
+                (Variables.Orbwalker.ActiveMode.Equals(Orbwalking.OrbwalkingMode.Combo) &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>()))
             {
-                Variables.W.CastIfHitchanceEquals(Targets.Target, HitChance.VeryHigh, false);
+                Variables.W.Cast(Variables.W.GetPrediction((Obj_AI_Hero)Variables.Orbwalker.GetTarget()).CastPosition);
             }
         }
 
+        /// <summary>
+        /// Called when the game updates itself.
+        /// </summary>
+        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void ExecuteFarm(EventArgs args)
         {
-            /*
-                Q Farm Logic;
-            */
+            /// <summary>
+            /// The Q Farm Logic.
+            /// </summary>
             if (Variables.Q.IsReady() &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqharassfarm").GetValue<bool>() &&
-                Variables.Q.GetCircularFarmLocation(Targets.Minions, 100).MinionsHit >= 3 &&
-                ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
-                !Targets.Minion.HasBuffOfType(BuffType.Poison))
+
+                (Variables.Orbwalker.ActiveMode.Equals(Orbwalking.OrbwalkingMode.LaneClear) &&
+                    ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
+                    (Variables.Q.GetCircularFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 3 ||
+                        Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("SRU_") ||
+                        Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("Mini")) &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>()))
             {
-                var QFarmPosition = Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).Position;
-                Variables.Q.Cast(QFarmPosition);
+                Variables.Q.Cast(Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).Position);
             }
 
-            /*
-                W Farm Logic;
-            */
+            /// <summary>
+            /// The W Farm Logic.
+            /// </summary>
             if (Variables.W.IsReady() &&
                 !Variables.Q.IsReady() &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewharassfarm").GetValue<bool>() &&
-                Variables.W.GetCircularFarmLocation(Targets.Minions, 150).MinionsHit >= 3 &&
-                ObjectManager.Player.ManaPercent > ManaManager.NeededWMana &&
-                !Targets.Minion.HasBuffOfType(BuffType.Poison))
-            {
-                var WFarmPosition = Variables.W.GetCircularFarmLocation(Targets.Minions, Variables.W.Width).Position;
-                Variables.W.Cast(WFarmPosition);
-            }   
 
-            /*
-                E Farm Logic;
-            */
+                (Variables.Orbwalker.ActiveMode.Equals(Orbwalking.OrbwalkingMode.LaneClear) &&
+                    ObjectManager.Player.ManaPercent > ManaManager.NeededWMana &&
+                    (Variables.W.GetCircularFarmLocation(Targets.Minions, Variables.W.Width).MinionsHit >= 3 ||
+                        Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("SRU_") ||
+                        Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("Mini")) &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarm").GetValue<bool>()))
+            {
+                Variables.W.Cast(Variables.W.GetLineFarmLocation(Targets.Minions, Variables.W.Width).Position);
+            }
+
+            /// <summary>
+            /// The E Farm Logic.
+            /// </summary>
             if (Variables.E.IsReady() &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>() &&
-                Variables.E.GetDamage(Targets.Minion) > Targets.Minion.Health &&
-                (Targets.Minion.HasBuffOfType(BuffType.Poison) || Variables.Menu.Item($"{Variables.MainMenuName}.misc.lasthitnopoison").GetValue<bool>()))
+                (Targets.Minions.FirstOrDefault().HasBuffOfType(BuffType.Poison) || Variables.Menu.Item($"{Variables.MainMenuName}.misc.lasthitnopoison").GetValue<bool>()) &&
+                
+                (Variables.E.GetDamage(Targets.Minions.FirstOrDefault()) > Targets.Minions.FirstOrDefault().Health &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>()))
             {
                 Utility.DelayAction.Add(Variables.Menu.Item($"{Variables.MainMenuName}.esettings.edelay").GetValue<Slider>().Value, 
                 () =>
                     {
-                        Variables.E.CastOnUnit(Targets.Minion);
+                        Variables.E.CastOnUnit(Targets.Minions.FirstOrDefault());
                     }
                 );
             }

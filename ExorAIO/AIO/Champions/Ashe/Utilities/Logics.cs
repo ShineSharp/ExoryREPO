@@ -29,10 +29,10 @@ namespace ExorAIO.Champions.Ashe
             if (Variables.Q.IsReady() &&
                 ObjectManager.Player.HasBuff("AsheQCastReady") &&
 
-                ((Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                ((Variables.Orbwalker.ActiveMode.Equals(Orbwalking.OrbwalkingMode.Combo) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>()) ||
 
-                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
+                (Variables.Orbwalker.ActiveMode.Equals(Orbwalking.OrbwalkingMode.LaneClear) &&
                     ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>())))
             {
@@ -44,6 +44,7 @@ namespace ExorAIO.Champions.Ashe
             /// The W KillSteal Logic.
             /// </summary>
             if (Variables.W.IsReady() &&
+                Targets.Target.IsValidTarget(Variables.W.Range) &&
                 Bools.HasNoProtection(Targets.Target) &&
 
                 ((Targets.Target.Health < Variables.W.GetDamage(Targets.Target) &&
@@ -58,7 +59,7 @@ namespace ExorAIO.Champions.Ashe
             /// <summary>
             /// The R Logics.
             /// </summary>
-            if (Targets.Target.IsValidTarget(1200) &&
+            if (Targets.Target.IsValidTarget(Variables.W.Range+200) &&
                 Bools.HasNoProtection(Targets.Target))
             {
                 /// <summary>
@@ -78,7 +79,7 @@ namespace ExorAIO.Champions.Ashe
                 /// The R Normal Combo Logic.
                 /// </summary>
                 if (Variables.R.IsReady() &&
-                    !Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(null)) &&
+                    !Targets.Target.IsValidTarget(ObjectManager.Player.AttackRange) &&
 
                     (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                         Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.usercombo").GetValue<bool>() &&
@@ -108,7 +109,7 @@ namespace ExorAIO.Champions.Ashe
             if (Variables.W.IsReady() &&
                 Bools.HasNoProtection((Obj_AI_Hero)args.Target) &&
 
-                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                (Variables.Orbwalker.ActiveMode.Equals(Orbwalking.OrbwalkingMode.Combo) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>()))
             {
                 Variables.W.CastIfHitchanceEquals((Obj_AI_Hero)args.Target, HitChance.High, false);

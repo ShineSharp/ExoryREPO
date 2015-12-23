@@ -7,10 +7,10 @@ namespace ExorAIO.Champions.Ashe
     using LeagueSharp;
     using LeagueSharp.Common;
 
+    using ExorAIO.Utilities;
+
     using Orbwalking = SFXTargetSelector.Orbwalking;
     using TargetSelector = SFXTargetSelector.TargetSelector;
-
-    using ExorAIO.Utilities;
 
     /// <summary>
     /// The settings class.
