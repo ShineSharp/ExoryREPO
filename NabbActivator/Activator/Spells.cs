@@ -71,7 +71,7 @@ namespace NabbActivator
             /// The Ignite Logic.
             /// </summary>
             if (Bools.IsSpellAvailable(SpellSlots.Ignite) &&
-                !Targets.Target.Equals(0) &&
+                Targets.Target != null &&
                 Targets.Target.IsValidTarget(610f) &&
                 ObjectManager.Player.GetSummonerSpellDamage(Targets.Target, Damage.SummonerSpell.Ignite) > Targets.Target.Health)
             {

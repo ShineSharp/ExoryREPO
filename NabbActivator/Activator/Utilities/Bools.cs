@@ -82,8 +82,8 @@ namespace NabbActivator
         /// </summary>
         public static bool IsSpellAvailable(SpellSlot arg)
         =>
-            !arg.Equals(SpellSlot.Unknown) &&
-            ObjectManager.Player.Spellbook.CanUseSpell(arg).Equals(SpellState.Ready);
+            arg != SpellSlot.Unknown &&
+            ObjectManager.Player.Spellbook.CanUseSpell(arg) == SpellState.Ready;
 
         /// <summary>
         /// Defines whether the target has Zed's R Mark.
