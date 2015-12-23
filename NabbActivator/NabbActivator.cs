@@ -97,7 +97,7 @@
             /// <summary>
             /// Load the Ohmwrecker logic.
             /// </summary>
-            else if (sender.IsValid<Obj_AI_Turret>() &&
+            if (sender.IsValid<Obj_AI_Turret>() &&
                 args.Target.IsValid<Obj_AI_Hero>() &&
                 args.Target.IsAlly &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.defensives").GetValue<bool>())

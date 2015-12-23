@@ -14,6 +14,10 @@ namespace NabbActivator
     /// </summary>
     public class Offensives
     {
+        /// <summary>
+        /// Called when the game updates itself.
+        /// </summary>
+        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void Execute(EventArgs args)
         {
             /// <summary>
@@ -40,7 +44,8 @@ namespace NabbActivator
             /// The Youmuu's Ghostblade.
             /// </summary>
             if (ItemData.Youmuus_Ghostblade.GetItem().IsReady() &&
-                ObjectManager.Player.IsWindingUp)
+                ObjectManager.Player.IsWindingUp &&
+                Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)))
             {
                 ItemData.Youmuus_Ghostblade.GetItem().Cast();
             }
@@ -49,28 +54,28 @@ namespace NabbActivator
             /// The Bilgewater Cutlass.
             /// </summary>
             if (ItemData.Bilgewater_Cutlass.GetItem().IsReady() &&
-                Targets.target.IsValidTarget(550f))
+                Targets.Target.IsValidTarget(550f))
             {
-                ItemData.Bilgewater_Cutlass.GetItem().Cast(Targets.target);
+                ItemData.Bilgewater_Cutlass.GetItem().Cast(Targets.Target);
             }
 
             /// <summary>
             /// The Hextech Gunblade.
             /// </summary>
             if (ItemData.Hextech_Gunblade.GetItem().IsReady() &&
-                Targets.target.IsValidTarget(550f))
+                Targets.Target.IsValidTarget(550f))
             {
-                ItemData.Hextech_Gunblade.GetItem().Cast(Targets.target);
+                ItemData.Hextech_Gunblade.GetItem().Cast(Targets.Target);
             }
 
             /// <summary>
             /// The Blade of the Ruined King.
             /// </summary>    
             if (ItemData.Blade_of_the_Ruined_King.GetItem().IsReady() &&
-                Targets.target.IsValidTarget(550f) &&
+                Targets.Target.IsValidTarget(550f) &&
                 ObjectManager.Player.HealthPercent <= 90)
             {
-                ItemData.Blade_of_the_Ruined_King.GetItem().Cast(Targets.target);
+                ItemData.Blade_of_the_Ruined_King.GetItem().Cast(Targets.Target);
             }
 
             /// <summary>

@@ -13,11 +13,16 @@ namespace NabbActivator
     /// The cleansers class.
     /// </summary>
     public class Cleansers
-    {        
+    {
+        /// <summary>
+        /// Called when the game updates itself.
+        /// </summary>
+        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void Execute(EventArgs args)
         {
             if (Bools.ShouldUseCleanser() ||
-                (Bools.ShouldUseCleanse(ObjectManager.Player) && !Bools.IsSpellAvailable(SpellSlots.Cleanse)))
+                (Bools.ShouldUseCleanse(ObjectManager.Player) &&
+                !Bools.IsSpellAvailable(SpellSlots.Cleanse)))
             {
                 /// <summary>
                 /// The Dervish Blade.
@@ -25,9 +30,9 @@ namespace NabbActivator
                 if (ItemData.Dervish_Blade.GetItem().IsReady())
                 {
                     Utility.DelayAction.Add(
-                        Bools.HasZedMark(ObjectManager.Player) ?
-                            1500 : Bools.MustRandomize() ?
-                                WeightedRandom.Next(100, 200) : 0,
+                        Bools.MustRandomize() ?
+                            WeightedRandom.Next(100, 200) :
+                            0,
                         () =>
                         {
                             ItemData.Dervish_Blade.GetItem().Cast();
@@ -42,9 +47,9 @@ namespace NabbActivator
                 if (ItemData.Mercurial_Scimitar.GetItem().IsReady())
                 {
                     Utility.DelayAction.Add(
-                        Bools.HasZedMark(ObjectManager.Player) ?
-                            1500 : Bools.MustRandomize() ?
-                                WeightedRandom.Next(100, 200) : 0,
+                        Bools.MustRandomize() ?
+                            WeightedRandom.Next(100, 200) :
+                            0,
                         () =>
                         {
                             ItemData.Mercurial_Scimitar.GetItem().Cast();
@@ -59,9 +64,9 @@ namespace NabbActivator
                 if (ItemData.Quicksilver_Sash.GetItem().IsReady())
                 {
                     Utility.DelayAction.Add(
-                        Bools.HasZedMark(ObjectManager.Player) ?
-                            1500 : Bools.MustRandomize() ?
-                                WeightedRandom.Next(100, 200) : 0,
+                        Bools.MustRandomize() ?
+                            WeightedRandom.Next(100, 200) :
+                            0,
                         () =>
                         {
                             ItemData.Quicksilver_Sash.GetItem().Cast();
@@ -84,7 +89,8 @@ namespace NabbActivator
                     {
                         Utility.DelayAction.Add(
                             Bools.MustRandomize() ?
-                                WeightedRandom.Next(100, 200) : 0,
+                                WeightedRandom.Next(100, 200) :
+                                0,
                             () =>
                             {
                                 ItemData.Mikaels_Crucible.GetItem().Cast(Ally);

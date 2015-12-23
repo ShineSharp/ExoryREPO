@@ -13,7 +13,11 @@ namespace NabbActivator
     /// The spells class.
     /// </summary>
     public class Spells
-    {        
+    {
+        /// <summary>
+        /// Called when the game updates itself.
+        /// </summary>
+        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void Execute(EventArgs args)
         {
             /// <summary>
@@ -22,17 +26,19 @@ namespace NabbActivator
             if (Bools.HasNoProtection(ObjectManager.Player) &&
                 Bools.ShouldUseCleanse(ObjectManager.Player))
             {
-                if (ObjectManager.Player.ChampionName == "Gangplank" &&
-                    Variables.W.IsReady())
+                if (Variables.W.IsReady() &&
+                    ObjectManager.Player.ChampionName.Equals("Gangplank"))
                 {
                     Variables.W.Cast();
                     return;
                 }
-                else if (Bools.IsSpellAvailable(SpellSlots.Cleanse))
+
+                if (Bools.IsSpellAvailable(SpellSlots.Cleanse))
                 {
                     Utility.DelayAction.Add(
                         Bools.MustRandomize() ?
-                            WeightedRandom.Next(100, 200) : 0,
+                            WeightedRandom.Next(100, 200) :
+                            0,
                         () => 
                         {
                             ObjectManager.Player.Spellbook.CastSpell(SpellSlots.Cleanse);
@@ -55,8 +61,8 @@ namespace NabbActivator
             /// The Ghost Logic.
             /// </summary>
             if (Bools.IsSpellAvailable(SpellSlots.Ghost) &&
-                (ObjectManager.Player.CountEnemiesInRange(ObjectManager.Player.AttackRange+300) < ObjectManager.Player.CountAlliesInRange(ObjectManager.Player.AttackRange+300)) ||
-                (ObjectManager.Player.CountEnemiesInRange(ObjectManager.Player.AttackRange+300) > ObjectManager.Player.CountAlliesInRange(ObjectManager.Player.AttackRange+300)))
+                (ObjectManager.Player.CountEnemiesInRange(ObjectManager.Player.AttackRange+300) < ObjectManager.Player.CountAlliesInRange(ObjectManager.Player.AttackRange+300)-1) ||
+                (ObjectManager.Player.CountEnemiesInRange(ObjectManager.Player.AttackRange+300) > ObjectManager.Player.CountAlliesInRange(ObjectManager.Player.AttackRange+300)-1))
             {
                 ObjectManager.Player.Spellbook.CastSpell(SpellSlots.Ghost);
             }
@@ -65,11 +71,11 @@ namespace NabbActivator
             /// The Ignite Logic.
             /// </summary>
             if (Bools.IsSpellAvailable(SpellSlots.Ignite) &&
-                Targets.target != null &&
-                Targets.target.IsValidTarget(610f) &&
-                ObjectManager.Player.GetSummonerSpellDamage(Targets.target, Damage.SummonerSpell.Ignite) > Targets.target.Health)
+                !Targets.Target.Equals(0) &&
+                Targets.Target.IsValidTarget(610f) &&
+                ObjectManager.Player.GetSummonerSpellDamage(Targets.Target, Damage.SummonerSpell.Ignite) > Targets.Target.Health)
             {
-                ObjectManager.Player.Spellbook.CastSpell(SpellSlots.Ignite, Targets.target);
+                ObjectManager.Player.Spellbook.CastSpell(SpellSlots.Ignite, Targets.Target);
             }
         }
     }

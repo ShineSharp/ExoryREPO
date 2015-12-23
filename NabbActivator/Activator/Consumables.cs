@@ -14,6 +14,10 @@ namespace NabbActivator
     /// </summary>
     public class Consumables
     {
+        /// <summary>
+        /// Called when the game updates itself.
+        /// </summary>
+        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void Execute(EventArgs args)
         {
             if (ObjectManager.Player.IsRecalling() || ObjectManager.Player.InFountain())
@@ -26,7 +30,7 @@ namespace NabbActivator
             /// </summary>
             if (!Bools.IsHealthPotRunning())
             {
-                if (ObjectManager.Player.HealthPercent <= Variables.MinHealthPercent)
+                if (ObjectManager.Player.HealthPercent <= Managers.MinHealthPercent)
                 {
                     /// <summary>
                     /// The Refillable Potion.
@@ -62,7 +66,7 @@ namespace NabbActivator
             /// </summary>
             if (!Bools.IsManaPotRunning())
             {
-                if (ObjectManager.Player.ManaPercent <= Variables.MinManaPercent)
+                if (ObjectManager.Player.ManaPercent <= Managers.MinManaPercent)
                 {
                     /// <summary>
                     /// The Corrupting Potion.
