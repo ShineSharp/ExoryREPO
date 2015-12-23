@@ -110,6 +110,13 @@ namespace ExorAIO.Champions.Cassiopeia
     public class Targets
     {
         /// <summary>
+        /// The main hero target.
+        /// </summary>
+        public static Obj_AI_Hero Target
+        =>
+            TargetSelector.GetTarget(Variables.W.Range, LeagueSharp.DamageType.Magical);
+
+        /// <summary>
         /// The minion targets.
         /// </summary>
         public static List<Obj_AI_Base> Minions

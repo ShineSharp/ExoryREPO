@@ -28,9 +28,9 @@ namespace ExorAIO.Champions.Cassiopeia
             if (Variables.Q.IsReady() &&
                 Bools.HasTear(ObjectManager.Player) &&
                 !ObjectManager.Player.IsRecalling() &&
-                ObjectManager.Player.CountEnemiesInRange(1500).Equals(0) &&
+                ObjectManager.Player.CountEnemiesInRange(1500) == 0 &&
 
-                (Variables.Orbwalker.ActiveMode.Equals(Orbwalking.OrbwalkingMode.None) &&
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.None &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.misc.stacktear").GetValue<bool>() &&
                     ObjectManager.Player.ManaPercent > Variables.Menu.Item($"{Variables.MainMenuName}.misc.stacktearmana").GetValue<Slider>().Value))
             {
@@ -48,7 +48,7 @@ namespace ExorAIO.Champions.Cassiopeia
             /// The No AA while in Combo option.
             /// </summary>
             Variables.Orbwalker.SetAttack(
-                Variables.Orbwalker.ActiveMode.Equals(Orbwalking.OrbwalkingMode.Combo) &&
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.misc.aa").GetValue<bool>());
 
             /// <summary>
@@ -57,7 +57,7 @@ namespace ExorAIO.Champions.Cassiopeia
             if (Variables.E.IsReady() &&
                 ((Obj_AI_Hero)Variables.Orbwalker.GetTarget()).HasBuffOfType(BuffType.Poison) &&
 
-                (Variables.Orbwalker.ActiveMode.Equals(Orbwalking.OrbwalkingMode.Combo) &&
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useecombo").GetValue<bool>()))
             {
                 Utility.DelayAction.Add(Variables.Menu.Item($"{Variables.MainMenuName}.esettings.edelay").GetValue<Slider>().Value,
@@ -73,7 +73,7 @@ namespace ExorAIO.Champions.Cassiopeia
             /// </summary>
             if (Variables.R.IsReady() &&
 
-                (Variables.Orbwalker.ActiveMode.Equals(Orbwalking.OrbwalkingMode.Combo) &&
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.usercombo").GetValue<bool>() &&
                     Targets.RTargets.Count() >= Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.userminenemies").GetValue<Slider>().Value))
             {
@@ -87,7 +87,7 @@ namespace ExorAIO.Champions.Cassiopeia
                 ((Obj_AI_Hero)Variables.Orbwalker.GetTarget()).IsValidTarget(Variables.Q.Range) &&
                 !((Obj_AI_Hero)Variables.Orbwalker.GetTarget()).HasBuffOfType(BuffType.Poison) &&
 
-                (Variables.Orbwalker.ActiveMode.Equals(Orbwalking.OrbwalkingMode.Combo) &&
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>()))
             {
                 Variables.Q.Cast(Variables.Q.GetPrediction((Obj_AI_Hero)Variables.Orbwalker.GetTarget()).CastPosition);
@@ -102,7 +102,7 @@ namespace ExorAIO.Champions.Cassiopeia
                 ((Obj_AI_Hero)Variables.Orbwalker.GetTarget()).IsValidTarget(Variables.W.Range) &&
                 !((Obj_AI_Hero)Variables.Orbwalker.GetTarget()).HasBuffOfType(BuffType.Poison) &&
 
-                (Variables.Orbwalker.ActiveMode.Equals(Orbwalking.OrbwalkingMode.Combo) &&
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>()))
             {
                 Variables.W.Cast(Variables.W.GetPrediction((Obj_AI_Hero)Variables.Orbwalker.GetTarget()).CastPosition);
@@ -120,7 +120,7 @@ namespace ExorAIO.Champions.Cassiopeia
             /// </summary>
             if (Variables.Q.IsReady() &&
 
-                (Variables.Orbwalker.ActiveMode.Equals(Orbwalking.OrbwalkingMode.LaneClear) &&
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                     ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
                     (Variables.Q.GetCircularFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 3 ||
                         Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("SRU_") ||
@@ -136,7 +136,7 @@ namespace ExorAIO.Champions.Cassiopeia
             if (Variables.W.IsReady() &&
                 !Variables.Q.IsReady() &&
 
-                (Variables.Orbwalker.ActiveMode.Equals(Orbwalking.OrbwalkingMode.LaneClear) &&
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                     ObjectManager.Player.ManaPercent > ManaManager.NeededWMana &&
                     (Variables.W.GetCircularFarmLocation(Targets.Minions, Variables.W.Width).MinionsHit >= 3 ||
                         Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("SRU_") ||

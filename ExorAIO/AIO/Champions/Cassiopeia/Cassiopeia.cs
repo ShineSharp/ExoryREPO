@@ -35,9 +35,9 @@ namespace ExorAIO.Champions.Cassiopeia
         {
             if (!ObjectManager.Player.IsDead)
             {
-                if (!Variables.Orbwalker.GetTarget().Equals(0) &&
-                    Variables.Orbwalker.GetTarget().IsValid &&
-                    !Variables.Orbwalker.ActiveMode.Equals(Orbwalking.OrbwalkingMode.None))
+                if (Targets.Target != null &&
+                    Targets.Target.IsValid &&
+                    Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
                 {
                     Logics.ExecuteModes(args);
                 }

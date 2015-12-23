@@ -29,10 +29,10 @@ namespace ExorAIO.Champions.Ashe
             if (Variables.Q.IsReady() &&
                 ObjectManager.Player.HasBuff("AsheQCastReady") &&
 
-                ((Variables.Orbwalker.ActiveMode.Equals(Orbwalking.OrbwalkingMode.Combo) &&
+                ((Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>()) ||
 
-                (Variables.Orbwalker.ActiveMode.Equals(Orbwalking.OrbwalkingMode.LaneClear) &&
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                     ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>())))
             {
@@ -109,7 +109,7 @@ namespace ExorAIO.Champions.Ashe
             if (Variables.W.IsReady() &&
                 Bools.HasNoProtection((Obj_AI_Hero)args.Target) &&
 
-                (Variables.Orbwalker.ActiveMode.Equals(Orbwalking.OrbwalkingMode.Combo) &&
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>()))
             {
                 Variables.W.CastIfHitchanceEquals((Obj_AI_Hero)args.Target, HitChance.High, false);

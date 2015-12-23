@@ -34,9 +34,9 @@ namespace ExorAIO.Champions.Ashe
         public static void Game_OnGameUpdate(EventArgs args)
         {
             if (!ObjectManager.Player.IsDead &&
-                !Variables.Orbwalker.GetTarget().Equals(0) &&
-                !Variables.Orbwalker.GetTarget().IsValid &&
-                !Variables.Orbwalker.ActiveMode.Equals(Orbwalking.OrbwalkingMode.None))
+                Targets.Target != null &&
+                Targets.Target.IsValid &&
+                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
                 Logics.ExecuteAuto(args);
             }
@@ -51,7 +51,7 @@ namespace ExorAIO.Champions.Ashe
         {
             if (sender.IsMe &&
                 Orbwalking.IsAutoAttack(args.SData.Name) &&
-                !Variables.Orbwalker.ActiveMode.Equals(Orbwalking.OrbwalkingMode.None))
+                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
                 Logics.ExecuteModes(sender, args);
                 Logics.ExecuteFarm(sender, args);
