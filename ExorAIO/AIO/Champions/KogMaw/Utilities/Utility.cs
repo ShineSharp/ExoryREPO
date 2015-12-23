@@ -56,7 +56,7 @@ namespace ExorAIO.Champions.KogMaw
                 Variables.EMenu = new Menu("E Settings", $"{Variables.MainMenuName}.esettingsmenu");
                 {
                     Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.useecombo", "Use E in Combo")).SetValue(true);
-                    Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.useeharassfarm", "Use E to Farm")).SetValue(true);
+                    Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.useefarm", "Use E to Farm")).SetValue(true);
                     Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.useeimmobile", "Use E against Immobile Targets")).SetValue(true);
                     Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.useeks", "Use E to KillSteal")).SetValue(true);
                     Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.emana", "Use E to Farm only if Mana >= x%"))
