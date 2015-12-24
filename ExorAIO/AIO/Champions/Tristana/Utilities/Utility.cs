@@ -71,9 +71,8 @@ namespace ExorAIO.Champions.Tristana
 
             Variables.DrawingsMenu = new Menu("Drawings Menu", $"{Variables.MainMenuName}.drawingsmenu");
             {
-                Variables.DrawingsMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.e", "Show E Range")).SetValue(true);
-                Variables.DrawingsMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.ks", "Show KillSteal Damage")).SetValue(true);
-                Variables.DrawingsMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.r", "Show R Range")).SetValue(true);
+                Variables.DrawingsMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.e", "Show E Range")).SetValue(false);
+                Variables.DrawingsMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.r", "Show R Range")).SetValue(false);
             }
             Variables.Menu.AddSubMenu(Variables.DrawingsMenu);
         }
