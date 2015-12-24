@@ -20,7 +20,7 @@ namespace ExorAIO.Champions.Ezreal
         /// Called when the game updates itself.
         /// </summary>
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
-        public static void ExecuteAuto(EventArgs args)
+        public static void ExecuteTearStacking(EventArgs args)
         {
             /// <summary>
             /// The Tear Stacking Logic
@@ -34,7 +34,14 @@ namespace ExorAIO.Champions.Ezreal
             {
                 Variables.Q.Cast(Game.CursorPos);
             }
+        }
 
+        /// <summary>
+        /// Called when the game updates itself.
+        /// </summary>
+        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
+        public static void ExecuteAuto(EventArgs args)
+        {
             /// <summary>
             /// The Q KillSteal Logic,
             /// The Q Immobile Harass Logic,
@@ -125,7 +132,7 @@ namespace ExorAIO.Champions.Ezreal
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>()))
             {
-                Variables.W.Cast(((Obj_AI_Hero)args.Target).Position);
+                Variables.W.Cast(Variables.W.GetPrediction((Obj_AI_Hero)args.Target).UnitPosition);
                 return;
             }
 
@@ -159,9 +166,9 @@ namespace ExorAIO.Champions.Ezreal
 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                     ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
-                    (Targets.Minions.FirstOrDefault().Health < Variables.Q.GetDamage(Targets.Minions.FirstOrDefault()) ||                         
-                        Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("SRU_") ||
-                        Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("Mini")) &&
+                    (Targets.Minions.FirstOrDefault().Health < ObjectManager.Player.GetAutoAttackDamage(Targets.Minions.FirstOrDefault()) + Variables.Q.GetDamage(Targets.Minions.FirstOrDefault()) ||                         
+                        (Targets.Minions.FirstOrDefault()).CharData.BaseSkinName.Contains("SRU_") ||
+                        (Targets.Minions.FirstOrDefault()).CharData.BaseSkinName.Contains("Mini")) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>()))
             {
                 Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Minions.FirstOrDefault()).UnitPosition);
