@@ -151,11 +151,11 @@ namespace ExorLucian
                 (ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
                     Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                     (Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 3 ||
-                       ((Obj_AI_Base)Variables.Orbwalker.GetTarget()).CharData.BaseSkinName.Contains("SRU_") ||
-                       ((Obj_AI_Base)Variables.Orbwalker.GetTarget()).CharData.BaseSkinName.Contains("Mini")) &&
+                       Targets.Minions.First().CharData.BaseSkinName.Contains("SRU_") ||
+                       Targets.Minions.First().CharData.BaseSkinName.Contains("Mini")) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>()))
             {
-                Variables.Q.CastOnUnit(((Obj_AI_Base)Variables.Orbwalker.GetTarget()));
+                Variables.Q.Cast(Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).Position);
             }
         }
     }
