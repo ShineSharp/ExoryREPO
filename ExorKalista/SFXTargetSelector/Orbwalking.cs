@@ -700,7 +700,7 @@ namespace SFXTargetSelector
         /// <param name="randomizeMinDistance">if set to <c>true</c> [randomize minimum distance].</param>
         public static void Orbwalk(AttackableUnit target,
             Vector3 position,
-            float extraWindup = 90,
+            float extraWindup = 0,
             float holdAreaRadius = 0,
             bool useFixedDistance = true,
             bool randomizeMinDistance = true)
