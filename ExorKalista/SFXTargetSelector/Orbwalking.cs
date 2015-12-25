@@ -135,7 +135,7 @@ namespace SFXTargetSelector
         {
             "dariusnoxiantacticsonh", "fioraflurry", "garenq",
             "gravesmove", "hecarimrapidslash", "jaxempowertwo", "jaycehypercharge", "leonashieldofdaybreak", "luciane",
-            "lucianq", "monkeykingdoubleattack", "mordekaisermaceofspades", "nasusq", "nautiluspiercinggaze",
+            "monkeykingdoubleattack", "mordekaisermaceofspades", "nasusq", "nautiluspiercinggaze",
             "netherblade", "gangplankqwrapper", "poppydevastatingblow", "powerfist", "renektonpreexecute", "rengarq",
             "shyvanadoubleattack", "sivirw", "takedown", "talonnoxiandiplomacy", "trundletrollsmash", "vaynetumble",
             "vie", "volibearq", "xenzhaocombotarget", "yorickspectral", "reksaiq", "itemtitanichydracleave", "masochism",
@@ -164,7 +164,7 @@ namespace SFXTargetSelector
         private static readonly string[] Attacks =
         {
             "caitlynheadshotmissile", "frostarrow", "garenslash2",
-            "kennenmegaproc", "lucianpassiveattack", "masteryidoublestrike", "quinnwenhanced", "renektonexecute",
+            "kennenmegaproc", "masteryidoublestrike", "quinnwenhanced", "renektonexecute",
             "renektonsuperexecute", "rengarnewpassivebuffdash", "trundleq", "xenzhaothrust", "xenzhaothrust2",
             "xenzhaothrust3", "viktorqbuff"
         };
@@ -447,9 +447,20 @@ namespace SFXTargetSelector
         /// </summary>
         /// <param name="extraDelay">The extra delay.</param>
         /// <returns><c>true</c> if this instance can attack; otherwise, <c>false</c>.</returns>
-        public static bool CanAttack(float extraDelay = -100)
+        public static bool CanAttack(float extraDelay = -200)
         {
-            return LeagueSharp.Common.Utils.GameTimeTickCount >= LastAaTick + Player.AttackDelay * 1000 + extraDelay && Attack;
+            if (Player.ChampionName == "Graves" && Attack)
+            {
+                var attackDelay = 1.0740296828d * 1000 * Player.AttackDelay - 716.2381256175d;
+                if (LeagueSharp.Common.Utils.GameTimeTickCount + Game.Ping / 2 + 25 >= LastAaTick + attackDelay &&
+                    Player.HasBuff("GravesBasicAttackAmmo1"))
+                {
+                    return true;
+                }
+                return false;
+            }
+            return LeagueSharp.Common.Utils.GameTimeTickCount + Game.Ping / 2 + 25 >=
+                   LastAaTick + Player.AttackDelay * 1000 + extraDelay && Attack;
         }
 
         /// <summary>
@@ -679,7 +690,7 @@ namespace SFXTargetSelector
         }
 
         /// <summary>
-        /// Orbwalks a target while moving to Position.
+        ///     Orbwalks a target while moving to Position.
         /// </summary>
         /// <param name="target">The target.</param>
         /// <param name="position">The position.</param>
@@ -694,31 +705,44 @@ namespace SFXTargetSelector
             bool useFixedDistance = true,
             bool randomizeMinDistance = true)
         {
-            if (LeagueSharp.Common.Utils.GameTimeTickCount - LastAttackCommandT < (70 + Math.Min(60, Game.Ping)))
+            if (LeagueSharp.Common.Utils.GameTimeTickCount - LastAttackCommandT < 70 + Math.Min(60, Game.Ping))
             {
                 return;
             }
 
             try
             {
-                if (target.IsValidTarget() && CanAttack())
+                var randomize = Randomizes[OrbwalkingRandomize.Attack];
+                if (target.IsValidTarget() && CanAttack(randomize.Current))
                 {
+                    SetRandomizeCurrent(randomize);
                     DisableNextAttack = false;
                     FireBeforeAttack(target);
-                    _autoattackCounter++;
-                    Player.IssueOrder(GameObjectOrder.AttackUnit, target);
+
                     if (!DisableNextAttack)
                     {
+                        if (!NoCancelChamps.Contains(ChampionName))
+                        {
+                            _missileLaunched = false;
+                        }
+
                         if (Player.IssueOrder(GameObjectOrder.AttackUnit, target))
                         {
                             LastAttackCommandT = LeagueSharp.Common.Utils.GameTimeTickCount;
                             _lastTarget = target;
                         }
+
+                        return;
                     }
                 }
 
-                else if (CanMove(extraWindup))
+                if (CanMove(extraWindup))
                 {
+                    if (Orbwalker.LimitAttackSpeed && (Player.AttackDelay < 1 / 2.6f) && _autoattackCounter % 3 != 0 &&
+                        !CanMove(500, true))
+                    {
+                        return;
+                    }
                     MoveTo(position, holdAreaRadius, false, useFixedDistance, randomizeMinDistance);
                 }
             }
@@ -745,7 +769,7 @@ namespace SFXTargetSelector
         {
             if (spellbook.Owner.IsValid && spellbook.Owner.IsMe && args.DestroyMissile && args.StopAnimation)
             {
-                //ResetAutoAttackTimer();
+                ResetAutoAttackTimer();
             }
         }
 
@@ -797,6 +821,11 @@ namespace SFXTargetSelector
             try
             {
                 var spellName = spell.SData.Name;
+
+                if (unit.IsMe && IsAutoAttackReset(spellName) && Math.Abs(spell.SData.SpellCastTime) <= 0)
+                {
+                    ResetAutoAttackTimer();
+                }
 
                 if (!IsAutoAttack(spellName))
                 {
