@@ -135,7 +135,7 @@ namespace SFXTargetSelector
         {
             "dariusnoxiantacticsonh", "fioraflurry", "garenq",
             "gravesmove", "hecarimrapidslash", "jaxempowertwo", "jaycehypercharge", "leonashieldofdaybreak", "luciane",
-            "monkeykingdoubleattack", "mordekaisermaceofspades", "nasusq", "nautiluspiercinggaze",
+            "lucianq", "monkeykingdoubleattack", "mordekaisermaceofspades", "nasusq", "nautiluspiercinggaze",
             "netherblade", "gangplankqwrapper", "poppydevastatingblow", "powerfist", "renektonpreexecute", "rengarq",
             "shyvanadoubleattack", "sivirw", "takedown", "talonnoxiandiplomacy", "trundletrollsmash", "vaynetumble",
             "vie", "volibearq", "xenzhaocombotarget", "yorickspectral", "reksaiq", "itemtitanichydracleave", "masochism",
@@ -164,7 +164,7 @@ namespace SFXTargetSelector
         private static readonly string[] Attacks =
         {
             "caitlynheadshotmissile", "frostarrow", "garenslash2",
-            "kennenmegaproc", "masteryidoublestrike", "quinnwenhanced", "renektonexecute",
+            "kennenmegaproc", "lucianpassiveattack", "masteryidoublestrike", "quinnwenhanced", "renektonexecute",
             "renektonsuperexecute", "rengarnewpassivebuffdash", "trundleq", "xenzhaothrust", "xenzhaothrust2",
             "xenzhaothrust3", "viktorqbuff"
         };
@@ -431,33 +431,65 @@ namespace SFXTargetSelector
         }
 
         /// <summary>
+        ///     Returns player auto-attack missile speed.
+        /// </summary>
+        /// <returns>System.Single.</returns>
+        public static float GetMyProjectileSpeed()
+        {
+            return IsMelee(Player) || ChampionName == "Azir" || ChampionName == "Velkoz" ||
+                   ChampionName == "Viktor" && Player.HasBuff("ViktorPowerTransferReturn")
+                ? float.MaxValue
+                : Player.BasicAttack.MissileSpeed;
+        }
+
+        /// <summary>
         ///     Returns if the player's auto-attack is ready.
         /// </summary>
         /// <param name="extraDelay">The extra delay.</param>
         /// <returns><c>true</c> if this instance can attack; otherwise, <c>false</c>.</returns>
         public static bool CanAttack(float extraDelay = -100)
         {
-            return LeagueSharp.Common.Utils.GameTimeTickCount >= LastAaTick + Player.AttackDelay * 1000 + extraDelay && Attack;
+            if (Player.ChampionName == "Graves" && Attack)
+            {
+                var attackDelay = 1.0740296828d * 1000 * Player.AttackDelay - 716.2381256175d;
+                if (LeagueSharp.Common.Utils.GameTimeTickCount + Game.Ping / 2 + 25 >= LastAaTick + attackDelay &&
+                    Player.HasBuff("GravesBasicAttackAmmo1"))
+                {
+                    return true;
+                }
+                return false;
+            }
+            return LeagueSharp.Common.Utils.GameTimeTickCount + Game.Ping / 2 + 25 >=
+                   LastAaTick + Player.AttackDelay * 1000 + extraDelay && Attack;
         }
 
         /// <summary>
-        /// Returns true if moving won't cancel the auto-attack.
+        ///     Returns true if moving won't cancel the auto-attack.
         /// </summary>
         /// <param name="extraWindup">The extra windup.</param>
+        /// <param name="disableMissileCheck">Disable missile check.</param>
         /// <returns><c>true</c> if this instance can move the specified extra windup; otherwise, <c>false</c>.</returns>
-        public static bool CanMove(float extraWindup)
+        public static bool CanMove(float extraWindup, bool disableMissileCheck = false)
         {
             if (!Move)
             {
                 return false;
             }
 
-            if (_missileLaunched && Orbwalker.MissileCheck)
+            if (_missileLaunched && Orbwalker.MissileCheck && !disableMissileCheck)
             {
                 return true;
             }
 
-            return (LeagueSharp.Common.Utils.GameTimeTickCount >= LastAaTick + Player.AttackCastDelay * 1000 + extraWindup);
+            var localExtraWindup = 0;
+            if (ChampionName == "Rengar" && (Player.HasBuff("rengarqbase") || Player.HasBuff("rengarqemp")))
+            {
+                localExtraWindup = 200;
+            }
+
+            return NoCancelChamps.Contains(ChampionName) ||
+                   (LeagueSharp.Common.Utils.GameTimeTickCount + Game.Ping / 2 >=
+                    LastAaTick + Player.AttackCastDelay * 1000 + extraWindup + localExtraWindup);
         }
 
         public static void SetRandomize(float value, OrbwalkingRandomize randomize)
@@ -658,7 +690,7 @@ namespace SFXTargetSelector
         }
 
         /// <summary>
-        /// Orbwalks a target while moving to Position.
+        ///     Orbwalks a target while moving to Position.
         /// </summary>
         /// <param name="target">The target.</param>
         /// <param name="position">The position.</param>
@@ -673,31 +705,44 @@ namespace SFXTargetSelector
             bool useFixedDistance = true,
             bool randomizeMinDistance = true)
         {
-            if (LeagueSharp.Common.Utils.GameTimeTickCount - LastAttackCommandT < (70 + Math.Min(60, Game.Ping)))
+            if (LeagueSharp.Common.Utils.GameTimeTickCount - LastAttackCommandT < 70 + Math.Min(60, Game.Ping))
             {
                 return;
             }
 
             try
             {
-                if (target.IsValidTarget() && CanAttack())
+                var randomize = Randomizes[OrbwalkingRandomize.Attack];
+                if (target.IsValidTarget() && CanAttack(randomize.Current))
                 {
+                    SetRandomizeCurrent(randomize);
                     DisableNextAttack = false;
                     FireBeforeAttack(target);
-                    _autoattackCounter++;
-                    Player.IssueOrder(GameObjectOrder.AttackUnit, target);
+
                     if (!DisableNextAttack)
                     {
+                        if (!NoCancelChamps.Contains(ChampionName))
+                        {
+                            _missileLaunched = false;
+                        }
+
                         if (Player.IssueOrder(GameObjectOrder.AttackUnit, target))
                         {
                             LastAttackCommandT = LeagueSharp.Common.Utils.GameTimeTickCount;
                             _lastTarget = target;
                         }
+
+                        return;
                     }
                 }
 
-                else if (CanMove(extraWindup))
+                if (CanMove(extraWindup))
                 {
+                    if (Orbwalker.LimitAttackSpeed && (Player.AttackDelay < 1 / 2.6f) && _autoattackCounter % 3 != 0 &&
+                        !CanMove(500, true))
+                    {
+                        return;
+                    }
                     MoveTo(position, holdAreaRadius, false, useFixedDistance, randomizeMinDistance);
                 }
             }
@@ -724,7 +769,7 @@ namespace SFXTargetSelector
         {
             if (spellbook.Owner.IsValid && spellbook.Owner.IsMe && args.DestroyMissile && args.StopAnimation)
             {
-                //ResetAutoAttackTimer();
+                ResetAutoAttackTimer();
             }
         }
 
@@ -793,6 +838,7 @@ namespace SFXTargetSelector
                     LastAaTick = LeagueSharp.Common.Utils.GameTimeTickCount - Game.Ping / 2;
                     _missileLaunched = false;
                     LastMoveCommandT = 0;
+                    _autoattackCounter++;
 
                     var target = spell.Target as Obj_AI_Base;
                     if (target != null && target.IsValid)
@@ -1344,7 +1390,8 @@ namespace SFXTargetSelector
                     foreach (var minion in minionList)
                     {
                         var t = (int) (_player.AttackCastDelay * 1000) - 100 + Game.Ping / 2 +
-                                1000 * (int) Math.Max(0, _player.Distance(minion) - _player.BoundingRadius) / int.MaxValue;
+                                1000 * (int) Math.Max(0, _player.Distance(minion) - _player.BoundingRadius) /
+                                (int) GetMyProjectileSpeed();
                         if (minion.MaxHealth <= 10)
                         {
                             if (minion.Health <= 1)
