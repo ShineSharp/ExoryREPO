@@ -58,7 +58,7 @@ namespace NabbActivator
         public static bool ShouldUseCleanser()
         =>
             Bools.HasNoProtection(ObjectManager.Player) &&
-            (Bools.HasZedMark(ObjectManager.Player) ||
+            (ObjectManager.Player.HasBuff("zedulttargetmark") ||
             ObjectManager.Player.HasBuff("VladimirHemoplague") ||
             ObjectManager.Player.HasBuff("MordekaiserChildrenOfTheGrave") ||
             ObjectManager.Player.HasBuff("PoppyDiplomaticImmunity") ||
@@ -84,13 +84,6 @@ namespace NabbActivator
         =>
             arg != SpellSlot.Unknown &&
             ObjectManager.Player.Spellbook.CanUseSpell(arg) == SpellState.Ready;
-
-        /// <summary>
-        /// Defines whether the target has Zed's R Mark.
-        /// </summary>
-        public static bool HasZedMark(Obj_AI_Hero target)
-        =>
-            target.HasBuff("zedulttargetmark");
 
         /// <summary>
         /// Defines whether it has to randomize actions.
