@@ -33,11 +33,15 @@ namespace ExorAIO.Champions.Vayne
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void Game_OnGameUpdate(EventArgs args)
         {
-            if (!ObjectManager.Player.IsDead &&
-                Targets.Target != null &&
-                Targets.Target.IsValid)
+            if (!ObjectManager.Player.IsDead)
             {
-                Logics.ExecuteAuto(args);
+                if (Targets.Target != null &&
+                    Targets.Target.IsValid)
+                {
+                    Logics.ExecuteAuto(args);
+                }
+
+                Logics.ExecuteFarm(args);
             }
         }
 
@@ -55,10 +59,6 @@ namespace ExorAIO.Champions.Vayne
                 if (args.Target.IsValid<Obj_AI_Hero>())
                 {
                     Logics.ExecuteModes(sender, args);
-                }
-                else if (args.Target.IsValid<Obj_AI_Base>())
-                {
-                    Logics.ExecuteFarm(sender, args);
                 }
             }
         }
