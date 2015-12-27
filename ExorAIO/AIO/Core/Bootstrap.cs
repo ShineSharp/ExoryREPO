@@ -1,6 +1,7 @@
 namespace ExorAIO.Core
 {
     using System;
+    using System.Linq;
     using System.Collections.Generic;
 
     using LeagueSharp;
@@ -80,7 +81,7 @@ namespace ExorAIO.Core
                     case "Vayne":      new Vayne()     .OnLoad(); break;
                 }
 
-                Game.PrintChat($"{Variables.MainMenuCodeName} - {ObjectManager.Player.ChampionName} Loaded.");
+                Game.PrintChat($"[<b><font color='#009aff'>Exor</font></b>AIO: <font color='#009aff'>Ultima</font>] - {ObjectManager.Player.ChampionName} Loaded.");
 
                 if (Variables.Kappa.Contains(ObjectManager.Player.Name))
                 {
