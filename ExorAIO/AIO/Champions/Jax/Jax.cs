@@ -61,7 +61,8 @@ namespace ExorAIO.Champions.Jax
                     Logics.ExecuteModes(sender, args);
                 }
 
-                if (args.Target.IsValid<Obj_AI_Minion>())
+                if (args.Target.IsValid<Obj_AI_Minion>() &&
+                    Variables.Orbwalker.GetTarget() != null)
                 {
                     Logics.ExecuteFarm(sender, args);
                 }
