@@ -19,6 +19,8 @@ namespace NabbActivator
         =>
             ObjectManager.Player.HasBuff("ItemMiniRegenPotion") ||
             ObjectManager.Player.HasBuff("ItemCrystalFlask") ||
+            ObjectManager.Player.HasBuff("ItemDarkCrystalFlask") ||
+            ObjectManager.Player.HasBuff("ItemCrystalFlaskJungle") ||
             ObjectManager.Player.HasBuff("RegenerationPotion");
 
         /// <summary>
@@ -26,8 +28,8 @@ namespace NabbActivator
         /// </summary>
         public static bool IsManaPotRunning()
         =>
-            ObjectManager.Player.HasBuff("ItemCrystalFlask") ||
-            ObjectManager.Player.HasBuff("FlaskOfCrystalWater");
+            ObjectManager.Player.HasBuff("ItemCrystalFlaskJungle") ||
+            ObjectManager.Player.HasBuff("ItemDarkCrystalFlask");
 
         /// <summary>
         /// Defines whether a target has no protection.
