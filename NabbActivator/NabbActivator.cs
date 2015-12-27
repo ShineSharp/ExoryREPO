@@ -88,8 +88,7 @@
             /// </summary>
             if (sender.IsMe &&
                 Orbwalking.IsAutoAttack(args.SData.Name) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.resetters").GetValue<bool>() &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.combo_button").GetValue<KeyBind>().Active)
+                Variables.Menu.Item($"{Variables.MainMenuName}.resetters").GetValue<bool>())
             {
                 Resetters.Execute(sender, args);
             }
