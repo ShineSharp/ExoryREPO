@@ -1,4 +1,4 @@
-namespace ExorAIO.Champions.Renekton
+namespace ExorAIO.Champions.Jax
 {
     using System;
     using System.Linq;
@@ -14,7 +14,7 @@ namespace ExorAIO.Champions.Renekton
     /// <summary>
     /// The main class.
     /// </summary>
-    public class Renekton
+    public class Jax
     {
         /// <summary>
         /// Triggers when the champion is loaded.
@@ -33,11 +33,15 @@ namespace ExorAIO.Champions.Renekton
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void Game_OnGameUpdate(EventArgs args)
         {
-            if (!ObjectManager.Player.IsDead &&
-                Targets.Target != null &&
-                Targets.Target.IsValid)
+            if (!ObjectManager.Player.IsDead)
             {
-                Logics.ExecuteAuto(args);
+                if(Targets.Target != null &&
+                    Targets.Target.IsValid)
+                {
+                    Logics.ExecuteAuto(args);
+                }
+                
+                Logics.ExecuteE(args);
             }
         }
 
@@ -50,13 +54,14 @@ namespace ExorAIO.Champions.Renekton
         {
             if (sender.IsMe &&
                 Orbwalking.IsAutoAttack(args.SData.Name) &&
-                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear)
             {
                 if (args.Target.IsValid<Obj_AI_Hero>())
                 {
                     Logics.ExecuteModes(sender, args);
                 }
-                else if (args.Target.IsValid<Obj_AI_Minion>())
+
+                if (args.Target.IsValid<Obj_AI_Minion>())
                 {
                     Logics.ExecuteFarm(sender, args);
                 }

@@ -7,11 +7,11 @@ namespace ExorAIO.Champions.Renekton
     using LeagueSharp;
     using LeagueSharp.Common;
 
+    using ExorAIO.Utilities;
+
     using ItemData = LeagueSharp.Common.Data.ItemData;
 
     using Orbwalking = SFXTargetSelector.Orbwalking;
-
-    using ExorAIO.Utilities;
 
     /// <summary>
     /// The logics class.
@@ -46,23 +46,6 @@ namespace ExorAIO.Champions.Renekton
                 !ObjectManager.Player.HasBuff("renektonpreexecute") &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo)
             {
-                if (Variables.Menu.Item($"{Variables.MainMenuName}.miscsettings.useresetters").GetValue<bool>())
-                {
-                    if (ItemData.Tiamat_Melee_Only.GetItem().IsReady())
-                    {
-                        ItemData.Tiamat_Melee_Only.GetItem().Cast();
-                    }
-
-                    if (ItemData.Ravenous_Hydra_Melee_Only.GetItem().IsReady())
-                    {
-                        ItemData.Ravenous_Hydra_Melee_Only.GetItem().Cast();
-                    }
-
-                    if (ItemData.Titanic_Hydra_Melee_Only.GetItem().IsReady())
-                    {
-                        ItemData.Titanic_Hydra_Melee_Only.GetItem().Cast();
-                    }
-                }
 
                 if (Variables.Q.IsReady() &&
                     Targets.Target.IsValidTarget(Variables.Q.Range) &&

@@ -14,6 +14,7 @@ namespace ExorAIO.Core
     using ExorAIO.Champions.DrMundo;
     using ExorAIO.Champions.Ezreal;
     using ExorAIO.Champions.Graves;
+    using ExorAIO.Champions.Jax;
     using ExorAIO.Champions.Jinx;
     using ExorAIO.Champions.KogMaw;
     //using ExorAIO.Champions.Nasus;
@@ -68,6 +69,7 @@ namespace ExorAIO.Core
                     case "DrMundo":    new DrMundo()   .OnLoad(); break;
                     case "Ezreal":     new Ezreal()    .OnLoad(); break;
                     case "Graves":     new Graves()    .OnLoad(); break;
+                    case "Jax":        new Jax()       .OnLoad(); break;
                     case "Jinx":       new Jinx()      .OnLoad(); break;
                     case "KogMaw":     new KogMaw()    .OnLoad(); break;
                     //case "Nasus":      new Nasus()     .OnLoad(); break;

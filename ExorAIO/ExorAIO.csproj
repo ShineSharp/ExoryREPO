@@ -78,6 +78,9 @@
     <Compile Include="AIO\Champions\Graves\Utilities\Logics.cs" />
     <Compile Include="AIO\Champions\Graves\Utilities\Utility.cs" />
     <Compile Include="AIO\Champions\Graves\Graves.cs" />
+    <Compile Include="AIO\Champions\Jax\Utilities\Logics.cs" />
+    <Compile Include="AIO\Champions\Jax\Utilities\Utility.cs" />
+    <Compile Include="AIO\Champions\Jax\Jax.cs" />
     <Compile Include="AIO\Champions\Jinx\Utilities\Logics.cs" />
     <Compile Include="AIO\Champions\Jinx\Utilities\Utility.cs" />
     <Compile Include="AIO\Champions\Jinx\Jinx.cs" />

@@ -7,10 +7,10 @@ namespace ExorAIO.Champions.Renekton
     using LeagueSharp;
     using LeagueSharp.Common;
 
+    using ExorAIO.Utilities;
+
     using Orbwalking = SFXTargetSelector.Orbwalking;
     using TargetSelector = SFXTargetSelector.TargetSelector;
-
-    using ExorAIO.Utilities;
 
     /// <summary>
     /// The settings class.
@@ -61,12 +61,6 @@ namespace ExorAIO.Champions.Renekton
                     Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rsettings.userlifesaver", "Use R LifeSaver")).SetValue(true);
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.RMenu);
-
-                Variables.MiscMenu = new Menu("Misc. Settings", $"{Variables.MainMenuName}.miscsettingsmenu");
-                {
-                    Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.miscsettings.useresetters", "Use Smart Tiamat/Ravenous/Titanic")).SetValue(true);
-                }
-                Variables.SettingsMenu.AddSubMenu(Variables.MiscMenu);
             }
             Variables.Menu.AddSubMenu(Variables.SettingsMenu);
 

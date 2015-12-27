@@ -65,12 +65,6 @@ namespace ExorAIO.Champions.Olaf
                     Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rsettings.useranticc", "Use Smart R Anti-HardCC")).SetValue(true);
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.RMenu);
-
-                Variables.MiscMenu = new Menu("Misc. Settings", $"{Variables.MainMenuName}.miscsettingsmenu");
-                {
-                    Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.miscsettings.useresetters", "Use Smart Tiamat/Ravenous/Titanic")).SetValue(true);
-                }
-                Variables.SettingsMenu.AddSubMenu(Variables.MiscMenu);
             }
             Variables.Menu.AddSubMenu(Variables.SettingsMenu);
 

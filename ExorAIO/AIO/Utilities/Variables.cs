@@ -129,7 +129,7 @@ namespace ExorAIO.Utilities
         /// <summary>
         /// The supported champions list.
         /// </summary>
-        public static readonly string LoadableChampions = "Ashe, Cassiopeia, Corki, DrMundo, Ezreal, Graves, Jinx, KogMaw, Nasus, Olaf, Renekton, Sivir, Tristana, Vayne.";
+        public static readonly string LoadableChampions = "Ashe, Cassiopeia, Corki, DrMundo, Ezreal, Graves, Jax, Jinx, KogMaw, Nasus, Olaf, Renekton, Sivir, Tristana, Vayne.";
 
         /// <summary>
         /// Kurumi is a god.

@@ -1,4 +1,4 @@
-namespace ExorAIO.Champions.DrMundo
+namespace ExorAIO.Champions.Jax
 {
     using System;
     using System.Linq;
@@ -7,10 +7,10 @@ namespace ExorAIO.Champions.DrMundo
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using Orbwalking = SFXTargetSelector.Orbwalking;
-    using TargetSelector = SFXTargetSelector.TargetSelector;  
-
     using ExorAIO.Utilities;
+
+    using Orbwalking = SFXTargetSelector.Orbwalking;
+    using TargetSelector = SFXTargetSelector.TargetSelector;
 
     /// <summary>
     /// The settings class.
@@ -22,12 +22,10 @@ namespace ExorAIO.Champions.DrMundo
         /// </summary>
         public static void SetSpells()
         {
-            Variables.Q = new Spell(SpellSlot.Q, 1000f);
-            Variables.W = new Spell(SpellSlot.W, ObjectManager.Player.BoundingRadius + 162.5f);
-            Variables.E = new Spell(SpellSlot.E, ObjectManager.Player.BoundingRadius + 150f);
+            Variables.Q = new Spell(SpellSlot.Q, 700f);
+            Variables.W = new Spell(SpellSlot.W);
+            Variables.E = new Spell(SpellSlot.E, ObjectManager.Player.BoundingRadius*2 + 187.5f);
             Variables.R = new Spell(SpellSlot.R);
-            
-            Variables.Q.SetSkillshot(0.25f, 60f, 1850f, true, SkillshotType.SkillshotLine);
         }
 
         /// <summary>
@@ -41,7 +39,6 @@ namespace ExorAIO.Champions.DrMundo
                 {
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqcombo", "Use Q in Combo")).SetValue(true);
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqks", "Use Q to Automatically KillSteal")).SetValue(true);
-                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqautoharass", "Use Q AutoHarass")).SetValue(true);
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.QMenu);
 
@@ -49,14 +46,13 @@ namespace ExorAIO.Champions.DrMundo
                 {
                     Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wsettings.usewcombo", "Use W in Combo")).SetValue(true);
                     Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wsettings.usewfarm", "Use W to Farm")).SetValue(true);
-                    Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wsettings.usewfarmhp", "Use W to Farm if HP >= x"))
-                        .SetValue(new Slider(50, 10, 99));
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.WMenu);
 
                 Variables.EMenu = new Menu("E Settings", $"{Variables.MainMenuName}.esettingsmenu");
                 {
                     Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.useecombo", "Use E in Combo")).SetValue(true);
+                    Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.useefarm", "Use E to Farm")).SetValue(true);
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.EMenu);
 
@@ -71,7 +67,6 @@ namespace ExorAIO.Champions.DrMundo
             Variables.DrawingsMenu = new Menu("Drawings Menu", $"{Variables.MainMenuName}.drawingsmenu");
             {
                 Variables.DrawingsMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.q", "Show Q Range")).SetValue(false);
-                Variables.DrawingsMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.w", "Show W Range")).SetValue(false);
                 Variables.DrawingsMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.e", "Show E Range")).SetValue(false);
             }
             Variables.Menu.AddSubMenu(Variables.DrawingsMenu);
@@ -82,8 +77,8 @@ namespace ExorAIO.Champions.DrMundo
         /// </summary>
         public static void SetMethods()
         {
-            Game.OnUpdate += DrMundo.Game_OnGameUpdate;
-            Obj_AI_Base.OnDoCast += DrMundo.Obj_AI_Base_OnDoCast;
+            Game.OnUpdate += Jax.Game_OnGameUpdate;
+            Obj_AI_Base.OnDoCast += Jax.Obj_AI_Base_OnDoCast;
         }
     }
 
@@ -95,16 +90,18 @@ namespace ExorAIO.Champions.DrMundo
         /// <summary>
         /// The main hero target.
         /// </summary>
-        public static Obj_AI_Hero Target => TargetSelector.GetTarget(Variables.Q.Range, LeagueSharp.DamageType.Physical);
+        public static Obj_AI_Hero Target
+        =>
+            TargetSelector.GetTarget(Variables.Q.Range, LeagueSharp.DamageType.Physical);
 
         /// <summary>
-        /// The minion targets.
+        /// The minions target.
         /// </summary>
         public static List<Obj_AI_Base> Minions
         => 
             MinionManager.GetMinions(
                 ObjectManager.Player.ServerPosition,
-                Variables.W.Range,
+                Variables.E.Range,
                 MinionTypes.All
             );
     }
