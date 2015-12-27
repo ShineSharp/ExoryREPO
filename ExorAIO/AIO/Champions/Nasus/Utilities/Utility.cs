@@ -115,8 +115,6 @@ namespace ExorAIO.Champions.Nasus
             )
             .Where(
                 h =>
-                    Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear ?
-                        h.Health < ObjectManager.Player.GetAutoAttackDamage(h) + Variables.Q.GetDamage(h) :
-                        h.Health < Variables.Q.GetDamage(h));
+                    h.Health < Variables.Q.GetDamage(h));
     }
 }

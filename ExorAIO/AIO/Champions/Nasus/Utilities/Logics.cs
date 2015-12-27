@@ -37,19 +37,6 @@ namespace ExorAIO.Champions.Nasus
             }
 
             /// <summary>
-            /// The Q Farm Logic.
-            /// </summary>
-            if (Variables.Q.IsReady() &&
-
-                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LastHit &&
-                    Targets.Minions.Any() &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>()))
-            {
-                Variables.Q.Cast();
-                ObjectManager.Player.IssueOrder(GameObjectOrder.AttackUnit, Targets.Minions.FirstOrDefault());
-            }
-
-            /// <summary>
             /// The Smart W Logic.
             /// </summary>
             if (Variables.W.IsReady() &&
@@ -96,8 +83,7 @@ namespace ExorAIO.Champions.Nasus
         public static void ExecuteModes(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             /// <summary>
-            /// The Q Combo Logic,
-            /// The Resetters Addition.
+            /// The Q Combo Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.Q.Range) &&
@@ -107,25 +93,24 @@ namespace ExorAIO.Champions.Nasus
                 ObjectManager.Player.IssueOrder(GameObjectOrder.AttackUnit, (Obj_AI_Hero)args.Target);
             }
         }
-
+        
         /// <summary>
-        /// Called on do-cast.
+        /// Called when the game updates itself.
         /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="args">The args.</param>
-        public static void ExecuteFarm(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
+        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
+        public static void ExecuteFarm(EventArgs args)
         {
             /// <summary>
             /// The Q Farm Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
-
-                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                    Targets.Minions.Any() &&
+                
+                ((Targets.Minions.Any() ||
+                    Variables.Orbwalker.GetTarget().Type == GameObjectType.obj_AI_Turret) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>()))
             {
                 Variables.Q.Cast();
-                ObjectManager.Player.IssueOrder(GameObjectOrder.AttackUnit, Targets.Minions.FirstOrDefault());
+                ObjectManager.Player.IssueOrder(GameObjectOrder.AttackUnit, (Obj_AI_Base)Variables.Orbwalker.GetTarget());
             }
         }
     }
