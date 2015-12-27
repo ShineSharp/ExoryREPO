@@ -58,6 +58,24 @@ namespace NabbActivator
                         ItemData.Total_Biscuit_of_Rejuvenation2.GetItem().Cast();
                         return;
                     }
+                    
+                    /// <summary>
+                    /// The Corrupting Potion.
+                    /// </summary>
+                    if (ItemData.Corrupting_Potion.GetItem().IsReady())
+                    {
+                        ItemData.Corrupting_Potion.GetItem().Cast();
+                        return;
+                    }
+
+                    /// <summary>
+                    /// The Hunter's Potion.
+                    /// </summary>
+                    if (ItemData.Hunters_Potion.GetItem().IsReady())
+                    {
+                        ItemData.Hunters_Potion.GetItem().Cast();
+                        return;
+                    }
                 }
             }
 

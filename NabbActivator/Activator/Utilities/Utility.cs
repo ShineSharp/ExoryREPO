@@ -32,7 +32,7 @@ namespace NabbActivator
                 Variables.Menu.AddItem(new MenuItem($"{Variables.MainMenuName}.spells", "Enable Spells")).SetValue(true);
                 Variables.Menu.AddItem(new MenuItem($"{Variables.MainMenuName}.cleansers", "Enable Cleansers")).SetValue(true);
                 Variables.Menu.AddItem(new MenuItem($"{Variables.MainMenuName}.consumables", "Enable Potions")).SetValue(true);
-                Variables.Menu.AddItem(new MenuItem($"{Variables.MainMenuName}.resetters", "Enable Tiamat/Hydra/Titanic")).SetValue(false);
+                Variables.Menu.AddItem(new MenuItem($"{Variables.MainMenuName}.resetters", "Enable Tiamat/Hydra/Titanic")).SetValue(true);
                 Variables.Menu.AddItem(new MenuItem($"{Variables.MainMenuName}.randomizer", "Enable NabbHumanizer")).SetValue(true);
                 Variables.Menu.AddItem(new MenuItem($"{Variables.MainMenuName}.separator", ""));
                 Variables.Menu.AddItem(new MenuItem($"{Variables.MainMenuName}.combo_button1", "!(Must be the same as your Combo key)!"));
@@ -54,7 +54,7 @@ namespace NabbActivator
         public static void SetMethods()
         {
             Game.OnUpdate += Activator.Game_OnGameUpdate;
-            Obj_AI_Base.OnDoCast += Activator.Obj_AI_Base_OnDoCast;
+            Obj_AI_Base.OnProcessSpellCast += Activator.OnProcessSpellCast;
         }
     }
 
