@@ -81,7 +81,7 @@
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="args">The args.</param>
-        public static void OnProcessSpellCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
+        public static void Obj_AI_Base_OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             /// <summary>
             /// Load the Resetter items.

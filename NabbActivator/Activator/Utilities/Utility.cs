@@ -54,7 +54,7 @@ namespace NabbActivator
         public static void SetMethods()
         {
             Game.OnUpdate += Activator.Game_OnGameUpdate;
-            Obj_AI_Base.OnProcessSpellCast += Activator.OnProcessSpellCast;
+            Obj_AI_Base.OnDoCast += Activator.Obj_AI_Base_OnDoCast;
         }
     }
 
