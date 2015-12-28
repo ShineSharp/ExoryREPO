@@ -33,15 +33,11 @@ namespace ExorAIO.Champions.Jax
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void Game_OnGameUpdate(EventArgs args)
         {
-            if (!ObjectManager.Player.IsDead)
+            if (!ObjectManager.Player.IsDead &&
+                Targets.Target != null &&
+                Targets.Target.IsValid)
             {
-                if(Targets.Target != null &&
-                    Targets.Target.IsValid)
-                {
-                    Logics.ExecuteAuto(args);
-                }
-                
-                Logics.ExecuteE(args);
+                Logics.ExecuteAuto(args);
             }
         }
 
@@ -53,8 +49,7 @@ namespace ExorAIO.Champions.Jax
         public static void Obj_AI_Base_OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             if (sender.IsMe &&
-                Orbwalking.IsAutoAttack(args.SData.Name) &&
-                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear)
+                Orbwalking.IsAutoAttack(args.SData.Name))
             {
                 if (args.Target.IsValid<Obj_AI_Hero>())
                 {

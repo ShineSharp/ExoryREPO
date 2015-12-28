@@ -22,23 +22,6 @@ namespace ExorAIO.Champions.Jax
         /// Called when the game updates itself.
         /// </summary>
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
-        public static void ExecuteE(EventArgs args)
-        {
-            /// <summary>
-            /// The E Logic.
-            /// </summary>
-            if (Variables.E.IsReady() &&
-                ObjectManager.Player.HasBuff("JaxCounterStrike") &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useecombo").GetValue<bool>())
-            {
-                Variables.E.Cast();
-            }
-        }
-
-        /// <summary>
-        /// Called when the game updates itself.
-        /// </summary>
-        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void ExecuteAuto(EventArgs args)
         {
             /// <summary>
@@ -97,6 +80,16 @@ namespace ExorAIO.Champions.Jax
             {
                 Variables.W.Cast();
             }
+
+            /// <summary>
+            /// The E Logic.
+            /// </summary>
+            if (Variables.E.IsReady() &&
+                ObjectManager.Player.HasBuff("JaxCounterStrike") &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useecombo").GetValue<bool>())
+            {
+                Variables.E.Cast();
+            }
         }
 
         /// <summary>
@@ -111,7 +104,8 @@ namespace ExorAIO.Champions.Jax
             /// </summary>
             if (Variables.W.IsReady() &&
 
-                (((Obj_AI_Base)Variables.Orbwalker.GetTarget()).CharData.BaseSkinName.Contains("SRU_") ||
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
+                    ((Obj_AI_Base)Variables.Orbwalker.GetTarget()).CharData.BaseSkinName.Contains("SRU_") ||
                     ((Obj_AI_Base)Variables.Orbwalker.GetTarget()).CharData.BaseSkinName.Contains("Mini")) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarm").GetValue<bool>())
             {
