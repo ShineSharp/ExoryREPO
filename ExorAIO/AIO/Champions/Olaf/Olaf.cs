@@ -57,7 +57,8 @@ namespace ExorAIO.Champions.Olaf
                 {
                     Logics.ExecuteModes(sender, args);
                 }
-                else if (args.Target.IsValid<Obj_AI_Minion>())
+                else if (args.Target.IsValid<Obj_AI_Minion>() &&
+                    (Obj_AI_Minion)Variables.Orbwalker.GetTarget() != null)
                 {
                     Logics.ExecuteFarm(sender, args);
                 }

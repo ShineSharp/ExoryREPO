@@ -9,6 +9,8 @@ namespace ExorAIO.Champions.Olaf
 
     using ExorAIO.Utilities;
 
+    using SharpDX;
+    
     using ItemData = LeagueSharp.Common.Data.ItemData;
 
     using Orbwalking = SFXTargetSelector.Orbwalking;
@@ -31,7 +33,10 @@ namespace ExorAIO.Champions.Olaf
             if (Variables.Q.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
 
-                ((Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo ||
+                (ObjectManager.Player.Distance(Variables.Q.GetPrediction(Targets.Target).UnitPosition) < Variables.Q.Range - 100 &&
+                !Bools.IsImmobile(Targets.Target) &&
+                !Targets.Target.IsMovementImpaired() &&
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo ||
                     (ObjectManager.Player.ManaPercent >= ManaManager.NeededQMana &&
                         Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqautoharass").GetValue<bool>())) ||
 
@@ -77,7 +82,7 @@ namespace ExorAIO.Champions.Olaf
             /// The Q Combo Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
-                ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.Q.Range) &&
+                ((Obj_AI_Hero)args.Target).IsValidTarget(Orbwalking.GetRealAutoAttackRange((Obj_AI_Hero)args.Target)) &&
 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>()))
@@ -115,11 +120,11 @@ namespace ExorAIO.Champions.Olaf
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                     ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
                     (Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 3 ||
-                        Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("SRU_") ||
-                        Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("Mini")) &&
+                        ((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).CharData.BaseSkinName.Contains("SRU_") ||
+                        ((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).CharData.BaseSkinName.Contains("Mini")) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>()))
             {
-                Variables.Q.Cast(Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).Position);
+                Variables.Q.Cast(((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).Position.Extend(((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).Position, 200));
             }
         }
     }
