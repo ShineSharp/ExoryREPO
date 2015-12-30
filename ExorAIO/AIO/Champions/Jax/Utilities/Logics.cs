@@ -51,6 +51,17 @@ namespace ExorAIO.Champions.Jax
             }
 
             /// <summary>
+            /// The E Logic.
+            /// </summary>
+            if (Variables.E.IsReady() &&
+                !ObjectManager.Player.IsWindingUp &&
+                ObjectManager.Player.HasBuff("JaxCounterStrike") &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useecombo").GetValue<bool>())
+            {
+                Variables.E.Cast();
+            }
+
+            /// <summary>
             /// The R Lifesaver Logic.
             /// </summary>
             if (Variables.R.IsReady() &&
@@ -80,16 +91,6 @@ namespace ExorAIO.Champions.Jax
             {
                 Variables.W.Cast();
             }
-
-            /// <summary>
-            /// The E Logic.
-            /// </summary>
-            if (Variables.E.IsReady() &&
-                ObjectManager.Player.HasBuff("JaxCounterStrike") &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useecombo").GetValue<bool>())
-            {
-                Variables.E.Cast();
-            }
         }
 
         /// <summary>
@@ -116,7 +117,8 @@ namespace ExorAIO.Champions.Jax
             /// The E Farm Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
-            
+                ((Obj_AI_Hero)args.Target).CountEnemiesInRange(500) <= 1 &&
+
                 (Targets.Minions.Count() > 3 ||
                     ((Obj_AI_Base)Variables.Orbwalker.GetTarget()).CharData.BaseSkinName.Contains("SRU_") ||
                     ((Obj_AI_Base)Variables.Orbwalker.GetTarget()).CharData.BaseSkinName.Contains("Mini")) &&
