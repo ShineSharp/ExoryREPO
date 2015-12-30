@@ -77,7 +77,7 @@ namespace ExorAIO.Champions.Cassiopeia
                     Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.usercombo").GetValue<bool>() &&
                     Targets.RTargets.Count() >= Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.userminenemies").GetValue<Slider>().Value))
             {
-                Variables.R.Cast(Targets.RTargets.FirstOrDefault().Position);
+                Variables.R.Cast((Targets.RTargets.FirstOrDefault()).Position);
             }
 
             /// <summary>
@@ -127,7 +127,7 @@ namespace ExorAIO.Champions.Cassiopeia
                         Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("Mini")) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>()))
             {
-                Variables.Q.Cast(Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).Position);
+                Variables.Q.Cast(Variables.Q.GetCircularFarmLocation(Targets.Minions, Variables.Q.Width).Position);
             }
 
             /// <summary>
@@ -139,11 +139,11 @@ namespace ExorAIO.Champions.Cassiopeia
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                     ObjectManager.Player.ManaPercent > ManaManager.NeededWMana &&
                     (Variables.W.GetCircularFarmLocation(Targets.Minions, Variables.W.Width).MinionsHit >= 3 ||
-                        Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("SRU_") ||
-                        Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("Mini")) &&
+                        (Targets.Minions.FirstOrDefault()).CharData.BaseSkinName.Contains("SRU_") ||
+                        (Targets.Minions.FirstOrDefault()).CharData.BaseSkinName.Contains("Mini")) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarm").GetValue<bool>()))
             {
-                Variables.W.Cast(Variables.W.GetLineFarmLocation(Targets.Minions, Variables.W.Width).Position);
+                Variables.W.Cast(Variables.W.GetCircularFarmLocation(Targets.Minions, Variables.W.Width).Position);
             }
 
             /// <summary>

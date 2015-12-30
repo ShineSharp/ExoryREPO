@@ -53,8 +53,14 @@ namespace ExorAIO.Champions.Ashe
                 Orbwalking.IsAutoAttack(args.SData.Name) &&
                 Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
-                Logics.ExecuteModes(sender, args);
-                Logics.ExecuteFarm(sender, args);
+                if (args.Target.IsValid<Obj_AI_Hero>())
+                {
+                    Logics.ExecuteModes(sender, args);
+                }
+                else if (args.Target.IsValid<Obj_AI_Minion>())
+                {
+                    Logics.ExecuteFarm(sender, args);
+                }
             }
         }
     }

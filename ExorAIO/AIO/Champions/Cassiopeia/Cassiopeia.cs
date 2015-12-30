@@ -41,11 +41,9 @@ namespace ExorAIO.Champions.Cassiopeia
                 {
                     Logics.ExecuteModes(args);
                 }
-                else
-                {
-                    Logics.ExecuteFarm(args);
-                    Logics.ExecuteTearStacking(args);
-                }
+
+                Logics.ExecuteFarm(args);
+                Logics.ExecuteTearStacking(args);
             }
         }
     }
