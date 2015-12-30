@@ -25,9 +25,7 @@ namespace ExorAIO.Champions.Tristana
             /// <summary>
             /// Sets the target.
             /// </summary>
-            if (Targets.ETarget != null &&
-                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo && Targets.ETarget.IsValid<Obj_AI_Hero>()) ||
-                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear && Targets.ETarget.IsValid<Obj_AI_Base>())
+            if (Targets.ETarget != null)
             {
                 Variables.Orbwalker.ForceTarget(Targets.ETarget);
             }
@@ -76,8 +74,8 @@ namespace ExorAIO.Champions.Tristana
                             units =>
                                 units.IsValidTarget(Variables.E.Range) &&
                                 units.Distance(Targets.Minions.FirstOrDefault(), false) < 150f) > 2) ||
-                        Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("SRU_") ||
-                        Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("Mini")))))
+                        ((Obj_AI_Minion)args.Target).CharData.BaseSkinName.Contains("SRU_") ||
+                        ((Obj_AI_Minion)args.Target).CharData.BaseSkinName.Contains("Mini")))))
             {
                 Variables.E.CastOnUnit((Obj_AI_Base)Variables.Orbwalker.GetTarget());
             }
