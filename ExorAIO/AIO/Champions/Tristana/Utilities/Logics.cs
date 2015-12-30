@@ -53,7 +53,7 @@ namespace ExorAIO.Champions.Tristana
             if (Variables.E.IsReady() &&
                 !ObjectManager.Player.IsWindingUp &&
                 Bools.HasNoProtection(Targets.Target) &&
-                Targets.Target.IsValidTarget(Variables.E.Range + RangeIncreaser) &&
+                Targets.Target.IsValidTarget(Variables.E.Range) &&
                 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useeauto").GetValue<bool>() &&
@@ -74,7 +74,7 @@ namespace ExorAIO.Champions.Tristana
                     (Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>() &&
                         (GameObjects.Minions.Count(
                             units =>
-                                units.IsValidTarget(Variables.E.Range + RangeIncreaser) &&
+                                units.IsValidTarget(Variables.E.Range) &&
                                 units.Distance(Targets.Minions.FirstOrDefault(), false) < 150f) > 2) ||
                         Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("SRU_") ||
                         Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("Mini")))))
@@ -88,7 +88,7 @@ namespace ExorAIO.Champions.Tristana
             if (Variables.R.IsReady() &&
                 !ObjectManager.Player.IsWindingUp &&
                 Bools.HasNoProtection(Targets.Target) &&
-                Targets.Target.IsValidTarget(Variables.R.Range + RangeIncreaser) &&
+                Targets.Target.IsValidTarget(Variables.R.Range) &&
                 KillSteal.Damage(Targets.Target) > Targets.Target.Health &&
             
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
