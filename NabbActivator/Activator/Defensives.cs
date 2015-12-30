@@ -114,6 +114,22 @@ namespace NabbActivator
             {
                 ItemData.Righteous_Glory.GetItem().Cast();
             }
+
+            /// <summary>
+            /// The Face of the Mountain
+            /// </summary>
+            if (ItemData.Face_of_the_Mountain.GetItem().IsReady())
+            {
+                foreach (var ally in HeroManager.Allies
+                    .Where(
+                        h =>
+                            h.IsValidTarget(750f, false) &&
+                            HealthPrediction.GetHealthPrediction(h, (int)(250 + Game.Ping / 2f)) <= h.MaxHealth/4 &&
+                            Bools.HasNoProtection(h)))
+                {
+                    ItemData.Face_of_the_Mountain.GetItem().Cast(ally);
+                }
+            }
         }
     }
 
