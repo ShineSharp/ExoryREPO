@@ -24,11 +24,12 @@ namespace ExorAIO.Champions.Jinx
         /// </summary>
         public static void SetSpells()
         {
-            Variables.Q = new Spell(SpellSlot.Q, Ranges.StaticMinigunRange + 50f);
+            Variables.Q = new Spell(SpellSlot.Q, ObjectManager.Player.BoundingRadius*2 + 525f);
+            Variables.Q2 = new Spell(SpellSlot.Q, Variables.Q.Range + (50 + (25f * ObjectManager.Player.Spellbook.GetSpell(SpellSlot.Q).Level)));
             Variables.W = new Spell(SpellSlot.W, 1500f);
             Variables.E = new Spell(SpellSlot.E, 900f);
             Variables.R = new Spell(SpellSlot.R, 4000f);
-            
+
             Variables.W.SetSkillshot(0.6f, 75f, 3300f, true, SkillshotType.SkillshotLine);
             Variables.E.SetSkillshot(1.2f, 1f, 1750f, false, SkillshotType.SkillshotCircle);
             Variables.R.SetSkillshot(0.7f, 140f, 1500f, false, SkillshotType.SkillshotLine);
@@ -94,24 +95,6 @@ namespace ExorAIO.Champions.Jinx
             AntiGapcloser.OnEnemyGapcloser += Jinx.OnGapcloser;
             Obj_AI_Base.OnDoCast += Jinx.Obj_AI_Base_OnDoCast;
         }
-    }
-
-    /// <summary>
-    /// The ranges class.
-    /// </summary>
-    public class Ranges
-    {
-        /// <summary>
-        /// Gets the real character radius.
-        /// </summary>
-        public static float Radius = ObjectManager.Player.BoundingRadius*2;
-        
-        /// <summary>
-        /// Gets the static minigun stance range
-        /// </summary>
-        public static float StaticMinigunRange
-        =>
-            Radius + 525f + Variables.GetRapidFireCannonIncreasement(Radius + 525f);
     }
     
     /// <summary>

@@ -42,6 +42,11 @@ namespace ExorAIO.Utilities
         public static Spell Q { get; set; }
 
         /// <summary>
+        /// Gets or sets the 2nd stage of the Q Spell.
+        /// </summary>
+        public static Spell Q2 { get; set; }
+
+        /// <summary>
         /// Gets or sets the W Spell.
         /// </summary>
         public static Spell W { get; set; }

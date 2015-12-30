@@ -65,9 +65,6 @@ namespace ExorAIO.Utilities
         {
             Drawing.OnDraw += delegate
             {
-                var RangeIncreaser = 7 * ObjectManager.Player.Level;
-                var fishbonesRange = Variables.Q.Range + (25f * ObjectManager.Player.Spellbook.GetSpell(SpellSlot.Q).Level);
-
                 /// <summary>
                 /// Loads the Q drawing.
                 /// </summary>
@@ -77,21 +74,7 @@ namespace ExorAIO.Utilities
                     Variables.Menu.Item($"{Variables.MainMenuName}.drawings.q") != null &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.drawings.q").GetValue<bool>())
                 {
-                    if (ObjectManager.Player.ChampionName.Equals("Jinx"))
-                    {
-                        if (Bools.IsUsingFishBones())
-                        {
-                            Render.Circle.DrawCircle(ObjectManager.Player.Position, Ranges.StaticMinigunRange, System.Drawing.Color.Green, 1);
-                        }
-                        else
-                        {
-                            Render.Circle.DrawCircle(ObjectManager.Player.Position, fishbonesRange, System.Drawing.Color.Green, 1);
-                        }
-                    }
-                    else
-                    {
-                        Render.Circle.DrawCircle(ObjectManager.Player.Position, Variables.Q.Range, System.Drawing.Color.Green, 1);
-                    }
+                    Render.Circle.DrawCircle(ObjectManager.Player.Position, Variables.Q.Range, System.Drawing.Color.Green, 1);
                 }
 
                 /// <summary>
@@ -115,14 +98,7 @@ namespace ExorAIO.Utilities
                     Variables.Menu.Item($"{Variables.MainMenuName}.drawings.e") != null &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.drawings.e").GetValue<bool>())
                 {
-                    if (ObjectManager.Player.ChampionName.Equals("Tristana"))
-                    {
-                        Render.Circle.DrawCircle(ObjectManager.Player.Position, Variables.E.Range + RangeIncreaser, System.Drawing.Color.Cyan, 1);
-                    }
-                    else
-                    {
-                        Render.Circle.DrawCircle(ObjectManager.Player.Position, Variables.E.Range, System.Drawing.Color.Cyan, 1);
-                    }
+                    Render.Circle.DrawCircle(ObjectManager.Player.Position, Variables.E.Range, System.Drawing.Color.Cyan, 1);
                 }
 
                 /// <summary>
@@ -134,12 +110,6 @@ namespace ExorAIO.Utilities
                     Variables.Menu.Item($"{Variables.MainMenuName}.drawings.r") != null &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.drawings.r").GetValue<bool>())
                 {
-                    if (ObjectManager.Player.ChampionName.Equals("Tristana"))
-                    {
-                        Render.Circle.DrawCircle(ObjectManager.Player.Position, Variables.R.Range + RangeIncreaser, System.Drawing.Color.Red, 1);
-                        return;
-                    }
-
                     Render.Circle.DrawCircle(ObjectManager.Player.Position, Variables.R.Range, System.Drawing.Color.Red, 1);
                 }
             };

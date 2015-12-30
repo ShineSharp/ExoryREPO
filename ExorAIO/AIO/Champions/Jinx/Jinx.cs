@@ -18,7 +18,6 @@ namespace ExorAIO.Champions.Jinx
     {
         public void OnLoad()
         {
-            Settings.SetSpells();
             Settings.SetMenu();
             Settings.SetMethods();
             Drawings.Load();
@@ -30,13 +29,13 @@ namespace ExorAIO.Champions.Jinx
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void Game_OnGameUpdate(EventArgs args)
         {
-            if (!ObjectManager.Player.IsDead)
+            Settings.SetSpells();
+
+            if (!ObjectManager.Player.IsDead &&
+                Targets.Target != null &&
+                Targets.Target.IsValid)
             {
-                if (Targets.Target != null &&
-                    Targets.Target.IsValid)
-                {
-                    Logics.ExecuteAuto(args);
-                }
+                Logics.ExecuteAuto(args);
             }
         }
 

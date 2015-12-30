@@ -21,7 +21,6 @@ namespace ExorAIO.Champions.KogMaw
         /// </summary>
         public void OnLoad()
         {
-            Settings.SetSpells();
             Settings.SetMenu();
             Settings.SetMethods();
             Drawings.Load();
@@ -33,6 +32,8 @@ namespace ExorAIO.Champions.KogMaw
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void Game_OnGameUpdate(EventArgs args)
         {
+            Settings.SetSpells();
+
             if (!ObjectManager.Player.IsDead &&
                 Targets.Target != null &&
                 Targets.Target.IsValid &&

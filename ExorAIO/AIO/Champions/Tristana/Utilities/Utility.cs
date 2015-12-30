@@ -23,8 +23,8 @@ namespace ExorAIO.Champions.Tristana
         public static void SetSpells()
         {
             Variables.Q = new Spell(SpellSlot.Q);
-            Variables.E = new Spell(SpellSlot.E, ObjectManager.Player.BoundingRadius + 543f);
-            Variables.R = new Spell(SpellSlot.R, ObjectManager.Player.BoundingRadius + 543f);
+            Variables.E = new Spell(SpellSlot.E, ObjectManager.Player.BoundingRadius + 543f + (7 * ObjectManager.Player.Level));
+            Variables.R = new Spell(SpellSlot.R, ObjectManager.Player.BoundingRadius + 543f + (7 * ObjectManager.Player.Level));
         }
 
         /// <summary>

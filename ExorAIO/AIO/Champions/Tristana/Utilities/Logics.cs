@@ -22,8 +22,6 @@ namespace ExorAIO.Champions.Tristana
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void ExecuteAuto(EventArgs args)
         {
-            var RangeIncreaser = 7 * ObjectManager.Player.Level;
-
             /// <summary>
             /// Sets the target.
             /// </summary>
