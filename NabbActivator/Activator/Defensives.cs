@@ -25,8 +25,8 @@ namespace NabbActivator
             /// </summary>
             if (ItemData.Frost_Queens_Claim.GetItem().IsReady() &&
                 Targets.Target != null &&
-                (Targets.Target.CountEnemiesInRange(1000f) < ObjectManager.Player.CountAlliesInRange(1000f) ||
-                Targets.Target.CountEnemiesInRange(1000f) > ObjectManager.Player.CountAlliesInRange(1000f)))
+                (Targets.Target.CountEnemiesInRange(1000f) < ObjectManager.Player.CountAlliesInRange(600f) ||
+                Targets.Target.CountEnemiesInRange(1000f) > ObjectManager.Player.CountAlliesInRange(600f)))
             {
                 ItemData.Frost_Queens_Claim.GetItem().Cast();
             }
@@ -40,17 +40,6 @@ namespace NabbActivator
                 Targets.Target.CountEnemiesInRange(1000f) > ObjectManager.Player.CountAlliesInRange(600f)))
             {
                 ItemData.Guardians_Horn.GetItem().Cast();
-            }
-
-            /// <summary>
-            /// The Twin Shadows.
-            /// </summary>
-            if (ItemData.Twin_Shadows2.GetItem().IsReady() &&
-                Targets.Target != null &&
-                (Targets.Target.CountEnemiesInRange(1000f) < ObjectManager.Player.CountAlliesInRange(1000f) ||
-                Targets.Target.CountEnemiesInRange(1000f) > ObjectManager.Player.CountAlliesInRange(1000f)))
-            {
-                ItemData.Twin_Shadows2.GetItem().Cast();
             }
 
             /// <summary>
@@ -76,8 +65,8 @@ namespace NabbActivator
             /// </summary> 
             if (ItemData.Talisman_of_Ascension.GetItem().IsReady() &&
                 Targets.Target != null &&
-                (Targets.Target.CountEnemiesInRange(1000f) < ObjectManager.Player.CountAlliesInRange(1000f) ||
-                Targets.Target.CountEnemiesInRange(1000f) > ObjectManager.Player.CountAlliesInRange(1000f)))
+                (Targets.Target.CountEnemiesInRange(1000f) < ObjectManager.Player.CountAlliesInRange(600f) ||
+                Targets.Target.CountEnemiesInRange(1000f) > ObjectManager.Player.CountAlliesInRange(600f)))
             {
                 ItemData.Talisman_of_Ascension.GetItem().Cast();
             }
@@ -114,8 +103,8 @@ namespace NabbActivator
             /// </summary>             
             if (ItemData.Locket_of_the_Iron_Solari.GetItem().IsReady() &&
                 Targets.Target != null &&
-                (Targets.Target.CountEnemiesInRange(1000) < ObjectManager.Player.CountAlliesInRange(600) ||
-                Targets.Target.CountEnemiesInRange(1000) > ObjectManager.Player.CountAlliesInRange(600)))
+                (Targets.Target.CountEnemiesInRange(1000f) < ObjectManager.Player.CountAlliesInRange(600f) ||
+                Targets.Target.CountEnemiesInRange(1000f) > ObjectManager.Player.CountAlliesInRange(600f)))
             {
                 ItemData.Locket_of_the_Iron_Solari.GetItem().Cast();
             }
@@ -125,8 +114,8 @@ namespace NabbActivator
             /// </summary>             
             if (ItemData.Righteous_Glory.GetItem().IsReady() &&
                 Targets.Target != null &&
-                (Targets.Target.CountEnemiesInRange(1000) < ObjectManager.Player.CountAlliesInRange(600) ||
-                Targets.Target.CountEnemiesInRange(1000) > ObjectManager.Player.CountAlliesInRange(600)))
+                (Targets.Target.CountEnemiesInRange(1000f) < ObjectManager.Player.CountAlliesInRange(600f) ||
+                Targets.Target.CountEnemiesInRange(1000f) > ObjectManager.Player.CountAlliesInRange(600f)))
             {
                 ItemData.Righteous_Glory.GetItem().Cast();
             }
