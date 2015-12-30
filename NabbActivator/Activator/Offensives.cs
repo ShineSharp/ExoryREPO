@@ -29,16 +29,6 @@ namespace NabbActivator
             {
                 ItemData.Muramana.GetItem().Cast();
             }
-            
-            /// <summary>
-            /// The Frost Queen's Claim.
-            /// </summary>
-            if (ItemData.Frost_Queens_Claim.GetItem().IsReady() &&
-                ObjectManager.Player.CountAlliesInRange(1000) > 2 &&
-                ObjectManager.Player.CountEnemiesInRange(1000) > 1)
-            {
-                ItemData.Frost_Queens_Claim.GetItem().Cast();
-            }
 
             /// <summary>
             /// The Youmuu's Ghostblade.

@@ -21,11 +21,23 @@ namespace NabbActivator
         public static void Execute(EventArgs args)
         {
             /// <summary>
+            /// The Frost Queen's Claim.
+            /// </summary>
+            if (ItemData.Frost_Queens_Claim.GetItem().IsReady() &&
+                Targets.Target != null &&
+                (Targets.Target.CountEnemiesInRange(1000f) < ObjectManager.Player.CountAlliesInRange(1000f) ||
+                Targets.Target.CountEnemiesInRange(1000f) > ObjectManager.Player.CountAlliesInRange(1000f)))
+            {
+                ItemData.Frost_Queens_Claim.GetItem().Cast();
+            }
+
+            /// <summary>
             /// The Guardian's Horn.
             /// </summary>
             if (ItemData.Guardians_Horn.GetItem().IsReady() &&
-                ObjectManager.Player.CountAlliesInRange(600) > 2 &&
-                ObjectManager.Player.CountEnemiesInRange(1000) > 1)
+                Targets.Target != null &&
+                (Targets.Target.CountEnemiesInRange(1000f) < ObjectManager.Player.CountAlliesInRange(600f) ||
+                Targets.Target.CountEnemiesInRange(1000f) > ObjectManager.Player.CountAlliesInRange(600f)))
             {
                 ItemData.Guardians_Horn.GetItem().Cast();
             }
@@ -34,8 +46,9 @@ namespace NabbActivator
             /// The Twin Shadows.
             /// </summary>
             if (ItemData.Twin_Shadows2.GetItem().IsReady() &&
-                ObjectManager.Player.CountAlliesInRange(1000) > 2 &&
-                ObjectManager.Player.CountEnemiesInRange(1000) > 1)
+                Targets.Target != null &&
+                (Targets.Target.CountEnemiesInRange(1000f) < ObjectManager.Player.CountAlliesInRange(1000f) ||
+                Targets.Target.CountEnemiesInRange(1000f) > ObjectManager.Player.CountAlliesInRange(1000f)))
             {
                 ItemData.Twin_Shadows2.GetItem().Cast();
             }
@@ -62,8 +75,9 @@ namespace NabbActivator
             /// The Talisman of Ascension.
             /// </summary> 
             if (ItemData.Talisman_of_Ascension.GetItem().IsReady() &&
-                (ObjectManager.Player.CountEnemiesInRange(700) < ObjectManager.Player.CountAlliesInRange(700)) ||
-                (ObjectManager.Player.CountEnemiesInRange(700) > ObjectManager.Player.CountAlliesInRange(700)))
+                Targets.Target != null &&
+                (Targets.Target.CountEnemiesInRange(1000f) < ObjectManager.Player.CountAlliesInRange(1000f) ||
+                Targets.Target.CountEnemiesInRange(1000f) > ObjectManager.Player.CountAlliesInRange(1000f)))
             {
                 ItemData.Talisman_of_Ascension.GetItem().Cast();
             }
@@ -81,7 +95,7 @@ namespace NabbActivator
             /// The Randuin's Omen.
             /// </summary>             
             if (ItemData.Randuins_Omen.GetItem().IsReady() &&
-                ObjectManager.Player.CountEnemiesInRange(500) > 1)
+                ObjectManager.Player.CountEnemiesInRange(500f) > 1)
             {
                 ItemData.Randuins_Omen.GetItem().Cast();
             }
@@ -99,8 +113,9 @@ namespace NabbActivator
             /// The Locket of the Iron Solari.
             /// </summary>             
             if (ItemData.Locket_of_the_Iron_Solari.GetItem().IsReady() &&
-                ObjectManager.Player.CountAlliesInRange(600) > 2 &&
-                ObjectManager.Player.CountEnemiesInRange(1000) > 1)
+                Targets.Target != null &&
+                (Targets.Target.CountEnemiesInRange(1000) < ObjectManager.Player.CountAlliesInRange(600) ||
+                Targets.Target.CountEnemiesInRange(1000) > ObjectManager.Player.CountAlliesInRange(600)))
             {
                 ItemData.Locket_of_the_Iron_Solari.GetItem().Cast();
             }
@@ -109,8 +124,9 @@ namespace NabbActivator
             /// The Righteous Glory.
             /// </summary>             
             if (ItemData.Righteous_Glory.GetItem().IsReady() &&
-                ObjectManager.Player.CountAlliesInRange(600) > 2 &&
-                ObjectManager.Player.CountEnemiesInRange(1000) > 0)
+                Targets.Target != null &&
+                (Targets.Target.CountEnemiesInRange(1000) < ObjectManager.Player.CountAlliesInRange(600) ||
+                Targets.Target.CountEnemiesInRange(1000) > ObjectManager.Player.CountAlliesInRange(600)))
             {
                 ItemData.Righteous_Glory.GetItem().Cast();
             }

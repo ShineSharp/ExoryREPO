@@ -61,8 +61,8 @@ namespace NabbActivator
             /// The Ghost Logic.
             /// </summary>
             if (Bools.IsSpellAvailable(SpellSlots.Ghost) &&
-                (ObjectManager.Player.CountEnemiesInRange(ObjectManager.Player.AttackRange+300) < ObjectManager.Player.CountAlliesInRange(ObjectManager.Player.AttackRange+300)-1) ||
-                (ObjectManager.Player.CountEnemiesInRange(ObjectManager.Player.AttackRange+300) > ObjectManager.Player.CountAlliesInRange(ObjectManager.Player.AttackRange+300)-1))
+                Targets.Target.Distance(ObjectManager.Player) > Orbwalking.GetRealAutoAttackRange(Targets.Target) &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.combo_button").GetValue<KeyBind>().Active)
             {
                 ObjectManager.Player.Spellbook.CastSpell(SpellSlots.Ghost);
             }
