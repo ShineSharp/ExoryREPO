@@ -74,8 +74,8 @@ namespace ExorAIO.Champions.Tristana
                             units =>
                                 units.IsValidTarget(Variables.E.Range) &&
                                 units.Distance(Targets.Minions.FirstOrDefault(), false) < 150f) > 2) ||
-                        ((Obj_AI_Minion)args.Target).CharData.BaseSkinName.Contains("SRU_") ||
-                        ((Obj_AI_Minion)args.Target).CharData.BaseSkinName.Contains("Mini")))))
+                        ((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).CharData.BaseSkinName.Contains("SRU_") ||
+                        ((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).CharData.BaseSkinName.Contains("Mini")))))
             {
                 Variables.E.CastOnUnit((Obj_AI_Base)Variables.Orbwalker.GetTarget());
             }

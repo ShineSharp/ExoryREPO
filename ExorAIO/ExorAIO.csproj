@@ -69,6 +69,9 @@
     <Compile Include="AIO\Champions\Corki\Utilities\Logics.cs" />
     <Compile Include="AIO\Champions\Corki\Utilities\Utility.cs" />
     <Compile Include="AIO\Champions\Corki\Corki.cs" />
+    <Compile Include="AIO\Champions\Darius\Utilities\Logics.cs" />
+    <Compile Include="AIO\Champions\Darius\Utilities\Utility.cs" />
+    <Compile Include="AIO\Champions\Darius\Darius.cs" />
     <Compile Include="AIO\Champions\DrMundo\Utilities\Logics.cs" />
     <Compile Include="AIO\Champions\DrMundo\Utilities\Utility.cs" />
     <Compile Include="AIO\Champions\DrMundo\DrMundo.cs" />

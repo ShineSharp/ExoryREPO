@@ -16,27 +16,6 @@ namespace ExorAIO.Utilities
     class Variables
     {
         /// <summary>
-        /// Gets the range increasement from the rapidfire cannon item.
-        /// </summary>
-        public static float GetRapidFireCannonIncreasement(float sum)
-        {
-            float tot = (sum / 100f) * 35f;
-
-            if (!ItemData.Rapid_Firecannon.GetItem().IsReady() ||
-                ObjectManager.Player.GetBuffCount("itemstatikshankcharge") < 100)
-            {
-                tot = 0f;
-            }
-            
-            if (tot > 150f)
-            {
-                tot = 150f;
-            }
-            
-            return tot;
-        }
-
-        /// <summary>
         /// Gets or sets the Q Spell.
         /// </summary>
         public static Spell Q { get; set; }
@@ -136,9 +115,9 @@ namespace ExorAIO.Utilities
         /// </summary>
         public static readonly string[] LoadableChampions = 
         {
-            "Ashe", "Cassiopeia", "Corki", "DrMundo", "Ezreal",
-            "Graves", "Jax", "Jinx", "KogMaw", "Nasus", "Olaf",
-            "Renekton", "Sivir", "Tristana", "Vayne"
+            "Ashe", "Cassiopeia", "Corki", "Darius", "DrMundo",
+            "Ezreal", "Graves", "Jax", "Jinx", "KogMaw", "Nasus",
+            "Olaf", "Renekton", "Sivir", "Tristana", "Vayne"
         };
 
         /// <summary>
