@@ -115,10 +115,11 @@ namespace ExorKalista
             /// The R Lifesaver Logic.
             /// </summary>
             if (Variables.R.IsReady() &&
+                Variables.SoulBound != null &&
                 Variables.SoulBound.CountEnemiesInRange(800) > 0 &&
                 ObjectManager.Player.Distance(Variables.SoulBound) <= Variables.R.Range &&
 
-                (HealthPrediction.GetHealthPrediction(Variables.SoulBound, (int)(250 + Game.Ping / 2f)) <= 0 &&
+                (HealthPrediction.GetHealthPrediction(Variables.SoulBound, (int)(1500 + Game.Ping / 2f)) <= 0 &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.userlifesaver").GetValue<bool>()))
             {
                 Variables.R.Cast();
