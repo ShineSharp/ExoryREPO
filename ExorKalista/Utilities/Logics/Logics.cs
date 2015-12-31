@@ -5,6 +5,7 @@ namespace ExorKalista
     using System.Collections.Generic;
 
     using SharpDX;
+    using SharpDX.Direct3D9;
 
     using LeagueSharp;
     using LeagueSharp.Common;
@@ -62,21 +63,16 @@ namespace ExorKalista
             /// The W Logic.
             /// </summary>
             if (Variables.W.IsReady() &&
+               !ObjectManager.Player.IsWindingUp &&
+               !ObjectManager.Player.IsDashing() &&
                !ObjectManager.Player.IsRecalling() &&
-                ObjectManager.Player.CountEnemiesInRange(1500) < 1 &&
+                ObjectManager.Player.CountEnemiesInRange(1500) == 0 &&
 
                 (ObjectManager.Player.ManaPercent > ManaManager.NeededWMana &&
                     Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.None &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewauto").GetValue<bool>()) &&
-
-                ((ObjectManager.Player.Distance(new Vector2(5064f, 10568f)) < Variables.W.Range) ||
-                    (ObjectManager.Player.Distance(new Vector2(9796f, 4432f)) < Variables.W.Range)))
+                    Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewauto").GetValue<bool>()))
             {
-                Variables.W.Cast(
-                    ObjectManager.Player.Distance(new Vector2(5064f, 10568f)) < ObjectManager.Player.Distance(new Vector2(9796f, 4432f)) ?
-                        new Vector3(5064f, 10568f, -71f) :
-                        new Vector3(9796f, 4432f, -71f)
-                );
+                Variables.W.Cast(SentinelManager.GetPerfectSpot);
             }
 
             /// <summary>
