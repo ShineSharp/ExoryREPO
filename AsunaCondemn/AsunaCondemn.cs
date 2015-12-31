@@ -51,8 +51,7 @@
             {
                 foreach (var e in HeroManager.Enemies
                     .Where(
-                        c => 
-                            c.IsEnemy &&
+                        c =>
                             c.IsValidTarget(Variables.E.Range)))
                 {
                     Drawing.DrawLine(

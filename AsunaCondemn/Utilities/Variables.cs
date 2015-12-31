@@ -30,11 +30,6 @@ namespace AsunaCondemn
         public static Menu Menu { get; set; }
 
         /// <summary>
-        /// Gets or sets the orbwalker menu.
-        /// </summary>
-        public static Menu OrbwalkerMenu { get; set; }
-
-        /// <summary>
         /// Gets or sets the settings menu.
         /// </summary>
         public static Menu SettingsMenu { get; set; }
@@ -48,11 +43,6 @@ namespace AsunaCondemn
         /// Gets or sets the Drawings menu.
         /// </summary>
         public static Menu DrawingsMenu { get; set; }
-
-        /// <summary>
-        /// Gets or sets the orbwalker.
-        /// </summary>
-        public static Orbwalking.Orbwalker Orbwalker { get; set; }
 
         /// <summary>
         /// The main menu codename.
