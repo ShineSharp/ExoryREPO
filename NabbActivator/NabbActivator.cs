@@ -87,11 +87,19 @@
             /// Load the Resetter items.
             /// </summary>
             if (sender.IsMe &&
-                Orbwalking.IsAutoAttackReset(args.SData.Name) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.combo_button").GetValue<KeyBind>().Active &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.resetters").GetValue<bool>())
+                Orbwalking.IsAutoAttack(args.SData.Name) &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.resetters").GetValue<bool>() &&
+
+                (Variables.Menu.Item($"{Variables.MainMenuName}.combo_button").GetValue<KeyBind>().Active ||
+                    Variables.Menu.Item($"{Variables.MainMenuName}.laneclear_button").GetValue<KeyBind>().Active))
             {
-                Resetters.Execute(sender, args);
+                foreach (var reset in ObjectManager.Player.Buffs
+                    .Where(
+                        b =>
+                            Orbwalking.IsAutoAttackReset(b.Name)))
+                {
+                    Resetters.Execute(sender, args);
+                }
             }
 
             /// <summary>

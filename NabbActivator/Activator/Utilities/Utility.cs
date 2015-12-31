@@ -35,9 +35,13 @@ namespace NabbActivator
                 Variables.Menu.AddItem(new MenuItem($"{Variables.MainMenuName}.resetters", "Enable Tiamat/Hydra/Titanic")).SetValue(true);
                 Variables.Menu.AddItem(new MenuItem($"{Variables.MainMenuName}.randomizer", "Enable NabbHumanizer")).SetValue(true);
                 Variables.Menu.AddItem(new MenuItem($"{Variables.MainMenuName}.separator", ""));
-                Variables.Menu.AddItem(new MenuItem($"{Variables.MainMenuName}.combo_button1", "!(Must be the same as your Combo key)!"));
+                Variables.Menu.AddItem(new MenuItem($"{Variables.MainMenuName}.warn1", "!(Must be the same as your Combo key)!"));
                 Variables.Menu.AddItem(new MenuItem($"{Variables.MainMenuName}.combo_button", "Combo")).SetValue(new KeyBind(32, KeyBindType.Press));
-                Variables.Menu.AddItem(new MenuItem($"{Variables.MainMenuName}.combo_button2", "!(Must be the same as your Combo key)!"));
+                Variables.Menu.AddItem(new MenuItem($"{Variables.MainMenuName}.warn2", "!(Must be the same as your Combo key)!"));
+                Variables.Menu.AddItem(new MenuItem($"{Variables.MainMenuName}.separator2", ""));
+                Variables.Menu.AddItem(new MenuItem($"{Variables.MainMenuName}.warn3", "!(Must be the same as your LaneClear key)!"));
+                Variables.Menu.AddItem(new MenuItem($"{Variables.MainMenuName}.laneclear_button", "LaneClear")).SetValue(new KeyBind(86, KeyBindType.Press));
+                Variables.Menu.AddItem(new MenuItem($"{Variables.MainMenuName}.warn4", "!(Must be the same as your LaneClear key)!"));
                 Variables.SliderMenu = new Menu("Consumables Options", $"{Variables.MainMenuName}.consumables.options");
                 {
                     Variables.SliderMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.consumables.on_health_percent", "Use Health Potions if Health < x%").SetValue(new Slider(50, 0, 100)));
