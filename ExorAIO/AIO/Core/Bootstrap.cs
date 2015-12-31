@@ -24,6 +24,7 @@ namespace ExorAIO.Core
     using ExorAIO.Champions.Renekton;
     using ExorAIO.Champions.Sivir;
     using ExorAIO.Champions.Tristana;
+    using ExorAIO.Champions.Varus;
     using ExorAIO.Champions.Vayne;
 
     using Orbwalking = SFXTargetSelector.Orbwalking;
@@ -80,6 +81,7 @@ namespace ExorAIO.Core
                     case "Renekton":   new Renekton()  .OnLoad(); break;
                     case "Sivir":      new Sivir()     .OnLoad(); break;
                     case "Tristana":   new Tristana()  .OnLoad(); break;
+                    case "Varus":      new Varus()     .OnLoad(); break;
                     case "Vayne":      new Vayne()     .OnLoad(); break;
                 }
 
@@ -88,9 +90,10 @@ namespace ExorAIO.Core
                 if (Variables.Kappa.Contains(ObjectManager.Player.Name))
                 {
                     Game.PrintChat("~Thanks Kurumi <3!");
+                    return;
                 }
-                return;
             }
+
             Game.PrintChat($"{Variables.MainMenuCodeName} - {ObjectManager.Player.ChampionName} not supported.");
         }
     }

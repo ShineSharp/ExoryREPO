@@ -105,6 +105,9 @@
     <Compile Include="AIO\Champions\Tristana\Utilities\Logics.cs" />
     <Compile Include="AIO\Champions\Tristana\Utilities\Utility.cs" />
     <Compile Include="AIO\Champions\Tristana\Tristana.cs" />
+    <Compile Include="AIO\Champions\Varus\Utilities\Logics.cs" />
+    <Compile Include="AIO\Champions\Varus\Utilities\Utility.cs" />
+    <Compile Include="AIO\Champions\Varus\Varus.cs" />
     <Compile Include="AIO\Champions\Vayne\Utilities\Logics.cs" />
     <Compile Include="AIO\Champions\Vayne\Utilities\Utility.cs" />
     <Compile Include="AIO\Champions\Vayne\Vayne.cs" />
