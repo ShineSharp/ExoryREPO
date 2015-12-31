@@ -25,8 +25,9 @@ namespace ExorLucian
             Variables.E = new Spell(SpellSlot.E, ObjectManager.Player.BoundingRadius + (ObjectManager.Player.AttackRange + 450f));
             Variables.R = new Spell(SpellSlot.R, 1400f);
             
-            Variables.Q.SetSkillshot(0.45f, 50f, float.MaxValue, false, SkillshotType.SkillshotLine);
-            Variables.W.SetSkillshot(0.30f, 80f, 1600f, true, SkillshotType.SkillshotLine);
+            Variables.Q.SetTargetted(0.25f, float.MaxValue);
+            Variables.W.SetSkillshot(0.3f, 80f, 1600f, true, SkillshotType.SkillshotLine);
+            Variables.E.SetSkillshot(.25f, 1f, float.MaxValue, false, SkillshotType.SkillshotLine);
         }
 
         /// <summary>

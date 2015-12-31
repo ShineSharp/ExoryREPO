@@ -7,8 +7,8 @@
     <ProjectGuid>{43669FC4-FA02-4A2A-8849-5FCAEE42EDCB}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ExorKalista</RootNamespace>
-    <AssemblyName>ExorKalista</AssemblyName>
+    <RootNamespace>ExorLucian</RootNamespace>
+    <AssemblyName>ExorLucian</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <PreBuildEvent />
