@@ -69,21 +69,23 @@
             /// <summary>
             /// Load the Offensive items.
             /// </summary>
-            if (!ObjectManager.Player.IsWindingUp &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.offensives").GetValue<bool>() &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.resetters").GetValue<bool>() &&
+            if (Variables.Menu.Item($"{Variables.MainMenuName}.offensives").GetValue<bool>() &&
 
                 (Variables.Menu.Item($"{Variables.MainMenuName}.combo_button").GetValue<KeyBind>().Active ||
                     Variables.Menu.Item($"{Variables.MainMenuName}.laneclear_button").GetValue<KeyBind>().Active))
             {
                 Offensives.Execute(args);
 
-                foreach (var reset in ObjectManager.Player.Buffs
-                    .Where(
-                        b =>
-                            Orbwalking.IsAutoAttackReset(b.Name)))
+                if (!ObjectManager.Player.IsWindingUp &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.resetters").GetValue<bool>())
                 {
-                    Resetters.Execute(args);
+                    foreach (var reset in ObjectManager.Player.Buffs
+                        .Where(
+                            b =>
+                                Orbwalking.IsAutoAttackReset(b.Name)))
+                    {
+                        Resetters.Execute(args);
+                    }
                 }
             }
         }
