@@ -65,14 +65,26 @@
             {
                 Consumables.Execute(args);
             }
-            
+
             /// <summary>
             /// Load the Offensive items.
             /// </summary>
-            if (Variables.Menu.Item($"{Variables.MainMenuName}.offensives").GetValue<bool>() &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.combo_button").GetValue<KeyBind>().Active)
+            if (!ObjectManager.Player.IsWindingUp &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.offensives").GetValue<bool>() &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.resetters").GetValue<bool>() &&
+
+                (Variables.Menu.Item($"{Variables.MainMenuName}.combo_button").GetValue<KeyBind>().Active ||
+                    Variables.Menu.Item($"{Variables.MainMenuName}.laneclear_button").GetValue<KeyBind>().Active))
             {
                 Offensives.Execute(args);
+
+                foreach (var reset in ObjectManager.Player.Buffs
+                    .Where(
+                        b =>
+                            Orbwalking.IsAutoAttackReset(b.Name)))
+                {
+                    Resetters.Execute(args);
+                }
             }
         }
         
@@ -83,25 +95,6 @@
         /// <param name="args">The args.</param>
         public static void Obj_AI_Base_OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            /// <summary>
-            /// Load the Resetter items.
-            /// </summary>
-            if (sender.IsMe &&
-                Orbwalking.IsAutoAttack(args.SData.Name) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.resetters").GetValue<bool>() &&
-
-                (Variables.Menu.Item($"{Variables.MainMenuName}.combo_button").GetValue<KeyBind>().Active ||
-                    Variables.Menu.Item($"{Variables.MainMenuName}.laneclear_button").GetValue<KeyBind>().Active))
-            {
-                foreach (var reset in ObjectManager.Player.Buffs
-                    .Where(
-                        b =>
-                            Orbwalking.IsAutoAttackReset(b.Name)))
-                {
-                    Resetters.Execute(sender, args);
-                }
-            }
-
             /// <summary>
             /// Load the Ohmwrecker logic.
             /// </summary>

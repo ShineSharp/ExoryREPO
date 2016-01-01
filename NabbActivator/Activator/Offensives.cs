@@ -94,11 +94,10 @@ namespace NabbActivator
     public class Resetters
     {
         /// <summary>
-        /// Called on do-cast.
+        /// Called when the game updates itself.
         /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="args">The args.</param>
-        public static void Execute(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
+        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
+        public static void Execute(EventArgs args)
         {
             /// <summary>
             /// The Tiamat.
