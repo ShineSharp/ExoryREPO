@@ -30,6 +30,7 @@ namespace ExorAIO.Champions.Renekton
             if (Variables.E.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.E.Range + Orbwalking.GetRealAutoAttackRange(null)) &&
                 !ObjectManager.Player.HasBuff("renektonsliceanddicedelay") &&
+                (!Utility.UnderTurret(Targets.Target) || Targets.Target.HealthPercent < 10) &&
                 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useecombo").GetValue<bool>()))
@@ -63,6 +64,7 @@ namespace ExorAIO.Champions.Renekton
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
 
                 ((ObjectManager.Player.ManaPercent >= 50 &&
+                    !Utility.UnderTurret(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqautoharass").GetValue<bool>()) ||
 
                 (Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health) &&
