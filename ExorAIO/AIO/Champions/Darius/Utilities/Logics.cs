@@ -34,7 +34,7 @@ namespace ExorAIO.Champions.Darius
                 ObjectManager.Player.Distance(Targets.Target) > Variables.Q.Range - 220f &&
 
                 ((ObjectManager.Player.ManaPercent >= ManaManager.NeededQMana &&
-                    Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo &&
+                    !Utility.UnderTurret(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqautoharass").GetValue<bool>()) ||
 
                 (Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health &&
@@ -52,7 +52,7 @@ namespace ExorAIO.Champions.Darius
                 (ObjectManager.Player.Distance(Variables.E.GetPrediction(Targets.Target).UnitPosition) < Variables.E.Range &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useecombo").GetValue<bool>()))
             {
-                Variables.R.CastOnUnit(Targets.Target);
+                Variables.E.Cast(Variables.E.GetPrediction(Targets.Target).UnitPosition);
             }
 
             /// <summary>
