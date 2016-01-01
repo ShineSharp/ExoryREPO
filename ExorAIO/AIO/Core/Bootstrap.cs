@@ -90,8 +90,9 @@ namespace ExorAIO.Core
                 if (Variables.Kappa.Contains(ObjectManager.Player.Name))
                 {
                     Game.PrintChat("~Thanks Kurumi <3!");
-                    return;
                 }
+
+                return;
             }
 
             Game.PrintChat($"{Variables.MainMenuCodeName} - {ObjectManager.Player.ChampionName} not supported.");
