@@ -30,7 +30,7 @@ namespace ExorKalista
             if (TargetSelector.Weights.GetItem("low-health") != null)
             {
                 TargetSelector.Weights.GetItem("low-health").ValueFunction = hero => hero.Health - Variables.GetPerfectRendDamage(hero);
-                TargetSelector.Weights.GetItem("low-health").Tooltip = "Low Health (Health - Rend Damage) = Higher Weight";
+                TargetSelector.Weights.GetItem("low-health").Tooltip = "Low Health (Health < Rend Damage) = Higher Weight";
                 TargetSelector.Weights.Register(
                     new TargetSelector.Weights.Item(
                         "w-stack", "W Stack", 10, false, hero => hero.HasBuff("kalistacoopstrikemarkally") ? 1 : 0,

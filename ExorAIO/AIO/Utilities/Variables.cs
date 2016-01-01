@@ -101,6 +101,11 @@ namespace ExorAIO.Utilities
         public static Orbwalking.Orbwalker Orbwalker { get; set; }
 
         /// <summary>
+        /// The E game object definition for Lux.
+        /// </summary>
+        public static GameObject EGameObject;
+
+        /// <summary>
         /// The main menu name.
         /// </summary>
         public static readonly string MainMenuCodeName = "[ExorAIO]: Ultima";
@@ -116,8 +121,9 @@ namespace ExorAIO.Utilities
         public static readonly string[] LoadableChampions = 
         {
             "Ashe", "Cassiopeia", "Corki", "Darius", "DrMundo",
-            "Ezreal", "Graves", "Jax", "Jinx", "KogMaw", "Nasus",
-            "Olaf", "Renekton", "Sivir", "Tristana", "Varus", "Vayne"
+            "Ezreal", "Graves", "Jax", "Jinx", "KogMaw", "Lux",
+            "Nasus", "Olaf", "Renekton", "Sivir", "Tristana", "Varus",
+            "Vayne"
         };
 
         /// <summary>
