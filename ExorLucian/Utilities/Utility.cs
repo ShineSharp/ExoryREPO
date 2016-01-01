@@ -66,12 +66,18 @@ namespace ExorLucian
                     {
                         Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wsettings.usewcombo", "Use W in Combo")).SetValue(true);
                         Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wsettings.usewks", "Use W to Automatically KillSteal")).SetValue(true);
+                        Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wsettings.usewfarm", "Use W to Farm")).SetValue(true);
+                        Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wsettings.wmana", "Use W to Farm only if Mana >= x%"))
+                            .SetValue(new Slider(50, 0, 99));
                     }
                     Variables.SettingsMenu.AddSubMenu(Variables.WMenu);
 
                     Variables.EMenu = new Menu("E Settings", $"{Variables.MainMenuName}.esettingsmenu");
                     {
                         Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.useeauto", "Use Smart E Logic")).SetValue(true);
+                        Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.useejc", "Use E to JungleClear")).SetValue(true);
+                        Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.emana", "Use E to JungleClear only if Mana >= x%"))
+                            .SetValue(new Slider(50, 0, 99));
                     }
                     Variables.SettingsMenu.AddSubMenu(Variables.EMenu);
                 }

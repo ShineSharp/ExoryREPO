@@ -28,16 +28,17 @@ namespace ExorLucian
             /// <summary>
             /// The Q Logics.
             /// </summary>
-            if (Variables.Q.IsReady() &&
-                Targets.Target.IsValidTarget(Variables.Q.Range + 600f))
+            if (Variables.Q.IsReady())
             {
                 /// <summary>
                 /// The Q AutoHarass Logic.
                 /// </summary>
                 if (!Targets.Target.IsValidTarget(Variables.Q.Range) &&
+                    Targets.Target.IsValidTarget(Variables.Q.Range + 600f) &&
                     ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
-                    (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Mixed || Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqautoharass").GetValue<bool>())
+
+                    (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Mixed &&
+                        Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqautoharass").GetValue<bool>()))
                 {
                     foreach (var obj in Targets.Minions
                         .Where(
@@ -159,6 +160,35 @@ namespace ExorLucian
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>())))
             {
                 Variables.Q.CastOnUnit((Obj_AI_Minion)Variables.Orbwalker.GetTarget());
+            }
+
+            /// <summary>
+            /// The W Farm Logic.
+            /// </summary>
+            if (Variables.W.IsReady() &&
+
+                (ObjectManager.Player.ManaPercent > ManaManager.NeededWMana &&
+                    Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
+                    (Variables.W.GetCircularFarmLocation(Targets.Minions, 60).MinionsHit >= 2 ||
+                       ((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).CharData.BaseSkinName.Contains("SRU_") ||
+                       ((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).CharData.BaseSkinName.Contains("Mini") &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarm").GetValue<bool>())))
+            {
+                Variables.W.Cast(((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).Position);
+            }
+
+            /// <summary>
+            /// The E JungleClear Logic.
+            /// </summary>
+            if (Variables.E.IsReady() &&
+
+                (ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
+                    Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
+                       (((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).CharData.BaseSkinName.Contains("SRU_") ||
+                       ((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).CharData.BaseSkinName.Contains("Mini") &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useejc").GetValue<bool>())))
+            {
+                Variables.E.Cast(Game.CursorPos);
             }
         }
     }
