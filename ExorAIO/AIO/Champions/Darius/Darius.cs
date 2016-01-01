@@ -41,7 +41,11 @@ namespace ExorAIO.Champions.Darius
                     Logics.ExecuteAuto(args);
                 }
 
-                Logics.ExecuteFarm(args);
+                if (Variables.Orbwalker.GetTarget() != null &&
+                    Variables.Orbwalker.GetTarget().IsValid)
+                {
+                    Logics.ExecuteFarm(args);
+                }
             }
         }
 

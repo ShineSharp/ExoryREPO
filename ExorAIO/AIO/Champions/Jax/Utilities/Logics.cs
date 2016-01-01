@@ -106,9 +106,10 @@ namespace ExorAIO.Champions.Jax
             if (Variables.W.IsReady() &&
 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                    ((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).CharData.BaseSkinName.Contains("SRU_") ||
-                    ((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).CharData.BaseSkinName.Contains("Mini")) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarm").GetValue<bool>())
+                    ObjectManager.Player.ManaPercent > ManaManager.NeededWMana &&
+                    (GameObjects.JungleLarge.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget()) ||
+                        GameObjects.JungleLegendary.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewjc").GetValue<bool>()))
             {
                 Variables.W.Cast();
             }
@@ -119,10 +120,12 @@ namespace ExorAIO.Champions.Jax
             if (Variables.E.IsReady() &&
                 ObjectManager.Player.CountEnemiesInRange(700) == 0 &&
 
-                (Targets.Minions.Count() > 3 ||
-                    ((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).CharData.BaseSkinName.Contains("SRU_") ||
-                    ((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).CharData.BaseSkinName.Contains("Mini")) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>())
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
+                    ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
+                    (Targets.Minions.Count() > 3 ||
+                        GameObjects.JungleLarge.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget()) ||
+                        GameObjects.JungleLegendary.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>()))
             {
                 Variables.E.Cast();
             }

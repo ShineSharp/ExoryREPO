@@ -7,10 +7,10 @@ namespace ExorAIO.Champions.DrMundo
     using LeagueSharp;
     using LeagueSharp.Common;
 
+    using ExorAIO.Utilities;
+
     using ItemData = LeagueSharp.Common.Data.ItemData;
     using Orbwalking = SFXTargetSelector.Orbwalking;
-
-    using ExorAIO.Utilities;
 
     /// <summary>
     /// The logics class.
@@ -64,31 +64,6 @@ namespace ExorAIO.Champions.DrMundo
                 }
                 Variables.W.Cast();
             }
-            
-            /// <summary>
-            /// The W Farm Logic.
-            /// </summary>
-            if (Variables.W.IsReady() &&
-                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarm").GetValue<bool>()))
-            {
-                if ((!ObjectManager.Player.HasBuff("BurningAgony") && 
-                        ((Targets.Minions.Count() >= 2 ||                         
-                            Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("SRU_") ||
-                            Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("Mini")) &&
-                        ObjectManager.Player.Health >= Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarmhp").GetValue<Slider>().Value)) ||
-
-                    (ObjectManager.Player.HasBuff("BurningAgony") && 
-                        ((Targets.Minions.Count() < 2 &&                        
-                            !Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("SRU_") &&
-                            !Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("Mini")) &&
-                        ObjectManager.Player.Health < Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarmhp").GetValue<Slider>().Value)))
-                {
-                    Variables.W.Cast();
-                    return;
-                }
-                Variables.W.Cast();
-            }
 
             /// <summary>
             /// The R Lifesaver Logic.
@@ -120,6 +95,37 @@ namespace ExorAIO.Champions.DrMundo
                     Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useecombo").GetValue<bool>()))
             {
                 Variables.E.Cast();
+            }
+        }
+
+        /// <summary>
+        /// Called when the game updates itself.
+        /// </summary>
+        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
+        public static void ExecuteFarm(EventArgs args)
+        {
+            /// <summary>
+            /// The W Farm Logic.
+            /// </summary>
+            if (Variables.W.IsReady() &&
+
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarm").GetValue<bool>()))
+            {
+                if ((!ObjectManager.Player.HasBuff("BurningAgony") && 
+                        ((Targets.Minions.Count() >= 2 ||                         
+                            GameObjects.JungleLarge.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget()) ||
+                            GameObjects.JungleLegendary.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
+                        ObjectManager.Player.Health >= Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarmhp").GetValue<Slider>().Value)) ||
+
+                    (ObjectManager.Player.HasBuff("BurningAgony") && 
+                        ((Targets.Minions.Count() < 2 &&                        
+                            GameObjects.JungleLarge.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget()) ||
+                            GameObjects.JungleLegendary.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
+                        ObjectManager.Player.Health < Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarmhp").GetValue<Slider>().Value)))
+                {
+                    Variables.W.Cast();
+                }
             }
         }
     }

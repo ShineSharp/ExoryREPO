@@ -127,7 +127,9 @@ namespace ExorAIO.Champions.Tristana
         /// <summary>
         /// The main hero target.
         /// </summary>
-        public static Obj_AI_Hero Target => TargetSelector.GetTarget(Orbwalking.GetRealAutoAttackRange(null), LeagueSharp.DamageType.Physical);
+        public static Obj_AI_Hero Target
+        =>
+            TargetSelector.GetTarget(Variables.E.Range, LeagueSharp.DamageType.Physical);
 
         /// <summary>
         /// The charged target.
@@ -146,7 +148,7 @@ namespace ExorAIO.Champions.Tristana
         => 
             MinionManager.GetMinions(
                 ObjectManager.Player.ServerPosition,
-                Orbwalking.GetRealAutoAttackRange(null),
+                Variables.E.Range,
                 MinionTypes.All
             );
     }

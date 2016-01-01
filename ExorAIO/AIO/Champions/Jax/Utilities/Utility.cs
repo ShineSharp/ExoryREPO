@@ -45,7 +45,9 @@ namespace ExorAIO.Champions.Jax
                 Variables.WMenu = new Menu("W Settings", $"{Variables.MainMenuName}.wsettingsmenu");
                 {
                     Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wsettings.usewcombo", "Use W in Combo")).SetValue(true);
-                    Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wsettings.usewfarm", "Use W to Farm")).SetValue(true);
+                    Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wsettings.usewjc", "Use W to JungleClear")).SetValue(true);
+                    Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wsettings.wmana", "Use W to JungleClear if Mana >= x"))
+                        .SetValue(new Slider(50, 10, 99));
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.WMenu);
 
@@ -53,6 +55,8 @@ namespace ExorAIO.Champions.Jax
                 {
                     Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.useecombo", "Use E in Combo")).SetValue(true);
                     Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.useefarm", "Use E to Farm")).SetValue(true);
+                    Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.emana", "Use E to Farm if Mana >= x"))
+                        .SetValue(new Slider(50, 10, 99));
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.EMenu);
 

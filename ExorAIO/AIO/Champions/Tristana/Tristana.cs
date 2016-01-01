@@ -7,9 +7,9 @@ namespace ExorAIO.Champions.Tristana
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using Orbwalking = SFXTargetSelector.Orbwalking;
-
     using ExorAIO.Utilities;
+
+    using Orbwalking = SFXTargetSelector.Orbwalking;
 
     /// <summary>
     /// The main class.
@@ -34,12 +34,20 @@ namespace ExorAIO.Champions.Tristana
         {
             Settings.SetSpells();
 
-            if (!ObjectManager.Player.IsDead &&
-                Targets.Target != null &&
-                Targets.Target.IsValid &&
-                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
+            if (!ObjectManager.Player.IsDead)
             {
-                Logics.ExecuteAuto(args);
+                if (Targets.Target != null &&
+                    Targets.Target.IsValid)
+                {
+                    Logics.ExecuteAuto(args);
+                    Logics.ExecuteModes(args);
+                }
+
+                if (Variables.Orbwalker.GetTarget() != null &&
+                    Variables.Orbwalker.GetTarget().IsValid)
+                {
+                    Logics.ExecuteFarm(args);
+                }
             }
         }
     }

@@ -161,8 +161,8 @@ namespace ExorAIO.Champions.Lux
                 (ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
                     Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                     (Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit == 2 ||
-                        ((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).CharData.BaseSkinName.Contains("SRU_") ||
-                        ((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).CharData.BaseSkinName.Contains("Mini")) &&
+                        GameObjects.JungleLarge.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget()) ||
+                        GameObjects.JungleLegendary.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>()))
             {
                 Variables.Q.Cast(((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).Position);
@@ -176,11 +176,11 @@ namespace ExorAIO.Champions.Lux
                 (ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
                     Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                     (Variables.E.GetCircularFarmLocation(Targets.Minions, Variables.E.Width).MinionsHit >= 2 ||
-                        ((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).CharData.BaseSkinName.Contains("SRU_") ||
-                        ((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).CharData.BaseSkinName.Contains("Mini")) &&
+                        GameObjects.JungleLarge.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget()) ||
+                        GameObjects.JungleLegendary.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>()))
             {
-                Variables.E.Cast(Variables.E.GetCircularFarmLocation(Targets.Minions, Variables.E.Width).Position);
+                Variables.E.Cast(((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).Position);
             }
         }
     }

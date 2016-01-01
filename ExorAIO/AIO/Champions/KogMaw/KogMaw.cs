@@ -34,12 +34,19 @@ namespace ExorAIO.Champions.KogMaw
         {
             Settings.SetSpells();
 
-            if (!ObjectManager.Player.IsDead &&
-                Targets.Target != null &&
-                Targets.Target.IsValid &&
-                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
+            if (!ObjectManager.Player.IsDead)
             {
-                Logics.ExecuteAuto(args);
+                if (Targets.Target != null &&
+                    Targets.Target.IsValid)
+                {
+                    Logics.ExecuteAuto(args);
+                }
+
+                if (Variables.Orbwalker.GetTarget() != null &&
+                    Variables.Orbwalker.GetTarget().IsValid)
+                {
+                    Logics.ExecuteFarm(args);
+                }
             }
         }
 
@@ -57,10 +64,6 @@ namespace ExorAIO.Champions.KogMaw
                 if (args.Target.IsValid<Obj_AI_Hero>())
                 {
                     Logics.ExecuteModes(sender, args);
-                }
-                else if (args.Target.IsValid<Obj_AI_Minion>())
-                {
-                    Logics.ExecuteFarm(sender, args);
                 }
             }
         }

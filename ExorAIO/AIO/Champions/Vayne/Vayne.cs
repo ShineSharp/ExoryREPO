@@ -39,26 +39,13 @@ namespace ExorAIO.Champions.Vayne
                     Targets.Target.IsValid)
                 {
                     Logics.ExecuteAuto(args);
+                    Logics.ExecuteModes(args);
                 }
 
-                Logics.ExecuteFarm(args);
-            }
-        }
-
-        /// <summary>
-        /// Called when a cast gets executed.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="args">The args.</param>
-        public static void Obj_AI_Base_OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
-        {
-            if (sender.IsMe &&
-                Orbwalking.IsAutoAttack(args.SData.Name) &&
-                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
-            {
-                if (args.Target.IsValid<Obj_AI_Hero>())
+                if (Variables.Orbwalker.GetTarget() != null &&
+                    Variables.Orbwalker.GetTarget().IsValid)
                 {
-                    Logics.ExecuteModes(sender, args);
+                    Logics.ExecuteFarm(args);
                 }
             }
         }

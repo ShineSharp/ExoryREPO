@@ -133,8 +133,8 @@ namespace ExorAIO.Champions.Varus
                 (ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
                     Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                     (Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 3 ||
-                        ((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).CharData.BaseSkinName.Contains("SRU_") ||
-                        ((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).CharData.BaseSkinName.Contains("Mini")) &&
+                        GameObjects.JungleLarge.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget()) ||
+                        GameObjects.JungleLegendary.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>()))
             {
                 if (!Variables.Q.IsCharging)

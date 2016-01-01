@@ -85,7 +85,6 @@ namespace ExorAIO.Champions.Vayne
         public static void SetMethods()
         {
             Game.OnUpdate += Vayne.Game_OnGameUpdate;
-            Obj_AI_Base.OnDoCast += Vayne.Obj_AI_Base_OnDoCast;
         }
     }
 
@@ -123,19 +122,19 @@ namespace ExorAIO.Champions.Vayne
         /// <summary>
         /// The main hero target.
         /// </summary>
-        public static Obj_AI_Hero Target => TargetSelector.GetTarget(Variables.Q.Range, LeagueSharp.DamageType.Physical);
+        public static Obj_AI_Hero Target
+        =>
+            TargetSelector.GetTarget(Variables.Q.Range, LeagueSharp.DamageType.Physical);
 
         /// <summary>
         /// The minion targets.
         /// </summary>       
-        public static IOrderedEnumerable<Obj_AI_Base> Minions
+        public static IEnumerable<Obj_AI_Base> Minions
         =>
-            MinionManager.GetMinions(ObjectManager.Player.ServerPosition, Variables.Q.Range, MinionTypes.All)
+            MinionManager.GetMinions(ObjectManager.Player.ServerPosition, Variables.Q.Range)
                 .Where(
                     m =>
-                        m.Health < ObjectManager.Player.GetAutoAttackDamage(m) + Variables.Q.GetDamage(m))
-                .OrderBy(
-                    m =>
-                        m.HealthPercent);
+                        m.Health + 5 <= ObjectManager.Player.GetAutoAttackDamage(m) + Variables.Q.GetDamage(m))
+                .ToList();
     }
 }

@@ -131,8 +131,8 @@ namespace ExorAIO.Champions.Ashe
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                     ObjectManager.Player.ManaPercent > ManaManager.NeededWMana &&
                     (Variables.W.GetLineFarmLocation(Targets.Minions, Variables.W.Width).MinionsHit >= 3 ||
-                        ((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).CharData.BaseSkinName.Contains("SRU_") ||
-                        ((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).CharData.BaseSkinName.Contains("Mini")) &&
+                        GameObjects.JungleLarge.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget()) ||
+                        GameObjects.JungleLegendary.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarm").GetValue<bool>()))
             {
                 Variables.W.Cast(Variables.W.GetLineFarmLocation(Targets.Minions, Variables.W.Width).Position);

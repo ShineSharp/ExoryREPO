@@ -100,10 +100,13 @@ namespace ExorAIO.Champions.Darius
             /// The Q Farm Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
-                ObjectManager.Player.ManaPercent >= ManaManager.NeededQMana &&
-                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                Targets.Minions.Count() > 2 &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>())
+
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
+                    ObjectManager.Player.ManaPercent >= ManaManager.NeededQMana &&
+                    (Targets.Minions.Count() >= 2 ||
+                        GameObjects.JungleLarge.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget()) ||
+                        GameObjects.JungleLegendary.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>()))
             {
                 Variables.Q.Cast();
             }

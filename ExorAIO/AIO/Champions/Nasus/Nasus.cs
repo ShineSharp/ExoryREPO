@@ -41,8 +41,8 @@ namespace ExorAIO.Champions.Nasus
                     Logics.ExecuteAuto(args);
                 }
 
-                if (Targets.Minions != null &&
-                    Variables.Orbwalker.GetTarget() != null)
+                if (Variables.Orbwalker.GetTarget() != null &&
+                    Variables.Orbwalker.GetTarget().IsValid)
                 {
                     Logics.ExecuteFarm(args);
                 }

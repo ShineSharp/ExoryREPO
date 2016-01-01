@@ -7,9 +7,9 @@ namespace ExorAIO.Champions.Sivir
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using Orbwalking = SFXTargetSelector.Orbwalking;
-
     using ExorAIO.Utilities;
+
+    using Orbwalking = SFXTargetSelector.Orbwalking;
 
     /// <summary>
     /// The main class.
@@ -35,8 +35,7 @@ namespace ExorAIO.Champions.Sivir
         {
             if (!ObjectManager.Player.IsDead &&
                 Targets.Target != null &&
-                Targets.Target.IsValid &&
-                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
+                Targets.Target.IsValid)
             {
                 Logics.ExecuteAuto(args);
             }

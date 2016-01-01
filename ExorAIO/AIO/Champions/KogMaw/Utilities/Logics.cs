@@ -7,9 +7,9 @@ namespace ExorAIO.Champions.KogMaw
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using Orbwalking = SFXTargetSelector.Orbwalking;
-
     using ExorAIO.Utilities;
+
+    using Orbwalking = SFXTargetSelector.Orbwalking;
 
     /// <summary>
     /// The logics class.
@@ -138,11 +138,10 @@ namespace ExorAIO.Champions.KogMaw
         }
 
         /// <summary>
-        /// Called on do-cast.
+        /// Called when the game updates itself.
         /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="args">The args.</param>
-        public static void ExecuteFarm(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
+        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
+        public static void ExecuteFarm(EventArgs args)
         {
             /// <summary>
             /// The E Farm Logic.
@@ -152,8 +151,8 @@ namespace ExorAIO.Champions.KogMaw
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                     ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
                     (Variables.E.GetLineFarmLocation(Targets.Minions, Variables.E.Width).MinionsHit >= 3 ||
-                        ((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).CharData.BaseSkinName.Contains("SRU_") ||
-                        ((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).CharData.BaseSkinName.Contains("Mini")) &&
+                        GameObjects.JungleLarge.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget()) ||
+                        GameObjects.JungleLegendary.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>()))
             {
                 Variables.E.Cast(((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).Position);

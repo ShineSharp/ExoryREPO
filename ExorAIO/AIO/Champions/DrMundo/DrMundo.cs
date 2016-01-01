@@ -7,9 +7,9 @@ namespace ExorAIO.Champions.DrMundo
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using Orbwalking = SFXTargetSelector.Orbwalking;
-
     using ExorAIO.Utilities;
+
+    using Orbwalking = SFXTargetSelector.Orbwalking;
 
     /// <summary>
     /// The main class.
@@ -33,12 +33,19 @@ namespace ExorAIO.Champions.DrMundo
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void Game_OnGameUpdate(EventArgs args)
         {
-            if (!ObjectManager.Player.IsDead &&
-                Targets.Target != null &&
-                Targets.Target.IsValid &&
-                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
+            if (!ObjectManager.Player.IsDead)
             {
-                Logics.ExecuteAuto(args);
+                if (Targets.Target != null &&
+                    Targets.Target.IsValid)
+                {
+                    Logics.ExecuteAuto(args);
+                }
+
+                if (Variables.Orbwalker.GetTarget() != null &&
+                    Variables.Orbwalker.GetTarget().IsValid)
+                {
+                    Logics.ExecuteFarm(args);
+                }
             }
         }
 

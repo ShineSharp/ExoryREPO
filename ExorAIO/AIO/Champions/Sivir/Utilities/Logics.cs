@@ -7,9 +7,9 @@ namespace ExorAIO.Champions.Sivir
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using Orbwalking = SFXTargetSelector.Orbwalking;
-
     using ExorAIO.Utilities;
+
+    using Orbwalking = SFXTargetSelector.Orbwalking;
 
     /// <summary>
     /// The logics class.
@@ -124,9 +124,9 @@ namespace ExorAIO.Champions.Sivir
 
                 (ObjectManager.Player.ManaPercent > ManaManager.NeededWMana &&
                     Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                    (Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 3 ||
-                        Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("SRU_") ||
-                        Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("Mini")) &&
+                    (Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 2 ||
+                        GameObjects.JungleLarge.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget()) ||
+                        GameObjects.JungleLegendary.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarm").GetValue<bool>()))
             {
                 Variables.W.Cast();
@@ -140,9 +140,9 @@ namespace ExorAIO.Champions.Sivir
 
                 (ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
                     Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                    (Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 3 ||
-                        Targets.Minions.First().CharData.BaseSkinName.Contains("SRU_") ||
-                        Targets.Minions.First().CharData.BaseSkinName.Contains("Mini")) &&
+                    (Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 2 ||
+                        GameObjects.JungleLarge.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget()) ||
+                        GameObjects.JungleLegendary.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>()))
             {
                 Variables.Q.Cast(Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).Position);

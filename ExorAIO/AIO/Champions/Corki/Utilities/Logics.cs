@@ -7,9 +7,9 @@ namespace ExorAIO.Champions.Corki
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using Orbwalking = SFXTargetSelector.Orbwalking;
-
     using ExorAIO.Utilities;
+
+    using Orbwalking = SFXTargetSelector.Orbwalking;
 
     /// <summary>
     /// The logics class.
@@ -108,11 +108,10 @@ namespace ExorAIO.Champions.Corki
         }
 
         /// <summary>
-        /// Called on do-cast.
+        /// Called when the game updates itself.
         /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="args">The args.</param>
-        public static void ExecuteFarm(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
+        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
+        public static void ExecuteFarm(EventArgs args)
         {
             /// <summary>
             /// The Q Farm Logic.
@@ -148,8 +147,8 @@ namespace ExorAIO.Champions.Corki
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                     ObjectManager.Player.ManaPercent > ManaManager.NeededRMana &&
                     (Variables.R.GetLineFarmLocation(Targets.Minions, Variables.R.Width).MinionsHit >= 2 ||
-                        Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("SRU_") ||
-                        Targets.Minions.FirstOrDefault().CharData.BaseSkinName.Contains("Mini")) &&
+                        GameObjects.JungleLarge.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget()) ||
+                        GameObjects.JungleLegendary.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.userfarm").GetValue<bool>()))
             {
                 Variables.Q.Cast(Variables.R.GetLineFarmLocation(Targets.Minions, Variables.R.Width).Position);

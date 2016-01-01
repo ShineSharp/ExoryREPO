@@ -7,9 +7,9 @@ namespace ExorAIO.Champions.Ezreal
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using Orbwalking = SFXTargetSelector.Orbwalking;
-
     using ExorAIO.Utilities;
+
+    using Orbwalking = SFXTargetSelector.Orbwalking;
 
     /// <summary>
     /// The logics class.
@@ -166,9 +166,9 @@ namespace ExorAIO.Champions.Ezreal
 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                     ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
-                    (Targets.Minions.FirstOrDefault().Health < ObjectManager.Player.GetAutoAttackDamage(Targets.Minions.FirstOrDefault()) + Variables.Q.GetDamage(Targets.Minions.FirstOrDefault()) ||                         
-                        (Targets.Minions.FirstOrDefault()).CharData.BaseSkinName.Contains("SRU_") ||
-                        (Targets.Minions.FirstOrDefault()).CharData.BaseSkinName.Contains("Mini")) &&
+                    (Targets.Minions.Any() ||                         
+                        GameObjects.JungleLarge.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget()) ||
+                        GameObjects.JungleLegendary.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>()))
             {
                 Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Minions.FirstOrDefault()).UnitPosition);
