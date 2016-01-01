@@ -85,6 +85,7 @@ namespace ExorAIO.Champions.Vayne
         public static void SetMethods()
         {
             Game.OnUpdate += Vayne.Game_OnGameUpdate;
+            Obj_AI_Base.OnDoCast += Vayne.Obj_AI_Base_OnDoCast;
         }
     }
 
@@ -134,7 +135,6 @@ namespace ExorAIO.Champions.Vayne
             MinionManager.GetMinions(ObjectManager.Player.ServerPosition, Variables.Q.Range)
                 .Where(
                     m =>
-                        m.Health + 5 <= ObjectManager.Player.GetAutoAttackDamage(m) + Variables.Q.GetDamage(m))
-                .ToList();
+                        m.Health < ObjectManager.Player.GetAutoAttackDamage(m) + Variables.Q.GetDamage(m));
     }
 }

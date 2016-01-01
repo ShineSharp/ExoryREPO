@@ -84,16 +84,16 @@ namespace ExorAIO.Champions.Vayne
         }
 
         /// <summary>
-        /// Called when the game updates itself.
+        /// Called on do-cast.
         /// </summary>
-        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
-        public static void ExecuteModes(EventArgs args)
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The args.</param>
+        public static void ExecuteModes(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             /// <summary>
             /// The Q Combo Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
-                !ObjectManager.Player.IsWindingUp &&
 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>()))
@@ -114,7 +114,8 @@ namespace ExorAIO.Champions.Vayne
             if (Variables.Q.IsReady() &&
                 !ObjectManager.Player.IsWindingUp &&
 
-                (Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo &&
+                (Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None &&
+                    Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo &&
                     ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
                     ((Targets.Minions.Count() > 1 && Targets.Minions.OrderBy(m => m.HealthPercent).First() != null) ||
                         GameObjects.JungleLarge.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget()) ||

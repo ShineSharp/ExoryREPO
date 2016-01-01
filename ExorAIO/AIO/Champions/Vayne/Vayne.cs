@@ -7,9 +7,9 @@ namespace ExorAIO.Champions.Vayne
     using LeagueSharp;
     using LeagueSharp.Common;
 
-    using Orbwalking = SFXTargetSelector.Orbwalking;
-
     using ExorAIO.Utilities;
+
+    using Orbwalking = SFXTargetSelector.Orbwalking;
 
     /// <summary>
     /// The main class.
@@ -39,13 +39,30 @@ namespace ExorAIO.Champions.Vayne
                     Targets.Target.IsValid)
                 {
                     Logics.ExecuteAuto(args);
-                    Logics.ExecuteModes(args);
                 }
 
                 if (Variables.Orbwalker.GetTarget() != null &&
                     Variables.Orbwalker.GetTarget().IsValid)
                 {
                     Logics.ExecuteFarm(args);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Called when a cast gets executed.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The args.</param>
+        public static void Obj_AI_Base_OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
+        {
+            if (sender.IsMe &&
+                Orbwalking.IsAutoAttack(args.SData.Name) &&
+                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
+            {
+                if (args.Target.IsValid<Obj_AI_Hero>())
+                {
+                    Logics.ExecuteModes(sender, args);
                 }
             }
         }
