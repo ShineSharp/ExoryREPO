@@ -73,7 +73,7 @@ namespace ExorLucian
                 (Variables.W.GetDamage(Targets.Target) > Targets.Target.Health &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewks").GetValue<bool>()))
             {
-                Variables.W.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
+                Variables.W.Cast(Variables.W.GetPrediction(Targets.Target).UnitPosition);
             }
             
             /// <summary>
@@ -133,7 +133,7 @@ namespace ExorLucian
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>()))
             {
-                Variables.W.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
+                Variables.W.Cast(Variables.W.GetPrediction(Targets.Target).UnitPosition);
             }
         }
 
@@ -155,11 +155,12 @@ namespace ExorLucian
                         Targets.Minions.Where(
                             m =>
                                 m.Distance(Variables.Q.GetCircularFarmLocation(Targets.Minions, 60).Position) <= 45f).Any()) ||
-                       ((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).CharData.BaseSkinName.Contains("SRU_") ||
-                       ((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).CharData.BaseSkinName.Contains("Mini") &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>())))
+                        GameObjects.JungleLarge.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget()) ||
+                        GameObjects.JungleLegendary.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>()))
             {
                 Variables.Q.CastOnUnit((Obj_AI_Minion)Variables.Orbwalker.GetTarget());
+                return;
             }
 
             /// <summary>
@@ -170,11 +171,12 @@ namespace ExorLucian
                 (ObjectManager.Player.ManaPercent > ManaManager.NeededWMana &&
                     Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                     (Variables.W.GetCircularFarmLocation(Targets.Minions, 60).MinionsHit >= 2 ||
-                       ((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).CharData.BaseSkinName.Contains("SRU_") ||
-                       ((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).CharData.BaseSkinName.Contains("Mini") &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarm").GetValue<bool>())))
+                        GameObjects.JungleLarge.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget()) ||
+                        GameObjects.JungleLegendary.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarm").GetValue<bool>()))
             {
                 Variables.W.Cast(((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).Position);
+                return;
             }
 
             /// <summary>
@@ -184,9 +186,9 @@ namespace ExorLucian
 
                 (ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
                     Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                       (((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).CharData.BaseSkinName.Contains("SRU_") ||
-                       ((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).CharData.BaseSkinName.Contains("Mini") &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useejc").GetValue<bool>())))
+                        (GameObjects.JungleLarge.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget()) ||
+                            GameObjects.JungleLegendary.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useejc").GetValue<bool>()))
             {
                 Variables.E.Cast(Game.CursorPos);
             }
