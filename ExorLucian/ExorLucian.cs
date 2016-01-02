@@ -33,8 +33,7 @@ namespace ExorLucian
         {
             if (!ObjectManager.Player.IsDead &&
                 Targets.Target != null &&
-                Targets.Target.IsValid &&
-                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
+                Targets.Target.IsValid)
             {
                 Logics.ExecuteAuto(args);
             }
@@ -55,7 +54,8 @@ namespace ExorLucian
                 {
                     Logics.ExecuteModes(sender, args);
                 }
-                else if (args.Target.IsValid<Obj_AI_Minion>())
+                else if (args.Target.IsValid<Obj_AI_Minion>() &&
+                    Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear)
                 {
                     Logics.ExecuteFarm(sender, args);
                 }
