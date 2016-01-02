@@ -42,7 +42,7 @@ namespace ExorAIO.Champions.Vayne
                 }
 
                 if (Variables.Orbwalker.GetTarget() != null &&
-                    Variables.Orbwalker.GetTarget().IsValid)
+                    Variables.Orbwalker.GetTarget().IsValid<Obj_AI_Minion>())
                 {
                     Logics.ExecuteFarm(args);
                 }
@@ -50,20 +50,33 @@ namespace ExorAIO.Champions.Vayne
         }
 
         /// <summary>
-        /// Called when a cast gets executed.
+        /// Called on-attack request.
+        /// </summary>
+        /// <param name="unit">The sender.</param>
+        /// <param name="target">The target.</param>
+        public static void Orbwalking_OnAttack(AttackableUnit unit, AttackableUnit target)
+        {
+            if (unit.IsMe &&
+                target.IsValid<Obj_AI_Hero>() &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.miscsettings.usebetaq").GetValue<bool>())
+            {
+                Logics.ExecuteBetaModes(unit, target);
+            }
+        }
+
+        /// <summary>
+        /// Called on do-cast.
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="args">The args.</param>
         public static void Obj_AI_Base_OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             if (sender.IsMe &&
+                args.Target.IsValid<Obj_AI_Hero>() &&
                 Orbwalking.IsAutoAttack(args.SData.Name) &&
-                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
+                !Variables.Menu.Item($"{Variables.MainMenuName}.miscsettings.usebetaq").GetValue<bool>())
             {
-                if (args.Target.IsValid<Obj_AI_Hero>())
-                {
-                    Logics.ExecuteModes(sender, args);
-                }
+                Logics.ExecuteModes(sender, args);
             }
         }
     }

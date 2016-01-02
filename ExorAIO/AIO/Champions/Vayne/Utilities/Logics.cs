@@ -83,6 +83,43 @@ namespace ExorAIO.Champions.Vayne
             }
         }
 
+        /*
+        /// <summary>
+        /// Called on do-cast.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The args.</param>
+        public static void ExecuteModes(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
+        {
+        */
+
+        /// <summary>
+        /// Called on-attack request.
+        /// </summary>
+        /// <param name="unit">The sender.</param>
+        /// <param name="target">The target.</param>
+        public static void ExecuteBetaModes(AttackableUnit unit, AttackableUnit target)
+        {
+            Utility.DelayAction.Add(
+                (int)(Game.Ping / 2f + 25) < 30 ?
+                    30 :
+                    (int)(Game.Ping / 2f + 25),
+                () =>
+                {
+                    /// <summary>
+                    /// The Q Combo Logic.
+                    /// </summary>
+                    if (Variables.Q.IsReady() &&
+
+                        (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                            Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>()))
+                    {
+                        Variables.Q.Cast(Game.CursorPos);
+                    }
+                }
+            );
+        }
+
         /// <summary>
         /// Called on do-cast.
         /// </summary>
@@ -117,13 +154,13 @@ namespace ExorAIO.Champions.Vayne
                 (Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None &&
                     Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo &&
                     ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
-                    ((Targets.Minions.Count() > 1 && Targets.Minions.OrderBy(m => m.HealthPercent).First() != null) ||
+                    (Targets.Minion != null ||
                         GameObjects.JungleLarge.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget()) ||
                         GameObjects.JungleLegendary.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>()))
             {
                 Variables.Q.Cast(Game.CursorPos);
-                Variables.Orbwalker.ForceTarget(Targets.Minions.First());
+                Variables.Orbwalker.ForceTarget(Targets.Minion);
             }
         }
     }

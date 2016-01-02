@@ -67,6 +67,7 @@ namespace ExorAIO.Champions.Vayne
 
             Variables.MiscMenu = new Menu("Miscellaneous Menu", $"{Variables.MainMenuName}.miscsettingsmenu");
             {
+                Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.miscsettings.usebetaq", "Use Beta Q Reset")).SetValue(false);
                 Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.miscsettings.noaastealth", "Use Don't AA when Stealthed Logic")).SetValue(false);
             }
             Variables.SettingsMenu.AddSubMenu(Variables.MiscMenu);
@@ -86,6 +87,7 @@ namespace ExorAIO.Champions.Vayne
         {
             Game.OnUpdate += Vayne.Game_OnGameUpdate;
             Obj_AI_Base.OnDoCast += Vayne.Obj_AI_Base_OnDoCast;
+            Orbwalking.OnAttack += Vayne.Orbwalking_OnAttack;
         }
     }
 
@@ -130,11 +132,15 @@ namespace ExorAIO.Champions.Vayne
         /// <summary>
         /// The minion targets.
         /// </summary>       
-        public static IEnumerable<Obj_AI_Base> Minions
+        public static Obj_AI_Base Minion
         =>
             MinionManager.GetMinions(ObjectManager.Player.ServerPosition, Variables.Q.Range)
                 .Where(
                     m =>
-                        m.Health < ObjectManager.Player.GetAutoAttackDamage(m) + Variables.Q.GetDamage(m));
+                        m.Health < ObjectManager.Player.GetAutoAttackDamage(m) + Variables.Q.GetDamage(m))
+                .OrderBy(
+                    m =>
+                        m.HealthPercent)
+                .FirstOrDefault();
     }
 }
