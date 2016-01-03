@@ -31,14 +31,13 @@ namespace ExorAIO.Champions.Olaf
             /// The Q KillSteal.
             /// </summary>
             if (Variables.Q.IsReady() &&
-                Targets.Target.IsValidTarget(Variables.Q.Range) &&
-
-                (ObjectManager.Player.Distance(Variables.Q.GetPrediction(Targets.Target).UnitPosition) < Variables.Q.Range - 100 &&
-                !Bools.IsImmobile(Targets.Target) &&
                 !Targets.Target.IsMovementImpaired() &&
-                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo ||
-                    (ObjectManager.Player.ManaPercent >= ManaManager.NeededQMana &&
-                        Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqautoharass").GetValue<bool>())) ||
+                Targets.Target.IsValidTarget(Variables.Q.Range) &&
+                ObjectManager.Player.Distance(Variables.Q.GetPrediction(Targets.Target).UnitPosition) < Variables.Q.Range - 100 &&
+
+                ((ObjectManager.Player.ManaPercent >= ManaManager.NeededQMana &&
+                    !Utility.UnderTurret(ObjectManager.Player) &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqautoharass").GetValue<bool>()) ||
 
                 (Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqks").GetValue<bool>())))
@@ -51,7 +50,7 @@ namespace ExorAIO.Champions.Olaf
             /// </summary>
             if (Variables.W.IsReady() &&
                 ObjectManager.Player.IsWindingUp &&
-                Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(null)) &&
+                Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>()))
