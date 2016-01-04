@@ -132,15 +132,14 @@ namespace ExorAIO.Champions.Vayne
         /// <summary>
         /// The minion targets.
         /// </summary>       
-        public static Obj_AI_Base Minion
+        public static IOrderedEnumerable<Obj_AI_Base> Minions
         =>
             MinionManager.GetMinions(ObjectManager.Player.ServerPosition, Variables.Q.Range)
                 .Where(
                     m =>
-                        m.Health < ObjectManager.Player.GetAutoAttackDamage(m) + Variables.Q.GetDamage(m))
+                        m.Health < ObjectManager.Player.GetAutoAttackDamage(m) * 1.30)
                 .OrderBy(
                     m =>
-                        m.HealthPercent)
-                .FirstOrDefault();
+                        m.HealthPercent);
     }
 }

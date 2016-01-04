@@ -40,12 +40,6 @@ namespace ExorAIO.Champions.Vayne
                 {
                     Logics.ExecuteAuto(args);
                 }
-
-                if (Variables.Orbwalker.GetTarget() != null &&
-                    Variables.Orbwalker.GetTarget().IsValid<Obj_AI_Minion>())
-                {
-                    Logics.ExecuteFarm(args);
-                }
             }
         }
 
@@ -72,11 +66,18 @@ namespace ExorAIO.Champions.Vayne
         public static void Obj_AI_Base_OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             if (sender.IsMe &&
-                args.Target.IsValid<Obj_AI_Hero>() &&
-                Orbwalking.IsAutoAttack(args.SData.Name) &&
-                !Variables.Menu.Item($"{Variables.MainMenuName}.miscsettings.usebetaq").GetValue<bool>())
+                Orbwalking.IsAutoAttack(args.SData.Name))
             {
-                Logics.ExecuteModes(sender, args);
+                if (args.Target.IsValid<Obj_AI_Hero>() &&
+                    !Variables.Menu.Item($"{Variables.MainMenuName}.miscsettings.usebetaq").GetValue<bool>())
+                {
+                    Logics.ExecuteModes(sender, args);
+                }
+
+                if (args.Target.IsValid<Obj_AI_Minion>())
+                {
+                    Logics.ExecuteFarm(sender, args);
+                }
             }
         }
     }

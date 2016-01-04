@@ -140,27 +140,27 @@ namespace ExorAIO.Champions.Vayne
         }
 
         /// <summary>
-        /// Called when the game updates itself.
+        /// Called on do-cast.
         /// </summary>
-        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
-        public static void ExecuteFarm(EventArgs args)
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The args.</param>
+        public static void ExecuteFarm(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             /// <summary>
             /// The Q Farm Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
-                !ObjectManager.Player.IsWindingUp &&
 
                 (Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None &&
                     Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo &&
                     ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
-                    (Targets.Minion != null ||
-                        GameObjects.JungleLarge.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget()) ||
-                        GameObjects.JungleLegendary.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
+                    (Targets.Minions.Count() > 1 && (Targets.Minions.FirstOrDefault()).IsValidTarget(Variables.Q.Range) ||
+                        GameObjects.JungleLarge.Contains((Obj_AI_Minion)args.Target) ||
+                        GameObjects.JungleLegendary.Contains((Obj_AI_Minion)args.Target)) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>()))
             {
                 Variables.Q.Cast(Game.CursorPos);
-                Variables.Orbwalker.ForceTarget(Targets.Minion);
+                Variables.Orbwalker.ForceTarget((Targets.Minions.FirstOrDefault()));
             }
         }
     }
