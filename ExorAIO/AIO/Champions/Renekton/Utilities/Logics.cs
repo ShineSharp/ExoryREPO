@@ -28,7 +28,7 @@ namespace ExorAIO.Champions.Renekton
             /// The E Combo Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
-                Targets.Target.IsValidTarget(Variables.E.Range + Orbwalking.GetRealAutoAttackRange(null)) &&
+                Targets.Target.IsValidTarget(Variables.E.Range + Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
                 !ObjectManager.Player.HasBuff("renektonsliceanddicedelay") &&
                 (!Utility.UnderTurret(Targets.Target) || Targets.Target.HealthPercent < 10) &&
                 
@@ -39,20 +39,16 @@ namespace ExorAIO.Champions.Renekton
             }
 
             /// <summary>
-            /// The Tiamat/Ravenous/Titanic Logic,
             /// The Q Combo Logic.
             /// </summary>
-            if (!Variables.W.IsReady() &&
-                !ObjectManager.Player.HasBuff("renektonpreexecute") &&
-                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo)
-            {
+            if (Variables.Q.IsReady() &&
+                Targets.Target.IsValidTarget(Variables.Q.Range) &&
+                !(Variables.W.IsReady() || ObjectManager.Player.HasBuff("renektonpreexecute")) &&
 
-                if (Variables.Q.IsReady() &&
-                    Targets.Target.IsValidTarget(Variables.Q.Range) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>())
-                {
-                    Variables.Q.Cast();
-                }
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>()))
+            {
+                Variables.Q.Cast();
             }
 
             /// <summary>
