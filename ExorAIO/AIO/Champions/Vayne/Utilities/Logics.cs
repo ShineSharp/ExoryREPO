@@ -100,24 +100,22 @@ namespace ExorAIO.Champions.Vayne
         /// <param name="target">The target.</param>
         public static void ExecuteBetaModes(AttackableUnit unit, AttackableUnit target)
         {
-            Utility.DelayAction.Add(
-                (int)(Game.Ping / 2f + 25) < 30 ?
-                    30 :
-                    (int)(Game.Ping / 2f + 25),
-                () =>
-                {
-                    /// <summary>
-                    /// The Q Combo Logic.
-                    /// </summary>
-                    if (Variables.Q.IsReady() &&
+            /// <summary>
+            /// The Q Combo Logic.
+            /// </summary>
+            if (Variables.Q.IsReady() &&
 
-                        (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                            Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>()))
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>()))
+            {
+                Utility.DelayAction.Add(
+                    (int)(ObjectManager.Player.AttackDelay * Game.Ping / 2f + 25),
+                    () =>
                     {
                         Variables.Q.Cast(Game.CursorPos);
                     }
-                }
-            );
+                );
+            }
         }
 
         /// <summary>
