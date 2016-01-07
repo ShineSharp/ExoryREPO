@@ -70,8 +70,9 @@ namespace ExorAIO.Champions.Ezreal
             /// The W AutoHarass Logic.
             /// </summary>
             if (Variables.W.IsReady() &&
-                !Variables.Q.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.W.Range) &&
+                (!Variables.Q.IsReady() || Variables.Q.GetPrediction(Targets.Target).Hitchance < HitChance.High) &&
+                ObjectManager.Player.Distance(Variables.W.GetPrediction(Targets.Target).UnitPosition) < Variables.W.Range &&
 
                 ((Targets.Target.Health < Variables.W.GetDamage(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewks").GetValue<bool>()) ||
@@ -171,7 +172,7 @@ namespace ExorAIO.Champions.Ezreal
                         GameObjects.JungleLegendary.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>()))
             {
-                Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Minions.FirstOrDefault()).UnitPosition);
+                Variables.Q.Cast((Obj_AI_Minion)Variables.Orbwalker.GetTarget());
             }
         }
     }

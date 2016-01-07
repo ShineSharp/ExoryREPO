@@ -127,7 +127,8 @@ namespace ExorAIO.Champions.Ezreal
             MinionManager.GetMinions(ObjectManager.Player.ServerPosition, Variables.Q.Range)
                 .Where(
                     h =>
-                        h.Health < ObjectManager.Player.GetAutoAttackDamage(h) + Variables.Q.GetDamage(h))
+                        h.Health > ObjectManager.Player.GetAutoAttackDamage(h) &&
+                        h.Health < Variables.Q.GetDamage(h))
                 .ToList();
     }
 }
