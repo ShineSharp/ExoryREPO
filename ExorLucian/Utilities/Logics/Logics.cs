@@ -7,6 +7,8 @@ namespace ExorLucian
     using LeagueSharp;
     using LeagueSharp.Common;
 
+    using SharpDX;
+
     using Orbwalking = SFXTargetSelector.Orbwalking;
 
     /// <summary>
@@ -33,20 +35,21 @@ namespace ExorLucian
                 /// <summary>
                 /// The Q AutoHarass Logic.
                 /// </summary>
-                if (!Targets.Target.IsValidTarget(Variables.Q.Range) &&
-                    Targets.Target.IsValidTarget(Variables.Q.Range + 600f) &&
-
-                    (ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
-                        Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqautoharass").GetValue<bool>()))
+                if (ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqautoharass").GetValue<bool>())
                 {
-                    foreach (var obj in Targets.Minions
-                        .Where(
-                            obj =>
-                                !(new Geometry.Polygon.Rectangle(ObjectManager.Player.Position, ObjectManager.Player.Position.Extend(obj.Position, Variables.Q.Range + 600f), Variables.Q.Width)
-                                .IsOutside(Variables.Q.GetPrediction(Targets.Target).UnitPosition.To2D()))))
+                    foreach (var tgminion in from target in ObjectManager.Player.GetEnemiesInRange(Variables.Q.Range + 600f)
+                        select
+                            Variables.Q.GetCollision(ObjectManager.Player.Position.To2D(),new List<Vector2> {target.Position.To2D()})
+                                .FirstOrDefault(
+                                    minion =>
+                                        minion.IsValidTarget(Variables.Q.Range))
+
+                        into tgminion
+                        where tgminion != null
+                        select tgminion)
                     {
-                        Variables.Q.CastOnUnit(obj);
-                        break;
+                        Variables.Q.CastOnUnit(tgminion);
                     }
                 }
 
@@ -66,6 +69,7 @@ namespace ExorLucian
             /// The W KillSteal Logic.
             /// </summary>
             if (Variables.W.IsReady() &&
+                (!Variables.Q.IsReady() || !Targets.Target.IsValidTarget(Variables.Q.Range)) &&
                 Targets.Target.IsValidTarget(Variables.W.Range) &&
                 Variables.W.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
 
@@ -86,7 +90,6 @@ namespace ExorLucian
                     Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useeauto").GetValue<bool>()))
             {
                 Variables.E.Cast(Game.CursorPos);
-                return;
             }
         }
 
@@ -119,7 +122,7 @@ namespace ExorLucian
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>()))
             {
-                Variables.Q.CastOnUnit(Targets.Target);
+                Variables.Q.CastOnUnit((Obj_AI_Hero)args.Target);
                 return;
             }
 
@@ -132,7 +135,7 @@ namespace ExorLucian
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>()))
             {
-                Variables.W.Cast(Variables.W.GetPrediction(Targets.Target).UnitPosition);
+                Variables.W.Cast(Variables.W.GetPrediction((Obj_AI_Hero)args.Target).UnitPosition);
             }
         }
 
@@ -150,8 +153,7 @@ namespace ExorLucian
 
                 (ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
                     (Variables.Q.GetLineFarmLocation(Targets.Minions, 60).MinionsHit >= 3 ||
-                        GameObjects.JungleLarge.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget()) ||
-                        GameObjects.JungleLegendary.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
+                        GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>()))
             {
                 Variables.Q.CastOnUnit((Obj_AI_Minion)Variables.Orbwalker.GetTarget());
@@ -165,8 +167,7 @@ namespace ExorLucian
 
                 (ObjectManager.Player.ManaPercent > ManaManager.NeededWMana &&
                     (Variables.W.GetCircularFarmLocation(Targets.Minions, Variables.W.Width).MinionsHit >= 2 ||
-                        GameObjects.JungleLarge.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget()) ||
-                        GameObjects.JungleLegendary.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
+                        GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarm").GetValue<bool>()))
             {
                 Variables.W.Cast(((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).Position);
@@ -179,9 +180,8 @@ namespace ExorLucian
             if (Variables.E.IsReady() &&
 
                 (ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
-                    (GameObjects.JungleLarge.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget()) ||
-                        GameObjects.JungleLegendary.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useejc").GetValue<bool>()))
+                    GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useejc").GetValue<bool>())
             {
                 Variables.E.Cast(Game.CursorPos);
             }
