@@ -114,15 +114,12 @@ namespace ExorAIO.Champions.DrMundo
             {
                 if ((!ObjectManager.Player.HasBuff("BurningAgony") && 
                         ((Targets.Minions.Count() >= 2 ||                         
-                            GameObjects.JungleLarge.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget()) ||
-                            GameObjects.JungleLegendary.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
+                            GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
                         ObjectManager.Player.Health >= Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarmhp").GetValue<Slider>().Value)) ||
 
                     (ObjectManager.Player.HasBuff("BurningAgony") && 
-                        ((Targets.Minions.Count() < 2 &&                        
-                            GameObjects.JungleLarge.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget()) ||
-                            GameObjects.JungleLegendary.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
-                        ObjectManager.Player.Health < Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarmhp").GetValue<Slider>().Value)))
+                        Targets.Minions.Count() < 2 &&
+                        ObjectManager.Player.Health < Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarmhp").GetValue<Slider>().Value))
                 {
                     Variables.W.Cast();
                 }

@@ -123,8 +123,7 @@ namespace ExorAIO.Champions.Cassiopeia
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                     ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
                     (Variables.Q.GetCircularFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 3 ||
-                        GameObjects.JungleLarge.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget()) ||
-                        GameObjects.JungleLegendary.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
+                        GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>()))
             {
                 Variables.Q.Cast(Variables.Q.GetCircularFarmLocation(Targets.Minions, Variables.Q.Width).Position);
@@ -139,8 +138,7 @@ namespace ExorAIO.Champions.Cassiopeia
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                     ObjectManager.Player.ManaPercent > ManaManager.NeededWMana &&
                     (Variables.W.GetCircularFarmLocation(Targets.Minions, Variables.W.Width).MinionsHit >= 3 ||
-                        GameObjects.JungleLarge.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget()) ||
-                        GameObjects.JungleLegendary.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
+                        GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarm").GetValue<bool>()))
             {
                 Variables.W.Cast(Variables.W.GetCircularFarmLocation(Targets.Minions, Variables.W.Width).Position);
@@ -150,15 +148,16 @@ namespace ExorAIO.Champions.Cassiopeia
             /// The E Farm Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
-                (Targets.Minions.FirstOrDefault().HasBuffOfType(BuffType.Poison) || Variables.Menu.Item($"{Variables.MainMenuName}.misc.lasthitnopoison").GetValue<bool>()) &&
+                (((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).HasBuffOfType(BuffType.Poison) || 
+                    Variables.Menu.Item($"{Variables.MainMenuName}.misc.lasthitnopoison").GetValue<bool>()) &&
                 
-                (Variables.E.GetDamage(Targets.Minions.FirstOrDefault()) > Targets.Minions.FirstOrDefault().Health &&
+                (Variables.E.GetDamage(((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) > ((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).Health &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>()))
             {
                 Utility.DelayAction.Add(Variables.Menu.Item($"{Variables.MainMenuName}.esettings.edelay").GetValue<Slider>().Value, 
                 () =>
                     {
-                        Variables.E.CastOnUnit(Targets.Minions.FirstOrDefault());
+                        Variables.E.CastOnUnit(((Obj_AI_Minion)Variables.Orbwalker.GetTarget()));
                     }
                 );
             }

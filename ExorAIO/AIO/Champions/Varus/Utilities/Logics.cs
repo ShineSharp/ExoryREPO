@@ -33,17 +33,9 @@ namespace ExorAIO.Champions.Varus
             /// The Long Q Logic
             /// The Q KillSteal Logic.
             /// </summary>
-            if (/*
-                (!Targets.Target.IsValidTarget(925f) &&
-                Targets.Target.IsValidTarget(Variables.Q.ChargedMaxRange) &&
-                Variables.Q.Range >= Variables.Q.ChargedMaxRange &&
-                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqlong").GetValue<bool>()) ||
-                */
-
-                Targets.Target.IsValidTarget(Variables.Q.Range) &&
-                    Targets.Target.Health < Variables.Q.GetDamage(Targets.Target) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqks").GetValue<bool>())
+            if (Targets.Target.IsValidTarget(Variables.Q.Range) &&
+                Targets.Target.Health < Variables.Q.GetDamage(Targets.Target) &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqks").GetValue<bool>())
             {
                 if (!Variables.Q.IsCharging)
                 {
@@ -51,7 +43,6 @@ namespace ExorAIO.Champions.Varus
                 }
                 
                 Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
-                return;
             }
 
             /// <summary>
@@ -133,8 +124,7 @@ namespace ExorAIO.Champions.Varus
                 (ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
                     Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                     (Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 3 ||
-                        GameObjects.JungleLarge.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget()) ||
-                        GameObjects.JungleLegendary.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
+                        GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>()))
             {
                 if (!Variables.Q.IsCharging)

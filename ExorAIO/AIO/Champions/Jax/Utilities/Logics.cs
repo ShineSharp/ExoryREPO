@@ -107,8 +107,7 @@ namespace ExorAIO.Champions.Jax
 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                     ObjectManager.Player.ManaPercent > ManaManager.NeededWMana &&
-                    (GameObjects.JungleLarge.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget()) ||
-                        GameObjects.JungleLegendary.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
+                        GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget()) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewjc").GetValue<bool>()))
             {
                 Variables.W.Cast();
@@ -123,8 +122,7 @@ namespace ExorAIO.Champions.Jax
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                     ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
                     (Targets.Minions.Count() > 3 ||
-                        GameObjects.JungleLarge.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget()) ||
-                        GameObjects.JungleLegendary.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
+                        GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>()))
             {
                 Variables.E.Cast();

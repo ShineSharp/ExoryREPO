@@ -9,9 +9,9 @@ namespace ExorAIO.Champions.Vayne
 
     using SharpDX;
 
-    using Orbwalking = SFXTargetSelector.Orbwalking;
-
     using ExorAIO.Utilities;
+
+    using Orbwalking = SFXTargetSelector.Orbwalking;
 
     /// <summary>
     /// The logics class.
@@ -153,12 +153,10 @@ namespace ExorAIO.Champions.Vayne
                     Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo &&
                     ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
                     (Targets.Minions.Count() > 1 && (Targets.Minions.FirstOrDefault()).IsValidTarget(Variables.Q.Range) ||
-                        GameObjects.JungleLarge.Contains((Obj_AI_Minion)args.Target) ||
-                        GameObjects.JungleLegendary.Contains((Obj_AI_Minion)args.Target)) &&
+                        GameObjects.Jungle.Contains((Obj_AI_Minion)args.Target)) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>()))
             {
                 Variables.Q.Cast(Game.CursorPos);
-                Variables.Orbwalker.ForceTarget((Targets.Minions.FirstOrDefault()));
             }
         }
     }

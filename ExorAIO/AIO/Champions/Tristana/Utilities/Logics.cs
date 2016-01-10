@@ -108,8 +108,7 @@ namespace ExorAIO.Champions.Tristana
                         units =>
                             units.IsValidTarget(Variables.E.Range) &&
                             units.Distance(Targets.Minions.FirstOrDefault(), false) < 150f) > 2) ||
-                        GameObjects.JungleLarge.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget()) ||
-                        GameObjects.JungleLegendary.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
+                        GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>())))
             {
                 Variables.E.CastOnUnit((Obj_AI_Base)Variables.Orbwalker.GetTarget());

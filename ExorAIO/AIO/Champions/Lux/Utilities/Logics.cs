@@ -39,9 +39,7 @@ namespace ExorAIO.Champions.Lux
             /// <summary>
             /// The Automatic E Management.
             /// </summary>
-            if (Variables.E.IsReady() &&
-                !Variables.R.IsReady() &&
-                Targets.Target.IsValidTarget(Variables.E.Range) &&
+            if (!Variables.R.IsReady() &&
                 Bools.CanUseE() &&
                 Targets.Target.HasBuffOfType(BuffType.Slow) &&
                 (!Targets.Target.HasBuff("luxilluminatingfraulein") || Targets.Target.Health < Variables.E.GetDamage(Targets.Target)))
@@ -68,7 +66,6 @@ namespace ExorAIO.Champions.Lux
                     Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.usercombo").GetValue<bool>())))
             {
                 Variables.R.Cast(Variables.R.GetPrediction(Targets.Target).UnitPosition);
-                return;
             }
 
             /// <summary>
@@ -77,15 +74,16 @@ namespace ExorAIO.Champions.Lux
             /// </summary>
             if (Variables.Q.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
+                Variables.Q.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
 
                 ((Targets.Target.Health < Variables.Q.GetDamage(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqks").GetValue<bool>()) ||
 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                    !Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>())))
             {
                 Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
-                return;
             }
 
             /// <summary>
@@ -93,22 +91,27 @@ namespace ExorAIO.Champions.Lux
             /// </summary>
             if (Variables.W.IsReady() &&
 
-                (HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(250f + Game.Ping / 2f)) <= ObjectManager.Player.Health - 200 &&
+                (HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(250f + Game.Ping / 2f)) <= ObjectManager.Player.Health &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usesmartw").GetValue<bool>()))
             {
                 Variables.W.Cast(Game.CursorPos);
             }
 
             /// <summary>
-            /// The E KillSteal Logic.
+            /// The E KillSteal Logic,
+            /// The E Combo Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
                 !Bools.CanUseE() &&
-                !Variables.Q.IsReady() &&
+                (!Variables.Q.IsReady() || Variables.Q.GetPrediction(Targets.Target).Hitchance < HitChance.High) &&
                 Targets.Target.IsValidTarget(Variables.E.Range) &&
             
                 (Targets.Target.Health < Variables.E.GetDamage(Targets.Target) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useeks").GetValue<bool>()))
+                    Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useeks").GetValue<bool>()) ||
+
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                    !Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useecombo").GetValue<bool>()))
             {
                 Variables.E.Cast(Variables.E.GetPrediction(Targets.Target).CastPosition);
             }
@@ -161,8 +164,7 @@ namespace ExorAIO.Champions.Lux
                 (ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
                     Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                     (Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit == 2 ||
-                        GameObjects.JungleLarge.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget()) ||
-                        GameObjects.JungleLegendary.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
+                        GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>()))
             {
                 Variables.Q.Cast(((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).Position);
@@ -176,8 +178,7 @@ namespace ExorAIO.Champions.Lux
                 (ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
                     Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                     (Variables.E.GetCircularFarmLocation(Targets.Minions, Variables.E.Width).MinionsHit >= 2 ||
-                        GameObjects.JungleLarge.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget()) ||
-                        GameObjects.JungleLegendary.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
+                        GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>()))
             {
                 Variables.E.Cast(((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).Position);

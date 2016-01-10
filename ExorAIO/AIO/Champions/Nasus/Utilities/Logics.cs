@@ -105,11 +105,10 @@ namespace ExorAIO.Champions.Nasus
             /// </summary>
             if (Variables.Q.IsReady() &&
                 
-                ((Targets.Minions.Any() ||
-                    GameObjects.JungleLarge.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget()) ||
-                    GameObjects.JungleLegendary.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget()) ||
+                (Targets.Minions.Any() ||
+                    GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget()) ||
                     Variables.Orbwalker.GetTarget().Type == GameObjectType.obj_AI_Turret) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>()))
+                Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>())
             {
                 Variables.Q.Cast();
                 ObjectManager.Player.IssueOrder(GameObjectOrder.AttackUnit, (Obj_AI_Base)Variables.Orbwalker.GetTarget());
