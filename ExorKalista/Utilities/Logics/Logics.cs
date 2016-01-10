@@ -84,7 +84,6 @@ namespace ExorKalista
                     Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useedie").GetValue<bool>()))
             {
                 Variables.E.Cast();
-                return;
             }
             
             /// <summary>
@@ -103,7 +102,6 @@ namespace ExorKalista
                             Bools.IsKillableRendTarget(h)))
                 {
                     Variables.E.Cast();
-                    return;
                 }
             }
 
@@ -149,13 +147,10 @@ namespace ExorKalista
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void ExecuteFarm(EventArgs args)
         {
-        
             /// <summary>
             /// The Q Farm Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
-                !ObjectManager.Player.IsWindingUp &&
-                !ObjectManager.Player.IsDashing() &&
                 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                     ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
@@ -178,7 +173,6 @@ namespace ExorKalista
             /// The E Harass Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
-                !ObjectManager.Player.IsDashing() &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>())
             {
@@ -189,7 +183,6 @@ namespace ExorKalista
                             Bools.IsKillableRendTarget(x)) >= (Targets.ETarget.Any() ? 1 : 2))
                 {
                     Variables.E.Cast();
-                    return;
                 }
             }
 
@@ -197,7 +190,6 @@ namespace ExorKalista
             /// The E against Monsters Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
-                !ObjectManager.Player.IsDashing() &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useemonsters").GetValue<bool>())
             {
                 foreach (var miniontarget in GameObjects.Jungle
@@ -208,7 +200,6 @@ namespace ExorKalista
                             Bools.IsKillableRendTarget(m)))
                 {
                     Variables.E.Cast();
-                    return;
                 }
             }
         }

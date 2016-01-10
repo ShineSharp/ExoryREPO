@@ -49,7 +49,8 @@ namespace ExorKalista
             }
             
             if (!ObjectManager.Player.IsDead &&
-                !ObjectManager.Player.IsRecalling())
+                !ObjectManager.Player.IsRecalling() &&
+                !ObjectManager.Player.IsDashing())
             {
                 Logics.ExecuteAuto(args);
                 Logics.ExecuteFarm(args);
@@ -85,7 +86,6 @@ namespace ExorKalista
                     Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>()))
             {
                 Variables.E.Cast();
-                return;
             }
         }
 
