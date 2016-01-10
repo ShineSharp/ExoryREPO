@@ -33,14 +33,14 @@ namespace ExorAIO.Champions.Vayne
             /// The E Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
-                !ObjectManager.Player.IsDashing() &&
                 Bools.HasNoProtection(Targets.Target) &&
                 Targets.Target.IsValidTarget(Variables.E.Range))
             {
                 /// <summary>
                 /// The Condemn Logic.
                 /// </summary>
-                if (ObjectManager.Player.Distance(Targets.Target) >= ObjectManager.Player.BoundingRadius + 75f &&
+                if (!ObjectManager.Player.IsDashing() &&
+                    ObjectManager.Player.Distance(Targets.Target) >= ObjectManager.Player.BoundingRadius + 75f &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useeauto").GetValue<bool>() &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.esettings.ewhitelist.{Targets.Target.ChampionName.ToLower()}").GetValue<bool>())
                 {
@@ -71,27 +71,17 @@ namespace ExorAIO.Champions.Vayne
             /// The Q KillSteal Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
-                Targets.Target.IsValidTarget(Variables.Q.Range) &&
                 !ObjectManager.Player.IsWindingUp &&
+                Targets.Target.IsValidTarget(Variables.Q.Range) &&
 
-                (Targets.Target.ServerPosition.Distance(ObjectManager.Player.ServerPosition) >= Orbwalking.GetRealAutoAttackRange(null) &&
-                    HealthPrediction.GetHealthPrediction(Targets.Target, (int) (250 + Game.Ping / 2f)) < ObjectManager.Player.GetAutoAttackDamage(Targets.Target) &&
+                (Targets.Target.ServerPosition.Distance(ObjectManager.Player.ServerPosition) >= Orbwalking.GetRealAutoAttackRange(Targets.Target) &&
+                    HealthPrediction.GetHealthPrediction(Targets.Target, (int)(250 + Game.Ping / 2f)) < ObjectManager.Player.GetAutoAttackDamage(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqks").GetValue<bool>()))
             {
                 Variables.Q.Cast(Targets.Target.Position);
                 TargetSelector.SetTarget(Targets.Target);
             }
         }
-
-        /*
-        /// <summary>
-        /// Called on do-cast.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="args">The args.</param>
-        public static void ExecuteModes(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
-        {
-        */
 
         /// <summary>
         /// Called on-attack request.
@@ -149,10 +139,11 @@ namespace ExorAIO.Champions.Vayne
             /// </summary>
             if (Variables.Q.IsReady() &&
 
-                (Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None &&
-                    Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo &&
+                ((Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LastHit ||
+                    Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Mixed) &&
+
                     ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
-                    (Targets.Minions.Count() > 1 && (Targets.Minions.FirstOrDefault()).IsValidTarget(Variables.Q.Range) ||
+                    (Targets.Minions.Count() > 1 ||
                         GameObjects.Jungle.Contains((Obj_AI_Minion)args.Target)) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>()))
             {
