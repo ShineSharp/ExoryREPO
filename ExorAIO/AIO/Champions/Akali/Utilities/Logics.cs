@@ -62,6 +62,7 @@ namespace ExorAIO.Champions.Akali
                 Targets.Target.IsValidTarget(Variables.R.Range) &&
 
                 ((Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                    !Utility.UnderTurret(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.usercombo").GetValue<bool>()) ||
 
                 (Targets.Target.Health < Variables.R.GetDamage(Targets.Target) * 2 &&
