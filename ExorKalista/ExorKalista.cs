@@ -23,7 +23,7 @@ namespace ExorKalista
             Settings.SetSpells();
             Settings.SetMenu();
             Settings.SetMethods();
-            Drawings.LoadRange();
+            Drawings.LoadRanges();
             Drawings.LoadDamage();
         }
 
@@ -33,27 +33,16 @@ namespace ExorKalista
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void Game_OnGameUpdate(EventArgs args)
         {
-            /// <summary>
-            /// The Soulbound declaration.
-            /// </summary>
-            if (Variables.SoulBound == null)
-            {
-                Variables.SoulBound = HeroManager.Allies
-                    .Find(
-                        h =>
-                            h.Buffs
-                    .Any(
-                        b =>
-                            b.Caster.IsMe &&
-                            b.Name.Contains("kalistacoopstrikeally")));
-            }
-            
             if (!ObjectManager.Player.IsDead &&
-                !ObjectManager.Player.IsRecalling() &&
                 !ObjectManager.Player.IsDashing())
             {
                 Logics.ExecuteAuto(args);
                 Logics.ExecuteFarm(args);
+
+                if (!ObjectManager.Player.IsRecalling())
+                {
+                    Logics.ExecuteSentinels(args);
+                }
             }
         }
 

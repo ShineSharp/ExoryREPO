@@ -87,7 +87,7 @@ namespace ExorKalista
         /// <summary>
         /// Loads the range drawings.
         /// </summary>
-        public static void LoadRange()
+        public static void LoadRanges()
         {
             Drawing.OnDraw += delegate
             {
