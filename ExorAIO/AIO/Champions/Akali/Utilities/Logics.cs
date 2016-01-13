@@ -64,7 +64,7 @@ namespace ExorAIO.Champions.Akali
                 ((Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.usercombo").GetValue<bool>()) ||
 
-                (Targets.Target.Health < Variables.R.GetDamage(Targets.Target) * 3 &&
+                (Targets.Target.Health < Variables.R.GetDamage(Targets.Target) * 2 &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.userks").GetValue<bool>())))
             {
                 Variables.R.CastOnUnit(Targets.Target);
