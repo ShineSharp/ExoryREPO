@@ -20,7 +20,7 @@ namespace ExorAIO.Utilities
         /// Sets the minimum necessary mana to use the Q spell.
         /// </summary>
         public static int NeededQMana
-        => 
+        =>
             Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.qmana") != null ?
                 Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.qmana").GetValue<Slider>().Value :
                 0;
@@ -70,7 +70,6 @@ namespace ExorAIO.Utilities
                 /// </summary>
                 if (Variables.Q != null &&
                     Variables.Q.IsReady() &&
-                    Variables.Q.Range != 0 &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.drawings.q") != null &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.drawings.q").GetValue<bool>())
                 {
@@ -82,7 +81,6 @@ namespace ExorAIO.Utilities
                 /// </summary>
                 if (Variables.W != null &&
                     Variables.W.IsReady() &&
-                    Variables.W.Range != 0 &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.drawings.w") != null &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.drawings.w").GetValue<bool>())
                 {
@@ -94,7 +92,6 @@ namespace ExorAIO.Utilities
                 /// </summary>
                 if (Variables.E != null &&
                     Variables.E.IsReady() &&
-                    Variables.E.Range != 0 &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.drawings.e") != null &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.drawings.e").GetValue<bool>())
                 {
@@ -106,7 +103,6 @@ namespace ExorAIO.Utilities
                 /// </summary>
                 if (Variables.R != null &&
                     Variables.R.IsReady() &&
-                    Variables.R.Range != 0 &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.drawings.r") != null &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.drawings.r").GetValue<bool>())
                 {

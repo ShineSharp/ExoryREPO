@@ -58,10 +58,9 @@ namespace ExorAIO.Utilities
         /// </value>
         public static bool ShouldStayFaded()
         =>
-            Variables.Menu.Item($"{Variables.MainMenuName}.miscsettings.noaastealth").GetValue<bool>() &&
-            ObjectManager.Player.HasBuff("vayneinquisition") &&
+            ObjectManager.Player.CountEnemiesInRange(1000) > 2 &&
             ObjectManager.Player.HasBuff("vaynetumblefade") &&
-            ObjectManager.Player.CountEnemiesInRange(1000) > 2;
+            Variables.Menu.Item($"{Variables.MainMenuName}.miscsettings.noaastealth").GetValue<bool>();
 
         /// <summary>
         /// Gets a value indicating whether a determined champion has a stackable item.
@@ -107,13 +106,13 @@ namespace ExorAIO.Utilities
         /// <c>true</c> if the cleanse should be used.; otherwise, <c>false</c>.
         /// </value>
         public static bool ShouldCleanse()
-        =>  
-            ObjectManager.Player.HasBuffOfType(BuffType.Charm)
+        =>
+            Bools.IsValidRoot()
+            || ObjectManager.Player.HasBuffOfType(BuffType.Charm)
             || ObjectManager.Player.HasBuffOfType(BuffType.Flee)
             || ObjectManager.Player.HasBuffOfType(BuffType.Polymorph)
             || ObjectManager.Player.HasBuffOfType(BuffType.Knockback)
             || ObjectManager.Player.HasBuffOfType(BuffType.Knockup)
-            || (ObjectManager.Player.HasBuffOfType(BuffType.Snare) && Bools.IsValidRoot())
             || ObjectManager.Player.HasBuffOfType(BuffType.Stun)
             || ObjectManager.Player.HasBuffOfType(BuffType.Taunt)
             || ObjectManager.Player.HasBuffOfType(BuffType.Suppression)

@@ -9,6 +9,7 @@ namespace ExorAIO.Core
 
     using ExorAIO.Utilities;
 
+    using ExorAIO.Champions.Akali;
     using ExorAIO.Champions.Ashe;
     using ExorAIO.Champions.Cassiopeia;
     using ExorAIO.Champions.Corki;
@@ -67,6 +68,7 @@ namespace ExorAIO.Core
             {
                 switch (ObjectManager.Player.ChampionName)
                 {
+                    case "Akali":      new Akali()     .OnLoad(); break;
                     case "Ashe":       new Ashe()      .OnLoad(); break;
                     case "Cassiopeia": new Cassiopeia().OnLoad(); break;
                     case "Corki":      new Corki()     .OnLoad(); break;

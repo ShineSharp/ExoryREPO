@@ -60,6 +60,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ExorAIO.cs" />
+    <Compile Include="AIO\Champions\Akali\Utilities\Logics.cs" />
+    <Compile Include="AIO\Champions\Akali\Utilities\Utility.cs" />
+    <Compile Include="AIO\Champions\Akali\Akali.cs" />
     <Compile Include="AIO\Champions\Ashe\Utilities\Logics.cs" />
     <Compile Include="AIO\Champions\Ashe\Utilities\Utility.cs" />
     <Compile Include="AIO\Champions\Ashe\Ashe.cs" />
