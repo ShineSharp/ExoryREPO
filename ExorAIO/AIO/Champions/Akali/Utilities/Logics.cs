@@ -47,7 +47,7 @@ namespace ExorAIO.Champions.Akali
             /// The E KillSteal Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
-                Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
+                Targets.Target.IsValidTarget(Variables.E.Range) &&
 
                 (Targets.Target.Health < Variables.E.GetDamage(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useeks").GetValue<bool>()))
@@ -82,7 +82,6 @@ namespace ExorAIO.Champions.Akali
             /// The E Combo Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
-                Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useecombo").GetValue<bool>()))
