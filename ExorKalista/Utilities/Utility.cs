@@ -25,7 +25,7 @@ namespace ExorKalista
             Variables.E = new Spell(SpellSlot.E, 950f);
             Variables.R = new Spell(SpellSlot.R, 1200f);
 
-            Variables.Q.SetSkillshot(0.35f, 40f, 2100f, true, SkillshotType.SkillshotLine);
+            Variables.Q.SetSkillshot(0.40f, 40f, 2100f, true, SkillshotType.SkillshotLine);
         }
         
         /// <summary>
