@@ -50,27 +50,25 @@ namespace ExorAIO.Champions.Sivir
             /// <summary>
             /// The E Logic.
             /// </summary>
-            if (Bools.HasNoProtection(ObjectManager.Player) &&
+            if (Variables.E.IsReady() &&
+                Bools.HasNoProtection(ObjectManager.Player) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useelogic").GetValue<bool>())
             {
-                if (sender.IsValid<Obj_AI_Hero>() &&
-                    sender.IsEnemy &&
+                if (sender.IsEnemy &&
                     args.Target.IsMe &&
-                    !args.SData.TargettingType.Equals(SpellDataTargetType.SelfAoe) &&
+                    sender.IsValid<Obj_AI_Hero>() &&
+                    (!args.SData.TargettingType.Equals(SpellDataTargetType.SelfAoe) || args.SData.Name.Equals("MockingShout")) &&
                     !args.SData.IsAutoAttack())
                 {
-                    if (((Obj_AI_Hero)sender).ChampionName.Equals("Zed") &&
-                        args.SData.TargettingType.Equals(SpellDataTargetType.Self))
-                    {
-                        Utility.DelayAction.Add(200,
-                        () =>
-                            {
-                                Variables.E.Cast();
-                                return;
-                            }
-                        );
-                    }
-                    Variables.E.Cast();
+                    Utility.DelayAction.Add(
+                        ((Obj_AI_Hero)sender).ChampionName.Equals("Zed") && args.SData.TargettingType.Equals(SpellDataTargetType.Self) ?
+                            200 :
+                            0,
+                    () =>
+                        {
+                            Variables.E.Cast();
+                        }
+                    );
                 }
             }
         }

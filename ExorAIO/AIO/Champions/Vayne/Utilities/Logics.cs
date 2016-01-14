@@ -99,7 +99,7 @@ namespace ExorAIO.Champions.Vayne
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>()))
             {
                 Utility.DelayAction.Add(
-                    (int)(ObjectManager.Player.AttackDelay * Game.Ping / 2f + 25),
+                    (int)(Game.Ping / 2f + 25), // BroScience? Pls check The Orbwalking.CanAttack method fgt.
                     () =>
                     {
                         Variables.Q.Cast(Game.CursorPos);

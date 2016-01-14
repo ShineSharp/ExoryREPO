@@ -26,7 +26,7 @@ namespace ExorAIO.Champions.Vayne
             Variables.W = new Spell(SpellSlot.W);
             Variables.E = new Spell(SpellSlot.E, ObjectManager.Player.BoundingRadius*2 + 550f);
             
-            Variables.E.SetTargetted(0.20f, 1200f);
+            Variables.E.SetTargetted(0.25f, 1250f);
         }
 
         /// <summary>
