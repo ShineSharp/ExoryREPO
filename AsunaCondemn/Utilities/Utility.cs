@@ -18,7 +18,7 @@ namespace AsunaCondemn
         public static void SetSpells()
         {
             Variables.E = new Spell(SpellSlot.E, ObjectManager.Player.BoundingRadius*2 + 550f);
-            Variables.E.SetTargetted(0.25f, 1200f);
+            Variables.E.SetTargetted(0.25f, 1250f);
 
             Variables.Flash = ObjectManager.Player.GetSpellSlot("summonerflash");
         }
