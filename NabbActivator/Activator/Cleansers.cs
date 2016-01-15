@@ -94,9 +94,9 @@ namespace NabbActivator
                             () =>
                             {
                                 ItemData.Mikaels_Crucible.GetItem().Cast(Ally);
-                                return;
                             }
                         );
+                        break;
                     }
                 }
             }
