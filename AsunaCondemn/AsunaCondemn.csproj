@@ -62,6 +62,7 @@
     <Compile Include="AsunaCondemn.cs" />
     <Compile Include="Utilities\Utility.cs" />
     <Compile Include="Utilities\Logics.cs" />
+    <Compile Include="Utilities\Helpers.cs" />
     <Compile Include="Utilities\Variables.cs" />
   </ItemGroup>
   <ItemGroup>

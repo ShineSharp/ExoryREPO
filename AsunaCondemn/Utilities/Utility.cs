@@ -51,7 +51,6 @@ namespace AsunaCondemn
         public static void SetMethods()
         {
             Game.OnUpdate += Condem.Game_OnGameUpdate;
-            Drawing.OnDraw += Condem.Drawing_OnDraw;
         }
     }
 }
