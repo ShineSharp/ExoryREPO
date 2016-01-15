@@ -36,18 +36,19 @@ namespace AsunaCondemn
                         Drawing.DrawLine(
                             Drawing.WorldToScreen(e.Position).X,
                             Drawing.WorldToScreen(e.Position).Y,
-                            Drawing.WorldToScreen(Variables.E.GetPrediction(e).UnitPosition - Vector3.Normalize(e.ServerPosition - ObjectManager.Player.Position) * 420).X,
-                            Drawing.WorldToScreen(Variables.E.GetPrediction(e).UnitPosition - Vector3.Normalize(e.ServerPosition - ObjectManager.Player.Position) * 420).Y,
+                            Drawing.WorldToScreen(Variables.E.GetPrediction(e).UnitPosition - Vector3.Normalize(e.ServerPosition - ObjectManager.Player.Position) * 430).X,
+                            Drawing.WorldToScreen(Variables.E.GetPrediction(e).UnitPosition - Vector3.Normalize(e.ServerPosition - ObjectManager.Player.Position) * 430).Y,
                             1,
-                            (Variables.E.GetPrediction(e).UnitPosition - Vector3.Normalize(e.ServerPosition - ObjectManager.Player.Position) * 420).IsWall() ?
+                            (Variables.E.GetPrediction(e).UnitPosition - Vector3.Normalize(e.ServerPosition - ObjectManager.Player.Position) * 430).IsWall() &&
+                                (Variables.E.GetPrediction(e).UnitPosition - Vector3.Normalize(e.ServerPosition - ObjectManager.Player.Position) * 430 + ObjectManager.Player.BoundingRadius*2).IsWall() ?
                                 System.Drawing.Color.Green :
                                 System.Drawing.Color.Red
                         );
 
                         Render.Circle.DrawCircle(
-                            ObjectManager.Player.Position.Extend(e.ServerPosition, 425f),
+                            ObjectManager.Player.ServerPosition.Extend(e.ServerPosition, 425f - ObjectManager.Player.BoundingRadius*2),
                             50,
-                            ObjectManager.Player.Distance(e) < 425f - (ObjectManager.Player.BoundingRadius + 100f) ?
+                            ObjectManager.Player.Distance(e) < 425f - ObjectManager.Player.BoundingRadius*2 ?
                                 System.Drawing.Color.Green :
                                 System.Drawing.Color.Red,
                             1
