@@ -22,14 +22,14 @@ namespace ExorAIO.Champions.KogMaw
         /// </summary>
         public static void SetSpells()
         {
-            Variables.Q = new Spell(SpellSlot.Q, 1100f);
+            Variables.Q = new Spell(SpellSlot.Q, 1150f);
             Variables.W = new Spell(SpellSlot.W, 500f + (60f + (30f * ObjectManager.Player.Spellbook.GetSpell(SpellSlot.W).Level)));
-            Variables.E = new Spell(SpellSlot.E, 1200f);
+            Variables.E = new Spell(SpellSlot.E, 1300f);
             Variables.R = new Spell(SpellSlot.R, 900f + (300f * ObjectManager.Player.Spellbook.GetSpell(SpellSlot.R).Level));
 
             Variables.Q.SetSkillshot(0.25f, 70f, 1650f, true, SkillshotType.SkillshotLine);
             Variables.E.SetSkillshot(0.25f, 120f, 1400f, false, SkillshotType.SkillshotLine);
-            Variables.R.SetSkillshot(1.2f, 120f, float.MaxValue, false, SkillshotType.SkillshotCircle);
+            Variables.R.SetSkillshot(1.2f, 225f, float.MaxValue, false, SkillshotType.SkillshotCircle);
         }
 
         /// <summary>

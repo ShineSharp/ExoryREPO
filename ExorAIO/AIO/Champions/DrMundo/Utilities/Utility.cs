@@ -27,7 +27,7 @@ namespace ExorAIO.Champions.DrMundo
             Variables.E = new Spell(SpellSlot.E, ObjectManager.Player.BoundingRadius + 150f);
             Variables.R = new Spell(SpellSlot.R);
             
-            Variables.Q.SetSkillshot(0.25f, 60f, 1850f, true, SkillshotType.SkillshotLine);
+            Variables.Q.SetSkillshot(0.25f, 60f, 2000f, true, SkillshotType.SkillshotLine);
         }
 
         /// <summary>

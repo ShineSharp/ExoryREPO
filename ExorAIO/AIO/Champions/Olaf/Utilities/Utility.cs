@@ -27,7 +27,7 @@ namespace ExorAIO.Champions.Olaf
             Variables.E = new Spell(SpellSlot.E, 325f);
             Variables.R = new Spell(SpellSlot.R);
             
-            Variables.Q.SetSkillshot(0.25f, 80f, 1550f, false, SkillshotType.SkillshotLine);
+            Variables.Q.SetSkillshot(0.25f, 105f, 1600f, false, SkillshotType.SkillshotLine);
         }
 
         /// <summary>

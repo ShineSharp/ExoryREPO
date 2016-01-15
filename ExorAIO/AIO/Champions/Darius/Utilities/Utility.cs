@@ -24,10 +24,10 @@ namespace ExorAIO.Champions.Darius
         {
             Variables.Q = new Spell(SpellSlot.Q, 425f);
             Variables.W = new Spell(SpellSlot.W, 200f);
-            Variables.E = new Spell(SpellSlot.E, 550f);
+            Variables.E = new Spell(SpellSlot.E, 500f);
             Variables.R = new Spell(SpellSlot.R, 460f);
             
-            Variables.E.SetSkillshot(0.20f, 100f, float.MaxValue, false, SkillshotType.SkillshotLine);
+            Variables.E.SetSkillshot(0.25f, (float)(80f * Math.PI / 180), float.MaxValue, false, SkillshotType.SkillshotCone);
         }
 
         /// <summary>

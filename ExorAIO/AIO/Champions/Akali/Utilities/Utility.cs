@@ -60,12 +60,6 @@ namespace ExorAIO.Champions.Akali
             }
             Variables.Menu.AddSubMenu(Variables.SettingsMenu);
 
-            Variables.MiscMenu = new Menu("Miscellaneous Menu", $"{Variables.MainMenuName}.miscmenu");
-            {
-                Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.miscsettings.noaastealth", "Use Don't AA when Stealthed Logic")).SetValue(false);
-            }
-            Variables.Menu.AddSubMenu(Variables.MiscMenu);
-
             Variables.DrawingsMenu = new Menu("Drawings Menu", $"{Variables.MainMenuName}.drawingsmenu");
             {
                 Variables.DrawingsMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.q", "Show Q Range")).SetValue(false);

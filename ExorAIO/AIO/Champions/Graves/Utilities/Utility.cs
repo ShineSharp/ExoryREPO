@@ -7,10 +7,10 @@ namespace ExorAIO.Champions.Graves
     using LeagueSharp;
     using LeagueSharp.Common;
 
+    using ExorAIO.Utilities;
+
     using Orbwalking = SFXTargetSelector.Orbwalking;
     using TargetSelector = SFXTargetSelector.TargetSelector;   
-
-    using ExorAIO.Utilities;
 
     /// <summary>
     /// The settings class.
@@ -22,14 +22,14 @@ namespace ExorAIO.Champions.Graves
         /// </summary>
         public static void SetSpells()
         {
-            Variables.Q = new Spell(SpellSlot.Q, 950f);
-            Variables.W = new Spell(SpellSlot.W, 960f);
+            Variables.Q = new Spell(SpellSlot.Q, 900f);
+            Variables.W = new Spell(SpellSlot.W, 900f);
             Variables.E = new Spell(SpellSlot.E);
-            Variables.R = new Spell(SpellSlot.R, 1000f);
+            Variables.R = new Spell(SpellSlot.R, 1050f);
 
-            Variables.Q.SetSkillshot(0.25f, 60f, 2000f, false, SkillshotType.SkillshotLine);
-            Variables.W.SetSkillshot(0.35f, 150f, 1650f, false, SkillshotType.SkillshotCircle);
-            Variables.R.SetSkillshot(0.25f, 120f, 2100f, false, SkillshotType.SkillshotLine);
+            Variables.Q.SetSkillshot(0.25f, 40f, 3000f, false, SkillshotType.SkillshotLine);
+            Variables.W.SetSkillshot(0.25f, 250f, 1000f, false, SkillshotType.SkillshotCircle);
+            Variables.R.SetSkillshot(0.25f, 100f, 2100f, false, SkillshotType.SkillshotLine);
         }
 
         /// <summary>

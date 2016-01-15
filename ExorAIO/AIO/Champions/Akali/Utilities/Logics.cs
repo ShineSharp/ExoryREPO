@@ -23,11 +23,6 @@ namespace ExorAIO.Champions.Akali
         public static void ExecuteAuto(EventArgs args)
         {
             /// <summary>
-            /// The No AA when Stealthed Logic.
-            /// </summary>
-            Variables.Orbwalker.SetAttack(!Bools.ShouldStayFaded());
-
-            /// <summary>
             /// The Q Combo Logic,
             /// The Q KillSteal Logic.
             /// </summary>

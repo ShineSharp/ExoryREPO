@@ -22,15 +22,15 @@ namespace ExorAIO.Champions.Lux
         /// </summary>
         public static void SetSpells()
         {
-            Variables.Q = new Spell(SpellSlot.Q, 1175f);
+            Variables.Q = new Spell(SpellSlot.Q, 1250f);
             Variables.W = new Spell(SpellSlot.W, 1075f);
             Variables.E = new Spell(SpellSlot.E, 1100f);
-            Variables.R = new Spell(SpellSlot.R, 3340f);
+            Variables.R = new Spell(SpellSlot.R, 3500f);
 
-            Variables.Q.SetSkillshot(0.5f, 80, 1200, true, SkillshotType.SkillshotLine);
-            Variables.W.SetSkillshot(0.5f, 150, 1400, false, SkillshotType.SkillshotLine);
-            Variables.E.SetSkillshot(0.5f, 275, 1300, false, SkillshotType.SkillshotCircle);
-            Variables.R.SetSkillshot(0.5f, 190, float.MaxValue, false, SkillshotType.SkillshotLine);
+            Variables.Q.SetSkillshot(0.25f, 70f, 1200f, true, SkillshotType.SkillshotLine);
+            Variables.W.SetSkillshot(0.25f, 150f, 1000f, false, SkillshotType.SkillshotLine);
+            Variables.E.SetSkillshot(0.25f, 275f, 1300f, false, SkillshotType.SkillshotCircle);
+            Variables.R.SetSkillshot(1f, 190f, float.MaxValue, false, SkillshotType.SkillshotLine);
         }
 
         /// <summary>

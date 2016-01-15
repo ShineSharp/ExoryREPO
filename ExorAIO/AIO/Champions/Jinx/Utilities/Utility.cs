@@ -30,9 +30,9 @@ namespace ExorAIO.Champions.Jinx
             Variables.E = new Spell(SpellSlot.E, 900f);
             Variables.R = new Spell(SpellSlot.R, 4000f);
 
-            Variables.W.SetSkillshot(0.6f, 75f, 3300f, true, SkillshotType.SkillshotLine);
-            Variables.E.SetSkillshot(1.2f, 1f, 1750f, false, SkillshotType.SkillshotCircle);
-            Variables.R.SetSkillshot(0.7f, 140f, 1500f, false, SkillshotType.SkillshotLine);
+            Variables.W.SetSkillshot(0.6f, 60f, 3300f, true, SkillshotType.SkillshotLine);
+            Variables.E.SetSkillshot(1.5f, 50f, 1000f, false, SkillshotType.SkillshotCircle);
+            Variables.R.SetSkillshot(0.6f, 140f, 1700f, false, SkillshotType.SkillshotLine);
         }
 
         /// <summary>
