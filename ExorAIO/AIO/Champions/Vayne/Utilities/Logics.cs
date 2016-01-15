@@ -46,12 +46,12 @@ namespace ExorAIO.Champions.Vayne
                 {
                     for (int i = 1; i < 10; i++)
                     {
-                        if ((Variables.E.GetPrediction(Targets.Target).UnitPosition + Vector3.Normalize(Targets.Target.ServerPosition - ObjectManager.Player.Position) * i * 44).IsWall() &&
-                            (Variables.E.GetPrediction(Targets.Target).UnitPosition + Vector3.Normalize(Targets.Target.ServerPosition - ObjectManager.Player.Position) * i * 44 + Targets.Target.BoundingRadius).IsWall())
+                        if ((Variables.E.GetPrediction(Targets.Target).UnitPosition + Vector3.Normalize(Targets.Target.ServerPosition - ObjectManager.Player.Position) * i * 43).IsWall() &&
+                            (Variables.E.GetPrediction(Targets.Target).UnitPosition + Vector3.Normalize(Targets.Target.ServerPosition - ObjectManager.Player.Position) * i * 44).IsWall())
                         {
                             Variables.E.CastOnUnit(Targets.Target);
-                            return;
                         }
+                        break;
                     }
                 }
 
