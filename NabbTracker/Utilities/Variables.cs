@@ -1,15 +1,7 @@
 namespace NabbTracker
 {
-    using System;
-    using System.Linq;
-    using System.Collections.Generic;
-    using System.Drawing;
-
     using LeagueSharp;
     using LeagueSharp.Common;
-
-    using SharpDX;
-    using SharpDX.Direct3D9;
 
     using Font = SharpDX.Direct3D9.Font;
     using Color = System.Drawing.Color;    

@@ -1,12 +1,8 @@
 namespace NabbTracker
 {
-    using System;
-    using System.Linq;
-    using System.Collections.Generic;
-
     using LeagueSharp;
     using LeagueSharp.Common;
-    
+
     /// <summary>
     /// The main class.
     /// </summary>

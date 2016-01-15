@@ -1,18 +1,9 @@
 namespace NabbTracker
 {
-    using System;
     using System.Linq;
-    using System.Collections.Generic;
-    using System.Drawing;
 
     using LeagueSharp;
     using LeagueSharp.Common;
-
-    using SharpDX;
-    using SharpDX.Direct3D9;
-
-    using Font = SharpDX.Direct3D9.Font;
-    using Color = System.Drawing.Color; 
 
     /// <summary>
     /// The drawings class.
@@ -25,12 +16,13 @@ namespace NabbTracker
             {
                 foreach (var pg in ObjectManager.Get<Obj_AI_Hero>()
                     .Where(
-                        pg => 
+                        pg =>
+                            !pg.IsMe &&
                             pg.IsValid &&
                             pg.IsHPBarRendered &&
-                            !pg.IsMe &&
-                            (pg.IsEnemy && Variables.Menu.Item($"{Variables.MainMenuName}.enemies").GetValue<bool>() ||
-                            pg.IsAlly && Variables.Menu.Item($"{Variables.MainMenuName}.allies").GetValue<bool>())))
+
+                    (pg.IsEnemy && Variables.Menu.Item($"{Variables.MainMenuName}.enemies").GetValue<bool>() ||
+                    pg.IsAlly && Variables.Menu.Item($"{Variables.MainMenuName}.allies").GetValue<bool>())))
                 {
                     for (int Spell = 0; Spell < Variables.SpellSlots.Count(); Spell++)
                     {
