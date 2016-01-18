@@ -31,11 +31,11 @@ namespace ExorAIO.Champions.Vayne
             if (TargetSelector.Weights.GetItem("low-health") != null)
             {
                 TargetSelector.Weights.GetItem("low-health").ValueFunction = hero => hero.Health - KillSteal.GetDamage(hero)*2;
-                TargetSelector.Weights.GetItem("low-health").Tooltip = "Low Health (Health < Rend Damage) = Higher Weight";
+                TargetSelector.Weights.GetItem("low-health").Tooltip = "Low Health (Health < 2W + E Damage) = Higher Weight";
                 TargetSelector.Weights.Register(
                     new TargetSelector.Weights.Item(
                         "w-stack", "W Stack", 10, false, hero => hero.GetBuffCount("vaynesilvereddebuff") == 2 ? 1 : 0,
-                        "Has W Debuff = Higher Weight"));
+                        "Has 2W Stacks = Higher Weight"));
             }
 
             /// <summary>
