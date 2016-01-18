@@ -12,6 +12,7 @@ namespace ExorAIO.Champions.Vayne
     using ExorAIO.Utilities;
 
     using Orbwalking = SFXTargetSelector.Orbwalking;
+    using TargetSelector = SFXTargetSelector.TargetSelector;
 
     /// <summary>
     /// The logics class.
@@ -24,6 +25,19 @@ namespace ExorAIO.Champions.Vayne
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void ExecuteAuto(EventArgs args)
         {
+            /// <summary>
+            /// The Target preference.
+            /// </summary>
+            if (TargetSelector.Weights.GetItem("low-health") != null)
+            {
+                TargetSelector.Weights.GetItem("low-health").ValueFunction = hero => hero.Health - KillSteal.GetDamage(hero)*2;
+                TargetSelector.Weights.GetItem("low-health").Tooltip = "Low Health (Health < Rend Damage) = Higher Weight";
+                TargetSelector.Weights.Register(
+                    new TargetSelector.Weights.Item(
+                        "w-stack", "W Stack", 10, false, hero => hero.GetBuffCount("vaynesilvereddebuff") == 2 ? 1 : 0,
+                        "Has W Debuff = Higher Weight"));
+            }
+
             /// <summary>
             /// The No AA when Stealthed Logic.
             /// </summary>
