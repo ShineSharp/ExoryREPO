@@ -30,6 +30,7 @@ namespace AsunaTumbler
                 Variables.SettingsMenu = new Menu("WallTumbler Menu", $"{Variables.MainMenuName}.walltumblermenu");
                 {
                     Variables.SettingsMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.walltumbler.executewalltumble", "Execute WallTumble").SetValue(new KeyBind("Y".ToCharArray()[0], KeyBindType.Press)));
+                    Variables.SettingsMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.walltumbler.enableonclickwalltumble", "Enable On-Click WallTumble")).SetValue(true);
                 }
                 Variables.Menu.AddSubMenu(Variables.SettingsMenu);
 
