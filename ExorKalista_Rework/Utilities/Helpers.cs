@@ -6,6 +6,7 @@ namespace ExorKalista
     using System.Collections.Generic;
 
     using LeagueSharp;
+    using LeagueSharp.SDK;
     using LeagueSharp.Common;
 
     using SharpDX;
@@ -62,28 +63,25 @@ namespace ExorKalista
                 /// <summary>
                 /// Loads the Q drawing.
                 /// </summary>
-                if (Variables.Q.IsReady() &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.drawings.q").GetValue<bool>())
+                if (Variables.Menu.Item($"{Variables.MainMenuName}.drawings.q").GetValue<bool>())
                 {
-                    Render.Circle.DrawCircle(ObjectManager.Player.Position, Variables.Q.Range, System.Drawing.Color.Green, 1);
+                    Drawing.DrawCircle(ObjectManager.Player.Position, Variables.Q.Range, System.Drawing.Color.Green);
                 }
 
                 /// <summary>
                 /// Loads the E drawing.
                 /// </summary>
-                if (Variables.E.IsReady() &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.drawings.e").GetValue<bool>())
+                if (Variables.Menu.Item($"{Variables.MainMenuName}.drawings.e").GetValue<bool>())
                 {
-                    Render.Circle.DrawCircle(ObjectManager.Player.Position, Variables.E.Range, System.Drawing.Color.Cyan, 1);
+                    Drawing.DrawCircle(ObjectManager.Player.Position, Variables.E.Range, System.Drawing.Color.Cyan);
                 }
 
                 /// <summary>
                 /// Loads the R drawing.
                 /// </summary>
-                if (Variables.R.IsReady() &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.drawings.r").GetValue<bool>())
+                if (Variables.Menu.Item($"{Variables.MainMenuName}.drawings.r").GetValue<bool>())
                 {
-                    Render.Circle.DrawCircle(ObjectManager.Player.Position, Variables.R.Range, System.Drawing.Color.Red, 1);
+                    Drawing.DrawCircle(ObjectManager.Player.Position, Variables.R.Range, System.Drawing.Color.Red);
                 }
             };
         }
@@ -138,11 +136,7 @@ namespace ExorKalista
         {
             Drawing.OnDraw += delegate
             {
-                foreach (var unit in ObjectManager.Get<Obj_AI_Base>()
-                    .Where(
-                        h =>
-                            h.IsValid &&
-                            h.IsHPBarRendered))
+                ObjectManager.Get<Obj_AI_Base>().Where(h => h.IsValid() && h.IsHPBarRendered).ForEach(unit =>
                 {
                     int width, height, xOffset, yOffset;
 
@@ -190,7 +184,7 @@ namespace ExorKalista
 
                     Drawing.DrawLine(drawStartXPos, barPos.Y, drawEndXPos, barPos.Y, height, Color.FromArgb(170, Bools.IsKillableByRend(unit) ? Color.Blue : Color.Orange));
                     Drawing.DrawLine(drawStartXPos, barPos.Y, drawStartXPos, barPos.Y + height + 1, 1, Color.Lime);
-                }
+                });
             };
         }
     }

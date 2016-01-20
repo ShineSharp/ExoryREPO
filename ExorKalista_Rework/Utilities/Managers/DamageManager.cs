@@ -23,7 +23,9 @@ namespace ExorKalista
         /// </returns>
         public static float GetPerfectRendDamage(Obj_AI_Base target)
         {
-            float RendDamage = (float)ObjectManager.Player.GetSpellDamage(target, SpellSlot.E, Damage.DamageStage.Buff);
+            float RendDamage = 
+                (float)ObjectManager.Player.GetSpellDamage(target, SpellSlot.E) +
+                (float)ObjectManager.Player.GetSpellDamage(target, SpellSlot.E, Damage.DamageStage.Buff);
             /*
             float healthDebuffer = 0f;
             
@@ -75,7 +77,7 @@ namespace ExorKalista
             }
             */
             //return (float)((RendDamage - target.PhysicalShield) - healthDebuffer);
-            return (float)(RendDamage - target.PhysicalShield);
+            return (float)(RendDamage - (target.PhysicalShield + target.HPRegenRate));
         }
     }
 }
