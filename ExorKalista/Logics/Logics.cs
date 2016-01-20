@@ -22,29 +22,6 @@ namespace ExorKalista
         /// Called when the game updates itself.
         /// </summary>
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
-        public static void ExecuteSentinels(EventArgs args)
-        {
-            /// <summary>
-            /// The W Logic.
-            /// </summary>
-            if (Variables.W.IsReady() &&
-               !ObjectManager.Player.IsWindingUp &&
-               !ObjectManager.Player.IsDashing() &&
-               !ObjectManager.Player.IsRecalling() &&
-                ObjectManager.Player.CountEnemiesInRange(1500) == 0 &&
-
-                (ObjectManager.Player.ManaPercent > ManaManager.NeededWMana &&
-                    Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.None &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewauto").GetValue<bool>()))
-            {
-                Variables.W.Cast(SentinelManager.GetPerfectSpot);
-            }
-        }
-
-        /// <summary>
-        /// Called when the game updates itself.
-        /// </summary>
-        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void ExecuteAuto(EventArgs args)
         {
             /// <summary>

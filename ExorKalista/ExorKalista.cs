@@ -64,11 +64,7 @@ namespace ExorKalista
                     Logics.ExecuteFarm(args);
                 }
 
-                if (!ObjectManager.Player.IsRecalling() &&
-                    !ObjectManager.Player.InFountain())
-                {
-                    Logics.ExecuteSentinels(args);
-                }
+                SentinelManager.ExecuteSentinels(args);
             }
         }
 

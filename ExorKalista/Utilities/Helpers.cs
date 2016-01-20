@@ -104,27 +104,22 @@ namespace ExorKalista
                                 h.IsHPBarRendered &&
                                 h.HasBuff("kalistaexpungemarker")))
                     {
-                        if (!GameObjects.EnemyHeroes.Contains(unit) &&
-                            !GameObjects.Jungle.Contains(unit))
-                        {
-                            return;
-                        }
-
-                        if (Variables.JungleHpBarOffsetList.FirstOrDefault(x => x.BaseSkinName == unit.CharData.BaseSkinName) != null)
+                        if (unit.IsMinion &&
+                            Variables.JungleHpBarOffsetList.FirstOrDefault(x => x.BaseSkinName == unit.CharData.BaseSkinName) != null)
                         {
                             Variables.Width = Variables.JungleHpBarOffsetList.FirstOrDefault(x => x.BaseSkinName == unit.CharData.BaseSkinName).Width;
                             Variables.Height = Variables.JungleHpBarOffsetList.FirstOrDefault(x => x.BaseSkinName == unit.CharData.BaseSkinName).Height;
                             Variables.XOffset = Variables.JungleHpBarOffsetList.FirstOrDefault(x => x.BaseSkinName == unit.CharData.BaseSkinName).XOffset;
                             Variables.YOffset = Variables.JungleHpBarOffsetList.FirstOrDefault(x => x.BaseSkinName == unit.CharData.BaseSkinName).YOffset;
                         }
-                        
+
                         var HPBar = unit.HPBarPosition;
                         {
                             HPBar.X += Variables.XOffset;
                             HPBar.Y += Variables.YOffset;
                         }
 
-                        var drawStartXPos = unit.HPBarPosition.X + Variables.Width * ((unit.Health - DamageManager.GetPerfectRendDamage(unit)) / unit.MaxHealth * 100 / 100);
+                        var drawStartXPos = unit.HPBarPosition.X + Variables.Width * ((unit.Health - DamageManager.GetPerfectRendDamage(unit)) / unit.MaxHealth);
                         var drawEndXPos = unit.HPBarPosition.X + Variables.Width * (unit.HealthPercent / 100);
 
                         Drawing.DrawLine(drawStartXPos, unit.HPBarPosition.Y, drawEndXPos, unit.HPBarPosition.Y, Variables.Height, !Bools.IsKillableByRend(unit) ? Color.Orange : Color.Blue);
