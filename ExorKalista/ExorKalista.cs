@@ -38,11 +38,7 @@ namespace ExorKalista
             {
                 Logics.ExecuteAuto(args);
                 Logics.ExecuteFarm(args);
-
-                if (!ObjectManager.Player.IsRecalling())
-                {
-                    Logics.ExecuteSentinels(args);
-                }
+                Logics.ExecuteSentinels(args);
             }
         }
 
