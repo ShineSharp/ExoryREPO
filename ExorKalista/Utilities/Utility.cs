@@ -86,7 +86,7 @@ namespace ExorKalista
                             }
                             Variables.EMenu.AddSubMenu(Variables.WhiteListMenu);
                         }
-                        Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.emana", "Use E to Harass/Farm if Mana >= %"))
+                        Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.emana", "Use E to Harass/Farm if Mana >= %"))
                             .SetValue(new Slider(50, 0, 99));
                     }
                     Variables.SettingsMenu.AddSubMenu(Variables.EMenu);
