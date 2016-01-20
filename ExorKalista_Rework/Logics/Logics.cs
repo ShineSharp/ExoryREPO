@@ -140,29 +140,36 @@ namespace ExorKalista
 
             /// <summary>
             /// The E Farm Logic,
-            /// The E JungleClear Logic,
-            /// The E Minion->Harass Logic.
+            /// The E Harass Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
-                !ObjectManager.Player.IsDashing() &&
-                !ObjectManager.Player.Spellbook.IsCastingSpell &&
-                ObjectManager.Player.ManaPercent > ManaManager.NeededEMana)
+                ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>())
             {
-                if (Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>() ||
-                    Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useemonsters").GetValue<bool>() ||
-                    (Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useeharass").GetValue<bool>() &&
-                        Variables.Menu.Item($"{Variables.MainMenuName}.esettings.ewhitelist.{Targets.ETarget.FirstOrDefault().ChampionName.ToLower()}").GetValue<bool>()))
+                if (Targets.Minions
+                    .Count(
+                        x =>
+                            Bools.IsPerfectRendTarget(x) &&
+                            Bools.IsKillableByRend(x)) >= (Targets.ETarget.Any() ? 1 : 2))
                 {
-                    if (ObjectManager.Get<Obj_AI_Minion>()
-                        .Count(
-                            x =>
-                                Bools.IsPerfectRendTarget(x) &&
-                                Bools.IsKillableByRend(x)) >=
-                                    (Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>() &&
-                                    !GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget()) ? 2 : 1))
-                    {
-                        Variables.E.Cast();
-                    }
+                    Variables.E.Cast();
+                }
+            }
+
+            /// <summary>
+            /// The E against Monsters Logic.
+            /// </summary>
+            if (Variables.E.IsReady() &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useemonsters").GetValue<bool>())
+            {
+                foreach (var miniontarget in GameObjects.Jungle
+                    .Where(
+                        m =>
+                            !m.CharData.BaseSkinName.Contains("Mini") &&
+                            Bools.IsPerfectRendTarget(m) &&
+                            Bools.IsKillableByRend(m)))
+                {
+                    Variables.E.Cast();
                 }
             }
         }
