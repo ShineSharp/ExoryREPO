@@ -36,35 +36,13 @@ namespace ExorKalista
             if (!ObjectManager.Player.IsDead &&
                 !ObjectManager.Player.IsDashing())
             {
-                /// <summary>
-                /// The Soulbound declaration.
-                /// </summary>
-                Variables.SoulBound = HeroManager.Allies
-                    .Find(
-                        b =>
-                            b.HasBuff("kalistacoopstrikeally"));
-
-                /// <summary>
-                /// The Target preference.
-                /// </summary>
-                if (TargetSelector.Weights.GetItem("low-health") != null)
-                {
-                    TargetSelector.Weights.GetItem("low-health").ValueFunction = hero => hero.Health - DamageManager.GetPerfectRendDamage(hero);
-                    TargetSelector.Weights.GetItem("low-health").Tooltip = "Low Health (Health < Rend Damage) = Higher Weight";
-                    TargetSelector.Weights.Register(
-                        new TargetSelector.Weights.Item(
-                            "w-stack", "W Stack", 10, false, hero => hero.HasBuff("kalistacoopstrikemarkally") ? 1 : 0,
-                            "Has W Debuff = Higher Weight"));
-                }
-
                 Logics.ExecuteAuto(args);
+                Logics.ExecuteFarm(args);
 
-                if (Variables.Orbwalker.GetTarget().IsValid<Obj_AI_Minion>())
+                if (!ObjectManager.Player.IsRecalling())
                 {
-                    Logics.ExecuteFarm(args);
+                    Logics.ExecuteSentinels(args);
                 }
-
-                SentinelManager.ExecuteSentinels(args);
             }
         }
 
@@ -93,7 +71,7 @@ namespace ExorKalista
             if (Variables.E.IsReady() &&
                 !ObjectManager.Player.IsDashing() &&
             
-                (Bools.IsKillableByRend((Obj_AI_Base)minion) &&
+                (Bools.IsKillableRendTarget((Obj_AI_Base)minion) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>()))
             {
                 Variables.E.Cast();

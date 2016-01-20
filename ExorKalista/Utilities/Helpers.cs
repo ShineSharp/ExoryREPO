@@ -2,7 +2,6 @@ namespace ExorKalista
 {
     using System;
     using System.Linq;
-    using System.Drawing;
     using System.Collections.Generic;
 
     using LeagueSharp;
@@ -12,6 +11,39 @@ namespace ExorKalista
     using SharpDX.Direct3D9;
 
     using Color = System.Drawing.Color;
+
+    /// <summary>
+    /// The Sentinel manager class.
+    /// </summary>
+    class SentinelManager
+    {
+        /// <summary>
+        /// Gets all the sentinel locations.
+        /// </summary>
+        public static Vector2[] AllLocations =
+        {
+            SummonersRift.River.Baron,
+            SummonersRift.River.Dragon,
+            SummonersRift.Jungle.Red_RedBuff,
+            SummonersRift.Jungle.Red_BlueBuff,
+            SummonersRift.Jungle.Blue_BlueBuff,
+            SummonersRift.Jungle.Blue_BlueBuff
+        };
+
+        /// <summary>
+        /// Gets the possible sentinel locations.
+        /// </summary>
+        public static Vector2 GetPerfectSpot
+        => 
+            AllLocations.Where(
+                loc =>
+                    loc != null &&
+                    loc.Distance(ObjectManager.Player) < Variables.W.Range)
+            .OrderBy(
+                h =>
+                    h.Distance(ObjectManager.Player))
+            .FirstOrDefault();
+    }
 
     /// <summary>
     /// The Mana manager class.
@@ -89,107 +121,48 @@ namespace ExorKalista
         }
 
         /// <summary>
-        /// The enemy HP bar offset.
-        /// </summary>
-        private static readonly int XOffset = 10;
-        private static readonly int YOffset = 20;
-        private static readonly int Width = 103;
-        private static readonly int Height = 8;
-
-        /// <summary>
-        /// The jungle HP bar offset.
-        /// </summary>      
-        internal class JungleHpBarOffset
-        {
-            internal string BaseSkinName;
-            internal int Height;
-            internal int Width;
-            internal int XOffset;
-            internal int YOffset;
-        }
-
-        /// <summary>
-        /// The jungle HP bar offset list.
-        /// </summary>
-        internal static readonly List<JungleHpBarOffset> JungleHpBarOffsetList = new List<JungleHpBarOffset>
-        {
-            new JungleHpBarOffset{BaseSkinName = "SRU_Dragon", Width = 140, Height = 4, XOffset = 12, YOffset = 24},
-            new JungleHpBarOffset{BaseSkinName = "SRU_Baron", Width = 190, Height = 10, XOffset = 16, YOffset = 24},
-            new JungleHpBarOffset{BaseSkinName = "SRU_RiftHerald", Width = 139, Height = 6, XOffset = 12, YOffset = 22},
-            new JungleHpBarOffset{BaseSkinName = "SRU_Red", Width = 139, Height = 4, XOffset = 12, YOffset = 24},
-            new JungleHpBarOffset{BaseSkinName = "SRU_RedMini", Width = 49, Height = 2, XOffset = 1, YOffset = 5},
-            new JungleHpBarOffset{BaseSkinName = "SRU_Blue", Width = 139, Height = 4, XOffset = 12, YOffset = 24},
-            new JungleHpBarOffset{BaseSkinName = "SRU_BlueMini", Width = 49, Height = 2, XOffset = 1, YOffset = 5},
-            new JungleHpBarOffset{BaseSkinName = "SRU_BlueMini2", Width = 49, Height = 2, XOffset = 1, YOffset = 5},
-            new JungleHpBarOffset{BaseSkinName = "SRU_Gromp", Width = 86, Height = 2, XOffset = 1, YOffset = 7},
-            new JungleHpBarOffset{BaseSkinName = "Sru_Crab", Width = 61, Height = 2, XOffset = 1, YOffset = 5},
-            new JungleHpBarOffset{BaseSkinName = "SRU_Krug", Width = 79, Height = 2, XOffset = 1, YOffset = 7},
-            new JungleHpBarOffset{BaseSkinName = "SRU_KrugMini", Width = 55, Height = 2, XOffset = 1, YOffset = 5},
-            new JungleHpBarOffset{BaseSkinName = "SRU_Razorbeak", Width = 74, Height = 2, XOffset = 1, YOffset = 7},
-            new JungleHpBarOffset{BaseSkinName = "SRU_RazorbeakMini", Width = 49, Height = 2, XOffset = 1, YOffset = 5},
-            new JungleHpBarOffset{BaseSkinName = "SRU_Murkwolf", Width = 74, Height = 2, XOffset = 1, YOffset = 7},
-            new JungleHpBarOffset{BaseSkinName = "SRU_MurkwolfMini", Width = 55, Height = 2, XOffset = 1, YOffset = 5}
-        };
-
-        /// <summary>
         /// Loads the damage drawings.
         /// </summary>
         public static void LoadDamage()
         {
             Drawing.OnDraw += delegate
             {
-                foreach (var unit in ObjectManager.Get<Obj_AI_Base>()
-                    .Where(
-                        h =>
-                            h.IsValid &&
-                            h.IsHPBarRendered))
+                if (Variables.Menu.Item($"{Variables.MainMenuName}.drawings.edmg").GetValue<bool>())
                 {
-                    int width, height, xOffset, yOffset;
+                    const int XOffset = 10;
+                    const int YOffset = 20;
+                    const int Width = 103;
+                    const int Height = 8;
 
-                    if (unit is Obj_AI_Hero)
+                    foreach (var unit in HeroManager.Enemies
+                        .Where(
+                            h => h.IsValid &&
+                            h.IsHPBarRendered))
                     {
-                        width = Width;
-                        height = Height;
-                        xOffset = XOffset;
-                        yOffset = YOffset;
-                    }
-                    else
-                    {
-                        var mobOffset = JungleHpBarOffsetList.FirstOrDefault(x => x.BaseSkinName == unit.CharData.BaseSkinName);
-                        if (mobOffset != null)
+                        var barPos = unit.HPBarPosition;
+
+                        var percentHealthAfterDamage = Math.Max(0, unit.Health - Variables.GetPerfectRendDamage(unit))/unit.MaxHealth;
+                        var yPos = barPos.Y + YOffset;
+                        var xPosDamage = barPos.X + XOffset + Width*percentHealthAfterDamage;
+                        var xPosCurrentHp = barPos.X + XOffset + Width*unit.Health/unit.MaxHealth;
+
+                        var differenceInHp = xPosCurrentHp - xPosDamage;
+                        var pos1 = barPos.X + 9 + 107*percentHealthAfterDamage;
+
+                        for (var i = 0; i < differenceInHp; i++)
                         {
-                            width = mobOffset.Width;
-                            height = mobOffset.Height;
-                            xOffset = mobOffset.XOffset;
-                            yOffset = mobOffset.YOffset;
+                            Drawing.DrawLine(
+                                pos1 + i,
+                                yPos,
+                                pos1 + i,
+                                yPos + Height,
+                                1,
+                                Variables.GetPerfectRendDamage(unit) > unit.Health ?
+                                    Color.Blue :
+                                    Color.Orange
+                            );
                         }
-                        else
-                        {
-                            return;
-                        }
                     }
-
-                    if (DamageManager.GetPerfectRendDamage(unit) < 0)
-                    {
-                        return;
-                    }
-
-                    var barPos = unit.HPBarPosition;
-                    barPos.X += xOffset;
-                    barPos.Y += yOffset;
-
-                    var hpPercent = unit.HealthPercent;
-                    var hpPercentAfterDamage = (unit.Health - DamageManager.GetPerfectRendDamage(unit)) / unit.MaxHealth * 100;
-                    var drawStartXPos = barPos.X + width * (hpPercentAfterDamage / 100);
-                    var drawEndXPos = barPos.X + width * (hpPercent / 100);
-
-                    if (unit.Health < DamageManager.GetPerfectRendDamage(unit))
-                    {
-                        drawStartXPos = barPos.X;
-                    }
-
-                    Drawing.DrawLine(drawStartXPos, barPos.Y, drawEndXPos, barPos.Y, height, Color.FromArgb(170, Bools.IsKillableByRend(unit) ? Color.Blue : Color.Orange));
-                    Drawing.DrawLine(drawStartXPos, barPos.Y, drawStartXPos, barPos.Y + height + 1, 1, Color.Lime);
                 }
             };
         }

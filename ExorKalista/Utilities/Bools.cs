@@ -49,8 +49,8 @@ namespace ExorKalista
         /// <summary>
         /// Returns true if the target is killable by Rend.
         /// </summary>   
-        public static bool IsKillableByRend(Obj_AI_Base target)
+        public static bool IsKillableRendTarget(Obj_AI_Base target)
         =>
-            DamageManager.GetPerfectRendDamage(target) > target.Health;
+            target.Health < Variables.GetPerfectRendDamage(target);
     }
 }

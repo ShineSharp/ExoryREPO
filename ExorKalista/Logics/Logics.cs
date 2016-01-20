@@ -22,8 +22,56 @@ namespace ExorKalista
         /// Called when the game updates itself.
         /// </summary>
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
+        public static void ExecuteSentinels(EventArgs args)
+        {
+            /// <summary>
+            /// The W Logic.
+            /// </summary>
+            if (Variables.W.IsReady() &&
+               !ObjectManager.Player.IsWindingUp &&
+               !ObjectManager.Player.IsDashing() &&
+               !ObjectManager.Player.IsRecalling() &&
+                ObjectManager.Player.CountEnemiesInRange(1500) == 0 &&
+
+                (ObjectManager.Player.ManaPercent > ManaManager.NeededWMana &&
+                    Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.None &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewauto").GetValue<bool>()))
+            {
+                Variables.W.Cast(SentinelManager.GetPerfectSpot);
+            }
+        }
+
+        /// <summary>
+        /// Called when the game updates itself.
+        /// </summary>
+        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void ExecuteAuto(EventArgs args)
         {
+            /// <summary>
+            /// The Soulbound declaration.
+            /// </summary>
+            Variables.SoulBound = HeroManager.Allies
+                .Find(
+                    h =>
+                        h.Buffs
+                .Any(
+                    b =>
+                        b.Caster.IsMe &&
+                        b.Name.Contains("kalistacoopstrikeally")));
+
+            /// <summary>
+            /// The Target preference.
+            /// </summary>
+            if (TargetSelector.Weights.GetItem("low-health") != null)
+            {
+                TargetSelector.Weights.GetItem("low-health").ValueFunction = hero => hero.Health - Variables.GetPerfectRendDamage(hero);
+                TargetSelector.Weights.GetItem("low-health").Tooltip = "Low Health (Health < Rend Damage) = Higher Weight";
+                TargetSelector.Weights.Register(
+                    new TargetSelector.Weights.Item(
+                        "w-stack", "W Stack", 10, false, hero => hero.HasBuff("kalistacoopstrikemarkally") ? 1 : 0,
+                        "Has W Debuff = Higher Weight"));
+            }
+
             /// <summary>
             /// The Q KillSteal Logic,
             /// The Q Immobile Harass Logic.
@@ -37,7 +85,7 @@ namespace ExorKalista
                     ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqautoharass").GetValue<bool>()) ||
 
-                (Targets.Target.Health < Variables.Q.GetDamage(Targets.Target) &&
+                (Targets.Target.Health <= ObjectManager.Player.CalcDamage(Targets.Target, LeagueSharp.Common.Damage.DamageType.Physical, Variables.Q.GetDamage(Targets.Target)) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqks").GetValue<bool>()) ||
 
                 (Bools.IsImmobile(Targets.Target) &&
@@ -51,7 +99,7 @@ namespace ExorKalista
             /// </summary>
             if (Variables.E.IsReady() &&
 
-                (HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(1500 + Game.Ping / 2f)) <= 0 &&
+                (HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(250 + Game.Ping / 2f)) <= 0 &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useedie").GetValue<bool>()))
             {
                 Variables.E.Cast();
@@ -61,7 +109,6 @@ namespace ExorKalista
             /// The E Combo Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
-                !ObjectManager.Player.Spellbook.IsCastingSpell &&
                 !ObjectManager.Player.IsDashing() &&
 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
@@ -71,7 +118,7 @@ namespace ExorKalista
                     .Where(
                         h =>
                             Bools.IsPerfectRendTarget(h) &&
-                            Bools.IsKillableByRend(h)))
+                            Bools.IsKillableRendTarget(h)))
                 {
                     Variables.E.Cast();
                 }
@@ -131,8 +178,10 @@ namespace ExorKalista
                 if (Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit > 2 &&
                     Targets.Minions
                     .Count(
-                        m =>
-                            m.Health < Variables.Q.GetDamage(m)) > 2)
+                        m => 
+                            m != null &&
+                            m.IsValidTarget(Variables.Q.Range) &&
+                            m.Health < ObjectManager.Player.CalcDamage(m, LeagueSharp.Common.Damage.DamageType.Physical, Variables.Q.GetDamage(m))) > 2)
                 {
                     Variables.Q.Cast(Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).Position);
                 }
@@ -140,29 +189,36 @@ namespace ExorKalista
 
             /// <summary>
             /// The E Farm Logic,
-            /// The E JungleClear Logic,
-            /// The E Minion->Harass Logic.
+            /// The E Harass Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
-                !ObjectManager.Player.IsDashing() &&
-                !ObjectManager.Player.Spellbook.IsCastingSpell &&
-                ObjectManager.Player.ManaPercent > ManaManager.NeededEMana)
+                ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>())
             {
-                if (Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>() ||
-                    Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useemonsters").GetValue<bool>() ||
-                    (Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useeharass").GetValue<bool>() &&
-                        Variables.Menu.Item($"{Variables.MainMenuName}.esettings.ewhitelist.{Targets.ETarget.FirstOrDefault().ChampionName.ToLower()}").GetValue<bool>()))
+                if (Targets.Minions
+                    .Count(
+                        x =>
+                            Bools.IsPerfectRendTarget(x) &&
+                            Bools.IsKillableRendTarget(x)) >= (Targets.ETarget.Any() ? 1 : 2))
                 {
-                    if (ObjectManager.Get<Obj_AI_Minion>()
-                        .Count(
-                            x =>
-                                Bools.IsPerfectRendTarget(x) &&
-                                Bools.IsKillableByRend(x)) >=
-                                    (Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>() &&
-                                    !GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget()) ? 2 : 1))
-                    {
-                        Variables.E.Cast();
-                    }
+                    Variables.E.Cast();
+                }
+            }
+
+            /// <summary>
+            /// The E against Monsters Logic.
+            /// </summary>
+            if (Variables.E.IsReady() &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useemonsters").GetValue<bool>())
+            {
+                foreach (var miniontarget in GameObjects.Jungle
+                    .Where(
+                        m =>
+                            !m.CharData.BaseSkinName.Contains("Mini") &&
+                            Bools.IsPerfectRendTarget(m) &&
+                            Bools.IsKillableRendTarget(m)))
+                {
+                    Variables.E.Cast();
                 }
             }
         }
