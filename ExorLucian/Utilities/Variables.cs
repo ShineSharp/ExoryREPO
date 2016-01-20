@@ -82,6 +82,11 @@ namespace ExorLucian
         public static Menu MiscMenu { get; set; }
 
         /// <summary>
+        /// Gets or sets the Whitelist menu.
+        /// </summary>
+        public static Menu WhiteListMenu { get; set; }
+
+        /// <summary>
         /// Gets or sets the Drawings menu.
         /// </summary>
         public static Menu DrawingsMenu { get; set; }

@@ -57,6 +57,16 @@ namespace ExorLucian
                         Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqautoharass", "Use Q AutoHarass")).SetValue(true);
                         Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqks", "Use Q to KillSteal")).SetValue(true);
                         Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqfarm", "Use Q to Farm")).SetValue(true);
+                        {
+                            Variables.WhiteListMenu = new Menu("Extended Q Harass Whitelist", $"{Variables.MainMenuName}.qsettings.qwhitelist");
+                            {
+                                foreach (Obj_AI_Hero champ in HeroManager.Enemies)
+                                {
+                                    Variables.WhiteListMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.qwhitelist.{champ.ChampionName.ToLower()}", $"Harass: {champ.ChampionName}").SetValue(true));
+                                }
+                            }
+                            Variables.QMenu.AddSubMenu(Variables.WhiteListMenu);
+                        }
                         Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.qmana", "Use Q in Harass/Farm only if Mana >= x%"))
                             .SetValue(new Slider(50, 0, 99));
                     }

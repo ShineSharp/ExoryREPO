@@ -39,6 +39,8 @@ namespace ExorLucian
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqautoharass").GetValue<bool>())
                 {
                     foreach (var tgminion in from target in ObjectManager.Player.GetEnemiesInRange(Variables.Q.Range + 600f)
+                        where
+                            Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.qwhitelist.{target.ChampionName.ToLower()}").GetValue<bool>()
                         select
                             Variables.Q.GetCollision(ObjectManager.Player.Position.To2D(),new List<Vector2> {target.Position.To2D()})
                                 .FirstOrDefault(
