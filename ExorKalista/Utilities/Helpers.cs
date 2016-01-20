@@ -97,19 +97,20 @@ namespace ExorKalista
             {
                 if (Variables.Menu.Item($"{Variables.MainMenuName}.drawings.edmg").GetValue<bool>())
                 {
-                    foreach (var unit in GameObjects.Enemy
+                    foreach (var unit in ObjectManager.Get<Obj_AI_Base>()
                         .Where(
-                            h => h.IsValid &&
-                            h.IsHPBarRendered &&
-                            h.HasBuff("kalistaexpungemarker") &&
-                            GameObjects.Jungle.Contains(h)))
+                            h => 
+                                h.IsValid &&
+                                h.IsHPBarRendered &&
+                                h.HasBuff("kalistaexpungemarker") &&
+                                (GameObjects.EnemyHeroes.Contains(h) || GameObjects.Jungle.Contains(h))))
                     {
-                        if (Variables.JungleHpBarOffsetList.FirstOrDefault(x => x.BaseSkinName.Equals(unit.CharData.BaseSkinName)) != null)
+                        if (Variables.JungleHpBarOffsetList.FirstOrDefault(x => x.BaseSkinName == unit.CharData.BaseSkinName) != null)
                         {
-                            Variables.Width = Variables.JungleHpBarOffsetList.FirstOrDefault(x => x.BaseSkinName.Equals(unit.CharData.BaseSkinName)).Width;
-                            Variables.Height = Variables.JungleHpBarOffsetList.FirstOrDefault(x => x.BaseSkinName.Equals(unit.CharData.BaseSkinName)).Height;
-                            Variables.XOffset = Variables.JungleHpBarOffsetList.FirstOrDefault(x => x.BaseSkinName.Equals(unit.CharData.BaseSkinName)).XOffset;
-                            Variables.YOffset = Variables.JungleHpBarOffsetList.FirstOrDefault(x => x.BaseSkinName.Equals(unit.CharData.BaseSkinName)).YOffset;
+                            Variables.Width = Variables.JungleHpBarOffsetList.FirstOrDefault(x => x.BaseSkinName == unit.CharData.BaseSkinName).Width;
+                            Variables.Height = Variables.JungleHpBarOffsetList.FirstOrDefault(x => x.BaseSkinName == unit.CharData.BaseSkinName).Height;
+                            Variables.XOffset = Variables.JungleHpBarOffsetList.FirstOrDefault(x => x.BaseSkinName == unit.CharData.BaseSkinName).XOffset;
+                            Variables.YOffset = Variables.JungleHpBarOffsetList.FirstOrDefault(x => x.BaseSkinName == unit.CharData.BaseSkinName).YOffset;
                         }
                         
                         var HPBar = unit.HPBarPosition;

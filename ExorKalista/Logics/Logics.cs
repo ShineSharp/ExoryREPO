@@ -84,6 +84,7 @@ namespace ExorKalista
             /// The E Combo Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
+                !ObjectManager.Player.Spellbook.IsCastingSpell &&
                 !ObjectManager.Player.IsDashing() &&
 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
@@ -167,10 +168,12 @@ namespace ExorKalista
             /// </summary>
             if (Variables.E.IsReady() &&
                 !ObjectManager.Player.IsDashing() &&
+                !ObjectManager.Player.Spellbook.IsCastingSpell &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededEMana)
             {
-                if ((Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>() &&
-                        GameObjects.EnemyMinions
+                if (((Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>() ||
+                    Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useemonsters").GetValue<bool>()) &&
+                        ObjectManager.Get<Obj_AI_Minion>()
                         .Count(
                             x =>
                                 Bools.IsPerfectRendTarget(x) &&
@@ -180,7 +183,7 @@ namespace ExorKalista
                         Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useeharass").GetValue<bool>() &&
                         Variables.Menu.Item($"{Variables.MainMenuName}.esettings.ewhitelist.{Targets.ETarget.ChampionName.ToLower()}").GetValue<bool>() &&
 
-                        GameObjects.Jungle
+                        GameObjects.EnemyMinions
                         .Count(
                             x =>
                                 Bools.IsPerfectRendTarget(x) &&
