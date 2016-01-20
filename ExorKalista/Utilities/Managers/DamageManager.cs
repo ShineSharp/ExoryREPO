@@ -24,7 +24,9 @@ namespace ExorKalista
         public static float GetPerfectRendDamage(Obj_AI_Base target)
         {
             float RendDamage = (float)ObjectManager.Player.GetSpellDamage(target, SpellSlot.E, Damage.DamageStage.Buff);
+            /*
             float healthDebuffer = 0f;
+            
 
             /// <summary>
             /// Gets the reduction from the exhaust spell.
@@ -71,8 +73,9 @@ namespace ExorKalista
                     healthDebuffer += target.Mana / 2;
                 }
             }
-
-            return (float)((RendDamage - target.PhysicalShield) - healthDebuffer);
+            */
+            //return (float)((RendDamage - target.PhysicalShield) - healthDebuffer);
+            return (float)(RendDamage - target.PhysicalShield);
         }
     }
 }

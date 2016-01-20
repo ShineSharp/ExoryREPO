@@ -102,9 +102,14 @@ namespace ExorKalista
                             h => 
                                 h.IsValid &&
                                 h.IsHPBarRendered &&
-                                h.HasBuff("kalistaexpungemarker") &&
-                                (GameObjects.EnemyHeroes.Contains(h) || GameObjects.Jungle.Contains(h))))
+                                h.HasBuff("kalistaexpungemarker")))
                     {
+                        if (!GameObjects.EnemyHeroes.Contains(unit) &&
+                            !GameObjects.Jungle.Contains(unit))
+                        {
+                            return;
+                        }
+
                         if (Variables.JungleHpBarOffsetList.FirstOrDefault(x => x.BaseSkinName == unit.CharData.BaseSkinName) != null)
                         {
                             Variables.Width = Variables.JungleHpBarOffsetList.FirstOrDefault(x => x.BaseSkinName == unit.CharData.BaseSkinName).Width;
