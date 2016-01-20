@@ -2,6 +2,7 @@ namespace ExorKalista
 {
     using System;
     using System.Linq;
+    using System.Drawing;
     using System.Collections.Generic;
 
     using LeagueSharp;
@@ -11,39 +12,6 @@ namespace ExorKalista
     using SharpDX.Direct3D9;
 
     using Color = System.Drawing.Color;
-
-    /// <summary>
-    /// The Sentinel manager class.
-    /// </summary>
-    class SentinelManager
-    {
-        /// <summary>
-        /// Gets all the sentinel locations.
-        /// </summary>
-        public static Vector2[] AllLocations =
-        {
-            SummonersRift.River.Baron,
-            SummonersRift.River.Dragon,
-            SummonersRift.Jungle.Red_RedBuff,
-            SummonersRift.Jungle.Red_BlueBuff,
-            SummonersRift.Jungle.Blue_BlueBuff,
-            SummonersRift.Jungle.Blue_BlueBuff
-        };
-
-        /// <summary>
-        /// Gets the possible sentinel locations.
-        /// </summary>
-        public static Vector2 GetPerfectSpot
-        => 
-            AllLocations.Where(
-                loc =>
-                    loc != null &&
-                    loc.Distance(ObjectManager.Player) < Variables.W.Range)
-            .OrderBy(
-                h =>
-                    h.Distance(ObjectManager.Player))
-            .FirstOrDefault();
-    }
 
     /// <summary>
     /// The Mana manager class.
@@ -176,7 +144,6 @@ namespace ExorKalista
                             h.IsValid &&
                             h.IsHPBarRendered))
                 {
-<<<<<<< HEAD
                     int width, height, xOffset, yOffset;
 
                     if (unit is Obj_AI_Hero)
@@ -219,41 +186,6 @@ namespace ExorKalista
                     if (unit.Health < DamageManager.GetPerfectRendDamage(unit))
                     {
                         drawStartXPos = barPos.X;
-=======
-                    const int XOffset = 10;
-                    const int YOffset = 20;
-                    const int Width = 103;
-                    const int Height = 8;
-
-                    foreach (var unit in HeroManager.Enemies
-                        .Where(
-                            h => h.IsValid &&
-                            h.IsHPBarRendered))
-                    {
-                        var barPos = unit.HPBarPosition;
-
-                        var percentHealthAfterDamage = Math.Max(0, unit.Health - Variables.GetPerfectRendDamage(unit))/unit.MaxHealth;
-                        var yPos = barPos.Y + YOffset;
-                        var xPosDamage = barPos.X + XOffset + Width*percentHealthAfterDamage;
-                        var xPosCurrentHp = barPos.X + XOffset + Width*unit.Health/unit.MaxHealth;
-
-                        var differenceInHp = xPosCurrentHp - xPosDamage;
-                        var pos1 = barPos.X + 9 + 107*percentHealthAfterDamage;
-
-                        for (var i = 0; i < differenceInHp; i++)
-                        {
-                            Drawing.DrawLine(
-                                pos1 + i,
-                                yPos,
-                                pos1 + i,
-                                yPos + Height,
-                                1,
-                                Variables.GetPerfectRendDamage(unit) > unit.Health ?
-                                    Color.Blue :
-                                    Color.Orange
-                            );
-                        }
->>>>>>> parent of 90bc5d9... ExorKalista: 6.1.0.1 - Rework.
                     }
 
                     Drawing.DrawLine(drawStartXPos, barPos.Y, drawEndXPos, barPos.Y, height, Color.FromArgb(170, Bools.IsKillableByRend(unit) ? Color.Blue : Color.Orange));
