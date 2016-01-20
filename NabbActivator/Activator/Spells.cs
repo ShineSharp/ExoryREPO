@@ -60,12 +60,14 @@ namespace NabbActivator
             /// <summary>
             /// The Ghost Logic.
             /// </summary>
+            /*
             if (Bools.IsSpellAvailable(SpellSlots.Ghost) &&
                 Targets.Target.Distance(ObjectManager.Player) > Orbwalking.GetRealAutoAttackRange(Targets.Target) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.combo_button").GetValue<KeyBind>().Active)
             {
                 ObjectManager.Player.Spellbook.CastSpell(SpellSlots.Ghost);
             }
+            */
 
             /// <summary>
             /// The Ignite Logic.
