@@ -89,42 +89,107 @@ namespace ExorKalista
         }
 
         /// <summary>
+        /// The enemy HP bar offset.
+        /// </summary>
+        private static readonly int XOffset = 10;
+        private static readonly int YOffset = 20;
+        private static readonly int Width = 103;
+        private static readonly int Height = 8;
+
+        /// <summary>
+        /// The jungle HP bar offset.
+        /// </summary>      
+        internal class JungleHpBarOffset
+        {
+            internal string BaseSkinName;
+            internal int Height;
+            internal int Width;
+            internal int XOffset;
+            internal int YOffset;
+        }
+
+        /// <summary>
+        /// The jungle HP bar offset list.
+        /// </summary>
+        internal static readonly List<JungleHpBarOffset> JungleHpBarOffsetList = new List<JungleHpBarOffset>
+        {
+            new JungleHpBarOffset{BaseSkinName = "SRU_Dragon", Width = 140, Height = 4, XOffset = 12, YOffset = 24},
+            new JungleHpBarOffset{BaseSkinName = "SRU_Baron", Width = 190, Height = 10, XOffset = 16, YOffset = 24},
+            new JungleHpBarOffset{BaseSkinName = "SRU_RiftHerald", Width = 139, Height = 6, XOffset = 12, YOffset = 22},
+            new JungleHpBarOffset{BaseSkinName = "SRU_Red", Width = 139, Height = 4, XOffset = 12, YOffset = 24},
+            new JungleHpBarOffset{BaseSkinName = "SRU_RedMini", Width = 49, Height = 2, XOffset = 1, YOffset = 5},
+            new JungleHpBarOffset{BaseSkinName = "SRU_Blue", Width = 139, Height = 4, XOffset = 12, YOffset = 24},
+            new JungleHpBarOffset{BaseSkinName = "SRU_BlueMini", Width = 49, Height = 2, XOffset = 1, YOffset = 5},
+            new JungleHpBarOffset{BaseSkinName = "SRU_BlueMini2", Width = 49, Height = 2, XOffset = 1, YOffset = 5},
+            new JungleHpBarOffset{BaseSkinName = "SRU_Gromp", Width = 86, Height = 2, XOffset = 1, YOffset = 7},
+            new JungleHpBarOffset{BaseSkinName = "Sru_Crab", Width = 61, Height = 2, XOffset = 1, YOffset = 5},
+            new JungleHpBarOffset{BaseSkinName = "SRU_Krug", Width = 79, Height = 2, XOffset = 1, YOffset = 7},
+            new JungleHpBarOffset{BaseSkinName = "SRU_KrugMini", Width = 55, Height = 2, XOffset = 1, YOffset = 5},
+            new JungleHpBarOffset{BaseSkinName = "SRU_Razorbeak", Width = 74, Height = 2, XOffset = 1, YOffset = 7},
+            new JungleHpBarOffset{BaseSkinName = "SRU_RazorbeakMini", Width = 49, Height = 2, XOffset = 1, YOffset = 5},
+            new JungleHpBarOffset{BaseSkinName = "SRU_Murkwolf", Width = 74, Height = 2, XOffset = 1, YOffset = 7},
+            new JungleHpBarOffset{BaseSkinName = "SRU_MurkwolfMini", Width = 55, Height = 2, XOffset = 1, YOffset = 5}
+        };
+
+        /// <summary>
         /// Loads the damage drawings.
         /// </summary>
         public static void LoadDamage()
         {
             Drawing.OnDraw += delegate
             {
-                if (Variables.Menu.Item($"{Variables.MainMenuName}.drawings.edmg").GetValue<bool>())
+                foreach (var unit in ObjectManager.Get<Obj_AI_Base>()
+                    .Where(
+                        h =>
+                            h.IsValid &&
+                            h.IsHPBarRendered))
                 {
-                    foreach (var unit in ObjectManager.Get<Obj_AI_Base>()
-                        .Where(
-                            h => 
-                                h.IsValid &&
-                                h.IsHPBarRendered &&
-                                h.HasBuff("kalistaexpungemarker")))
+                    int width, height, xOffset, yOffset;
+
+                    if (unit is Obj_AI_Hero)
                     {
-                        if (unit.IsMinion &&
-                            Variables.JungleHpBarOffsetList.FirstOrDefault(x => x.BaseSkinName == unit.CharData.BaseSkinName) != null)
-                        {
-                            Variables.Width = Variables.JungleHpBarOffsetList.FirstOrDefault(x => x.BaseSkinName == unit.CharData.BaseSkinName).Width;
-                            Variables.Height = Variables.JungleHpBarOffsetList.FirstOrDefault(x => x.BaseSkinName == unit.CharData.BaseSkinName).Height;
-                            Variables.XOffset = Variables.JungleHpBarOffsetList.FirstOrDefault(x => x.BaseSkinName == unit.CharData.BaseSkinName).XOffset;
-                            Variables.YOffset = Variables.JungleHpBarOffsetList.FirstOrDefault(x => x.BaseSkinName == unit.CharData.BaseSkinName).YOffset;
-                        }
-
-                        var HPBar = unit.HPBarPosition;
-                        {
-                            HPBar.X += Variables.XOffset;
-                            HPBar.Y += Variables.YOffset;
-                        }
-
-                        var drawStartXPos = unit.HPBarPosition.X + Variables.Width * ((unit.Health - DamageManager.GetPerfectRendDamage(unit)) / unit.MaxHealth);
-                        var drawEndXPos = unit.HPBarPosition.X + Variables.Width * (unit.HealthPercent / 100);
-
-                        Drawing.DrawLine(drawStartXPos, unit.HPBarPosition.Y, drawEndXPos, unit.HPBarPosition.Y, Variables.Height, !Bools.IsKillableByRend(unit) ? Color.Orange : Color.Blue);
-                        Drawing.DrawLine(drawStartXPos, unit.HPBarPosition.Y, drawStartXPos, unit.HPBarPosition.Y + Variables.Height + 1, 1, Color.Lime);
+                        width = Width;
+                        height = Height;
+                        xOffset = XOffset;
+                        yOffset = YOffset;
                     }
+                    else
+                    {
+                        var mobOffset = JungleHpBarOffsetList.FirstOrDefault(x => x.BaseSkinName == unit.CharData.BaseSkinName);
+                        if (mobOffset != null)
+                        {
+                            width = mobOffset.Width;
+                            height = mobOffset.Height;
+                            xOffset = mobOffset.XOffset;
+                            yOffset = mobOffset.YOffset;
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    }
+
+                    if (DamageManager.GetPerfectRendDamage(unit) < 0)
+                    {
+                        return;
+                    }
+
+                    var barPos = unit.HPBarPosition;
+                    barPos.X += xOffset;
+                    barPos.Y += yOffset;
+
+                    var hpPercent = unit.HealthPercent;
+                    var hpPercentAfterDamage = (unit.Health - DamageManager.GetPerfectRendDamage(unit)) / unit.MaxHealth * 100;
+                    var drawStartXPos = barPos.X + width * (hpPercentAfterDamage / 100);
+                    var drawEndXPos = barPos.X + width * (hpPercent / 100);
+
+                    if (unit.Health < DamageManager.GetPerfectRendDamage(unit))
+                    {
+                        drawStartXPos = barPos.X;
+                    }
+
+                    Drawing.DrawLine(drawStartXPos, barPos.Y, drawEndXPos, barPos.Y, height, Color.FromArgb(170, Bools.IsKillableByRend(unit) ? Color.Blue : Color.Orange));
+                    Drawing.DrawLine(drawStartXPos, barPos.Y, drawStartXPos, barPos.Y + height + 1, 1, Color.Lime);
                 }
             };
         }

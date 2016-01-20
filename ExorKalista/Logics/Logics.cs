@@ -37,7 +37,7 @@ namespace ExorKalista
                     ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqautoharass").GetValue<bool>()) ||
 
-                (Targets.Target.Health < ObjectManager.Player.CalcDamage(Targets.Target, Damage.DamageType.Physical, Variables.Q.GetDamage(Targets.Target)) &&
+                (Targets.Target.Health < Variables.Q.GetDamage(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqks").GetValue<bool>()) ||
 
                 (Bools.IsImmobile(Targets.Target) &&
@@ -51,7 +51,7 @@ namespace ExorKalista
             /// </summary>
             if (Variables.E.IsReady() &&
 
-                (HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(250 + Game.Ping / 2f)) <= 0 &&
+                (HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(1500 + Game.Ping / 2f)) <= 0 &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useedie").GetValue<bool>()))
             {
                 Variables.E.Cast();
@@ -132,7 +132,7 @@ namespace ExorKalista
                     Targets.Minions
                     .Count(
                         m =>
-                            m.Health < ObjectManager.Player.CalcDamage(m, Damage.DamageType.Physical, Variables.Q.GetDamage(m))) > 2)
+                            m.Health < Variables.Q.GetDamage(m)) > 2)
                 {
                     Variables.Q.Cast(Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).Position);
                 }
