@@ -21,16 +21,17 @@ namespace AsunaTumbler
         public static void ExecuteAuto(EventArgs args)
         {
             /// <summary>
-            /// The WallTumble Logic.
+            /// The Movement Request Humanization, ty Asuna.
             /// </summary>
-            
-            //Ty Asuna
             if (Environment.TickCount - Variables.LastMoveC < 80)
             {
                 return;
             }
             Variables.LastMoveC = Environment.TickCount;
 
+            /// <summary>
+            /// The WallTumble Logic.
+            /// </summary>
             if (Variables.Q.IsReady())
             {
                 var selectedPos =
