@@ -58,9 +58,14 @@ namespace ExorKalista
                 }
 
                 Logics.ExecuteAuto(args);
-                Logics.ExecuteFarm(args);
 
-                if (!ObjectManager.Player.IsRecalling())
+                if (Variables.Orbwalker.GetTarget().IsValid<Obj_AI_Minion>())
+                {
+                    Logics.ExecuteFarm(args);
+                }
+
+                if (!ObjectManager.Player.IsRecalling() &&
+                    !ObjectManager.Player.InFountain())
                 {
                     Logics.ExecuteSentinels(args);
                 }

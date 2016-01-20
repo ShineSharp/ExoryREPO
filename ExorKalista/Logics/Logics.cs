@@ -171,25 +171,21 @@ namespace ExorKalista
                 !ObjectManager.Player.Spellbook.IsCastingSpell &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededEMana)
             {
-                if (((Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>() ||
-                    Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useemonsters").GetValue<bool>()) &&
-                        ObjectManager.Get<Obj_AI_Minion>()
-                        .Count(
-                            x =>
-                                Bools.IsPerfectRendTarget(x) &&
-                                Bools.IsKillableByRend(x)) >= (Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>() ? 2 : 1)) ||
-
-                    (Targets.ETarget != null &&
-                        Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useeharass").GetValue<bool>() &&
-                        Variables.Menu.Item($"{Variables.MainMenuName}.esettings.ewhitelist.{Targets.ETarget.ChampionName.ToLower()}").GetValue<bool>() &&
-
-                        GameObjects.EnemyMinions
-                        .Count(
-                            x =>
-                                Bools.IsPerfectRendTarget(x) &&
-                                Bools.IsKillableByRend(x)) >= 1))
+                if (Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>() ||
+                    Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useemonsters").GetValue<bool>() ||
+                    (Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useeharass").GetValue<bool>() &&
+                        Variables.Menu.Item($"{Variables.MainMenuName}.esettings.ewhitelist.{Targets.ETarget.FirstOrDefault().ChampionName.ToLower()}").GetValue<bool>()))
                 {
-                    Variables.E.Cast();
+                    if (ObjectManager.Get<Obj_AI_Minion>()
+                        .Count(
+                            x =>
+                                Bools.IsPerfectRendTarget(x) &&
+                                Bools.IsKillableByRend(x)) >=
+                                    (Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>() &&
+                                    !GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget()) ? 2 : 1))
+                    {
+                        Variables.E.Cast();
+                    }
                 }
             }
         }

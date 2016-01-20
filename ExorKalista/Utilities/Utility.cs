@@ -138,13 +138,12 @@ namespace ExorKalista
         /// <summary>
         /// The hero targets with E stacks on them.
         /// </summary>
-        public static Obj_AI_Hero ETarget
+        public static IEnumerable<Obj_AI_Hero> ETarget
         =>
             ObjectManager.Get<Obj_AI_Hero>()
                 .Where(
                     h =>
-                        Bools.IsPerfectRendTarget(h))
-                .FirstOrDefault();
+                        Bools.IsPerfectRendTarget(h));
 
         /// <summary>
         /// The minion targets.
