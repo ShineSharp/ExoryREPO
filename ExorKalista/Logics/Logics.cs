@@ -60,7 +60,7 @@ namespace ExorKalista
                     ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqautoharass").GetValue<bool>()) ||
 
-                (Targets.Target.Health <= ObjectManager.Player.CalcDamage(Targets.Target, Damage.DamageType.Physical, Variables.Q.GetDamage(Targets.Target)) &&
+                (Targets.Target.Health < ObjectManager.Player.CalcDamage(Targets.Target, Damage.DamageType.Physical, Variables.Q.GetDamage(Targets.Target)) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqks").GetValue<bool>()) ||
 
                 (Bools.IsImmobile(Targets.Target) &&
@@ -153,9 +153,7 @@ namespace ExorKalista
                 if (Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit > 2 &&
                     Targets.Minions
                     .Count(
-                        m => 
-                            m != null &&
-                            m.IsValidTarget(Variables.Q.Range) &&
+                        m =>
                             m.Health < ObjectManager.Player.CalcDamage(m, Damage.DamageType.Physical, Variables.Q.GetDamage(m))) > 2)
                 {
                     Variables.Q.Cast(Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).Position);
@@ -169,19 +167,24 @@ namespace ExorKalista
             /// </summary>
             if (Variables.E.IsReady() &&
                 !ObjectManager.Player.IsDashing() &&
-                ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
+                ObjectManager.Player.ManaPercent > ManaManager.NeededEMana)
+            {
+                if ((Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>() &&
+                        GameObjects.EnemyMinions
+                        .Count(
+                            x =>
+                                Bools.IsPerfectRendTarget(x) &&
+                                Bools.IsKillableByRend(x)) >= (Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>() ? 2 : 1)) ||
 
-                (Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>() ||
-                    Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useemonsters").GetValue<bool>() ||
                     (Targets.ETarget != null &&
                         Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useeharass").GetValue<bool>() &&
-                        Variables.Menu.Item($"{Variables.MainMenuName}.esettings.ewhitelist.{Targets.ETarget.ChampionName.ToLower()}").GetValue<bool>())))
-            {
-                if (GameObjects.Enemy
-                    .Count(
-                        x =>
-                            Bools.IsPerfectRendTarget(x) &&
-                            Bools.IsKillableByRend(x)) >= (Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>() ? 2 : 1))
+                        Variables.Menu.Item($"{Variables.MainMenuName}.esettings.ewhitelist.{Targets.ETarget.ChampionName.ToLower()}").GetValue<bool>() &&
+
+                        GameObjects.Jungle
+                        .Count(
+                            x =>
+                                Bools.IsPerfectRendTarget(x) &&
+                                Bools.IsKillableByRend(x)) >= 1))
                 {
                     Variables.E.Cast();
                 }
