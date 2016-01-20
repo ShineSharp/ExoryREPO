@@ -47,7 +47,7 @@ namespace AsunaTumbler
 
                 if (Variables.Menu.Item($"{Variables.MainMenuName}.walltumbler.executewalltumble").GetValue<KeyBind>().Active)
                 {
-                    if (ObjectManager.Player.Distance(walkPos) > 50)
+                    if (ObjectManager.Player.Distance(walkPos) > 50 || ObjectManager.Player.Distance(walkPos) < 15)
                     {
                         ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, walkPos.To3D());
                         return;
@@ -57,7 +57,7 @@ namespace AsunaTumbler
                 if (Variables.Menu.Item($"{Variables.MainMenuName}.walltumbler.executewalltumble").GetValue<KeyBind>().Active ||
                     Variables.Menu.Item($"{Variables.MainMenuName}.walltumbler.enableonclickwalltumble").GetValue<bool>())
                 {
-                    if (ObjectManager.Player.Distance(walkPos) < 15 &&
+                    if (ObjectManager.Player.Distance(walkPos) < 10 &&
                         !ObjectManager.Player.IsMoving)
                     {
                         Variables.Q.Cast(selectedPos.To3D());
