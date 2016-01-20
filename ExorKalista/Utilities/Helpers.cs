@@ -103,7 +103,8 @@ namespace ExorKalista
                             h.IsHPBarRendered &&
                             h.HasBuff("kalistaexpungemarker")))
                     {
-                        if (unit is Obj_AI_Minion)
+                        if (unit is Obj_AI_Minion &&
+                            Variables.JungleHpBarOffsetList.FirstOrDefault(x => x.BaseSkinName.Equals(unit.CharData.BaseSkinName)) != null)
                         {
                             Variables.Width = Variables.JungleHpBarOffsetList.FirstOrDefault(x => x.BaseSkinName.Equals(unit.CharData.BaseSkinName)).Width;
                             Variables.Height = Variables.JungleHpBarOffsetList.FirstOrDefault(x => x.BaseSkinName.Equals(unit.CharData.BaseSkinName)).Height;
