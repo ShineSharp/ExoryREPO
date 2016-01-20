@@ -101,17 +101,17 @@ namespace ExorKalista
                         .Where(
                             h => h.IsValid &&
                             h.IsHPBarRendered &&
-                            h.HasBuff("kalistaexpungemarker")))
+                            h.HasBuff("kalistaexpungemarker") &&
+                            GameObjects.Jungle.Contains(h)))
                     {
-                        if (unit is Obj_AI_Minion &&
-                            Variables.JungleHpBarOffsetList.FirstOrDefault(x => x.BaseSkinName.Equals(unit.CharData.BaseSkinName)) != null)
+                        if (Variables.JungleHpBarOffsetList.FirstOrDefault(x => x.BaseSkinName.Equals(unit.CharData.BaseSkinName)) != null)
                         {
                             Variables.Width = Variables.JungleHpBarOffsetList.FirstOrDefault(x => x.BaseSkinName.Equals(unit.CharData.BaseSkinName)).Width;
                             Variables.Height = Variables.JungleHpBarOffsetList.FirstOrDefault(x => x.BaseSkinName.Equals(unit.CharData.BaseSkinName)).Height;
                             Variables.XOffset = Variables.JungleHpBarOffsetList.FirstOrDefault(x => x.BaseSkinName.Equals(unit.CharData.BaseSkinName)).XOffset;
                             Variables.YOffset = Variables.JungleHpBarOffsetList.FirstOrDefault(x => x.BaseSkinName.Equals(unit.CharData.BaseSkinName)).YOffset;
                         }
-
+                        
                         var HPBar = unit.HPBarPosition;
                         {
                             HPBar.X += Variables.XOffset;
