@@ -87,49 +87,6 @@ namespace ExorKalista
         }
 
         /// <summary>
-        /// The enemy HP bar offset.
-        /// </summary>
-        private static readonly int XOffset = 10;
-        private static readonly int YOffset = 20;
-        private static readonly int Width = 103;
-        private static readonly int Height = 8;
-
-        /// <summary>
-        /// The jungle HP bar offset.
-        /// </summary>      
-        internal class JungleHpBarOffset
-        {
-            internal string BaseSkinName;
-            internal int Height;
-            internal int Width;
-            internal int XOffset;
-            internal int YOffset;
-        }
-
-        /// <summary>
-        /// The jungle HP bar offset list.
-        /// </summary>
-        internal static readonly List<JungleHpBarOffset> JungleHpBarOffsetList = new List<JungleHpBarOffset>
-        {
-            new JungleHpBarOffset{BaseSkinName = "SRU_Dragon", Width = 140, Height = 4, XOffset = 12, YOffset = 24},
-            new JungleHpBarOffset{BaseSkinName = "SRU_Baron", Width = 190, Height = 10, XOffset = 16, YOffset = 24},
-            new JungleHpBarOffset{BaseSkinName = "SRU_RiftHerald", Width = 139, Height = 6, XOffset = 12, YOffset = 22},
-            new JungleHpBarOffset{BaseSkinName = "SRU_Red", Width = 139, Height = 4, XOffset = 12, YOffset = 24},
-            new JungleHpBarOffset{BaseSkinName = "SRU_RedMini", Width = 49, Height = 2, XOffset = 1, YOffset = 5},
-            new JungleHpBarOffset{BaseSkinName = "SRU_Blue", Width = 139, Height = 4, XOffset = 12, YOffset = 24},
-            new JungleHpBarOffset{BaseSkinName = "SRU_BlueMini", Width = 49, Height = 2, XOffset = 1, YOffset = 5},
-            new JungleHpBarOffset{BaseSkinName = "SRU_BlueMini2", Width = 49, Height = 2, XOffset = 1, YOffset = 5},
-            new JungleHpBarOffset{BaseSkinName = "SRU_Gromp", Width = 86, Height = 2, XOffset = 1, YOffset = 7},
-            new JungleHpBarOffset{BaseSkinName = "Sru_Crab", Width = 61, Height = 2, XOffset = 1, YOffset = 5},
-            new JungleHpBarOffset{BaseSkinName = "SRU_Krug", Width = 79, Height = 2, XOffset = 1, YOffset = 7},
-            new JungleHpBarOffset{BaseSkinName = "SRU_KrugMini", Width = 55, Height = 2, XOffset = 1, YOffset = 5},
-            new JungleHpBarOffset{BaseSkinName = "SRU_Razorbeak", Width = 74, Height = 2, XOffset = 1, YOffset = 7},
-            new JungleHpBarOffset{BaseSkinName = "SRU_RazorbeakMini", Width = 49, Height = 2, XOffset = 1, YOffset = 5},
-            new JungleHpBarOffset{BaseSkinName = "SRU_Murkwolf", Width = 74, Height = 2, XOffset = 1, YOffset = 7},
-            new JungleHpBarOffset{BaseSkinName = "SRU_MurkwolfMini", Width = 55, Height = 2, XOffset = 1, YOffset = 5}
-        };
-
-        /// <summary>
         /// Loads the damage drawings.
         /// </summary>
         public static void LoadDamage()
@@ -144,7 +101,18 @@ namespace ExorKalista
                 .ForEach(
                     unit =>
                     {
-                        var mobOffset = JungleHpBarOffsetList.FirstOrDefault(x => x.BaseSkinName == unit.CharData.BaseSkinName);
+                        /// <summary>
+                        /// The enemy HP bar offset.
+                        /// </summary>
+                        int XOffset = 10;
+                        int YOffset = 20;
+                        int Width = 103;
+                        int Height = 8;
+
+                        /// <summary>
+                        /// Defines what HPBar Offsets it should display.
+                        /// </summary>
+                        var mobOffset = Variables.JungleHpBarOffsetList.FirstOrDefault(x => x.BaseSkinName == unit.CharData.BaseSkinName);
                         var width = (float)mobOffset?.Width;
                         var height = (float)mobOffset?.Height;
                         var xOffset = (float)mobOffset?.XOffset;
