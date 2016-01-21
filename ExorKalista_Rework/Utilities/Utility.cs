@@ -77,7 +77,7 @@ namespace ExorKalista
                         Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.useefarm", "Use E FarmHelper + LaneClear")).SetValue(true);
                         Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.esettings.useeharass", "Use E to Minion->Harass")).SetValue(true);
                         {
-                            Variables.WhiteListMenu = new Menu("Minion->Harass Whitelist Menu", $"{Variables.MainMenuName}.esettings.ewhitelist");
+                            Variables.WhiteListMenu = new Menu("Minion->Harass Whitelist Menu", $"{Variables.MainMenuName}.esettings.ewhitelistmenu");
                             {
                                 foreach (Obj_AI_Hero champ in HeroManager.Enemies)
                                 {
@@ -138,7 +138,7 @@ namespace ExorKalista
         /// <summary>
         /// The hero targets with E stacks on them.
         /// </summary>
-        public static IEnumerable<Obj_AI_Hero> ETarget
+        public static IEnumerable<Obj_AI_Hero> HarassableTargets
         =>
             ObjectManager.Get<Obj_AI_Hero>()
                 .Where(

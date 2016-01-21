@@ -151,7 +151,10 @@ namespace ExorKalista
                     .Count(
                         x =>
                             Bools.IsPerfectRendTarget(x) &&
-                            Bools.IsKillableByRend(x)) >= (Targets.ETarget.Any() ? 1 : 2))
+                            Bools.IsKillableByRend(x)) >= 
+                                (Targets.HarassableTargets.Count() > 1 ||
+                                    Variables.Menu.Item($"{Variables.MainMenuName}.esettings.ewhitelist.{(Targets.HarassableTargets.FirstOrDefault()).ChampionName.ToLower()}").GetValue<bool>() ?
+                                        1 : 2))
                 {
                     Variables.E.Cast();
                 }
