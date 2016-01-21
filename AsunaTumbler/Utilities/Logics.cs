@@ -32,36 +32,52 @@ namespace AsunaTumbler
             /// <summary>
             /// The WallTumble Logic.
             /// </summary>
-            if (Variables.Q.IsReady())
+            if (Variables.Q.IsReady() &&
+
+                (Variables.Menu.Item($"{Variables.MainMenuName}.walltumbler.executewalltumble").GetValue<KeyBind>().Active ||
+                    Variables.Menu.Item($"{Variables.MainMenuName}.walltumbler.enableonclickwalltumble").GetValue<bool>()))
             {
-                var selectedPos =
-                    ObjectManager.Player.Distance(new Vector2(11510, 4460)) <
-                    ObjectManager.Player.Distance(new Vector2(6667, 8794)) ?
-                        new Vector2(11510, 4460) :
-                        new Vector2(6667, 8794);
-
-                var walkPos = 
-                    ObjectManager.Player.Distance(new Vector2(11510, 4460)) <
-                    ObjectManager.Player.Distance(new Vector2(6667, 8794)) ?
-                        new Vector2(12050, 4827) :
-                        new Vector2(6962, 8952);
-
-                if (Variables.Menu.Item($"{Variables.MainMenuName}.walltumbler.executewalltumble").GetValue<KeyBind>().Active)
+                if (ObjectManager.Player.Distance(new Vector2(6667, 8794)) >=
+                    ObjectManager.Player.Distance(new Vector2(11514, 4462)))
                 {
-                    if (ObjectManager.Player.Distance(walkPos) > 50 || ObjectManager.Player.Distance(walkPos) < 15)
+
+                    if (ObjectManager.Player.Position.X < 12000 ||
+                        ObjectManager.Player.Position.X > 12070 ||
+                        ObjectManager.Player.Position.Y < 4800 ||
+                        ObjectManager.Player.Position.Y > 4872)
                     {
-                        ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, walkPos.To3D());
-                        return;
+                        ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, new Vector2(12050, 4827).To3D());
+                    }
+                    else
+                    {
+                        ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, new Vector2(12050, 4827).To3D());
+                        LeagueSharp.Common.Utility.DelayAction.Add((int)(106 + Game.Ping / 2f),
+                            () =>
+                            {
+                                Variables.Q.Cast(new Vector2(11514, 4462));
+                            }
+                        );
                     }
                 }
-
-                if (Variables.Menu.Item($"{Variables.MainMenuName}.walltumbler.executewalltumble").GetValue<KeyBind>().Active ||
-                    Variables.Menu.Item($"{Variables.MainMenuName}.walltumbler.enableonclickwalltumble").GetValue<bool>())
+                else
                 {
-                    if (ObjectManager.Player.Distance(walkPos) < 10 &&
-                        !ObjectManager.Player.IsMoving)
+                    if (ObjectManager.Player.Position.X < 6908 ||
+                        ObjectManager.Player.Position.X > 6978 ||
+                        ObjectManager.Player.Position.Y < 8917 ||
+                        ObjectManager.Player.Position.Y > 8989)
                     {
-                        Variables.Q.Cast(selectedPos.To3D());
+                        ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, new Vector2(6962, 8952).To3D());
+                    }
+                    else
+                    {
+                        ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, new Vector2(6962, 8952).To3D());
+                        LeagueSharp.Common.Utility.DelayAction.Add((int)(106 + Game.Ping / 2f),
+                            () =>
+                            {
+                                Variables.Q.Cast(new Vector2(6667, 8794));
+
+                            }
+                        );
                     }
                 }
             }
