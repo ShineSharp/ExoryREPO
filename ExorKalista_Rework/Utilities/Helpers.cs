@@ -145,22 +145,18 @@ namespace ExorKalista
                     unit =>
                     {
                         var mobOffset = JungleHpBarOffsetList.FirstOrDefault(x => x.BaseSkinName == unit.CharData.BaseSkinName);
-                        var width = (float)(unit.IsChampion() ? Width : mobOffset?.Width);
-                        var height = (float)(unit.IsChampion() ? Height : mobOffset?.Height);
-                        var xOffset = (float)(unit.IsChampion() ? XOffset : mobOffset?.XOffset);
-                        var yOffset = (float)(unit.IsChampion() ? YOffset : mobOffset?.YOffset);
+                        var width = (float)mobOffset?.Width;
+                        var height = (float)mobOffset?.Height;
+                        var xOffset = (float)mobOffset?.XOffset;
+                        var yOffset = (float)mobOffset?.YOffset;
 
                         var barPos = unit.HPBarPosition;
                         barPos.X += xOffset;
                         barPos.Y += yOffset;
 
-                        var drawStartXPos = barPos.X + width * (((unit.Health - DamageManager.GetPerfectRendDamage(unit)) / unit.MaxHealth * 100) / 100);
                         var drawEndXPos = barPos.X + width * (unit.HealthPercent / 100);
-
-                        if (unit.Health < DamageManager.GetPerfectRendDamage(unit))
-                        {
-                            drawStartXPos = barPos.X;
-                        }
+                        var drawStartXPos = barPos.X + (unit.Health > DamageManager.GetPerfectRendDamage(unit) ?
+                            width * (((unit.Health - DamageManager.GetPerfectRendDamage(unit)) / unit.MaxHealth * 100) / 100) : 0);
 
                         Drawing.DrawLine(drawStartXPos, barPos.Y, drawEndXPos, barPos.Y, height, Bools.IsKillableByRend(unit) ? Color.Blue : Color.Orange);
                         Drawing.DrawLine(drawStartXPos, barPos.Y, drawStartXPos, barPos.Y + height + 1, 1, Color.Lime);
