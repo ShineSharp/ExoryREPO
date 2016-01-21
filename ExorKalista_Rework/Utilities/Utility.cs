@@ -140,7 +140,7 @@ namespace ExorKalista
         /// </summary>
         public static IEnumerable<Obj_AI_Hero> HarassableTargets
         =>
-            ObjectManager.Get<Obj_AI_Hero>()
+            HeroManager.Enemies
                 .Where(
                     h =>
                         Bools.IsPerfectRendTarget(h));
@@ -150,10 +150,6 @@ namespace ExorKalista
         /// </summary>
         public static List<Obj_AI_Base> Minions
         => 
-            MinionManager.GetMinions(
-                Variables.E.Range,
-                MinionTypes.All,
-                MinionTeam.Enemy
-            );
+            MinionManager.GetMinions(Variables.E.Range);
     }
 }
