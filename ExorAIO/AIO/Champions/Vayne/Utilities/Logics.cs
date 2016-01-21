@@ -65,7 +65,6 @@ namespace ExorAIO.Champions.Vayne
                         {
                             Variables.E.CastOnUnit(Targets.Target);
                         }
-                        break;
                     }
                 }
 
@@ -110,7 +109,10 @@ namespace ExorAIO.Champions.Vayne
             if (Variables.Q.IsReady() &&
 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>()))
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>()) &&
+
+                (((Obj_AI_Hero)target).GetBuffCount("vaynesilvereddebuff") == 1 ||
+                    !Variables.Menu.Item($"{Variables.MainMenuName}.miscsettings.q2wstacks").GetValue<bool>()))
             {
                 Utility.DelayAction.Add(
                     (int)(Game.Ping / 2f + 25), // BroScience? Pls check The Orbwalking.CanAttack method fgt.
@@ -135,7 +137,10 @@ namespace ExorAIO.Champions.Vayne
             if (Variables.Q.IsReady() &&
 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>()))
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>()) &&
+
+                (((Obj_AI_Hero)args.Target).GetBuffCount("vaynesilvereddebuff") == 1 ||
+                    !Variables.Menu.Item($"{Variables.MainMenuName}.miscsettings.q2wstacks").GetValue<bool>()))
             {
                 Variables.Q.Cast(Game.CursorPos);
             }

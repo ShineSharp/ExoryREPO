@@ -68,6 +68,7 @@ namespace ExorAIO.Champions.Vayne
 
             Variables.MiscMenu = new Menu("Miscellaneous Menu", $"{Variables.MainMenuName}.miscsettingsmenu");
             {
+                Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.miscsettings.q2wstacks", "Use Q Only if Target has 2W Stacks")).SetValue(false);
                 Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.miscsettings.usebetaq", "Use Beta Q Reset")).SetValue(false);
                 Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.miscsettings.noaastealth", "Use Don't AA when Stealthed Logic")).SetValue(false);
             }
