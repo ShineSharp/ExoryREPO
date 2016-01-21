@@ -95,14 +95,16 @@ namespace ExorKalista
             {
                 ObjectManager.Get<Obj_AI_Base>().Where(
                     h =>
+                        !h.IsMe &&
                         h.IsValid() &&
                         h.IsHPBarRendered &&
-                        DamageManager.GetPerfectRendDamage(h) > 0)
+                        !h.CharData.BaseSkinName.Contains("Minion") &&
+                        h.GetBuffCount("kalistaexpungemarker") > 0)
                 .ForEach(
                     unit =>
                     {
                         /// <summary>
-                        /// The enemy HP bar offset.
+                        /// The default enemy HP bar offset.
                         /// </summary>
                         int XOffset = 10;
                         int YOffset = 20;
@@ -110,13 +112,31 @@ namespace ExorKalista
                         int Height = 8;
 
                         /// <summary>
+                        /// The Dynamic offsets.
+                        /// </summary>
+                        int width;
+                        int height;
+                        int xOffset;
+                        int yOffset;
+                        
+                        /// <summary>
                         /// Defines what HPBar Offsets it should display.
                         /// </summary>
                         var mobOffset = Variables.JungleHpBarOffsetList.FirstOrDefault(x => x.BaseSkinName == unit.CharData.BaseSkinName);
-                        var width = (float)mobOffset?.Width;
-                        var height = (float)mobOffset?.Height;
-                        var xOffset = (float)mobOffset?.XOffset;
-                        var yOffset = (float)mobOffset?.YOffset;
+                        if (mobOffset != null)
+                        {
+                            width = mobOffset.Width;
+                            height = mobOffset.Height;
+                            xOffset = mobOffset.XOffset;
+                            yOffset = mobOffset.YOffset;
+                        }
+                        else
+                        {
+                            width = Width;
+                            height = Height;
+                            xOffset = XOffset;
+                            yOffset = YOffset;
+                        }
 
                         var barPos = unit.HPBarPosition;
                         barPos.X += xOffset;

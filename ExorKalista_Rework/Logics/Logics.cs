@@ -28,8 +28,7 @@ namespace ExorKalista
             /// The Q KillSteal Logic,
             /// The Q Immobile Harass Logic.
             /// </summary>
-            if (Targets.Target != null &&
-                Variables.Q.IsReady() &&
+            if (Variables.Q.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
                 Variables.Q.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
 
@@ -64,8 +63,7 @@ namespace ExorKalista
                 !ObjectManager.Player.Spellbook.IsCastingSpell &&
                 !ObjectManager.Player.IsDashing() &&
 
-                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useecombo").GetValue<bool>()))
+                Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useecombo").GetValue<bool>())
             {
                 foreach (var unit in HeroManager.Enemies
                     .Where(
@@ -123,7 +121,8 @@ namespace ExorKalista
             /// The Q Farm Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
-                
+                Variables.Orbwalker.GetTarget().IsValid<Obj_AI_Minion>() &&
+
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                     ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>()))
@@ -143,8 +142,10 @@ namespace ExorKalista
             /// The E Harass Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
-                ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>())
+                Variables.Orbwalker.GetTarget().IsValid<Obj_AI_Minion>() &&
+
+                (ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>()))
             {
                 if (Targets.Minions
                     .Count(
@@ -160,12 +161,14 @@ namespace ExorKalista
             /// The E against Monsters Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
+                Variables.Orbwalker.GetTarget().IsValid<Obj_AI_Minion>() &&
+                
                 Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useemonsters").GetValue<bool>())
             {
                 foreach (var miniontarget in GameObjects.Jungle
                     .Where(
                         m =>
-                            !m.CharData.BaseSkinName.Contains("Mini") &&
+                            (!m.CharData.BaseSkinName.Contains("Mini") || !m.CharData.BaseSkinName.Contains("Crab")) &&
                             Bools.IsPerfectRendTarget(m) &&
                             Bools.IsKillableByRend(m)))
                 {

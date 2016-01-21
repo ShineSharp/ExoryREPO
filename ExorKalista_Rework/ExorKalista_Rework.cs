@@ -58,12 +58,7 @@ namespace ExorKalista
                 }
 
                 Logics.ExecuteAuto(args);
-
-                if (Variables.Orbwalker.GetTarget().IsValid<Obj_AI_Minion>())
-                {
-                    Logics.ExecuteFarm(args);
-                }
-
+                Logics.ExecuteFarm(args);
                 SentinelManager.ExecuteSentinels(args);
             }
         }
