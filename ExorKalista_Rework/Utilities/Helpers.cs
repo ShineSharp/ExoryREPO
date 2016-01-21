@@ -136,55 +136,36 @@ namespace ExorKalista
         {
             Drawing.OnDraw += delegate
             {
-                ObjectManager.Get<Obj_AI_Base>().Where(h => h.IsValid() && h.IsHPBarRendered).ForEach(unit =>
-                {
-                    int width, height, xOffset, yOffset;
-
-                    if (unit is Obj_AI_Hero)
-                    {
-                        width = Width;
-                        height = Height;
-                        xOffset = XOffset;
-                        yOffset = YOffset;
-                    }
-                    else
+                ObjectManager.Get<Obj_AI_Base>().Where(
+                    h =>
+                        h.IsValid() &&
+                        h.IsHPBarRendered &&
+                        DamageManager.GetPerfectRendDamage(h) > 0)
+                .ForEach(
+                    unit =>
                     {
                         var mobOffset = JungleHpBarOffsetList.FirstOrDefault(x => x.BaseSkinName == unit.CharData.BaseSkinName);
-                        if (mobOffset != null)
+                        var width = (float)(unit.IsChampion() ? Width : mobOffset?.Width);
+                        var height = (float)(unit.IsChampion() ? Height : mobOffset?.Height);
+                        var xOffset = (float)(unit.IsChampion() ? XOffset : mobOffset?.XOffset);
+                        var yOffset = (float)(unit.IsChampion() ? YOffset : mobOffset?.YOffset);
+
+                        var barPos = unit.HPBarPosition;
+                        barPos.X += xOffset;
+                        barPos.Y += yOffset;
+
+                        var drawStartXPos = barPos.X + width * (((unit.Health - DamageManager.GetPerfectRendDamage(unit)) / unit.MaxHealth * 100) / 100);
+                        var drawEndXPos = barPos.X + width * (unit.HealthPercent / 100);
+
+                        if (unit.Health < DamageManager.GetPerfectRendDamage(unit))
                         {
-                            width = mobOffset.Width;
-                            height = mobOffset.Height;
-                            xOffset = mobOffset.XOffset;
-                            yOffset = mobOffset.YOffset;
+                            drawStartXPos = barPos.X;
                         }
-                        else
-                        {
-                            return;
-                        }
+
+                        Drawing.DrawLine(drawStartXPos, barPos.Y, drawEndXPos, barPos.Y, height, Bools.IsKillableByRend(unit) ? Color.Blue : Color.Orange);
+                        Drawing.DrawLine(drawStartXPos, barPos.Y, drawStartXPos, barPos.Y + height + 1, 1, Color.Lime);
                     }
-
-                    if (DamageManager.GetPerfectRendDamage(unit) < 0)
-                    {
-                        return;
-                    }
-
-                    var barPos = unit.HPBarPosition;
-                    barPos.X += xOffset;
-                    barPos.Y += yOffset;
-
-                    var hpPercent = unit.HealthPercent;
-                    var hpPercentAfterDamage = (unit.Health - DamageManager.GetPerfectRendDamage(unit)) / unit.MaxHealth * 100;
-                    var drawStartXPos = barPos.X + width * (hpPercentAfterDamage / 100);
-                    var drawEndXPos = barPos.X + width * (hpPercent / 100);
-
-                    if (unit.Health < DamageManager.GetPerfectRendDamage(unit))
-                    {
-                        drawStartXPos = barPos.X;
-                    }
-
-                    Drawing.DrawLine(drawStartXPos, barPos.Y, drawEndXPos, barPos.Y, height, Color.FromArgb(170, Bools.IsKillableByRend(unit) ? Color.Blue : Color.Orange));
-                    Drawing.DrawLine(drawStartXPos, barPos.Y, drawStartXPos, barPos.Y + height + 1, 1, Color.Lime);
-                });
+                );
             };
         }
     }
