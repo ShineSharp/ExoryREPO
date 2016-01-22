@@ -73,6 +73,8 @@ namespace NabbActivator
             /// The Heal Logic.
             /// </summary>
             if (Bools.IsSpellAvailable(SpellSlots.Heal) &&
+                !ItemData.Face_of_the_Mountain.GetItem().IsReady() &&
+                !ItemData.Locket_of_the_Iron_Solari.GetItem().IsReady() &&
                 (ObjectManager.Player.CountEnemiesInRange(850f) > 0 || Targets.Ally.CountEnemiesInRange(850f) > 0) &&
                 (HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(250 + Game.Ping / 2f)) <= ObjectManager.Player.MaxHealth/6 ||
                     HealthPrediction.GetHealthPrediction(Targets.Ally, (int)(250 + Game.Ping / 2f)) <= Targets.Ally.MaxHealth/6))
@@ -85,9 +87,9 @@ namespace NabbActivator
             /// The Ignite Logic.
             /// </summary>
             if (Bools.IsSpellAvailable(SpellSlots.Ignite) &&
-                Targets.Target != null &&
                 Targets.Target.IsValidTarget(600f) &&
-                ObjectManager.Player.GetSummonerSpellDamage(Targets.Target, Damage.SummonerSpell.Ignite) > Targets.Target.Health)
+                (ObjectManager.Player.GetSummonerSpellDamage(Targets.Target, Damage.SummonerSpell.Ignite) > Targets.Target.Health ||
+                    HealthPrediction.GetHealthPrediction(Targets.Target, (int)(750 + Game.Ping / 2f)) <= 0))
             {
                 ObjectManager.Player.Spellbook.CastSpell(SpellSlots.Ignite, Targets.Target);
             }
