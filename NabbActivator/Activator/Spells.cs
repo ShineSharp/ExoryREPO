@@ -58,6 +58,25 @@ namespace NabbActivator
             }
 
             /// <summary>
+            /// The Heal Logic.
+            /// </summary>
+            if (Bools.IsSpellAvailable(SpellSlots.Heal) &&
+                !ItemData.Face_of_the_Mountain.GetItem().IsReady() &&
+                !ItemData.Locket_of_the_Iron_Solari.GetItem().IsReady())
+            {
+                if ((ObjectManager.Player.CountEnemiesInRange(850f) > 0 &&
+                    HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(250 + Game.Ping / 2f)) <= ObjectManager.Player.MaxHealth/6) ||
+
+                    (Targets.Ally.IsValidTarget(850f, false) &&
+                        Targets.Ally.CountEnemiesInRange(850f) > 0 &&
+                        HealthPrediction.GetHealthPrediction(Targets.Ally, (int)(250 + Game.Ping / 2f)) <= Targets.Ally.MaxHealth/6))
+                {
+                    ObjectManager.Player.Spellbook.CastSpell(SpellSlots.Heal);
+                    return;
+                }
+            }
+
+            /// <summary>
             /// The Exhaust Logic.
             /// </summary>
             if (Bools.IsSpellAvailable(SpellSlots.Exhaust) &&
@@ -67,20 +86,6 @@ namespace NabbActivator
                     HealthPrediction.GetHealthPrediction(Targets.Ally, (int)(250 + Game.Ping / 2f)) <= Targets.Ally.MaxHealth/6))
             {
                 ObjectManager.Player.Spellbook.CastSpell(SpellSlots.Exhaust, Targets.Target);
-            }
-
-            /// <summary>
-            /// The Heal Logic.
-            /// </summary>
-            if (Bools.IsSpellAvailable(SpellSlots.Heal) &&
-                !ItemData.Face_of_the_Mountain.GetItem().IsReady() &&
-                !ItemData.Locket_of_the_Iron_Solari.GetItem().IsReady() &&
-                (ObjectManager.Player.CountEnemiesInRange(850f) > 0 || Targets.Ally.CountEnemiesInRange(850f) > 0) &&
-                (HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(250 + Game.Ping / 2f)) <= ObjectManager.Player.MaxHealth/6 ||
-                    HealthPrediction.GetHealthPrediction(Targets.Ally, (int)(250 + Game.Ping / 2f)) <= Targets.Ally.MaxHealth/6))
-            {
-                ObjectManager.Player.Spellbook.CastSpell(SpellSlots.Heal);
-                return;
             }
 
             /// <summary>

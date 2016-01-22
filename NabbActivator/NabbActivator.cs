@@ -29,8 +29,6 @@
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void Game_OnGameUpdate(EventArgs args)
         {
-            Console.WriteLine(HealthPrediction.GetHealthPrediction(Targets.Ally, (int)(250 + Game.Ping/2f)));
-            
             if (ObjectManager.Player.IsDead)
             {
                 return;
