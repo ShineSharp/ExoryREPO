@@ -42,7 +42,6 @@ namespace NabbActivator
                         () => 
                         {
                             ObjectManager.Player.Spellbook.CastSpell(SpellSlots.Cleanse);
-                            return;
                         }
                     );
                 }
@@ -52,7 +51,7 @@ namespace NabbActivator
             /// The Clarity logic.
             /// </summary>
             if (Bools.IsSpellAvailable(SpellSlots.Clarity) &&
-                ObjectManager.Player.ManaPercent <= 40)
+                ObjectManager.Player.ManaPercent <= 20)
             {
                 ObjectManager.Player.Spellbook.CastSpell(SpellSlots.Clarity);
             }
@@ -78,6 +77,35 @@ namespace NabbActivator
                 ObjectManager.Player.GetSummonerSpellDamage(Targets.Target, Damage.SummonerSpell.Ignite) > Targets.Target.Health)
             {
                 ObjectManager.Player.Spellbook.CastSpell(SpellSlots.Ignite, Targets.Target);
+            }
+
+            /// <summary>
+            /// The Barrier Logic.
+            /// </summary>
+            if (Bools.IsSpellAvailable(SpellSlots.Barrier) &&
+                HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(250 + Game.Ping / 2f)) <= ObjectManager.Player.MaxHealth/6)
+            {
+                ObjectManager.Player.Spellbook.CastSpell(SpellSlots.Barrier);
+            }
+
+            /// <summary>
+            /// The Heal Logic.
+            /// </summary>
+            if (Bools.IsSpellAvailable(SpellSlots.Heal) &&
+                (HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(250 + Game.Ping / 2f)) <= ObjectManager.Player.MaxHealth/6 ||
+                    HealthPrediction.GetHealthPrediction(Targets.Ally, (int)(250 + Game.Ping / 2f)) <= Targets.Ally.MaxHealth/6))
+            {
+                ObjectManager.Player.Spellbook.CastSpell(SpellSlots.Heal, Targets.Ally);
+            }
+
+            /// <summary>
+            /// The Exhaust Logic.
+            /// </summary>
+            if (Bools.IsSpellAvailable(SpellSlots.Exhaust) &&
+                (HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(250 + Game.Ping / 2f)) <= ObjectManager.Player.MaxHealth/6 ||
+                    HealthPrediction.GetHealthPrediction(Targets.Ally, (int)(250 + Game.Ping / 2f)) <= Targets.Ally.MaxHealth/6))
+            {
+                ObjectManager.Player.Spellbook.CastSpell(SpellSlots.Exhaust, Targets.Target);
             }
         }
     }

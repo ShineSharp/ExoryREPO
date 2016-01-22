@@ -24,7 +24,6 @@ namespace NabbActivator
             /// The Frost Queen's Claim.
             /// </summary>
             if (ItemData.Frost_Queens_Claim.GetItem().IsReady() &&
-                Targets.Target != null &&
                 (Targets.Target.CountEnemiesInRange(1000f) < ObjectManager.Player.CountAlliesInRange(600f) ||
                 Targets.Target.CountEnemiesInRange(1000f) > ObjectManager.Player.CountAlliesInRange(600f)))
             {
@@ -35,7 +34,6 @@ namespace NabbActivator
             /// The Guardian's Horn.
             /// </summary>
             if (ItemData.Guardians_Horn.GetItem().IsReady() &&
-                Targets.Target != null &&
                 (Targets.Target.CountEnemiesInRange(1000f) < ObjectManager.Player.CountAlliesInRange(600f) ||
                 Targets.Target.CountEnemiesInRange(1000f) > ObjectManager.Player.CountAlliesInRange(600f)))
             {
@@ -54,8 +52,7 @@ namespace NabbActivator
             /// <summary>
             /// The Banner of Command.
             /// </summary> 
-            if (ItemData.Banner_of_Command.GetItem().IsReady() &&
-                Targets.banTarget != null)
+            if (ItemData.Banner_of_Command.GetItem().IsReady())
             {
                 ItemData.Banner_of_Command.GetItem().Cast(Targets.banTarget);
             }
@@ -64,7 +61,6 @@ namespace NabbActivator
             /// The Talisman of Ascension.
             /// </summary> 
             if (ItemData.Talisman_of_Ascension.GetItem().IsReady() &&
-                Targets.Target != null &&
                 (Targets.Target.CountEnemiesInRange(1000f) < ObjectManager.Player.CountAlliesInRange(600f) ||
                 Targets.Target.CountEnemiesInRange(1000f) > ObjectManager.Player.CountAlliesInRange(600f)))
             {
@@ -102,7 +98,6 @@ namespace NabbActivator
             /// The Locket of the Iron Solari.
             /// </summary>             
             if (ItemData.Locket_of_the_Iron_Solari.GetItem().IsReady() &&
-                Targets.Target != null &&
                 (Targets.Target.CountEnemiesInRange(1000f) < ObjectManager.Player.CountAlliesInRange(600f) ||
                 Targets.Target.CountEnemiesInRange(1000f) > ObjectManager.Player.CountAlliesInRange(600f)))
             {
@@ -113,7 +108,6 @@ namespace NabbActivator
             /// The Righteous Glory.
             /// </summary>             
             if (ItemData.Righteous_Glory.GetItem().IsReady() &&
-                Targets.Target != null &&
                 (Targets.Target.CountEnemiesInRange(1000f) < ObjectManager.Player.CountAlliesInRange(600f) ||
                 Targets.Target.CountEnemiesInRange(1000f) > ObjectManager.Player.CountAlliesInRange(600f)))
             {
@@ -123,17 +117,11 @@ namespace NabbActivator
             /// <summary>
             /// The Face of the Mountain
             /// </summary>
-            if (ItemData.Face_of_the_Mountain.GetItem().IsReady())
+            if (ItemData.Face_of_the_Mountain.GetItem().IsReady() &&
+                Targets.Ally.IsValidTarget(750f, false) &&
+                HealthPrediction.GetHealthPrediction(Targets.Ally, (int)(250 + Game.Ping / 2f)) <= Targets.Ally.MaxHealth/4)
             {
-                foreach (var ally in HeroManager.Allies
-                    .Where(
-                        h =>
-                            h.IsValidTarget(750f, false) &&
-                            HealthPrediction.GetHealthPrediction(h, (int)(250 + Game.Ping / 2f)) <= h.MaxHealth/4 &&
-                            Bools.HasNoProtection(h)))
-                {
-                    ItemData.Face_of_the_Mountain.GetItem().Cast(ally);
-                }
+                ItemData.Face_of_the_Mountain.GetItem().Cast(Targets.Ally);
             }
         }
     }

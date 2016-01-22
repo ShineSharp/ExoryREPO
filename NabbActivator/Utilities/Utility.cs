@@ -70,18 +70,29 @@ namespace NabbActivator
         /// <summary>
         /// The main hero target.
         /// </summary>
-        public static Obj_AI_Hero Target => TargetSelector.GetTarget(850f, TargetSelector.DamageType.Physical);
+        public static Obj_AI_Hero Target
+        =>
+            HeroManager.Enemies.Find(e => e.IsValidTarget(850f) && Bools.HasNoProtection(e));
+
+        /// <summary>
+        /// The main hero target.
+        /// </summary>
+        public static Obj_AI_Hero Ally
+        =>
+            HeroManager.Allies.Find(a => a.IsValidTarget(850f, false) && Bools.HasNoProtection(a));
 
         /// <summary>
         /// The minion targets.
         /// </summary>
-        public static Obj_AI_Minion banTarget
+        public static Obj_AI_Base banTarget
         =>
-            ObjectManager.Get<Obj_AI_Minion>()
-                .Where(
-                    x =>
-                        x.IsValidTarget(1200f, false) &&
-                        x.CharData.BaseSkinName.Contains("siege"))
-                .FirstOrDefault();
+            MinionManager.GetMinions(
+                ObjectManager.Player.ServerPosition,
+                1200f,
+                MinionTypes.Ranged,
+                MinionTeam.Ally,
+                MinionOrderTypes.MaxHealth
+            )
+            .FirstOrDefault();
     }
 }
