@@ -112,31 +112,14 @@ namespace ExorKalista
                         int Height = 8;
 
                         /// <summary>
-                        /// The Dynamic offsets.
-                        /// </summary>
-                        int width;
-                        int height;
-                        int xOffset;
-                        int yOffset;
-                        
-                        /// <summary>
                         /// Defines what HPBar Offsets it should display.
                         /// </summary>
                         var mobOffset = Variables.JungleHpBarOffsetList.FirstOrDefault(x => x.BaseSkinName == unit.CharData.BaseSkinName);
-                        if (mobOffset != null)
-                        {
-                            width = mobOffset.Width;
-                            height = mobOffset.Height;
-                            xOffset = mobOffset.XOffset;
-                            yOffset = mobOffset.YOffset;
-                        }
-                        else
-                        {
-                            width = Width;
-                            height = Height;
-                            xOffset = XOffset;
-                            yOffset = YOffset;
-                        }
+
+                        var width = (int)(unit.Type == GameObjectType.obj_AI_Minion ? mobOffset.Width : Width);
+                        var height = (int)(unit.Type == GameObjectType.obj_AI_Minion ? mobOffset.Height : Height);
+                        var xOffset = (int)(unit.Type == GameObjectType.obj_AI_Minion ? mobOffset.XOffset : XOffset);
+                        var yOffset = (int)(unit.Type == GameObjectType.obj_AI_Minion ? mobOffset.YOffset : YOffset);
 
                         var barPos = unit.HPBarPosition;
                         barPos.X += xOffset;
