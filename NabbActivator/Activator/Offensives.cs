@@ -81,7 +81,7 @@ namespace NabbActivator
             /// The Odyn's Veil.
             /// </summary>  
             if (ItemData.Odyns_Veil.GetItem().IsReady() &&
-                HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(500 + Game.Ping / 2f)) <= ObjectManager.Player.MaxHealth - 300)
+                HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(250 + Game.Ping / 2f)) <= ObjectManager.Player.MaxHealth - 300)
             {
                 ItemData.Odyns_Veil.GetItem().Cast();
             }

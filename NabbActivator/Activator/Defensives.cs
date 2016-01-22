@@ -21,6 +21,70 @@ namespace NabbActivator
         public static void Execute(EventArgs args)
         {
             /// <summary>
+            /// The Face of the Mountain
+            /// </summary>
+            if (ItemData.Face_of_the_Mountain.GetItem().IsReady() &&
+                Targets.Ally.IsValidTarget(750f, false) &&
+                HealthPrediction.GetHealthPrediction(Targets.Ally, (int)(250 + Game.Ping / 2f)) <= Targets.Ally.MaxHealth/4)
+            {
+                ItemData.Face_of_the_Mountain.GetItem().Cast(Targets.Ally);
+                return;
+            }
+
+            /// <summary>
+            /// The Locket of the Iron Solari.
+            /// </summary>             
+            if (ItemData.Locket_of_the_Iron_Solari.GetItem().IsReady() &&
+                Targets.Ally.IsValidTarget(600f, false) &&
+                (HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(250 + Game.Ping / 2f)) <= ObjectManager.Player.MaxHealth/1.5 ||
+                    HealthPrediction.GetHealthPrediction(Targets.Ally, (int)(250 + Game.Ping / 2f)) <= Targets.Ally.MaxHealth/1.5))
+            {
+                ItemData.Locket_of_the_Iron_Solari.GetItem().Cast();
+                return;
+            }
+
+            /// <summary>
+            /// The Seraph's Embrace.
+            /// </summary>    
+            if (ItemData.Seraphs_Embrace.GetItem().IsReady() &&
+                HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(250 + Game.Ping / 2f)) <= ObjectManager.Player.MaxHealth/4)
+            {
+                ItemData.Seraphs_Embrace.GetItem().Cast();
+                return;
+            }
+
+            /// <summary>
+            /// The Zhonya's Hourglass.
+            /// </summary>             
+            if (ItemData.Zhonyas_Hourglass.GetItem().IsReady() &&
+                HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(250 + Game.Ping / 2f)) <= ObjectManager.Player.MaxHealth/4)
+            {
+                ItemData.Zhonyas_Hourglass.GetItem().Cast();
+                return;
+            }
+
+            /// <summary>
+            /// The Wooglet's Witchcap.
+            /// </summary>             
+            if (ItemData.Wooglets_Witchcap.GetItem().IsReady() &&
+                HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(250 + Game.Ping / 2f)) <= ObjectManager.Player.MaxHealth/4)
+            {
+                ItemData.Wooglets_Witchcap.GetItem().Cast();
+                return;
+            }
+
+            /// <summary>
+            /// The Face of the Mountain
+            /// </summary>
+            if (ItemData.Face_of_the_Mountain.GetItem().IsReady() &&
+                Targets.Ally.IsValidTarget(750f, false) &&
+                HealthPrediction.GetHealthPrediction(Targets.Ally, (int)(250 + Game.Ping / 2f)) <= Targets.Ally.MaxHealth/4)
+            {
+                ItemData.Face_of_the_Mountain.GetItem().Cast(Targets.Ally);
+                return;
+            }
+
+            /// <summary>
             /// The Frost Queen's Claim.
             /// </summary>
             if (ItemData.Frost_Queens_Claim.GetItem().IsReady() &&
@@ -41,20 +105,11 @@ namespace NabbActivator
             }
 
             /// <summary>
-            /// The Seraph's Embrace.
-            /// </summary>    
-            if (ItemData.Seraphs_Embrace.GetItem().IsReady() &&
-                HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(250 + Game.Ping / 2f)) <= ObjectManager.Player.MaxHealth/4)
-            {
-                ItemData.Seraphs_Embrace.GetItem().Cast();
-            }
-
-            /// <summary>
             /// The Banner of Command.
             /// </summary> 
             if (ItemData.Banner_of_Command.GetItem().IsReady())
             {
-                ItemData.Banner_of_Command.GetItem().Cast(Targets.banTarget);
+                ItemData.Banner_of_Command.GetItem().Cast(Targets.Minion);
             }
 
             /// <summary>
@@ -68,60 +123,28 @@ namespace NabbActivator
             }
 
             /// <summary>
-            /// The Wooglet's Witchcap.
-            /// </summary>             
-            if (ItemData.Wooglets_Witchcap.GetItem().IsReady() &&
-                HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(250 + Game.Ping / 2f)) <= ObjectManager.Player.MaxHealth/4)
-            {
-                ItemData.Wooglets_Witchcap.GetItem().Cast();
-            }
-
-            /// <summary>
             /// The Randuin's Omen.
             /// </summary>             
             if (ItemData.Randuins_Omen.GetItem().IsReady() &&
-                ObjectManager.Player.CountEnemiesInRange(500f) > 1)
+                ObjectManager.Player.CountEnemiesInRange(500f) >= 2)
             {
                 ItemData.Randuins_Omen.GetItem().Cast();
             }
 
             /// <summary>
-            /// The Zhonya's Hourglass.
-            /// </summary>             
-            if (ItemData.Zhonyas_Hourglass.GetItem().IsReady() &&
-                HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(250 + Game.Ping / 2f)) <= ObjectManager.Player.MaxHealth/4)
-            {
-                ItemData.Zhonyas_Hourglass.GetItem().Cast();
-            }
-
-            /// <summary>
-            /// The Locket of the Iron Solari.
-            /// </summary>             
-            if (ItemData.Locket_of_the_Iron_Solari.GetItem().IsReady() &&
-                (Targets.Target.CountEnemiesInRange(1000f) < ObjectManager.Player.CountAlliesInRange(600f) ||
-                Targets.Target.CountEnemiesInRange(1000f) > ObjectManager.Player.CountAlliesInRange(600f)))
-            {
-                ItemData.Locket_of_the_Iron_Solari.GetItem().Cast();
-            }
-
-            /// <summary>
             /// The Righteous Glory.
             /// </summary>             
-            if (ItemData.Righteous_Glory.GetItem().IsReady() &&
-                (Targets.Target.CountEnemiesInRange(1000f) < ObjectManager.Player.CountAlliesInRange(600f) ||
-                Targets.Target.CountEnemiesInRange(1000f) > ObjectManager.Player.CountAlliesInRange(600f)))
+            if (ItemData.Righteous_Glory.GetItem().IsReady())
             {
-                ItemData.Righteous_Glory.GetItem().Cast();
-            }
+                if ((!ObjectManager.Player.HasBuff("ItemRighteousGlory") &&
+                    (Targets.Target.CountEnemiesInRange(1000f) < ObjectManager.Player.CountAlliesInRange(600f) ||
+                        Targets.Target.CountEnemiesInRange(1000f) > ObjectManager.Player.CountAlliesInRange(600f))) ||
 
-            /// <summary>
-            /// The Face of the Mountain
-            /// </summary>
-            if (ItemData.Face_of_the_Mountain.GetItem().IsReady() &&
-                Targets.Ally.IsValidTarget(750f, false) &&
-                HealthPrediction.GetHealthPrediction(Targets.Ally, (int)(250 + Game.Ping / 2f)) <= Targets.Ally.MaxHealth/4)
-            {
-                ItemData.Face_of_the_Mountain.GetItem().Cast(Targets.Ally);
+                    (ObjectManager.Player.HasBuff("ItemRighteousGlory") &&
+                        ObjectManager.Player.CountEnemiesInRange(450f) >= 2))
+                {
+                    ItemData.Righteous_Glory.GetItem().Cast();
+                }
             }
         }
     }

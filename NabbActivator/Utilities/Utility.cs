@@ -68,23 +68,25 @@ namespace NabbActivator
     public class Targets
     {
         /// <summary>
-        /// The main hero target.
+        /// The main enemy target.
         /// </summary>
         public static Obj_AI_Hero Target
         =>
-            HeroManager.Enemies.Find(e => e.IsValidTarget(850f) && Bools.HasNoProtection(e));
+            HeroManager.Enemies
+                .Find(e => Bools.HasNoProtection(e) && e.Distance(ObjectManager.Player) <= 1250f);
 
         /// <summary>
-        /// The main hero target.
+        /// The main ally target.
         /// </summary>
         public static Obj_AI_Hero Ally
         =>
-            HeroManager.Allies.Find(a => a.IsValidTarget(850f, false) && Bools.HasNoProtection(a));
+            HeroManager.Allies
+                .Find(a => !a.IsMe && Bools.HasNoProtection(a) && a.Distance(ObjectManager.Player) <= 850f);
 
         /// <summary>
-        /// The minion targets.
+        /// The main minion target.
         /// </summary>
-        public static Obj_AI_Base banTarget
+        public static Obj_AI_Base Minion
         =>
             MinionManager.GetMinions(
                 ObjectManager.Player.ServerPosition,
