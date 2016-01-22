@@ -63,7 +63,7 @@ namespace NabbActivator
             /// </summary>    
             if (ItemData.Blade_of_the_Ruined_King.GetItem().IsReady() &&
                 Targets.Target.IsValidTarget(550f) &&
-                ObjectManager.Player.HealthPercent <= 90)
+                (ObjectManager.Player.HealthPercent <= 90 || !Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target))))
             {
                 ItemData.Blade_of_the_Ruined_King.GetItem().Cast(Targets.Target);
             }
