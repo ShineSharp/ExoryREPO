@@ -90,13 +90,15 @@ namespace ExorAIO.Champions.Akali
         /// </summary>
         public static Obj_AI_Hero Target
         =>
-            TargetSelector.GetTarget(Variables.R.Range, LeagueSharp.DamageType.Magical);
+            TargetSelector
+                .GetTarget(Variables.R.Range, LeagueSharp.DamageType.Magical);
 
         /// <summary>
         /// The minion targets.
         /// </summary>
         public static List<Obj_AI_Base> Minions
         => 
-            MinionManager.GetMinions(ObjectManager.Player.ServerPosition, Variables.E.Range);
+            MinionManager
+                .GetMinions(ObjectManager.Player.ServerPosition, Variables.E.Range);
     }
 }

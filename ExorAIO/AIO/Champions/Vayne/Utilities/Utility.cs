@@ -129,19 +129,17 @@ namespace ExorAIO.Champions.Vayne
         /// </summary>
         public static Obj_AI_Hero Target
         =>
-            TargetSelector.GetTarget(Variables.Q.Range, LeagueSharp.DamageType.Physical);
+            TargetSelector
+                .GetTarget(Variables.Q.Range, LeagueSharp.DamageType.Physical);
 
         /// <summary>
         /// The minion targets.
         /// </summary>       
         public static IOrderedEnumerable<Obj_AI_Base> Minions
-        =>
-            MinionManager.GetMinions(ObjectManager.Player.ServerPosition, Variables.Q.Range)
-                .Where(
-                    m =>
-                        m.Health < ObjectManager.Player.GetAutoAttackDamage(m) * 1.30)
-                .OrderBy(
-                    m =>
-                        m.HealthPercent);
+        => 
+            MinionManager
+                .GetMinions(ObjectManager.Player.ServerPosition, Variables.Q.Range)
+                .Where(m => m.Health < ObjectManager.Player.GetAutoAttackDamage(m) * 1.30)
+                .OrderBy(m => m.HealthPercent);
     }
 }

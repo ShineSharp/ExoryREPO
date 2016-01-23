@@ -129,7 +129,8 @@ namespace ExorAIO.Champions.Tristana
         /// </summary>
         public static Obj_AI_Hero Target
         =>
-            TargetSelector.GetTarget(Variables.E.Range, LeagueSharp.DamageType.Physical);
+            TargetSelector
+                .GetTarget(Variables.E.Range, LeagueSharp.DamageType.Physical);
 
         /// <summary>
         /// The charged target.
@@ -137,19 +138,15 @@ namespace ExorAIO.Champions.Tristana
         public static Obj_AI_Base ETarget
         =>
             ObjectManager.Get<Obj_AI_Base>()
-                .Where(
-                    unit =>
-                        Bools.IsCharged(unit)).FirstOrDefault();
+                .Where(unit => Bools.IsCharged(unit))
+                .FirstOrDefault();
 
         /// <summary>
         /// The minions target.
         /// </summary>
         public static List<Obj_AI_Base> Minions
         => 
-            MinionManager.GetMinions(
-                ObjectManager.Player.ServerPosition,
-                Variables.E.Range,
-                MinionTypes.All
-            );
+            MinionManager
+                .GetMinions(ObjectManager.Player.ServerPosition, Variables.E.Range);
     }
 }

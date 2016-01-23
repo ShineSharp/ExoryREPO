@@ -115,7 +115,8 @@ namespace ExorAIO.Champions.Cassiopeia
         /// </summary>
         public static Obj_AI_Hero Target
         =>
-            TargetSelector.GetTarget(Variables.W.Range, LeagueSharp.DamageType.Magical);
+            TargetSelector
+                .GetTarget(Variables.W.Range, LeagueSharp.DamageType.Magical);
 
         /// <summary>
         /// The minion targets.
@@ -123,11 +124,7 @@ namespace ExorAIO.Champions.Cassiopeia
         public static List<Obj_AI_Base> Minions
         => 
             MinionManager
-                .GetMinions(
-                    ObjectManager.Player.ServerPosition,
-                    Variables.E.Range,
-                    MinionTypes.All
-                );
+                .GetMinions(ObjectManager.Player.ServerPosition, Variables.E.Range);
 
         /// <summary>
         /// The R Range targets.
@@ -135,9 +132,8 @@ namespace ExorAIO.Champions.Cassiopeia
         public static IEnumerable<Obj_AI_Hero> RTargets
         =>
             HeroManager.Enemies
-                .Where(
-                    enemy =>
-                        enemy.IsValidTarget(Variables.R.Range) &&
-                        enemy.IsFacing(ObjectManager.Player));
+                .Where(enemy => 
+                    enemy.IsValidTarget(Variables.R.Range) &&
+                    enemy.IsFacing(ObjectManager.Player));
     }
 }

@@ -105,6 +105,9 @@ namespace ExorAIO.Champions.Jinx
         /// <summary>
         /// The main hero target.
         /// </summary>
-        public static Obj_AI_Hero Target => TargetSelector.GetTarget(Variables.W.Range + 200f, LeagueSharp.DamageType.Physical);
+        public static Obj_AI_Hero Target
+        =>
+            TargetSelector
+                .GetTarget(Variables.W.Range + 200f, LeagueSharp.DamageType.Physical);
     }
 }

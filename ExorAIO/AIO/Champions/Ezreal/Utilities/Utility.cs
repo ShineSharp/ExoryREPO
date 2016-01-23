@@ -117,18 +117,21 @@ namespace ExorAIO.Champions.Ezreal
         /// <summary>
         /// The main hero target.
         /// </summary>
-        public static Obj_AI_Hero Target => TargetSelector.GetTarget(Variables.Q.Range, LeagueSharp.DamageType.Physical);
+        public static Obj_AI_Hero Target
+        => 
+            TargetSelector
+                .GetTarget(Variables.Q.Range, LeagueSharp.DamageType.Physical);
 
         /// <summary>
         /// The minions target.
         /// </summary>
         public static IEnumerable<Obj_AI_Base> Minions
         => 
-            MinionManager.GetMinions(ObjectManager.Player.ServerPosition, Variables.Q.Range)
-                .Where(
-                    h =>
-                        h.Health > ObjectManager.Player.GetAutoAttackDamage(h) &&
-                        h.Health < Variables.Q.GetDamage(h))
+            MinionManager
+                .GetMinions(ObjectManager.Player.ServerPosition, Variables.Q.Range)
+                .Where(h =>
+                    h.Health > ObjectManager.Player.GetAutoAttackDamage(h) &&
+                    h.Health < Variables.Q.GetDamage(h))
                 .ToList();
     }
 }

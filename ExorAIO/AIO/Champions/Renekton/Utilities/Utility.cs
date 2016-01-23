@@ -92,17 +92,17 @@ namespace ExorAIO.Champions.Renekton
         /// <summary>
         /// The main hero target.
         /// </summary>
-        public static Obj_AI_Hero Target => TargetSelector.GetTarget(Variables.E.Range + Orbwalking.GetRealAutoAttackRange(null), LeagueSharp.DamageType.Physical);
+        public static Obj_AI_Hero Target
+        =>
+            TargetSelector
+                .GetTarget(Variables.E.Range + Orbwalking.GetRealAutoAttackRange(null), LeagueSharp.DamageType.Physical);
 
         /// <summary>
         /// The minion targets.
         /// </summary>      
         public static List<Obj_AI_Base> Minions
         => 
-            MinionManager.GetMinions(
-                ObjectManager.Player.ServerPosition,
-                Variables.Q.Range,
-                MinionTypes.All
-            );
+            MinionManager
+                .GetMinions(ObjectManager.Player.ServerPosition, Variables.Q.Range);
     }
 }

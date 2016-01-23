@@ -96,17 +96,15 @@ namespace ExorAIO.Champions.Jax
         /// </summary>
         public static Obj_AI_Hero Target
         =>
-            TargetSelector.GetTarget(Variables.Q.Range, LeagueSharp.DamageType.Physical);
+            TargetSelector
+                .GetTarget(Variables.Q.Range, LeagueSharp.DamageType.Physical);
 
         /// <summary>
         /// The minions target.
         /// </summary>
         public static List<Obj_AI_Base> Minions
         => 
-            MinionManager.GetMinions(
-                ObjectManager.Player.ServerPosition,
-                Variables.E.Range,
-                MinionTypes.All
-            );
+            MinionManager
+                .GetMinions(ObjectManager.Player.ServerPosition, Variables.E.Range);
     }
 }
