@@ -34,14 +34,19 @@ namespace NabbActivator
                 Variables.Menu.AddItem(new MenuItem($"{Variables.MainMenuName}.consumables", "Enable Potions")).SetValue(true);
                 Variables.Menu.AddItem(new MenuItem($"{Variables.MainMenuName}.resetters", "Enable Tiamat/Hydra/Titanic")).SetValue(true);
                 Variables.Menu.AddItem(new MenuItem($"{Variables.MainMenuName}.randomizer", "Enable NabbHumanizer")).SetValue(true);
+
                 Variables.Menu.AddItem(new MenuItem($"{Variables.MainMenuName}.separator", ""));
+
                 Variables.Menu.AddItem(new MenuItem($"{Variables.MainMenuName}.warn1", "!(Must be the same as your Combo key)!"));
                 Variables.Menu.AddItem(new MenuItem($"{Variables.MainMenuName}.combo_button", "Combo")).SetValue(new KeyBind(32, KeyBindType.Press));
                 Variables.Menu.AddItem(new MenuItem($"{Variables.MainMenuName}.warn2", "!(Must be the same as your Combo key)!"));
+
                 Variables.Menu.AddItem(new MenuItem($"{Variables.MainMenuName}.separator2", ""));
+
                 Variables.Menu.AddItem(new MenuItem($"{Variables.MainMenuName}.warn3", "!(Must be the same as your LaneClear key)!"));
                 Variables.Menu.AddItem(new MenuItem($"{Variables.MainMenuName}.laneclear_button", "LaneClear")).SetValue(new KeyBind(86, KeyBindType.Press));
                 Variables.Menu.AddItem(new MenuItem($"{Variables.MainMenuName}.warn4", "!(Must be the same as your LaneClear key)!"));
+
                 Variables.SliderMenu = new Menu("Consumables Options", $"{Variables.MainMenuName}.consumables.options");
                 {
                     Variables.SliderMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.consumables.on_health_percent", "Use Health Potions if Health < x%").SetValue(new Slider(50, 0, 100)));
@@ -73,7 +78,9 @@ namespace NabbActivator
         public static Obj_AI_Hero Target
         =>
             HeroManager.Enemies
-                .Find(e => Bools.HasNoProtection(e) && e.Distance(ObjectManager.Player) <= 1250f);
+                .Find(e =>
+                    Bools.HasNoProtection(e) &&
+                    e.Distance(ObjectManager.Player) <= 1250f);
 
         /// <summary>
         /// The main ally target.
@@ -81,20 +88,18 @@ namespace NabbActivator
         public static Obj_AI_Hero Ally
         =>
             HeroManager.Allies
-                .Find(a => !a.IsMe && Bools.HasNoProtection(a) && a.Distance(ObjectManager.Player) <= 850f);
+                .Find(a =>
+                    !a.IsMe &&
+                    Bools.HasNoProtection(a) &&
+                    a.Distance(ObjectManager.Player) <= 850f);
 
         /// <summary>
         /// The main minion target.
         /// </summary>
         public static Obj_AI_Base Minion
         =>
-            MinionManager.GetMinions(
-                ObjectManager.Player.ServerPosition,
-                1200f,
-                MinionTypes.Ranged,
-                MinionTeam.Ally,
-                MinionOrderTypes.MaxHealth
-            )
-            .FirstOrDefault();
+            MinionManager
+                .GetMinions(ObjectManager.Player.ServerPosition, 1200f, MinionTypes.Ranged,MinionTeam.Ally, MinionOrderTypes.MaxHealth)
+                .First();
     }
 }
