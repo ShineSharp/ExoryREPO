@@ -33,7 +33,10 @@ namespace ExorAIO.Champions.Akali
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>()) ||
 
                 (Targets.Target.Health < Variables.Q.GetDamage(Targets.Target) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqks").GetValue<bool>())))
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqks").GetValue<bool>()) ||
+
+                (ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqautoharass").GetValue<bool>())))
             {
                 Variables.Q.CastOnUnit(Targets.Target);
             }
@@ -57,7 +60,7 @@ namespace ExorAIO.Champions.Akali
                 Targets.Target.IsValidTarget(Variables.R.Range) &&
 
                 ((Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    !Utility.UnderTurret(Targets.Target) &&
+                    (!Utility.UnderTurret(Targets.Target) || !Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.safetychecks").GetValue<bool>()) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.usercombo").GetValue<bool>()) ||
 
                 (Targets.Target.Health < Variables.R.GetDamage(Targets.Target) * 2 &&

@@ -38,6 +38,7 @@ namespace ExorAIO.Champions.Akali
                 {
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqcombo", "Use Q in Combo")).SetValue(true);
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqks", "Use Q to KillSteal")).SetValue(true);
+                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqautoharass", "Use Q to AutoHarass")).SetValue(true);
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.QMenu);
 
@@ -55,6 +56,7 @@ namespace ExorAIO.Champions.Akali
                 {
                     Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rsettings.usercombo", "Use R in Combo")).SetValue(true);
                     Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rsettings.userks", "Use R to KillSteal")).SetValue(true);
+                    Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rsettings.disablesafetychecks", "Use R Safety Checks?")).SetValue(true);
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.RMenu);
             }
