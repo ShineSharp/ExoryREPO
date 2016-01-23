@@ -31,5 +31,18 @@ namespace NabbActivator
         /// The main menu codename.
         /// </summary>
         public static string MainMenuName => "nabbactivator.menu";
+
+        /// <summary>
+        /// Contains a list of the names of the champions who do not use Mana as second bar.
+        /// </summary>
+        public static readonly string[] NoManaChampions = 
+        {
+            "Aatrox", "DrMundo", "Mordekaiser",
+            "Vladimir", "Zac", "Garen",
+            "Gnar", "Katarina", "RekSai",
+            "Renekton", "Rengar", "Riven",
+            "Rumble", "Shyvana", "Tryndamere",
+            "Yasuo",
+        };
     }
 }

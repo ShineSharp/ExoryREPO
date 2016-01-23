@@ -84,7 +84,8 @@ namespace NabbActivator
             /// </summary>
             if (!Bools.IsManaPotRunning())
             {
-                if (ObjectManager.Player.ManaPercent <= Managers.MinManaPercent)
+                if (ObjectManager.Player.ManaPercent <= Managers.MinManaPercent &&
+                    !Variables.NoManaChampions.Contains(ObjectManager.Player.ChampionName))
                 {
                     /// <summary>
                     /// The Corrupting Potion.
