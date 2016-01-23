@@ -56,7 +56,6 @@ namespace ExorAIO.Champions.Tryndamere
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>())
             {
-                Console.WriteLine("E Casted.");
                 Variables.W.Cast();
             }
 
@@ -64,8 +63,8 @@ namespace ExorAIO.Champions.Tryndamere
             /// The E Combo Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
-                Targets.Target.IsValidTarget(Variables.E.Range) &&
-                !Utility.UnderTurret(Targets.Target) &&
+                ObjectManager.Player.Distance(Variables.E.GetPrediction(Targets.Target).UnitPosition) < Variables.E.Range - 50 &&
+                (!Utility.UnderTurret(Targets.Target) || Variables.E.GetDamage(Targets.Target) > Targets.Target.Health) &&
                 !Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useecombo").GetValue<bool>())
