@@ -102,7 +102,7 @@ namespace ExorKalista
             /// </summary>
             if (Variables.Q.IsReady() &&
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.Q.Range) &&
-                Variables.Q.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
+                Variables.Q.GetPrediction((Obj_AI_Hero)args.Target).Hitchance >= HitChance.High &&
 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>()))
@@ -142,7 +142,6 @@ namespace ExorKalista
             /// The E Harass Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
-                Variables.Orbwalker.GetTarget().IsValid<Obj_AI_Minion>() &&
 
                 (ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>()))
@@ -150,10 +149,12 @@ namespace ExorKalista
                 if (Targets.Minions
                     .Count(
                         x =>
+                            !GameObjects.Jungle.Contains(x) &&
                             Bools.IsPerfectRendTarget(x) &&
                             Bools.IsKillableByRend(x)) >= 
-                                (Targets.HarassableTargets.Count() > 1 ||
-                                    Variables.Menu.Item($"{Variables.MainMenuName}.esettings.ewhitelist.{(Targets.HarassableTargets.FirstOrDefault()).ChampionName.ToLower()}").GetValue<bool>() ?
+                                ((Targets.HarassableTargets.Count() > 1 ||
+                                    (Targets.HarassableTargets.Count() == 1 &&
+                                        Variables.Menu.Item($"{Variables.MainMenuName}.esettings.ewhitelist.{(Targets.HarassableTargets.FirstOrDefault()).ChampionName.ToLower()}").GetValue<bool>())) ?
                                         1 : 2))
                 {
                     Variables.E.Cast();
@@ -164,18 +165,20 @@ namespace ExorKalista
             /// The E against Monsters Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
-                Variables.Orbwalker.GetTarget().IsValid<Obj_AI_Minion>() &&
-                
+
                 Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useemonsters").GetValue<bool>())
             {
                 foreach (var miniontarget in GameObjects.Jungle
                     .Where(
                         m =>
-                            (!m.CharData.BaseSkinName.Contains("Mini") || !m.CharData.BaseSkinName.Contains("Crab")) &&
                             Bools.IsPerfectRendTarget(m) &&
                             Bools.IsKillableByRend(m)))
                 {
-                    Variables.E.Cast();
+                    if (!miniontarget.CharData.BaseSkinName.Contains("Mini") ||
+                        miniontarget.CharData.BaseSkinName.Contains("Crab"))
+                    {
+                        Variables.E.Cast();
+                    }
                 }
             }
         }

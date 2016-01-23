@@ -49,12 +49,8 @@ namespace ExorKalista
                     Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewauto").GetValue<bool>()))
             {
                 Variables.W.Cast(SentinelManager.AllLocations
-                    .Where(
-                        h =>
-                            ObjectManager.Player.Distance(h) < Variables.W.Range)
-                    .OrderBy(
-                        d =>
-                            ObjectManager.Player.Distance(d))
+                    .Where(h => h != null && ObjectManager.Player.Distance(h) < Variables.W.Range)
+                    .OrderBy(d => ObjectManager.Player.Distance(d))
                     .FirstOrDefault()
                 );
             }
