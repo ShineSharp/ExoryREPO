@@ -9,8 +9,6 @@ namespace ExorAIO.Champions.Darius
 
     using ExorAIO.Utilities;
 
-    using ItemData = LeagueSharp.Common.Data.ItemData;
-
     using Orbwalking = SFXTargetSelector.Orbwalking;
 
     /// <summary>

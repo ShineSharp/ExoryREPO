@@ -26,6 +26,7 @@ namespace ExorAIO.Core
     using ExorAIO.Champions.Renekton;
     using ExorAIO.Champions.Sivir;
     using ExorAIO.Champions.Tristana;
+    using ExorAIO.Champions.Tryndamere;
     using ExorAIO.Champions.Varus;
     using ExorAIO.Champions.Vayne;
 
@@ -85,6 +86,7 @@ namespace ExorAIO.Core
                     case "Renekton":   new Renekton()  .OnLoad(); break;
                     case "Sivir":      new Sivir()     .OnLoad(); break;
                     case "Tristana":   new Tristana()  .OnLoad(); break;
+                    case "Tryndamere": new Tryndamere().OnLoad(); break;
                     case "Varus":      new Varus()     .OnLoad(); break;
                     case "Vayne":      new Vayne()     .OnLoad(); break;
                 }

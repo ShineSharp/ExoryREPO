@@ -1,4 +1,4 @@
-namespace ExorAIO.Champions.Darius
+namespace ExorAIO.Champions.Tryndamere
 {
     using System;
     using System.Linq;
@@ -14,7 +14,7 @@ namespace ExorAIO.Champions.Darius
     /// <summary>
     /// The main class.
     /// </summary>
-    public class Darius
+    public class Tryndamere
     {
         /// <summary>
         /// Triggers when the champion is loaded.
@@ -40,11 +40,6 @@ namespace ExorAIO.Champions.Darius
                 {
                     Logics.ExecuteAuto(args);
                 }
-
-                if (Targets.Minions.Any())
-                {
-                    Logics.ExecuteFarm(args);
-                }
             }
         }
 
@@ -59,9 +54,9 @@ namespace ExorAIO.Champions.Darius
                 Orbwalking.IsAutoAttack(args.SData.Name) &&
                 Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
-                if (args.Target.IsValid<Obj_AI_Hero>())
+                if (args.Target.IsValid<Obj_AI_Minion>())
                 {
-                    Logics.ExecuteModes(sender, args);
+                    Logics.ExecuteFarm(sender, args);
                 }
             }
         }
