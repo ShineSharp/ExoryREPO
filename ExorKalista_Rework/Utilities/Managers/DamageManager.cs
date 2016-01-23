@@ -23,61 +23,21 @@ namespace ExorKalista
         /// </returns>
         public static float GetPerfectRendDamage(Obj_AI_Base target)
         {
+            float healthDebuffer = 15f;
             float RendDamage = 
                 (float)ObjectManager.Player.GetSpellDamage(target, SpellSlot.E) +
                 (float)ObjectManager.Player.GetSpellDamage(target, SpellSlot.E, Damage.DamageStage.Buff);
-            /*
-            float healthDebuffer = 0f;
-            
 
             /// <summary>
-            /// Gets the reduction from the exhaust spell.
+            /// Gets the predicted reduction from Blitzcrank Shield.
             /// </summary>
-            /// <returns>
-            /// You deal 40% of you total damage while exhausted.
-            /// </returns>
-            if (ObjectManager.Player.HasBuff("summonerexhaust"))
+            if (((Obj_AI_Hero)target).ChampionName.Equals("Blitzcrank") &&
+                !((Obj_AI_Hero)target).HasBuff("BlitzcrankManaBarrierCD"))
             {
-                RendDamage *= 0.6f;
+                healthDebuffer += target.Mana / 2;
             }
 
-            /// <summary>
-            /// Gets the reduction from the baron nashor.
-            /// </summary>
-            /// <returns>
-            /// You deal 50% reduced damage to Baron Nashor.
-            /// </returns>
-            if (target.CharData.BaseSkinName.Equals("SRU_Baron") &&
-                ObjectManager.Player.HasBuff("barontarget"))
-            {
-                RendDamage *= 0.5f;
-            }
-
-            /// <summary>
-            /// Gets the reduction from the dragon.
-            /// </summary>
-            /// <returns>
-            /// The Dragon receives 7% reduced damage per stack.
-            /// </returns>
-            if (target.CharData.BaseSkinName.Equals("SRU_Dragon"))
-            {
-                RendDamage *= 1f - (ObjectManager.Player.GetBuffCount("s5test_dragonslayerbuff") * 0.07f);
-            }
-
-            if (target is Obj_AI_Hero)
-            {
-                /// <summary>
-                /// Gets the predicted reduction from Blitzcrank Shield.
-                /// </summary>
-                if (((Obj_AI_Hero)target).ChampionName.Equals("Blitzcrank") &&
-                    !((Obj_AI_Hero)target).HasBuff("BlitzcrankManaBarrierCD"))
-                {
-                    healthDebuffer += target.Mana / 2;
-                }
-            }
-            */
-            //return (float)((RendDamage - target.PhysicalShield) - healthDebuffer);
-            return (float)(RendDamage - (target.PhysicalShield + target.HPRegenRate));
+            return (float)(RendDamage - (target.PhysicalShield + target.HPRegenRate) - healthDebuffer);
         }
     }
 }
