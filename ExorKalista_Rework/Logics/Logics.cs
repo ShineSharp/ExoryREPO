@@ -49,9 +49,8 @@ namespace ExorKalista
             /// The E before Dying Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
-
-                (HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(1500 + Game.Ping / 2f)) <= 0 &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useedie").GetValue<bool>()))
+                HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(250 + Game.Ping / 2f)) <= 0 &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useedie").GetValue<bool>())
             {
                 Variables.E.Cast();
             }
@@ -62,7 +61,6 @@ namespace ExorKalista
             if (Variables.E.IsReady() &&
                 !ObjectManager.Player.Spellbook.IsCastingSpell &&
                 !ObjectManager.Player.IsDashing() &&
-
                 Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useecombo").GetValue<bool>())
             {
                 foreach (var unit in HeroManager.Enemies
@@ -121,8 +119,6 @@ namespace ExorKalista
             /// The Q Farm Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
-                Variables.Orbwalker.GetTarget().IsValid<Obj_AI_Minion>() &&
-
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                     ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>()))
@@ -142,14 +138,12 @@ namespace ExorKalista
             /// The E Harass Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
-
-                (ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>()))
+                ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>())
             {
                 if (Targets.Minions
                     .Count(
                         x =>
-                            !GameObjects.Jungle.Contains(x) &&
                             Bools.IsPerfectRendTarget(x) &&
                             Bools.IsKillableByRend(x)) >= 
                                 ((Targets.HarassableTargets.Count() > 1 ||
@@ -165,7 +159,6 @@ namespace ExorKalista
             /// The E against Monsters Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
-
                 Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useemonsters").GetValue<bool>())
             {
                 foreach (var miniontarget in GameObjects.Jungle
