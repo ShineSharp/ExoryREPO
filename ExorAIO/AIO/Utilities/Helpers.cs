@@ -15,38 +15,46 @@ namespace ExorAIO.Utilities
         /// </summary>
         public static int NeededQMana
         =>
-            Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.qmana") != null ?
-                Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.qmana").GetValue<Slider>().Value : 0;
+            Variables.Menu.Item($"{Variables.MainMenuName}.qspell.mana") != null ?
+                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.mana").GetValue<Slider>().Value : 0;
 
         /// <summary>
         /// Sets the minimum necessary mana to use the W spell.
         /// </summary>
         public static int NeededWMana 
         =>
-            Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.wmana") != null ?
-                Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.wmana").GetValue<Slider>().Value : 0;
+            Variables.Menu.Item($"{Variables.MainMenuName}.wspell.mana") != null ?
+                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.mana").GetValue<Slider>().Value : 0;
 
         /// <summary>
         /// Sets the minimum necessary mana to use the E spell.
         /// </summary>
         public static int NeededEMana
         =>
-            Variables.Menu.Item($"{Variables.MainMenuName}.esettings.emana") != null ?
-                Variables.Menu.Item($"{Variables.MainMenuName}.esettings.emana").GetValue<Slider>().Value : 0;
+            Variables.Menu.Item($"{Variables.MainMenuName}.espell.mana") != null ?
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.mana").GetValue<Slider>().Value : 0;
 
         /// <summary>
         /// Sets the minimum necessary mana to use the R spell.
         /// </summary>
         public static int NeededRMana
         =>
-            Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.rmana") != null ?
-                Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.rmana").GetValue<Slider>().Value : 0;
+            Variables.Menu.Item($"{Variables.MainMenuName}.rspell.mana") != null ?
+                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.mana").GetValue<Slider>().Value : 0;
+
+        /// <summary>
+        /// Sets the minimum necessary mana to stack the tear item.
+        /// </summary>
+        public static int NeededTearMana
+        =>
+            Variables.Menu.Item($"{Variables.MainMenuName}.misc.tearmana") != null ?
+                Variables.Menu.Item($"{Variables.MainMenuName}.misc.tearmana").GetValue<Slider>().Value : 0;
     }
 
     /// <summary>
     /// The drawings class.
     /// </summary>
-    public class Drawings
+    class Drawings
     {
         /// <summary>
         /// Loads the drawings.

@@ -19,7 +19,7 @@ namespace ExorAIO.Champions.Akali
             /// </summary>
             Variables.SettingsMenu = new Menu("Spells Menu", $"{Variables.MainMenuName}.settingsmenu");
             {
-                Variables.QMenu = new Menu("Use Q to:", $"{Variables.MainMenuName}.qsettingsmenu")
+                Variables.QMenu = new Menu("Use Q to:", $"{Variables.MainMenuName}.qmenu")
                     .SetFontStyle(FontStyle.Regular, SharpDX.Color.Green);
                 {
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.combo",  "Combo")).SetValue(true);
@@ -30,7 +30,7 @@ namespace ExorAIO.Champions.Akali
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.QMenu);
 
-                Variables.EMenu = new Menu("Use E to:", $"{Variables.MainMenuName}.esettingsmenu")
+                Variables.EMenu = new Menu("Use E to:", $"{Variables.MainMenuName}.emenu")
                     .SetFontStyle(FontStyle.Regular, SharpDX.Color.Cyan);
                 {
                     Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.espell.combo",  "Combo")).SetValue(true);

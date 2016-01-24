@@ -19,35 +19,35 @@ namespace ExorAIO.Champions.Ashe
             /// </summary>
             Variables.SettingsMenu = new Menu("Spell Menu", $"{Variables.MainMenuName}.settingsmenu");
             {
-                Variables.QMenu = new Menu("Use Q in:", $"{Variables.MainMenuName}.qsettingsmenu")
+                Variables.QMenu = new Menu("Use Q to:", $"{Variables.MainMenuName}.qmenu")
                     .SetFontStyle(FontStyle.Regular, SharpDX.Color.Green);
                 {
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.combo",    "Combo")).SetValue(true);
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.farm",     "LaneClear")).SetValue(false);
-                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.qmana",    "LaneClear: Mana >= x%"))
+                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.mana",     "LaneClear: Mana >= x%"))
                         .SetValue(new Slider(50, 0, 99));
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.QMenu);
 
-                Variables.WMenu = new Menu("Use W in:", $"{Variables.MainMenuName}.wsettingsmenu")
+                Variables.WMenu = new Menu("Use W to:", $"{Variables.MainMenuName}.wmenu")
                     .SetFontStyle(FontStyle.Regular, SharpDX.Color.Purple);
                 {
                     Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.combo",    "Combo")).SetValue(true);
                     Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.ks",       "KillSteal")).SetValue(true);
                     Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.harass",   "Harass Impaired Enemies")).SetValue(true);
                     Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.farm",     "LaneClear")).SetValue(true);
-                    Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.wmana",    "LaneClear: Mana >= x%"))
+                    Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.mana",     "LaneClear: Mana >= x%"))
                         .SetValue(new Slider(50, 0, 99));
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.WMenu);
 
-                Variables.RMenu = new Menu("R Settings", $"{Variables.MainMenuName}.rsettingsmenu")
+                Variables.RMenu = new Menu("Use R to:", $"{Variables.MainMenuName}.rmenu")
                     .SetFontStyle(FontStyle.Regular, SharpDX.Color.Red);
                 {
                     Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rspell.combo",    "Combo")).SetValue(true);
                     Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rspell.ks",       "KillSteal")).SetValue(true);
                     {
-                        Variables.WhiteListMenu = new Menu("Ultimate Whitelist Menu", $"{Variables.MainMenuName}.rsettingsmenu.whitelist");
+                        Variables.WhiteListMenu = new Menu("Ultimate Whitelist Menu", $"{Variables.MainMenuName}.rmenu.whitelistmenu");
                         {
                             foreach (var champ in HeroManager.Enemies)
                             {

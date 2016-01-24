@@ -8,7 +8,7 @@ namespace ExorAIO.Champions.Ashe
     /// <summary>
     /// The spell class.
     /// </summary>
-    public class Spells
+    class Spells
     {
         /// <summary>
         /// Sets the spells.

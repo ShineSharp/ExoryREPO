@@ -68,7 +68,7 @@ namespace ExorAIO.Champions.Ashe
                     !Targets.Target.IsValidTarget(Variables.W.Range)) &&
 
                     (Targets.Target.Health < Variables.R.GetDamage(Targets.Target) &&
-                        Variables.Menu.Item($"{Variables.MainMenuName}.rspell.userks").GetValue<bool>()))
+                        Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").GetValue<bool>()))
                 {
                     Variables.R.Cast(Variables.R.GetPrediction(Targets.Target).UnitPosition);
                 }
@@ -106,7 +106,7 @@ namespace ExorAIO.Champions.Ashe
                 Bools.HasNoProtection((Obj_AI_Hero)args.Target) &&
                 Variables.W.GetPrediction(Targets.Target).Hitchance >= HitChance.Medium &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.usewcombo").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").GetValue<bool>())
             {
                 Variables.W.Cast(Variables.W.GetPrediction(Targets.Target).UnitPosition);
             }
@@ -127,7 +127,7 @@ namespace ExorAIO.Champions.Ashe
                 ObjectManager.Player.ManaPercent > ManaManager.NeededWMana &&
                 (Variables.W.GetLineFarmLocation(Targets.Minions, Variables.W.Width).MinionsHit >= 3 ||
                     GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.usewfarm").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.farm").GetValue<bool>())
             {
                 Variables.W.Cast(Variables.W.GetLineFarmLocation(Targets.Minions, Variables.W.Width).Position);
             }
