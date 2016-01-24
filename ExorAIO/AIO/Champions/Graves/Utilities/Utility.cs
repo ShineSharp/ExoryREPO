@@ -22,7 +22,7 @@ namespace ExorAIO.Champions.Graves
         /// </summary>
         public static void SetSpells()
         {
-            Variables.Q = new Spell(SpellSlot.Q, 900f);
+            Variables.Q = new Spell(SpellSlot.Q, 800f);
             Variables.W = new Spell(SpellSlot.W, 900f);
             Variables.E = new Spell(SpellSlot.E);
             Variables.R = new Spell(SpellSlot.R, 1050f);
@@ -43,7 +43,7 @@ namespace ExorAIO.Champions.Graves
                 {
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqcombo", "Use Q in Combo")).SetValue(true);
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqks", "Use Q to Automatically KillSteal")).SetValue(true);
-                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqimmobile", "Use Q to Harass Immobile Champions")).SetValue(true);
+                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqimmobile", "Use Q against Immobile Champions")).SetValue(true);
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqfarm", "Use Q to Farm")).SetValue(true);
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.qmana", "Use Q to Farm only if Mana >= x%"))
                         .SetValue(new Slider(50, 0, 99));

@@ -7,10 +7,10 @@ namespace ExorAIO.Champions.Tristana
     using LeagueSharp;
     using LeagueSharp.Common;
 
+    using ExorAIO.Utilities;
+
     using Orbwalking = SFXTargetSelector.Orbwalking;
     using TargetSelector = SFXTargetSelector.TargetSelector;
-
-    using ExorAIO.Utilities;
 
     /// <summary>
     /// The settings class.
@@ -25,6 +25,9 @@ namespace ExorAIO.Champions.Tristana
             Variables.Q = new Spell(SpellSlot.Q);
             Variables.E = new Spell(SpellSlot.E, ObjectManager.Player.BoundingRadius + 543f + (7 * ObjectManager.Player.Level));
             Variables.R = new Spell(SpellSlot.R, ObjectManager.Player.BoundingRadius + 543f + (7 * ObjectManager.Player.Level));
+
+            Variables.E.SetTargetted(0.25f, 2400f);
+            Variables.R.SetTargetted(0.25f, 2000f);
         }
 
         /// <summary>

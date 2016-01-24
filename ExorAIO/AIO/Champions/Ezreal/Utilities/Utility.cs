@@ -24,7 +24,6 @@ namespace ExorAIO.Champions.Ezreal
         {
             Variables.Q = new Spell(SpellSlot.Q, 1150f);
             Variables.W = new Spell(SpellSlot.W, 1000f);
-            Variables.E = new Spell(SpellSlot.E, ObjectManager.Player.BoundingRadius + 500f);
             Variables.R = new Spell(SpellSlot.R, 3000f);
 
             Variables.Q.SetSkillshot(0.25f, 60f, 2000f, true, SkillshotType.SkillshotLine);
@@ -44,9 +43,9 @@ namespace ExorAIO.Champions.Ezreal
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqcombo", "Use Q in Combo")).SetValue(true);
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqks", "Use Q to Automatically KillSteal")).SetValue(true);
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqfarm", "Use Q to Farm")).SetValue(true);
-                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqimmobile", "Use Q to Harass Immobile")).SetValue(true);
+                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqimmobile", "Use Q to Harass Immobile Champions")).SetValue(true);
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.useqautoharass", "Use Q to AutoHarass")).SetValue(true);
-                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.qmana", "Use Q to AutoHarass if Mana >= x"))
+                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qsettings.qmana", "Use Q to Harass/Farm if Mana >= x"))
                         .SetValue(new Slider(50, 10, 99));
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.QMenu);
