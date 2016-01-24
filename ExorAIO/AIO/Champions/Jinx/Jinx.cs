@@ -3,24 +3,24 @@ namespace ExorAIO.Champions.Jinx
     using System;
     using System.Linq;
     using System.Collections.Generic;
-
     using LeagueSharp;
     using LeagueSharp.Common;
-
-    using Orbwalking = SFXTargetSelector.Orbwalking;
-
     using ExorAIO.Utilities;
+    using Orbwalking = SFXTargetSelector.Orbwalking;
 
     /// <summary>
     /// The main class.
     /// </summary>
     public class Jinx
     {
+        /// <summary>
+        /// Triggers when the champion is loaded.
+        /// </summary>
         public void OnLoad()
         {
             Settings.SetMenu();
             Settings.SetMethods();
-            Drawings.Load();
+            Drawings.Initialize();
         }
 
         /// <summary>

@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-
-using LeagueSharp;
-using LeagueSharp.Common;
-
-using ItemData = LeagueSharp.Common.Data.ItemData;
-
-using Orbwalking = SFXTargetSelector.Orbwalking;
-
-namespace ExorAIO.Utilities
+﻿namespace ExorAIO.Utilities
 {
+    using System.Collections.Generic;
+    using LeagueSharp;
+    using LeagueSharp.Common;
+    using Orbwalking = SFXTargetSelector.Orbwalking;
+
     /// <summary>
     /// The Variables class.
     /// </summary>
@@ -108,7 +103,7 @@ namespace ExorAIO.Utilities
         /// <summary>
         /// The main menu name.
         /// </summary>
-        public static readonly string MainMenuCodeName = "[ExorAIO]: Ultima";
+        public static readonly string MainMenuCodeName = "ExorAIO: Ultima";
 
         /// <summary>
         /// The main menu codename.

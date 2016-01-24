@@ -3,12 +3,9 @@ namespace ExorAIO.Champions.Varus
     using System;
     using System.Linq;
     using System.Collections.Generic;
-
     using LeagueSharp;
     using LeagueSharp.Common;
-
     using ExorAIO.Utilities;
-
     using Orbwalking = SFXTargetSelector.Orbwalking;
 
     /// <summary>
@@ -23,7 +20,7 @@ namespace ExorAIO.Champions.Varus
         {
             Settings.SetMenu();
             Settings.SetMethods();
-            Drawings.Load();
+            Drawings.Initialize();
         }
 
         /// <summary>

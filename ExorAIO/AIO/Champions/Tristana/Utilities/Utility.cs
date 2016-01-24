@@ -15,7 +15,7 @@ namespace ExorAIO.Champions.Tristana
     /// <summary>
     /// The settings class.
     /// </summary>
-    public class Settings
+    class Settings
     {
         /// <summary>
         /// Sets the spells.
@@ -101,7 +101,7 @@ namespace ExorAIO.Champions.Tristana
                     (ObjectManager.Player.CalcDamage(target, LeagueSharp.Common.Damage.DamageType.Physical, Variables.E.GetDamage(target)) +
                     (18 + (3 * ObjectManager.Player.Spellbook.GetSpell(SpellSlot.E).Level)) +
                     ((0.15 + (0.045 * ObjectManager.Player.Spellbook.GetSpell(SpellSlot.E).Level)) * ObjectManager.Player.FlatPhysicalDamageMod) +
-                    0.15 * ObjectManager.Player.AbilityPower());
+                    0.15 * ObjectManager.Player.TotalMagicalDamage);
         }
 
         public static float Damage(Obj_AI_Hero target)

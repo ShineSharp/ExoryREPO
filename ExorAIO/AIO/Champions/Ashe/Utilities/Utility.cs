@@ -3,12 +3,9 @@ namespace ExorAIO.Champions.Ashe
     using System;
     using System.Linq;
     using System.Collections.Generic;
-
     using LeagueSharp;
     using LeagueSharp.Common;
-
     using ExorAIO.Utilities;
-
     using Orbwalking = SFXTargetSelector.Orbwalking;
     using TargetSelector = SFXTargetSelector.TargetSelector;
 

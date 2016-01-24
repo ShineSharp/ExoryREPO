@@ -3,12 +3,9 @@ namespace ExorAIO.Core
     using System;
     using System.Linq;
     using System.Collections.Generic;
-
     using LeagueSharp;
     using LeagueSharp.Common;
-
     using ExorAIO.Utilities;
-
     using ExorAIO.Champions.Akali;
     using ExorAIO.Champions.Ashe;
     using ExorAIO.Champions.Cassiopeia;
@@ -29,7 +26,7 @@ namespace ExorAIO.Core
     using ExorAIO.Champions.Tryndamere;
     using ExorAIO.Champions.Varus;
     using ExorAIO.Champions.Vayne;
-
+    using Menu = LeagueSharp.Common.Menu;
     using Orbwalking = SFXTargetSelector.Orbwalking;
     using TargetSelector = SFXTargetSelector.TargetSelector;
 

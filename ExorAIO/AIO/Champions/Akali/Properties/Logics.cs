@@ -2,19 +2,15 @@ namespace ExorAIO.Champions.Akali
 {
     using System;
     using System.Linq;
-    using System.Collections.Generic;
-
     using LeagueSharp;
     using LeagueSharp.Common;
-
     using ExorAIO.Utilities;
-
     using Orbwalking = SFXTargetSelector.Orbwalking;
 
     /// <summary>
     /// The logics class.
     /// </summary>
-    public class Logics
+    class Logics
     {
         /// <summary>
         /// Called when the game updates itself.
@@ -30,13 +26,13 @@ namespace ExorAIO.Champions.Akali
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
 
                 ((Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>()) ||
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").GetValue<bool>()) ||
 
                 (Targets.Target.Health < Variables.Q.GetDamage(Targets.Target) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqks").GetValue<bool>()) ||
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").GetValue<bool>()) ||
 
                 (ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqautoharass").GetValue<bool>())))
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.autoharass").GetValue<bool>())))
             {
                 Variables.Q.CastOnUnit(Targets.Target);
             }
@@ -46,9 +42,8 @@ namespace ExorAIO.Champions.Akali
             /// </summary>
             if (Variables.E.IsReady() &&
                 Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
-
-                (Targets.Target.Health < Variables.E.GetDamage(Targets.Target) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useeks").GetValue<bool>()))
+                Targets.Target.Health < Variables.E.GetDamage(Targets.Target) &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.ks").GetValue<bool>())
             {
                 Variables.E.Cast();
             }
@@ -60,11 +55,11 @@ namespace ExorAIO.Champions.Akali
                 Targets.Target.IsValidTarget(Variables.R.Range) &&
 
                 ((Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    (!Utility.UnderTurret(Targets.Target) || !Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.safetychecks").GetValue<bool>()) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.usercombo").GetValue<bool>()) ||
+                    (!Targets.Target.UnderTurret() || !Variables.Menu.Item($"{Variables.MainMenuName}.misc.safecheck").GetValue<bool>()) &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").GetValue<bool>()) ||
 
                 (Targets.Target.Health < Variables.R.GetDamage(Targets.Target) * 2 &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.userks").GetValue<bool>())))
+                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").GetValue<bool>())))
             {
                 Variables.R.CastOnUnit(Targets.Target);
             }
@@ -82,9 +77,8 @@ namespace ExorAIO.Champions.Akali
             /// </summary>
             if (Variables.E.IsReady() &&
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
-
-                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useecombo").GetValue<bool>()))
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").GetValue<bool>())
             {
                 Variables.E.Cast();
             }
@@ -101,12 +95,11 @@ namespace ExorAIO.Champions.Akali
             /// The E Farm Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
-
-                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                    ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
-                    (Targets.Minions.Count() >= 3 ||
-                        GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>()))
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
+                ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
+                (Targets.Minions.Count() >= 3 ||
+                    GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.farm").GetValue<bool>())
             {
                 Variables.E.Cast();
             }

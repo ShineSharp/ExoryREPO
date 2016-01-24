@@ -3,13 +3,10 @@ namespace ExorAIO.Champions.Olaf
     using System;
     using System.Linq;
     using System.Collections.Generic;
-
     using LeagueSharp;
     using LeagueSharp.Common;
-
-    using Orbwalking = SFXTargetSelector.Orbwalking;
-
     using ExorAIO.Utilities;
+    using Orbwalking = SFXTargetSelector.Orbwalking;
 
     /// <summary>
     /// The main class.
@@ -24,7 +21,7 @@ namespace ExorAIO.Champions.Olaf
             Settings.SetSpells();
             Settings.SetMenu();
             Settings.SetMethods();
-            Drawings.Load();
+            Drawings.Initialize();
         }
 
         /// <summary>

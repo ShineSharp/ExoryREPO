@@ -1,16 +1,10 @@
-using System;
-using System.Linq;
-using System.Collections.Generic;
-
-using LeagueSharp;
-using LeagueSharp.Common;
-
-using ExorAIO.Champions.Jinx;
-
-using ItemData = LeagueSharp.Common.Data.ItemData;
-
 namespace ExorAIO.Utilities
 {
+    using System;
+    using System.Linq;
+    using LeagueSharp;
+    using LeagueSharp.Common;
+
     /// <summary>
     /// The Mana manager class.
     /// </summary>
@@ -22,8 +16,7 @@ namespace ExorAIO.Utilities
         public static int NeededQMana
         =>
             Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.qmana") != null ?
-                Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.qmana").GetValue<Slider>().Value :
-                0;
+                Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.qmana").GetValue<Slider>().Value : 0;
 
         /// <summary>
         /// Sets the minimum necessary mana to use the W spell.
@@ -31,8 +24,7 @@ namespace ExorAIO.Utilities
         public static int NeededWMana 
         =>
             Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.wmana") != null ?
-                Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.wmana").GetValue<Slider>().Value :
-                0;
+                Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.wmana").GetValue<Slider>().Value : 0;
 
         /// <summary>
         /// Sets the minimum necessary mana to use the E spell.
@@ -40,8 +32,7 @@ namespace ExorAIO.Utilities
         public static int NeededEMana
         =>
             Variables.Menu.Item($"{Variables.MainMenuName}.esettings.emana") != null ?
-                Variables.Menu.Item($"{Variables.MainMenuName}.esettings.emana").GetValue<Slider>().Value :
-                0;
+                Variables.Menu.Item($"{Variables.MainMenuName}.esettings.emana").GetValue<Slider>().Value : 0;
 
         /// <summary>
         /// Sets the minimum necessary mana to use the R spell.
@@ -49,8 +40,7 @@ namespace ExorAIO.Utilities
         public static int NeededRMana
         =>
             Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.rmana") != null ?
-                Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.rmana").GetValue<Slider>().Value :
-                0;
+                Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.rmana").GetValue<Slider>().Value : 0;
     }
 
     /// <summary>
@@ -61,7 +51,7 @@ namespace ExorAIO.Utilities
         /// <summary>
         /// Loads the drawings.
         /// </summary>
-        public static void Load()
+        public static void Initialize()
         {
             Drawing.OnDraw += delegate
             {

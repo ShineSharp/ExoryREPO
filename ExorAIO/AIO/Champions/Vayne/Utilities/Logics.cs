@@ -3,14 +3,10 @@ namespace ExorAIO.Champions.Vayne
     using System;
     using System.Linq;
     using System.Collections.Generic;
-
     using LeagueSharp;
     using LeagueSharp.Common;
-
     using SharpDX;
-
     using ExorAIO.Utilities;
-
     using Orbwalking = SFXTargetSelector.Orbwalking;
     using TargetSelector = SFXTargetSelector.TargetSelector;
 
@@ -26,16 +22,21 @@ namespace ExorAIO.Champions.Vayne
         public static void ExecuteAuto(EventArgs args)
         {
             /// <summary>
-            /// The Target preference.
+            /// The TargetSelector priority (2W Stack enemy).
             /// </summary>
             if (TargetSelector.Weights.GetItem("low-health") != null)
             {
-                TargetSelector.Weights.GetItem("low-health").ValueFunction = hero => hero.Health - KillSteal.GetDamage(hero)*2;
-                TargetSelector.Weights.GetItem("low-health").Tooltip = "Low Health (Health < 2W + E Damage) = Higher Weight";
-                TargetSelector.Weights.Register(
-                    new TargetSelector.Weights.Item(
-                        "w-stack", "W Stack", 10, false, hero => hero.GetBuffCount("vaynesilvereddebuff") == 2 ? 1 : 0,
-                        "Has 2W Stacks = Higher Weight"));
+                TargetSelector.Weights
+                    .GetItem("low-health")
+                    .ValueFunction = hero => hero.Health - KillSteal.GetDamage(hero)*2;
+
+                TargetSelector.Weights
+                    .GetItem("low-health")
+                    .Tooltip = "Low Health (Health < 2W + E Damage) = Higher Weight";
+
+                TargetSelector.Weights
+                    .Register(new TargetSelector.Weights.Item("w-stack", "W Stack", 10, false,
+                        hero => hero.GetBuffCount("vaynesilvereddebuff") == 2 ? 1 : 0, "Has 2W Stacks = Higher Weight"));
             }
 
             /// <summary>
@@ -93,7 +94,7 @@ namespace ExorAIO.Champions.Vayne
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqks").GetValue<bool>()))
             {
                 Variables.Q.Cast(Targets.Target.Position);
-                TargetSelector.SetTarget(Targets.Target);
+                TargetSelector.Selected.Target = Targets.Target;
             }
         }
 

@@ -1,30 +1,25 @@
 namespace ExorAIO.Champions.Akali
 {
     using System;
-    using System.Linq;
-    using System.Collections.Generic;
-
     using LeagueSharp;
     using LeagueSharp.Common;
-
     using ExorAIO.Utilities;
-
     using Orbwalking = SFXTargetSelector.Orbwalking;
 
     /// <summary>
     /// The main class.
     /// </summary>
-    public class Akali
+    class Akali
     {   
         /// <summary>
         /// Called when the game loads itself.
         /// </summary>
         public void OnLoad()
         {
-            Settings.SetSpells();
-            Settings.SetMenu();
-            Settings.SetMethods();
-            Drawings.Load();
+            Menus.Initialize();
+            Spells.Initialize();
+            Methods.Initialize();
+            Drawings.Initialize();
         }
 
         /// <summary>

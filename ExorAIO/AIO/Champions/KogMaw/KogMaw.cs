@@ -3,16 +3,13 @@ namespace ExorAIO.Champions.KogMaw
     using System;
     using System.Linq;
     using System.Collections.Generic;
-
     using LeagueSharp;
     using LeagueSharp.Common;
-
+    using ExorAIO.Utilities;
     using Orbwalking = SFXTargetSelector.Orbwalking;
 
-    using ExorAIO.Utilities;
-
     /// <summary>
-    ///     The main class.
+    /// The main class.
     /// </summary>
     public class KogMaw
     {
@@ -23,7 +20,7 @@ namespace ExorAIO.Champions.KogMaw
         {
             Settings.SetMenu();
             Settings.SetMethods();
-            Drawings.Load();
+            Drawings.Initialize();
         }
 
         /// <summary>
