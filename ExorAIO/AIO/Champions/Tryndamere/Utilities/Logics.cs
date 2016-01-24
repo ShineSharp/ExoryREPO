@@ -52,7 +52,7 @@ namespace ExorAIO.Champions.Tryndamere
             /// The W Combo Logic.
             /// </summary>
             if (Variables.W.IsReady() &&
-                ObjectManager.Player.Spellbook.CanUseSpell(SpellSlot.E) == SpellState.Ready &&
+                ObjectManager.Player.Spellbook.CanUseSpell(SpellSlot.W) == SpellState.Ready &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>())
             {
