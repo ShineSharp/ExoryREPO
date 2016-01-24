@@ -26,11 +26,12 @@ namespace ExorAIO.Champions.Akali
         /// Called when the game updates itself.
         /// </summary>
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
-        public static void Game_OnGameUpdate(EventArgs args)
+        public static void OnUpdate(EventArgs args)
         {
             if (!ObjectManager.Player.IsDead &&
                 Targets.Target != null &&
                 Targets.Target.IsValid &&
+                Bools.HasNoProtection(Targets.Target) &&
                 Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
                 Logics.ExecuteAuto(args);
@@ -42,9 +43,10 @@ namespace ExorAIO.Champions.Akali
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="args">The args.</param>
-        public static void Obj_AI_Base_OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
+        public static void OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             if (sender.IsMe &&
+                Bools.HasNoProtection((Obj_AI_Base)args.Target) &&
                 Orbwalking.IsAutoAttack(args.SData.Name) &&
                 Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {

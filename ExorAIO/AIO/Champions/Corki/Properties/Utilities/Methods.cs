@@ -1,4 +1,4 @@
-namespace ExorAIO.Champions.Akali
+namespace ExorAIO.Champions.Corki
 {
     using LeagueSharp;
     using LeagueSharp.Common;
@@ -7,15 +7,15 @@ namespace ExorAIO.Champions.Akali
     /// <summary>
     /// The methods class.
     /// </summary>
-    public class Methods
+    class Methods
     {  
         /// <summary>
         /// Sets the methods.
         /// </summary>
         public static void Initialize()
         {
-            Game.OnUpdate += Akali.OnUpdate;
-            Obj_AI_Base.OnDoCast += Akali.OnDoCast;
+            Game.OnUpdate += Corki.OnUpdate;
+            Obj_AI_Base.OnDoCast += Corki.OnDoCast;
         }
     }
 }

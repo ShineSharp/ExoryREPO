@@ -32,6 +32,7 @@ namespace ExorAIO.Champions.Akali
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").GetValue<bool>()) ||
 
                 (ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
+                    !Targets.Target.UnderTurret() &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.autoharass").GetValue<bool>())))
             {
                 Variables.Q.CastOnUnit(Targets.Target);

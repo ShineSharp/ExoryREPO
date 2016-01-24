@@ -14,7 +14,7 @@ namespace ExorAIO.Champions.Cassiopeia
         /// </summary>
         public static void Initialize()
         {
-            Game.OnUpdate += Cassiopeia.Game_OnGameUpdate;
+            Game.OnUpdate += Cassiopeia.OnUpdate;
         }
     }
 }

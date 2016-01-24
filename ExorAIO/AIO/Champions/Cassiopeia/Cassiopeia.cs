@@ -26,12 +26,13 @@ namespace ExorAIO.Champions.Cassiopeia
         /// Called when the game updates itself.
         /// </summary>
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
-        public static void Game_OnGameUpdate(EventArgs args)
+        public static void OnUpdate(EventArgs args)
         {
             if (!ObjectManager.Player.IsDead)
             {
                 if (Targets.Target != null &&
                     Targets.Target.IsValid &&
+                    Bools.HasNoProtection(Targets.Target) &&
                     Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
                 {
                     Logics.ExecuteModes(args);

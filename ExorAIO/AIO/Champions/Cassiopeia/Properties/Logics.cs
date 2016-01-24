@@ -43,7 +43,7 @@ namespace ExorAIO.Champions.Cassiopeia
             /// The No AA while in Combo option.
             /// </summary>
             if (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                !Variables.Menu.Item($"{Variables.MainMenuName}.misc.aacombo").GetValue<bool>())
+                !Variables.Menu.Item($"{Variables.MainMenuName}.misc.enableaa").GetValue<bool>())
             {
                 Variables.Orbwalker.SetAttack(false);
             }
@@ -116,7 +116,7 @@ namespace ExorAIO.Champions.Cassiopeia
                 ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
                 (Variables.Q.GetCircularFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 3 ||
                     GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").GetValue<bool>())
             {
                 Variables.Q.Cast(Variables.Q.GetCircularFarmLocation(Targets.Minions, Variables.Q.Width).Position);
             }
@@ -130,7 +130,7 @@ namespace ExorAIO.Champions.Cassiopeia
                 ObjectManager.Player.ManaPercent > ManaManager.NeededWMana &&
                 (Variables.W.GetCircularFarmLocation(Targets.Minions, Variables.W.Width).MinionsHit >= 3 ||
                     GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarm").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.farm").GetValue<bool>())
             {
                 Variables.W.Cast(Variables.W.GetCircularFarmLocation(Targets.Minions, Variables.W.Width).Position);
             }
@@ -142,7 +142,7 @@ namespace ExorAIO.Champions.Cassiopeia
                 !Variables.Q.IsReady() &&
                 !Variables.W.IsReady() &&
                 (((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).HasBuffOfType(BuffType.Poison) || 
-                    Variables.Menu.Item($"{Variables.MainMenuName}.misc.lasthitnopoison").GetValue<bool>()) &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.misc.enopoison").GetValue<bool>()) &&
 
                 (Variables.E.GetDamage(((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) > ((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).Health &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.espell.farm").GetValue<bool>()))

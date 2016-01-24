@@ -15,7 +15,7 @@ namespace ExorAIO.Champions.Cassiopeia
         public static void Initialize()
         {
             /// <summary>
-            /// Sets the spell menu.
+            /// Sets the spells menu.
             /// </summary>
             Variables.SettingsMenu = new Menu("Spells Menu", $"{Variables.MainMenuName}.settingsmenu");
             {

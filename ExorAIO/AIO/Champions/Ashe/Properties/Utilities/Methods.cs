@@ -14,8 +14,8 @@ namespace ExorAIO.Champions.Ashe
         /// </summary>
         public static void Initialize()
         {
-            Game.OnUpdate += Ashe.Game_OnGameUpdate;
-            Obj_AI_Base.OnDoCast += Ashe.Obj_AI_Base_OnDoCast;
+            Game.OnUpdate += Ashe.OnUpdate;
+            Obj_AI_Base.OnDoCast += Ashe.OnDoCast;
         }
     }
 }

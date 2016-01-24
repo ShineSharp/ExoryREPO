@@ -7,7 +7,7 @@ namespace ExorAIO.Champions.Akali
     /// <summary>
     /// The spell class.
     /// </summary>
-    public class Spells
+    class Spells
     {
         /// <summary>
         /// Sets the spells.

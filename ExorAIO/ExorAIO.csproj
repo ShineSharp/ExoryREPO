@@ -78,9 +78,12 @@
     <Compile Include="AIO\Champions\Cassiopeia\Properties\Utilities\Methods.cs" />
     <Compile Include="AIO\Champions\Cassiopeia\Properties\Utilities\Spells.cs" />
     <Compile Include="AIO\Champions\Cassiopeia\Properties\Utilities\Targets.cs" />
-    <Compile Include="AIO\Champions\Corki\Utilities\Logics.cs" />
-    <Compile Include="AIO\Champions\Corki\Utilities\Utility.cs" />
     <Compile Include="AIO\Champions\Corki\Corki.cs" />
+    <Compile Include="AIO\Champions\Corki\Properties\Logics.cs" />
+    <Compile Include="AIO\Champions\Corki\Properties\Utilities\Menus.cs" />
+    <Compile Include="AIO\Champions\Corki\Properties\Utilities\Methods.cs" />
+    <Compile Include="AIO\Champions\Corki\Properties\Utilities\Spells.cs" />
+    <Compile Include="AIO\Champions\Corki\Properties\Utilities\Targets.cs" />
     <Compile Include="AIO\Champions\Darius\Utilities\Logics.cs" />
     <Compile Include="AIO\Champions\Darius\Utilities\Utility.cs" />
     <Compile Include="AIO\Champions\Darius\Darius.cs" />
