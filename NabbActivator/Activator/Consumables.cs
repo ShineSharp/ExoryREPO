@@ -20,7 +20,7 @@ namespace NabbActivator
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void Execute(EventArgs args)
         {
-            if (ObjectManager.Player.IsRecalling() || ObjectManager.Player.InFountain())
+            if (ObjectManager.Player.IsRecalling() || Utility.InFountain(ObjectManager.Player))
             {
                 return;
             }
