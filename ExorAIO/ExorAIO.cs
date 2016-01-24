@@ -4,6 +4,9 @@ using ExorAIO.Core;
 
 namespace ExorAIO
 {
+    /// <summary>
+    /// The AIO class.
+    /// </summary>
     class AIO
     {
         /// <summary>

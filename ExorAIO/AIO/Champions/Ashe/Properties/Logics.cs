@@ -2,19 +2,15 @@ namespace ExorAIO.Champions.Ashe
 {
     using System;
     using System.Linq;
-    using System.Collections.Generic;
-
     using LeagueSharp;
     using LeagueSharp.Common;
-    
-    using Orbwalking = SFXTargetSelector.Orbwalking;
-
     using ExorAIO.Utilities;
+    using Orbwalking = SFXTargetSelector.Orbwalking;
 
     /// <summary>
     /// The logics class.
     /// </summary>
-    public class Logics
+    class Logics
     {
         /// <summary>
         /// Called when the game updates itself.
@@ -30,11 +26,11 @@ namespace ExorAIO.Champions.Ashe
                 ObjectManager.Player.HasBuff("AsheQCastReady") &&
 
                 ((Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>()) ||
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").GetValue<bool>()) ||
 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                     ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>())))
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").GetValue<bool>())))
             {
                 Variables.Q.Cast();
             }
@@ -44,32 +40,35 @@ namespace ExorAIO.Champions.Ashe
             /// The W KillSteal Logic.
             /// </summary>
             if (Variables.W.IsReady() &&
-                Targets.Target.IsValidTarget(Variables.W.Range) &&
                 Bools.HasNoProtection(Targets.Target) &&
+                Targets.Target.IsValidTarget(Variables.W.Range) &&
+                Variables.W.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
 
                 ((Targets.Target.Health < Variables.W.GetDamage(Targets.Target) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewks").GetValue<bool>())) ||
+                    Variables.Menu.Item($"{Variables.MainMenuName}.wspell.ks").GetValue<bool>())) ||
 
                 (Bools.IsImmobile(Targets.Target) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewimmobile").GetValue<bool>()))
+                    Variables.Menu.Item($"{Variables.MainMenuName}.wspell.harass").GetValue<bool>()))
             {
-                Variables.W.CastIfHitchanceEquals(Targets.Target, HitChance.High, false);
+                Variables.W.Cast(Variables.W.GetPrediction(Targets.Target).UnitPosition);
             }
             
             /// <summary>
             /// The R Logics.
             /// </summary>
-            if (Targets.Target.IsValidTarget(Variables.W.Range+200) &&
-                Bools.HasNoProtection(Targets.Target))
+            if (Variables.R.IsReady() &&
+                Bools.HasNoProtection(Targets.Target) &&
+                Targets.Target.IsValidTarget(Variables.W.Range+200) &&
+                !Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)))
             {
                 /// <summary>
                 /// R KillSteal Logic.
                 /// </summary>
-                if (Variables.R.IsReady() &&
-                    (!Variables.W.IsReady() || !Targets.Target.IsValidTarget(Variables.W.Range)) &&
+                if ((!Variables.W.IsReady() ||
+                    !Targets.Target.IsValidTarget(Variables.W.Range)) &&
 
                     (Targets.Target.Health < Variables.R.GetDamage(Targets.Target) &&
-                        Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.userks").GetValue<bool>()))
+                        Variables.Menu.Item($"{Variables.MainMenuName}.rspell.userks").GetValue<bool>()))
                 {
                     Variables.R.Cast(Variables.R.GetPrediction(Targets.Target).UnitPosition);
                 }
@@ -78,15 +77,12 @@ namespace ExorAIO.Champions.Ashe
                 /// The R Doublelift Mechanic Logic,
                 /// The R Normal Combo Logic.
                 /// </summary>
-                if (Variables.R.IsReady() &&
-                    !Targets.Target.IsValidTarget(ObjectManager.Player.AttackRange) &&
-
-                    (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                        Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.usercombo").GetValue<bool>() &&
-                        Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.rwhitelist.{Targets.Target.ChampionName.ToLower()}").GetValue<bool>()))
+                if ((Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").GetValue<bool>() &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.whitelist.{Targets.Target.ChampionName.ToLower()}").GetValue<bool>()))
                 {
                     if (Variables.E.IsReady() &&
-                        Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.usermechanic").GetValue<bool>())
+                        Variables.Menu.Item($"{Variables.MainMenuName}.misc.ermechanic").GetValue<bool>())
                     {
                         Variables.E.Cast(Variables.E.GetPrediction(Targets.Target).UnitPosition);
                     }
@@ -108,11 +104,11 @@ namespace ExorAIO.Champions.Ashe
             /// </summary>
             if (Variables.W.IsReady() &&
                 Bools.HasNoProtection((Obj_AI_Hero)args.Target) &&
-
-                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>()))
+                Variables.W.GetPrediction(Targets.Target).Hitchance >= HitChance.Medium &&
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.usewcombo").GetValue<bool>())
             {
-                Variables.W.CastIfHitchanceEquals((Obj_AI_Hero)args.Target, HitChance.High, false);
+                Variables.W.Cast(Variables.W.GetPrediction(Targets.Target).UnitPosition);
             }
         }
 
@@ -127,12 +123,11 @@ namespace ExorAIO.Champions.Ashe
             /// The W Farm Logic.
             /// </summary>
             if (Variables.W.IsReady() &&
-
-                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                    ObjectManager.Player.ManaPercent > ManaManager.NeededWMana &&
-                    (Variables.W.GetLineFarmLocation(Targets.Minions, Variables.W.Width).MinionsHit >= 3 ||
-                        GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarm").GetValue<bool>()))
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
+                ObjectManager.Player.ManaPercent > ManaManager.NeededWMana &&
+                (Variables.W.GetLineFarmLocation(Targets.Minions, Variables.W.Width).MinionsHit >= 3 ||
+                    GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.usewfarm").GetValue<bool>())
             {
                 Variables.W.Cast(Variables.W.GetLineFarmLocation(Targets.Minions, Variables.W.Width).Position);
             }

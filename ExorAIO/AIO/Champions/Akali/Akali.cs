@@ -7,7 +7,7 @@ namespace ExorAIO.Champions.Akali
     using Orbwalking = SFXTargetSelector.Orbwalking;
 
     /// <summary>
-    /// The main class.
+    /// The champion class.
     /// </summary>
     class Akali
     {   

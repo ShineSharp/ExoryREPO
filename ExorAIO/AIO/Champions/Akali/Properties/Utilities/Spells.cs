@@ -2,7 +2,6 @@ namespace ExorAIO.Champions.Akali
 {
     using LeagueSharp;
     using LeagueSharp.Common;
-
     using ExorAIO.Utilities;
 
     /// <summary>

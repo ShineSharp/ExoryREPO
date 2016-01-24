@@ -1,12 +1,9 @@
-using System;
-using System.Linq;
-using System.Collections.Generic;
-
-using LeagueSharp;
-using LeagueSharp.Common;
-
 namespace ExorAIO.Utilities
 {
+    using System.Linq;
+    using LeagueSharp;
+    using LeagueSharp.Common;
+
     /// <summary>
     /// The Bools class.
     /// </summary>
@@ -29,15 +26,15 @@ namespace ExorAIO.Utilities
         /// <value>
         /// <c>true</c> if the target can't move.; otherwise, <c>false</c>.
         /// </value>
-        public static bool IsImmobile(Obj_AI_Hero Target)
+        public static bool IsImmobile(Obj_AI_Hero target)
         => 
-            Target.HasBuffOfType(BuffType.Stun)
-            || Target.HasBuffOfType(BuffType.Snare)
-            || Target.HasBuffOfType(BuffType.Knockup)
-            || Target.HasBuffOfType(BuffType.Charm)
-            || Target.HasBuffOfType(BuffType.Flee)
-            || Target.HasBuffOfType(BuffType.Taunt)
-            || Target.HasBuffOfType(BuffType.Suppression);
+            target.HasBuffOfType(BuffType.Stun) ||
+            target.HasBuffOfType(BuffType.Snare) ||
+            target.HasBuffOfType(BuffType.Knockup) ||
+            target.HasBuffOfType(BuffType.Charm) ||
+            target.HasBuffOfType(BuffType.Flee) ||
+            target.HasBuffOfType(BuffType.Taunt) ||
+            target.HasBuffOfType(BuffType.Suppression);
 
         /// <summary>
         /// Gets a value indicating whether a determined champion has 2 Vayne's W stacks or not.
@@ -72,12 +69,12 @@ namespace ExorAIO.Utilities
         =>
             target.InventoryItems.Any(
                 item => 
-                    item.Id.Equals(ItemId.Tear_of_the_Goddess)
-                    || item.Id.Equals(ItemId.Archangels_Staff)
-                    || item.Id.Equals(ItemId.Manamune)
-                    || item.Id.Equals(ItemId.Tear_of_the_Goddess_Crystal_Scar)
-                    || item.Id.Equals(ItemId.Archangels_Staff_Crystal_Scar)
-                    || item.Id.Equals(ItemId.Manamune_Crystal_Scar));
+                    item.Id.Equals(ItemId.Tear_of_the_Goddess) ||
+                    item.Id.Equals(ItemId.Archangels_Staff) ||
+                    item.Id.Equals(ItemId.Manamune) ||
+                    item.Id.Equals(ItemId.Tear_of_the_Goddess_Crystal_Scar) ||
+                    item.Id.Equals(ItemId.Archangels_Staff_Crystal_Scar) ||
+                    item.Id.Equals(ItemId.Manamune_Crystal_Scar));
 
         /// <summary>
         /// Gets a value indicating whether the Corki has the Big One charged.
@@ -100,25 +97,6 @@ namespace ExorAIO.Utilities
             obj.HasBuff("TristanaECharge");
 
         /// <summary>
-        /// Gets a value indicating whether a the Olaf player should use ult.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if the cleanse should be used.; otherwise, <c>false</c>.
-        /// </value>
-        public static bool ShouldCleanse()
-        =>
-            Bools.IsValidRoot()
-            || ObjectManager.Player.HasBuffOfType(BuffType.Charm)
-            || ObjectManager.Player.HasBuffOfType(BuffType.Flee)
-            || ObjectManager.Player.HasBuffOfType(BuffType.Polymorph)
-            || ObjectManager.Player.HasBuffOfType(BuffType.Knockback)
-            || ObjectManager.Player.HasBuffOfType(BuffType.Knockup)
-            || ObjectManager.Player.HasBuffOfType(BuffType.Stun)
-            || ObjectManager.Player.HasBuffOfType(BuffType.Taunt)
-            || ObjectManager.Player.HasBuffOfType(BuffType.Suppression)
-            || ObjectManager.Player.HasBuff("summonerexhaust");
-
-        /// <summary>
         /// Gets a value indicating whether a determined root is worth cleansing.
         /// </summary>
         /// <value>
@@ -127,12 +105,30 @@ namespace ExorAIO.Utilities
         public static bool IsValidRoot()
         =>
             ObjectManager.Player.Buffs
-                .Any(
-                    buff =>
-                        buff.Type.Equals(BuffType.Snare) &&
-                        !(((Obj_AI_Hero)buff.Caster).ChampionName.Equals("Leona") ||
-                        ((Obj_AI_Hero)buff.Caster).ChampionName.Equals("Amumu")));
-                        
+                .Any(buff => buff.Type.Equals(BuffType.Snare) && 
+                    !((Obj_AI_Hero)buff.Caster).ChampionName.Equals("Leona") &&
+                    !((Obj_AI_Hero)buff.Caster).ChampionName.Equals("Amumu"));
+
+        /// <summary>
+        /// Gets a value indicating whether BuffType is worth cleansing.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if the cleanse should be used.; otherwise, <c>false</c>.
+        /// </value>
+        public static bool ShouldCleanse()
+        =>
+            Bools.IsValidRoot() ||
+            ObjectManager.Player.HasBuffOfType(BuffType.Charm) ||
+            ObjectManager.Player.HasBuffOfType(BuffType.Flee) ||
+            ObjectManager.Player.HasBuffOfType(BuffType.Polymorph) ||
+            ObjectManager.Player.HasBuffOfType(BuffType.Knockback) ||
+            ObjectManager.Player.HasBuffOfType(BuffType.Knockup) ||
+            ObjectManager.Player.HasBuffOfType(BuffType.Stun) ||
+            ObjectManager.Player.HasBuffOfType(BuffType.Taunt) ||
+            ObjectManager.Player.HasBuffOfType(BuffType.Suppression) ||
+            ObjectManager.Player.HasBuff("summonerexhaust") ||
+            ObjectManager.Player.HasBuff("summonerdot");
+
         /// <summary>
         /// Gets a value indicating whether the Jinx is using Fishbones.
         /// </summary>

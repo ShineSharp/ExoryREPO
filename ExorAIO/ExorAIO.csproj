@@ -66,9 +66,12 @@
     <Compile Include="AIO\Champions\Akali\Properties\Utilities\Methods.cs" />
     <Compile Include="AIO\Champions\Akali\Properties\Utilities\Spells.cs" />
     <Compile Include="AIO\Champions\Akali\Properties\Utilities\Targets.cs" />
-    <Compile Include="AIO\Champions\Ashe\Utilities\Logics.cs" />
-    <Compile Include="AIO\Champions\Ashe\Utilities\Utility.cs" />
     <Compile Include="AIO\Champions\Ashe\Ashe.cs" />
+    <Compile Include="AIO\Champions\Ashe\Properties\Logics.cs" />
+    <Compile Include="AIO\Champions\Ashe\Properties\Utilities\Menu.cs" />
+    <Compile Include="AIO\Champions\Ashe\Properties\Utilities\Methods.cs" />
+    <Compile Include="AIO\Champions\Ashe\Properties\Utilities\Spells.cs" />
+    <Compile Include="AIO\Champions\Ashe\Properties\Utilities\Targets.cs" />
     <Compile Include="AIO\Champions\Cassiopeia\Utilities\Logics.cs" />
     <Compile Include="AIO\Champions\Cassiopeia\Utilities\Utility.cs" />
     <Compile Include="AIO\Champions\Cassiopeia\Cassiopeia.cs" />

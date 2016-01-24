@@ -1,4 +1,4 @@
-namespace ExorAIO.Champions.Akali
+namespace ExorAIO.Champions.Ashe
 {
     using LeagueSharp;
     using LeagueSharp.Common;
@@ -14,8 +14,8 @@ namespace ExorAIO.Champions.Akali
         /// </summary>
         public static void Initialize()
         {
-            Game.OnUpdate += Akali.Game_OnGameUpdate;
-            Obj_AI_Base.OnDoCast += Akali.Obj_AI_Base_OnDoCast;
+            Game.OnUpdate += Ashe.Game_OnGameUpdate;
+            Obj_AI_Base.OnDoCast += Ashe.Obj_AI_Base_OnDoCast;
         }
     }
 }

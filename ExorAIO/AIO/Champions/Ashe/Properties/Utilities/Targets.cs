@@ -1,4 +1,4 @@
-namespace ExorAIO.Champions.Akali
+namespace ExorAIO.Champions.Ashe
 {
     using System.Collections.Generic;
     using LeagueSharp;
@@ -17,7 +17,7 @@ namespace ExorAIO.Champions.Akali
         public static Obj_AI_Hero Target
         =>
             TargetSelector
-                .GetTarget(Variables.R.Range, LeagueSharp.DamageType.Magical);
+                .GetTarget(Variables.W.Range, LeagueSharp.DamageType.Physical);
 
         /// <summary>
         /// The minion targets.
@@ -25,6 +25,6 @@ namespace ExorAIO.Champions.Akali
         public static List<Obj_AI_Base> Minions
         => 
             MinionManager
-                .GetMinions(ObjectManager.Player.ServerPosition, Variables.E.Range);
+                .GetMinions(ObjectManager.Player.ServerPosition, Variables.W.Range);
     }
 }
