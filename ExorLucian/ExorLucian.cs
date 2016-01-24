@@ -55,6 +55,7 @@ namespace ExorLucian
                     Logics.ExecuteModes(sender, args);
                 }
                 else if (args.Target.IsValid<Obj_AI_Minion>() &&
+                    (Obj_AI_Minion)Variables.Orbwalker.GetTarget() != null &&
                     Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear)
                 {
                     Logics.ExecuteFarm(sender, args);

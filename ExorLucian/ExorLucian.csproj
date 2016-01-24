@@ -66,7 +66,7 @@
     <Compile Include="Utilities\Variables.cs" />
     <Compile Include="Utilities\Entities\GameObjects.cs" />
     <Compile Include="Utilities\Entities\Jungle.cs" />
-    <Compile Include="Utilities\Logics\Logics.cs" />
+    <Compile Include="Logics\Logics.cs" />
     <Compile Include="SFXTargetSelector\Enumerations\Mode.cs" />
     <Compile Include="SFXTargetSelector\Enumerations\Priority.cs" />
     <Compile Include="SFXTargetSelector\EventArgs\ModesOnChange.cs" />

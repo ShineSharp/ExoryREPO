@@ -23,11 +23,11 @@ namespace ExorLucian
             Variables.Q = new Spell(SpellSlot.Q, ObjectManager.Player.BoundingRadius*3 + 500f);
             Variables.W = new Spell(SpellSlot.W, 1000f);
             Variables.E = new Spell(SpellSlot.E, ObjectManager.Player.BoundingRadius + (ObjectManager.Player.AttackRange + 450f));
-            Variables.R = new Spell(SpellSlot.R, 1400f);
+            Variables.R = new Spell(SpellSlot.R, 1350f);
             
-            Variables.Q.SetTargetted(0.25f, float.MaxValue);
-            Variables.W.SetSkillshot(0.3f, 80f, 1600f, true, SkillshotType.SkillshotLine);
-            Variables.E.SetSkillshot(.25f, 1f, float.MaxValue, false, SkillshotType.SkillshotLine);
+            Variables.Q.SetTargetted(0.5f, float.MaxValue);
+            Variables.W.SetSkillshot(0.25f, 55f, 1600f, true, SkillshotType.SkillshotLine);
+            Variables.R.SetSkillshot(0.5f, 110f, 2800f, false, SkillshotType.SkillshotLine);
         }
 
         /// <summary>
@@ -90,6 +90,12 @@ namespace ExorLucian
                             .SetValue(new Slider(50, 0, 99));
                     }
                     Variables.SettingsMenu.AddSubMenu(Variables.EMenu);
+
+                    Variables.RMenu = new Menu("R Settings", $"{Variables.MainMenuName}.rsettingsmenu");
+                    {
+                        Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rsettings.usersemiauto", "Semi-Automatic R")).SetValue(new KeyBind("T".ToCharArray()[0], KeyBindType.Press));
+                    }
+                    Variables.SettingsMenu.AddSubMenu(Variables.RMenu);
                 }
                 Variables.Menu.AddSubMenu(Variables.SettingsMenu);
 
@@ -122,17 +128,17 @@ namespace ExorLucian
         /// <summary>
         /// The main hero target.
         /// </summary>
-        public static Obj_AI_Hero Target => TargetSelector.GetTarget(Variables.Q.Range + 600f, LeagueSharp.DamageType.Physical);
+        public static Obj_AI_Hero Target
+        =>
+            TargetSelector
+                .GetTarget(Variables.Q.Range + 600f, LeagueSharp.DamageType.Physical);
 
         /// <summary>
         /// The minions target.
         /// </summary>
         public static List<Obj_AI_Base> Minions
         =>
-            MinionManager.GetMinions(
-                ObjectManager.Player.ServerPosition,
-                Variables.Q.Range,
-                MinionTypes.All
-            );
+            MinionManager
+                .GetMinions(ObjectManager.Player.ServerPosition, Variables.Q.Range);
     }
 }

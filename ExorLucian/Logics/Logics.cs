@@ -23,10 +23,13 @@ namespace ExorLucian
         public static void ExecuteAuto(EventArgs args)
         {
             /// <summary>
-            /// Block AA While R.
+            /// The R Orbwalking.
             /// </summary>
-            Variables.Orbwalker.SetAttack(!ObjectManager.Player.HasBuff("LucianR"));
-            
+            if (ObjectManager.Player.HasBuff("LucianR"))
+            {
+                ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
+            }
+
             /// <summary>
             /// The Q Logics.
             /// </summary>
@@ -35,7 +38,8 @@ namespace ExorLucian
                 /// <summary>
                 /// The Q AutoHarass Logic.
                 /// </summary>
-                if (ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
+                if (!Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
+                    ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqautoharass").GetValue<bool>())
                 {
                     foreach (var tgminion in from target in ObjectManager.Player.GetEnemiesInRange(Variables.Q.Range + 600f)
@@ -93,6 +97,16 @@ namespace ExorLucian
             {
                 Variables.E.Cast(Game.CursorPos);
             }
+
+            /// <summary>
+            /// The Semi-Automatic R Logic.
+            /// </summary>
+            if (Variables.R.IsReady() &&
+                ((Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.usersemiauto").GetValue<KeyBind>().Active && !ObjectManager.Player.HasBuff("LucianR")) ||
+                (!Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.usersemiauto").GetValue<KeyBind>().Active && ObjectManager.Player.HasBuff("LucianR"))))
+            {
+                Variables.R.Cast(Variables.R.GetPrediction(Targets.Target).UnitPosition);
+            }
         }
 
         /// <summary>
@@ -149,14 +163,25 @@ namespace ExorLucian
         public static void ExecuteFarm(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             /// <summary>
+            /// The E JungleClear Logic.
+            /// </summary>
+            if (Variables.E.IsReady() &&
+                ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
+                GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget()) &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useejc").GetValue<bool>())
+            {
+                Variables.E.Cast(Game.CursorPos);
+                return;
+            }
+
+            /// <summary>
             /// The Q Farm Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
-
-                (ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
-                    (Variables.Q.GetLineFarmLocation(Targets.Minions, 60).MinionsHit >= 3 ||
-                        GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>()))
+                ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
+                (Variables.Q.GetLineFarmLocation(Targets.Minions, 60).MinionsHit >= 3 ||
+                    GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>())
             {
                 Variables.Q.CastOnUnit((Obj_AI_Minion)Variables.Orbwalker.GetTarget());
                 return;
@@ -166,26 +191,12 @@ namespace ExorLucian
             /// The W Farm Logic.
             /// </summary>
             if (Variables.W.IsReady() &&
-
-                (ObjectManager.Player.ManaPercent > ManaManager.NeededWMana &&
-                    (Variables.W.GetCircularFarmLocation(Targets.Minions, Variables.W.Width).MinionsHit >= 2 ||
-                        GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarm").GetValue<bool>()))
+                ObjectManager.Player.ManaPercent > ManaManager.NeededWMana &&
+                (Variables.W.GetCircularFarmLocation(Targets.Minions, Variables.W.Width).MinionsHit >= 2 ||
+                    GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarm").GetValue<bool>())
             {
                 Variables.W.Cast(((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).Position);
-                return;
-            }
-
-            /// <summary>
-            /// The E JungleClear Logic.
-            /// </summary>
-            if (Variables.E.IsReady() &&
-
-                (ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
-                    GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useejc").GetValue<bool>())
-            {
-                Variables.E.Cast(Game.CursorPos);
             }
         }
     }
