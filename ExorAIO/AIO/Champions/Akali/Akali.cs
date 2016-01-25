@@ -50,14 +50,19 @@ namespace ExorAIO.Champions.Akali
                 Orbwalking.IsAutoAttack(args.SData.Name) &&
                 Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
-                if (args.Target.Type.Equals(GameObjectType.obj_AI_Hero))
-                {
-                    Logics.ExecuteModes(sender, args);
-                }
-                else if (args.Target.Type.Equals(GameObjectType.obj_AI_Minion))
-                {
-                    Logics.ExecuteFarm(sender, args);
-                }
+				switch (args.Target.Type)
+				{
+					case GameObjectType.obj_AI_Hero: 
+						Logics.ExecuteModes(sender, args);
+						break;
+
+					case GameObjectType.obj_AI_Minion: 
+						Logics.ExecuteFarm(sender, args);
+						break;
+
+					default: 
+						break;
+				}
             }
         }
     }

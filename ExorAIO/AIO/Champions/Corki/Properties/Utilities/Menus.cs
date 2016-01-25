@@ -78,17 +78,17 @@ namespace ExorAIO.Champions.Corki
             Variables.DrawingsMenu = new Menu("Drawings Menu", $"{Variables.MainMenuName}.drawingsmenu");
             {
                 Variables.DrawingsMenu
-                    .AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.q", "Show Q Range"))
+                    .AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.q", "Q Range"))
                     .SetValue(false)
                     .SetFontStyle(FontStyle.Regular, SharpDX.Color.Green);
 
                 Variables.DrawingsMenu
-                    .AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.e", "Show E Range"))
+                    .AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.e", "E Range"))
                     .SetValue(false)
                     .SetFontStyle(FontStyle.Regular, SharpDX.Color.Cyan);
 
                 Variables.DrawingsMenu
-                    .AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.r", "Show R Range"))
+                    .AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.r", "R Range"))
                     .SetValue(false)
                     .SetFontStyle(FontStyle.Regular, SharpDX.Color.Red);
             }

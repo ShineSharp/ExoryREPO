@@ -1,4 +1,4 @@
-namespace ExorAIO.Champions.Akali
+namespace ExorAIO.Champions.Darius
 {
     using System.Drawing;
     using LeagueSharp.Common;
@@ -14,51 +14,42 @@ namespace ExorAIO.Champions.Akali
         /// </summary>
         public static void Initialize()
         {
-            /// <summary>
-            /// Sets the spells menu.
-            /// </summary>
-            Variables.SettingsMenu = new Menu("Spells Menu", $"{Variables.MainMenuName}.settingsmenu");
+            Variables.SettingsMenu = new Menu("Spell Menu", $"{Variables.MainMenuName}.settingsmenu");
             {
                 Variables.QMenu = new Menu("Use Q to:", $"{Variables.MainMenuName}.qmenu")
                     .SetFontStyle(FontStyle.Regular, SharpDX.Color.Green);
                 {
-                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.combo",  "Combo")).SetValue(true);
+                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.combo",  "Smart Combo")).SetValue(true);
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.ks",     "KillSteal")).SetValue(true);
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.harass", "AutoHarass")).SetValue(true);
-                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.mana",   "AutoHarass: Energy >= x%"))
+                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.farm",   "LaneClear")).SetValue(true);
+                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.mana",   "LaneClear/AutoHarass: Mana >= x%"))
                         .SetValue(new Slider(50, 0, 99));
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.QMenu);
+
+                Variables.WMenu = new Menu("Use W to:", $"{Variables.MainMenuName}.wmenu")
+					.SetFontStyle(FontStyle.Regular, SharpDX.Color.Purple);
+                {
+                    Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.combo",  "Combo")).SetValue(true);
+                }
+                Variables.SettingsMenu.AddSubMenu(Variables.WMenu);
 
                 Variables.EMenu = new Menu("Use E to:", $"{Variables.MainMenuName}.emenu")
                     .SetFontStyle(FontStyle.Regular, SharpDX.Color.Cyan);
                 {
                     Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.espell.combo",  "Combo")).SetValue(true);
-                    Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.espell.ks",     "KillSteal")).SetValue(true);
-                    Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.espell.farm",   "LaneClear")).SetValue(true);
-                    Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.espell.mana",   "LaneClear: Energy >= x%"))
-                        .SetValue(new Slider(50, 0, 99));
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.EMenu);
 
                 Variables.RMenu = new Menu("Use R to:", $"{Variables.MainMenuName}.rmenu")
                     .SetFontStyle(FontStyle.Regular, SharpDX.Color.Red);
                 {
-                    Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rspell.combo",  "Combo")).SetValue(true);
                     Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rspell.ks",     "KillSteal")).SetValue(true);
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.RMenu);
             }
             Variables.Menu.AddSubMenu(Variables.SettingsMenu);
-
-            /// <summary>
-            /// Sets the miscellaneous menu.
-            /// </summary>
-            Variables.MiscMenu = new Menu("Miscellaneous Menu", $"{Variables.MainMenuName}.miscmenu");
-            {
-                Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.misc.safecheck", "Enable Safety Checks?")).SetValue(true);
-            }
-            Variables.Menu.AddSubMenu(Variables.MiscMenu);
 
             /// <summary>
             /// Sets the drawings menu.
@@ -69,6 +60,11 @@ namespace ExorAIO.Champions.Akali
                     .AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.q", "Q Range"))
                     .SetValue(false)
                     .SetFontStyle(FontStyle.Regular, SharpDX.Color.Green);
+
+                Variables.DrawingsMenu
+                    .AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.w", "W Range"))
+                    .SetValue(false)
+                    .SetFontStyle(FontStyle.Regular, SharpDX.Color.Purple);
 
                 Variables.DrawingsMenu
                     .AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.e", "E Range"))

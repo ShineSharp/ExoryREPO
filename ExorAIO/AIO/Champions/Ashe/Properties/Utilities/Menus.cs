@@ -81,7 +81,7 @@ namespace ExorAIO.Champions.Ashe
             Variables.DrawingsMenu = new Menu("Drawings Menu", $"{Variables.MainMenuName}.drawingsmenu");
             {
                 Variables.DrawingsMenu
-                    .AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.w", "Show W Range"))
+                    .AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.w", "W Range"))
                     .SetValue(false)
                     .SetFontStyle(FontStyle.Regular, SharpDX.Color.Purple);
             }

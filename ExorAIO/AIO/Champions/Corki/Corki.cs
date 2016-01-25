@@ -1,5 +1,6 @@
 namespace ExorAIO.Champions.Corki
 {
+    using System.Collections.Generic;
     using System;
     using LeagueSharp;
     using LeagueSharp.Common;
@@ -28,15 +29,13 @@ namespace ExorAIO.Champions.Corki
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void OnUpdate(EventArgs args)
         {
-            if (!ObjectManager.Player.IsDead)
-            {
-                if (Targets.Target != null &&
-                    Targets.Target.IsValid &&
-                    Bools.HasNoProtection(Targets.Target))
-                {
-                    Logics.ExecuteAuto(args);
-                }
-            }
+            if (!ObjectManager.Player.IsDead &&
+				Targets.Target != null &&
+				Targets.Target.IsValid &&
+				Bools.HasNoProtection(Targets.Target))
+			{
+				Logics.ExecuteAuto(args);
+			}
         }
 
         /// <summary>
@@ -51,14 +50,19 @@ namespace ExorAIO.Champions.Corki
 				Orbwalking.IsAutoAttack(args.SData.Name) &&
 				Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
 			{
-				if (args.Target.Type.Equals(GameObjectType.obj_AI_Hero))
+				switch (args.Target.Type)
 				{
-					Logics.ExecuteModes(sender, args);
+					case GameObjectType.obj_AI_Hero: 
+						Logics.ExecuteModes(sender, args);
+						break;
+
+					case GameObjectType.obj_AI_Minion: 
+						Logics.ExecuteFarm(sender, args);
+						break;
+
+					default: 
+						break;
 				}
-				else if (args.Target.Type.Equals(GameObjectType.obj_AI_Minion))
-                {
-                    Logics.ExecuteFarm(sender, args);
-                }
 			}
         }
     }

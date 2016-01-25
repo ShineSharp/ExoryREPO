@@ -10,7 +10,7 @@ namespace ExorAIO.Champions.Corki
     /// <summary>
     /// The logics class.
     /// </summary>
-    public class Logics
+    class Logics
     {
         /// <summary>
         /// Called when the game updates itself.
@@ -56,8 +56,8 @@ namespace ExorAIO.Champions.Corki
                 ((Variables.R.GetDamage(Targets.Target) > Targets.Target.Health &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").GetValue<bool>()) ||
 
-                (ObjectManager.Player.ManaPercent > ManaManager.NeededRMana &&
-                    !Targets.Target.UnderTurret() &&
+                (!Targets.Target.UnderTurret() &&
+					ObjectManager.Player.ManaPercent > ManaManager.NeededRMana &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.rspell.harass").GetValue<bool>() &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.rspell.whitelist.{Targets.Target.ChampionName.ToLower()}").GetValue<bool>())))
             {

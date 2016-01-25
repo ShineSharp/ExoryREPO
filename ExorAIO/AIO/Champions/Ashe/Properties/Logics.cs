@@ -64,9 +64,8 @@ namespace ExorAIO.Champions.Ashe
                 /// </summary>
                 if ((!Variables.W.IsReady() ||
                     !Targets.Target.IsValidTarget(Variables.W.Range)) &&
-
-                    (Targets.Target.Health < Variables.R.GetDamage(Targets.Target) &&
-                        Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").GetValue<bool>()))
+                    Targets.Target.Health < Variables.R.GetDamage(Targets.Target) &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").GetValue<bool>())
                 {
                     Variables.R.Cast(Variables.R.GetPrediction(Targets.Target).UnitPosition);
                 }
