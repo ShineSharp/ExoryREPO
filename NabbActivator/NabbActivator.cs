@@ -25,7 +25,7 @@
         /// Called when the game updates itself.
         /// </summary>
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
-        public static void Game_OnGameUpdate(EventArgs args)
+        public static void OnUpdate(EventArgs args)
         {
             if (ObjectManager.Player.IsDead)
             {
@@ -91,13 +91,14 @@
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="args">The args.</param>
-        public static void Obj_AI_Base_OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
+        public static void OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             /// <summary>
             /// Load the Ohmwrecker logic.
             /// </summary>
-            if (args.Target.IsAlly &&
-                sender != null &&
+            if (sender != null &&
+                args.Target != null &&
+                args.Target.IsAlly &&
                 sender.IsValid<Obj_AI_Turret>() &&
                 args.Target.IsValid<Obj_AI_Hero>() &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.defensives").GetValue<bool>())

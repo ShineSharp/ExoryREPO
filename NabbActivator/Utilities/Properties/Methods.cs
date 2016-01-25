@@ -13,8 +13,8 @@ namespace NabbActivator
         /// </summary>
         public static void Initialize()
         {
-            Game.OnUpdate += Activator.Game_OnGameUpdate;
-            Obj_AI_Base.OnDoCast += Activator.Obj_AI_Base_OnDoCast;
+            Game.OnUpdate += Activator.OnUpdate;
+            Obj_AI_Base.OnDoCast += Activator.OnDoCast;
         }
     }
 }
