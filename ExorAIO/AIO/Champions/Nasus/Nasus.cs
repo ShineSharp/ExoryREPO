@@ -37,12 +37,12 @@ namespace ExorAIO.Champions.Nasus
                 {
                     Logics.ExecuteAuto(args);
                 }
-
-                if (Variables.Orbwalker.GetTarget() != null &&
-                    Variables.Orbwalker.GetTarget().IsValid)
-                {
-                    Logics.ExecuteFarm(args);
-                }
+				
+				if (Variables.Orbwalker.GetTarget()?.Type != GameObjectType.obj_AI_Hero &&
+					Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
+				{
+					Logics.ExecuteFarm(args);
+				}
             }
         }
 

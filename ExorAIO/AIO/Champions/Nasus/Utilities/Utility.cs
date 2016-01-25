@@ -107,10 +107,11 @@ namespace ExorAIO.Champions.Nasus
         /// <summary>
         /// The minion targets.
         /// </summary>
-        public static IEnumerable<Obj_AI_Base> Minions
+        public static Obj_AI_Base QMinion
         => 
             MinionManager
                 .GetMinions(ObjectManager.Player.ServerPosition, Variables.Q.Range)
-                .Where(h => h.Health < Variables.Q.GetDamage(h));
+                .FindAll(h => h.Health < Variables.Q.GetDamage(h))
+				.FirstOrDefault();
     }
 }

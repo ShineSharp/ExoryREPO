@@ -9,8 +9,6 @@ namespace ExorAIO.Champions.Nasus
 
     using ExorAIO.Utilities;
 
-    using ItemData = LeagueSharp.Common.Data.ItemData;
-
     using Orbwalking = SFXTargetSelector.Orbwalking;
 
     /// <summary>
@@ -43,7 +41,7 @@ namespace ExorAIO.Champions.Nasus
                 Targets.Target.IsValidTarget(Variables.W.Range) &&
                 
                 (!Bools.IsImmobile(Targets.Target) &&
-                    Variables.Orbwalker.ActiveMode.Equals(Orbwalking.OrbwalkingMode.Combo) &&
+                    Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>()))
             {
                 Variables.W.CastOnUnit(Targets.Target);
@@ -56,7 +54,7 @@ namespace ExorAIO.Champions.Nasus
             if (Variables.E.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.E.Range) &&
                 
-                (Variables.Orbwalker.ActiveMode.Equals(Orbwalking.OrbwalkingMode.Combo) &&
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useecombo").GetValue<bool>()))
             {
                 Variables.E.Cast(Variables.E.GetPrediction(Targets.Target).CastPosition);
@@ -104,15 +102,17 @@ namespace ExorAIO.Champions.Nasus
             /// The Q Farm Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
-                
-                (Targets.Minions.Any() ||
-                    GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget()) ||
-                    Variables.Orbwalker.GetTarget().Type == GameObjectType.obj_AI_Turret) &&
+				Variables.Orbwalker.GetTarget() != null &&
+                (Targets.QMinion != null ||
+					GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget()) ||
+					Variables.Orbwalker.GetTarget().Type == GameObjectType.obj_AI_Turret) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>())
             {
+				Variables.Orbwalker.SetAttack(false);
                 Variables.Q.Cast();
                 ObjectManager.Player.IssueOrder(GameObjectOrder.AttackUnit, (Obj_AI_Base)Variables.Orbwalker.GetTarget());
-            }
+				Variables.Orbwalker.SetAttack(true);
+			}
         }
     }
 }
