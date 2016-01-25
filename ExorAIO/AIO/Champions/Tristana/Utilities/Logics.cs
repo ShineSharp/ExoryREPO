@@ -40,6 +40,7 @@ namespace ExorAIO.Champions.Tristana
                 !ObjectManager.Player.IsWindingUp &&
                 Bools.HasNoProtection(Targets.Target) &&
                 Targets.Target.IsValidTarget(Variables.R.Range) &&
+                Targets.Target.Health > Targets.Target.MaxHealth/3 &&
                 KillSteal.Damage(Targets.Target) > Targets.Target.Health &&
             
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
@@ -77,6 +78,7 @@ namespace ExorAIO.Champions.Tristana
                 !ObjectManager.Player.IsWindingUp &&
                 Bools.HasNoProtection(Targets.Target) &&
                 Targets.Target.IsValidTarget(Variables.E.Range) &&
+                Targets.Target.Health > Targets.Target.MaxHealth/6 &&
                 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useeauto").GetValue<bool>() &&

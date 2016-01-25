@@ -23,6 +23,7 @@ namespace ExorAIO.Champions.Ashe
             /// The Q Farm Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
+                !ObjectManager.Player.IsWindingUp &&
                 ObjectManager.Player.HasBuff("AsheQCastReady") &&
 
                 ((Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
