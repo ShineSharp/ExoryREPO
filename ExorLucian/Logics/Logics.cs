@@ -93,7 +93,7 @@ namespace ExorLucian
             /// The Semi-Automatic R Logic.
             /// </summary>
             if (Variables.R.IsReady() &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.enablersa").GetValue<bool>() &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.boolrsa").GetValue<bool>() &&
                 ((Variables.Menu.Item($"{Variables.MainMenuName}.rspell.keyrsa").GetValue<KeyBind>().Active && !ObjectManager.Player.HasBuff("LucianR")) ||
                 (!Variables.Menu.Item($"{Variables.MainMenuName}.rspell.keyrsa").GetValue<KeyBind>().Active && ObjectManager.Player.HasBuff("LucianR"))))
             {
