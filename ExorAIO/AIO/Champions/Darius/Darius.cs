@@ -1,8 +1,6 @@
 namespace ExorAIO.Champions.Darius
 {
     using System;
-    using System.Linq;
-    using System.Collections.Generic;
     using LeagueSharp;
     using LeagueSharp.Common;
     using ExorAIO.Utilities;
@@ -47,7 +45,8 @@ namespace ExorAIO.Champions.Darius
         public static void OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             if (sender.IsMe &&
-                Orbwalking.IsAutoAttack(args.SData.Name) &&
+			    Orbwalking.IsAutoAttack(args.SData.Name) &&
+			    Bools.HasNoProtection((Obj_AI_Hero)args.Target) &&
                 Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
 				switch (args.Target.Type)

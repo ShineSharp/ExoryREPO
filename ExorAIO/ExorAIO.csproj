@@ -91,9 +91,12 @@
     <Compile Include="AIO\Champions\Darius\Properties\Utilities\Spells.cs" />
     <Compile Include="AIO\Champions\Darius\Properties\Utilities\Targets.cs" />
     <Compile Include="AIO\Champions\Darius\Properties\Utilities\Killsteal.cs" />
-    <Compile Include="AIO\Champions\DrMundo\Utilities\Logics.cs" />
-    <Compile Include="AIO\Champions\DrMundo\Utilities\Utility.cs" />
     <Compile Include="AIO\Champions\DrMundo\DrMundo.cs" />
+    <Compile Include="AIO\Champions\DrMundo\Properties\Logics.cs" />
+    <Compile Include="AIO\Champions\DrMundo\Properties\Utilities\Menus.cs" />
+    <Compile Include="AIO\Champions\DrMundo\Properties\Utilities\Methods.cs" />
+    <Compile Include="AIO\Champions\DrMundo\Properties\Utilities\Spells.cs" />
+    <Compile Include="AIO\Champions\DrMundo\Properties\Utilities\Targets.cs" />
     <Compile Include="AIO\Champions\Ezreal\Utilities\Logics.cs" />
     <Compile Include="AIO\Champions\Ezreal\Utilities\Utility.cs" />
     <Compile Include="AIO\Champions\Ezreal\Ezreal.cs" />

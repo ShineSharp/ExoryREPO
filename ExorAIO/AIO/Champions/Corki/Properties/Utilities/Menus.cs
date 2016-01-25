@@ -17,7 +17,7 @@ namespace ExorAIO.Champions.Corki
             /// <summary>
             /// Sets the spells menu.
             /// </summary>
-            Variables.SettingsMenu = new Menu("Spells Menu", $"{Variables.MainMenuName}.settingsmenu");
+            Variables.SettingsMenu = new Menu("Spells", $"{Variables.MainMenuName}.settingsmenu");
             {
                 Variables.QMenu = new Menu("Use Q to:", $"{Variables.MainMenuName}.qmenu")
                     .SetFontStyle(FontStyle.Regular, SharpDX.Color.Green);
@@ -75,7 +75,7 @@ namespace ExorAIO.Champions.Corki
             /// <summary>
             /// Sets the drawings menu.
             /// </summary>
-            Variables.DrawingsMenu = new Menu("Drawings Menu", $"{Variables.MainMenuName}.drawingsmenu");
+            Variables.DrawingsMenu = new Menu("Drawings", $"{Variables.MainMenuName}.drawingsmenu");
             {
                 Variables.DrawingsMenu
                     .AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.q", "Q Range"))

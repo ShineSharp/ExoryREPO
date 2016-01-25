@@ -46,8 +46,8 @@ namespace ExorAIO.Champions.Ashe
         public static void OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             if (sender.IsMe &&
+				Orbwalking.IsAutoAttack(args.SData.Name) &&
                 Bools.HasNoProtection((Obj_AI_Base)args.Target) &&
-                Orbwalking.IsAutoAttack(args.SData.Name) &&
                 Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
 				switch (args.Target.Type)

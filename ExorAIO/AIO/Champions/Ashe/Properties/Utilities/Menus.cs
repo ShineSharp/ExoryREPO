@@ -17,7 +17,7 @@ namespace ExorAIO.Champions.Ashe
             /// <summary>
             /// Sets the spells menu.
             /// </summary>
-            Variables.SettingsMenu = new Menu("Spells Menu", $"{Variables.MainMenuName}.settingsmenu");
+            Variables.SettingsMenu = new Menu("Spells", $"{Variables.MainMenuName}.settingsmenu");
             {
                 Variables.QMenu = new Menu("Use Q to:", $"{Variables.MainMenuName}.qmenu")
                     .SetFontStyle(FontStyle.Regular, SharpDX.Color.Green);
@@ -69,7 +69,7 @@ namespace ExorAIO.Champions.Ashe
             /// <summary>
             /// Sets the miscellaneous menu.
             /// </summary>
-            Variables.MiscMenu = new Menu("Miscellaneous Menu", $"{Variables.MainMenuName}.miscmenu");
+            Variables.MiscMenu = new Menu("Miscellaneous", $"{Variables.MainMenuName}.miscmenu");
             {
                 Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.misc.ermechanic",    "E->R Doublelift Mechanic")).SetValue(true);
             }
@@ -78,7 +78,7 @@ namespace ExorAIO.Champions.Ashe
             /// <summary>
             /// Sets the drawings menu.
             /// </summary>
-            Variables.DrawingsMenu = new Menu("Drawings Menu", $"{Variables.MainMenuName}.drawingsmenu");
+            Variables.DrawingsMenu = new Menu("Drawings", $"{Variables.MainMenuName}.drawingsmenu");
             {
                 Variables.DrawingsMenu
                     .AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.w", "W Range"))
