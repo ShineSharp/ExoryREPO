@@ -19,11 +19,17 @@ namespace NabbActivator
             /// <summary>
             /// The Face of the Mountain
             /// </summary>
-            if (ItemData.Face_of_the_Mountain.GetItem().IsReady() &&
-                Targets.Ally.IsValidTarget(750f, false) &&
-                HealthPrediction.GetHealthPrediction(Targets.Ally, (int)(250 + Game.Ping / 2f)) <= Targets.Ally.MaxHealth/4)
+            if (ItemData.Face_of_the_Mountain.GetItem().IsReady())
             {
-                ItemData.Face_of_the_Mountain.GetItem().Cast(Targets.Ally);
+                if (Targets.Ally != null &&
+                    HealthPrediction.GetHealthPrediction(Targets.Ally, (int)(250 + Game.Ping / 2f)) <= Targets.Ally.MaxHealth/4)
+                {
+                    ItemData.Face_of_the_Mountain.GetItem().Cast(Targets.Ally);
+                }
+                else if (HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(250 + Game.Ping / 2f)) <= ObjectManager.Player.MaxHealth/4)
+                {
+                    ItemData.Face_of_the_Mountain.GetItem().Cast(ObjectManager.Player);
+                }
                 return;
             }
 
@@ -31,9 +37,9 @@ namespace NabbActivator
             /// The Locket of the Iron Solari.
             /// </summary>             
             if (ItemData.Locket_of_the_Iron_Solari.GetItem().IsReady() &&
-                Targets.Ally.IsValidTarget(600f, false) &&
-                (HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(250 + Game.Ping / 2f)) <= ObjectManager.Player.MaxHealth/1.5 ||
-                    HealthPrediction.GetHealthPrediction(Targets.Ally, (int)(250 + Game.Ping / 2f)) <= Targets.Ally.MaxHealth/1.5))
+                (Targets.Ally != null &&
+                    HealthPrediction.GetHealthPrediction(Targets.Ally, (int)(250 + Game.Ping / 2f)) <= Targets.Ally.MaxHealth/1.5) ||
+                HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(250 + Game.Ping / 2f)) <= ObjectManager.Player.MaxHealth/1.5)
             {
                 ItemData.Locket_of_the_Iron_Solari.GetItem().Cast();
                 return;
@@ -66,19 +72,8 @@ namespace NabbActivator
                 HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(250 + Game.Ping / 2f)) <= ObjectManager.Player.MaxHealth/4)
             {
                 ItemData.Wooglets_Witchcap.GetItem().Cast();
-                return;
             }
 
-            /// <summary>
-            /// The Face of the Mountain
-            /// </summary>
-            if (ItemData.Face_of_the_Mountain.GetItem().IsReady() &&
-                Targets.Ally.IsValidTarget(750f, false) &&
-                HealthPrediction.GetHealthPrediction(Targets.Ally, (int)(250 + Game.Ping / 2f)) <= Targets.Ally.MaxHealth/4)
-            {
-                ItemData.Face_of_the_Mountain.GetItem().Cast(Targets.Ally);
-                return;
-            }
 
             /// <summary>
             /// The Frost Queen's Claim.
@@ -103,7 +98,8 @@ namespace NabbActivator
             /// <summary>
             /// The Banner of Command.
             /// </summary> 
-            if (ItemData.Banner_of_Command.GetItem().IsReady())
+            if (ItemData.Banner_of_Command.GetItem().IsReady() &&
+                Targets.Minion != null)
             {
                 ItemData.Banner_of_Command.GetItem().Cast(Targets.Minion);
             }
@@ -134,10 +130,10 @@ namespace NabbActivator
             {
                 if ((!ObjectManager.Player.HasBuff("ItemRighteousGlory") &&
                     (Targets.Target.CountEnemiesInRange(1000f) < ObjectManager.Player.CountAlliesInRange(600f) ||
-                        Targets.Target.CountEnemiesInRange(1000f) > ObjectManager.Player.CountAlliesInRange(600f))) ||
+                    Targets.Target.CountEnemiesInRange(1000f) > ObjectManager.Player.CountAlliesInRange(600f))) ||
 
                     (ObjectManager.Player.HasBuff("ItemRighteousGlory") &&
-                        ObjectManager.Player.CountEnemiesInRange(450f) >= 2))
+                    ObjectManager.Player.CountEnemiesInRange(450f) >= 2))
                 {
                     ItemData.Righteous_Glory.GetItem().Cast();
                 }
@@ -150,6 +146,9 @@ namespace NabbActivator
     /// </summary>
     public class Ohmwrecker
     {
+        /// <summary>
+        /// Called when a cast has been executed.
+        /// </summary>
         public static void Execute(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             /// <summary>
