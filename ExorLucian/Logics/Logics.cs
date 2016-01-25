@@ -3,18 +3,15 @@ namespace ExorLucian
     using System;
     using System.Linq;
     using System.Collections.Generic;
-
     using LeagueSharp;
     using LeagueSharp.Common;
-
     using SharpDX;
-
     using Orbwalking = SFXTargetSelector.Orbwalking;
 
     /// <summary>
     /// The logics class.
     /// </summary>
-    public class Logics
+    class Logics
     {
         /// <summary>
         /// Called when the game updates itself.
@@ -43,19 +40,16 @@ namespace ExorLucian
                     Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqautoharass").GetValue<bool>())
                 {
                     foreach (var tgminion in from target in ObjectManager.Player.GetEnemiesInRange(Variables.Q.Range + 600f)
-                        where
-                            Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.qwhitelist.{target.ChampionName.ToLower()}").GetValue<bool>()
-                        select
-                            Variables.Q.GetCollision(ObjectManager.Player.Position.To2D(),new List<Vector2> {target.Position.To2D()})
-                                .FirstOrDefault(
-                                    minion =>
-                                        minion.IsValidTarget(Variables.Q.Range))
+                        where Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.qwhitelist.{target.ChampionName.ToLower()}").GetValue<bool>()
+                        select Variables.Q.GetCollision(ObjectManager.Player.Position.To2D(),new List<Vector2> {target.Position.To2D()})
+                            .FirstOrDefault(minion => minion.IsValidTarget(Variables.Q.Range))
 
                         into tgminion
                         where tgminion != null
                         select tgminion)
                     {
                         Variables.Q.CastOnUnit(tgminion);
+                        return;
                     }
                 }
 
@@ -63,9 +57,8 @@ namespace ExorLucian
                 /// The Q KillSteal Logic.
                 /// </summary>
                 if (Targets.Target.IsValidTarget(Variables.Q.Range) &&
-
-                    (Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health &&
-                        Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqks").GetValue<bool>()))
+                    Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqks").GetValue<bool>())
                 {
                     Variables.Q.CastOnUnit(Targets.Target);
                 }
@@ -78,9 +71,8 @@ namespace ExorLucian
                 (!Variables.Q.IsReady() || !Targets.Target.IsValidTarget(Variables.Q.Range)) &&
                 Targets.Target.IsValidTarget(Variables.W.Range) &&
                 Variables.W.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
-
-                (Variables.W.GetDamage(Targets.Target) > Targets.Target.Health &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewks").GetValue<bool>()))
+                Variables.W.GetDamage(Targets.Target) > Targets.Target.Health &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewks").GetValue<bool>())
             {
                 Variables.W.Cast(Variables.W.GetPrediction(Targets.Target).UnitPosition);
             }
@@ -89,11 +81,10 @@ namespace ExorLucian
             /// The E Gap Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
-                (Targets.Target.IsValidTarget(Variables.E.Range) && !Targets.Target.IsValidTarget(Variables.Q.Range)) &&
-                ObjectManager.Player.CountEnemiesInRange(1500) < 2 &&
-
-                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useeauto").GetValue<bool>()))
+                Targets.Target.IsValidTarget(Variables.E.Range) &&
+                !Targets.Target.IsValidTarget(Variables.Q.Range) &&
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useeauto").GetValue<bool>())
             {
                 Variables.E.Cast(Game.CursorPos);
             }
@@ -121,12 +112,19 @@ namespace ExorLucian
             /// The E Combo Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
-                ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.E.Range) &&
-
-                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useeauto").GetValue<bool>()))
+                ((Obj_AI_Hero)args.Target).IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useeauto").GetValue<bool>())
             {
-                Variables.E.Cast(Game.CursorPos);
+                if (ObjectManager.Player.CountEnemiesInRange(1500) >= 2 ||
+                    ObjectManager.Player.Distance(Game.CursorPos) < Orbwalking.GetRealAutoAttackRange(null))
+                {
+                    Variables.E.Cast(ObjectManager.Player.Position.Extend(Game.CursorPos, 50));
+                }
+                else if (ObjectManager.Player.Distance(Game.CursorPos) > Orbwalking.GetRealAutoAttackRange(null))
+                {
+                    Variables.E.Cast(Game.CursorPos);
+                }
                 return;
             }
 
@@ -135,9 +133,8 @@ namespace ExorLucian
             /// </summary>
             if (Variables.Q.IsReady() &&
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.Q.Range) &&
-
-                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>()))
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>())
             {
                 Variables.Q.CastOnUnit((Obj_AI_Hero)args.Target);
                 return;
@@ -148,9 +145,8 @@ namespace ExorLucian
             /// </summary>
             if (Variables.W.IsReady() &&
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.W.Range) &&
-
-                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>()))
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>())
             {
                 Variables.W.Cast(Variables.W.GetPrediction((Obj_AI_Hero)args.Target).UnitPosition);
             }

@@ -1,16 +1,12 @@
-namespace ExorKalista
+namespace ExorLucian
 {
-    using System;
-    using System.Linq;
-    using System.Collections.Generic;
-
     using LeagueSharp;
     using LeagueSharp.Common;
 
     /// <summary>
     /// The bools class.
     /// </summary>
-    public class Bools
+    class Bools
     {
         /// <summary>
         /// Returns true if the target is immobile.
