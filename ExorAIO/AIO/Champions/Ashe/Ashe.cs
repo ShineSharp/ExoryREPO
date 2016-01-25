@@ -46,15 +46,15 @@ namespace ExorAIO.Champions.Ashe
         public static void OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             if (sender.IsMe &&
-                Bools.HasNoProtection(Targets.Target) &&
+                Bools.HasNoProtection((Obj_AI_Base)args.Target) &&
                 Orbwalking.IsAutoAttack(args.SData.Name) &&
                 Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
-                if (args.Target.IsValid<Obj_AI_Hero>())
+                if (args.Target.Type.Equals(GameObjectType.obj_AI_Hero))
                 {
                     Logics.ExecuteModes(sender, args);
                 }
-                else if (args.Target.IsValid<Obj_AI_Minion>())
+                else if (args.Target.Type.Equals(GameObjectType.obj_AI_Minion))
                 {
                     Logics.ExecuteFarm(sender, args);
                 }

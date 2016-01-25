@@ -21,7 +21,8 @@ namespace ExorAIO.Champions.Ashe
             Variables.R = new Spell(SpellSlot.R, 3500f);
 
             Variables.W.SetSkillshot(0.25f, (float)(60f * Math.PI / 180), 1500f, true, SkillshotType.SkillshotCone);
-            Variables.R.SetSkillshot(0.25f, 130f, 1600f, false, SkillshotType.SkillshotLine);
+            Variables.E.SetSkillshot(0.25f, 130f, 1600f, false, SkillshotType.SkillshotLine);
+			Variables.R.SetSkillshot(0.25f, 130f, 1600f, false, SkillshotType.SkillshotLine);
         }
     }
 }

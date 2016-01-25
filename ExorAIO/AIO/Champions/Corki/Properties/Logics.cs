@@ -97,10 +97,11 @@ namespace ExorAIO.Champions.Corki
         }
 
         /// <summary>
-        /// Called when the game updates itself.
+        /// Called on do-cast.
         /// </summary>
-        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
-        public static void ExecuteFarm(EventArgs args)
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The args.</param>
+        public static void ExecuteFarm(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             /// <summary>
             /// The Q Farm Logic.
@@ -109,7 +110,7 @@ namespace ExorAIO.Champions.Corki
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
                 (Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 3 ||
-                    GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
+                    GameObjects.Jungle.Contains((Obj_AI_Minion)args.Target)) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").GetValue<bool>())
             {
                 Variables.Q.Cast(Variables.Q.GetCircularFarmLocation(Targets.Minions, Variables.Q.Width).Position);
@@ -122,7 +123,7 @@ namespace ExorAIO.Champions.Corki
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
                 (Targets.Minions.Count() > 3 ||
-                    GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
+                    GameObjects.Jungle.Contains((Obj_AI_Minion)args.Target)) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.farm").GetValue<bool>())
             {
                 Variables.E.Cast();
@@ -135,7 +136,7 @@ namespace ExorAIO.Champions.Corki
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededRMana &&
                 (Variables.R.GetLineFarmLocation(Targets.Minions, Variables.R.Width).MinionsHit >= 2 ||
-                    GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
+                    GameObjects.Jungle.Contains((Obj_AI_Minion)args.Target)) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.rspell.farm").GetValue<bool>())
             {
                 Variables.R.Cast(Variables.R.GetLineFarmLocation(Targets.Minions, Variables.R.Width).Position);

@@ -36,12 +36,6 @@ namespace ExorAIO.Champions.Corki
                 {
                     Logics.ExecuteAuto(args);
                 }
-
-                if ((Obj_AI_Minion)Variables.Orbwalker.GetTarget() != null &&
-                    Variables.Orbwalker.GetTarget().IsValid)
-                {
-                    Logics.ExecuteFarm(args);
-                }
             }
         }
 
@@ -52,16 +46,20 @@ namespace ExorAIO.Champions.Corki
         /// <param name="args">The args.</param>
         public static void OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            if (sender.IsMe &&
-                Bools.HasNoProtection(Targets.Target) &&
-                Orbwalking.IsAutoAttack(args.SData.Name) &&
-                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
-            {
-                if (args.Target.IsValid<Obj_AI_Hero>())
+			if (sender.IsMe &&
+				Bools.HasNoProtection((Obj_AI_Base)args.Target) &&
+				Orbwalking.IsAutoAttack(args.SData.Name) &&
+				Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
+			{
+				if (args.Target.Type.Equals(GameObjectType.obj_AI_Hero))
+				{
+					Logics.ExecuteModes(sender, args);
+				}
+				else if (args.Target.Type.Equals(GameObjectType.obj_AI_Minion))
                 {
-                    Logics.ExecuteModes(sender, args);
+                    Logics.ExecuteFarm(sender, args);
                 }
-            }
+			}
         }
     }
 }
