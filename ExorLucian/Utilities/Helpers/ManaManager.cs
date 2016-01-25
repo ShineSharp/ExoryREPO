@@ -13,20 +13,20 @@ namespace ExorLucian
         /// </summary>
         public static int NeededQMana
         => 
-            Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.qmana").GetValue<Slider>().Value;
+            Variables.Menu.Item($"{Variables.MainMenuName}.qspell.mana").GetValue<Slider>().Value;
 
         /// <summary>
         /// Sets the minimum necessary mana to use the W spell.
         /// </summary>
         public static int NeededWMana 
         =>
-            Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.wmana").GetValue<Slider>().Value;
+            Variables.Menu.Item($"{Variables.MainMenuName}.wspell.mana").GetValue<Slider>().Value;
 
         /// <summary>
         /// Sets the minimum necessary mana to use the E spell.
         /// </summary>
         public static int NeededEMana
         =>
-            Variables.Menu.Item($"{Variables.MainMenuName}.esettings.emana").GetValue<Slider>().Value;
+            Variables.Menu.Item($"{Variables.MainMenuName}.espell.mana").GetValue<Slider>().Value;
     }
 }
