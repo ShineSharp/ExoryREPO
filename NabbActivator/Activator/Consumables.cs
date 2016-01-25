@@ -2,17 +2,15 @@ namespace NabbActivator
 {
     using System;
     using System.Linq;
-    using System.Collections.Generic;
-
     using LeagueSharp;
     using LeagueSharp.Common;
-    
+
     using ItemData = LeagueSharp.Common.Data.ItemData;
- 
+
     /// <summary>
     /// The consumables class.
     /// </summary>
-    public class Consumables
+    class Consumables
     {
         /// <summary>
         /// Called when the game updates itself.

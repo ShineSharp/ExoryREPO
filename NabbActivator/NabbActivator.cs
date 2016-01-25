@@ -11,7 +11,7 @@
     /// <summary>
     /// The main class.
     /// </summary>
-    public class Activator
+    class Activator
     {
         /// <summary>
         /// Called when the game loads itself.
@@ -56,6 +56,7 @@
             if (Variables.Menu.Item($"{Variables.MainMenuName}.cleansers").GetValue<bool>())
             {
                 Cleansers.Execute(args);
+                SCleansers.Execute(args);
             }
 
             /// <summary>
@@ -70,21 +71,18 @@
             /// Load the Offensive items.
             /// </summary>
             if (Variables.Menu.Item($"{Variables.MainMenuName}.offensives").GetValue<bool>() &&
-
                 (Variables.Menu.Item($"{Variables.MainMenuName}.combo_button").GetValue<KeyBind>().Active ||
                     Variables.Menu.Item($"{Variables.MainMenuName}.laneclear_button").GetValue<KeyBind>().Active))
             {
                 Offensives.Execute(args);
 
-                if (!ObjectManager.Player.IsWindingUp &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.resetters").GetValue<bool>())
+                if (Variables.Menu.Item($"{Variables.MainMenuName}.resetters").GetValue<bool>())
                 {
                     foreach (var reset in ObjectManager.Player.Buffs
-                        .Where(
-                            b =>
-                                Orbwalking.IsAutoAttackReset(b.Name)))
+                        .Where(b => Orbwalking.IsAutoAttackReset(b.Name)))
                     {
                         Resetters.Execute(args);
+                        break;
                     }
                 }
             }
@@ -100,9 +98,9 @@
             /// <summary>
             /// Load the Ohmwrecker logic.
             /// </summary>
-            if (sender.IsValid<Obj_AI_Turret>() &&
+            if (args.Target.IsAlly &&
+                sender.IsValid<Obj_AI_Turret>() &&
                 args.Target.IsValid<Obj_AI_Hero>() &&
-                args.Target.IsAlly &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.defensives").GetValue<bool>())
             {
                 Ohmwrecker.Execute(sender, args);

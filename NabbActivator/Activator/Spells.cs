@@ -1,18 +1,15 @@
 namespace NabbActivator
 {
     using System;
-    using System.Linq;
-    using System.Collections.Generic;
-
     using LeagueSharp;
     using LeagueSharp.Common;
-    
+
     using ItemData = LeagueSharp.Common.Data.ItemData;
- 
+
     /// <summary>
     /// The spells class.
     /// </summary>
-    public class Spells
+    class Spells
     {
         /// <summary>
         /// Called when the game updates itself.
@@ -62,14 +59,12 @@ namespace NabbActivator
             /// </summary>
             if (Bools.IsSpellAvailable(SpellSlots.Heal) &&
                 !ItemData.Face_of_the_Mountain.GetItem().IsReady() &&
-                !ItemData.Locket_of_the_Iron_Solari.GetItem().IsReady())
+                !ItemData.Locket_of_the_Iron_Solari.GetItem().IsReady() &&
+                (Targets.Ally.CountEnemiesInRange(850f) > 0 || 
+                    ObjectManager.Player.CountEnemiesInRange(850f) > 0))
             {
-                if ((ObjectManager.Player.CountEnemiesInRange(850f) > 0 &&
-                    HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(250 + Game.Ping / 2f)) <= ObjectManager.Player.MaxHealth/6) ||
-
-                    (Targets.Ally.IsValidTarget(850f, false) &&
-                        Targets.Ally.CountEnemiesInRange(850f) > 0 &&
-                        HealthPrediction.GetHealthPrediction(Targets.Ally, (int)(250 + Game.Ping / 2f)) <= Targets.Ally.MaxHealth/6))
+                if (HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(250 + Game.Ping / 2f)) <= ObjectManager.Player.MaxHealth/6 ||
+                    HealthPrediction.GetHealthPrediction(Targets.Ally, (int)(250 + Game.Ping / 2f)) <= Targets.Ally.MaxHealth/6)
                 {
                     ObjectManager.Player.Spellbook.CastSpell(SpellSlots.Heal);
                     return;

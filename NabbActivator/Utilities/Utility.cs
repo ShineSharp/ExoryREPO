@@ -80,7 +80,7 @@ namespace NabbActivator
             HeroManager.Enemies
                 .Find(e =>
                     Bools.HasNoProtection(e) &&
-                    e.Distance(ObjectManager.Player) <= 1250f);
+                    e.IsValidTarget(1250f));
 
         /// <summary>
         /// The main ally target.
@@ -91,7 +91,7 @@ namespace NabbActivator
                 .Find(a =>
                     !a.IsMe &&
                     Bools.HasNoProtection(a) &&
-                    a.Distance(ObjectManager.Player) <= 850f);
+                    a.IsValidTarget(850f, false));
 
         /// <summary>
         /// The main minion target.

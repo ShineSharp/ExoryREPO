@@ -2,17 +2,15 @@ namespace NabbActivator
 {
     using System;
     using System.Linq;
-    using System.Collections.Generic;
-
     using LeagueSharp;
     using LeagueSharp.Common;
-    
+
     using ItemData = LeagueSharp.Common.Data.ItemData;
- 
+
     /// <summary>
     /// The cleansers class.
     /// </summary>
-    public class Cleansers
+    class Cleansers
     {
         /// <summary>
         /// Called when the game updates itself.
@@ -24,40 +22,6 @@ namespace NabbActivator
                 (Bools.ShouldUseCleanse(ObjectManager.Player) &&
                 !Bools.IsSpellAvailable(SpellSlots.Cleanse)))
             {
-                /// <summary>
-                /// The Dervish Blade.
-                /// </summary>
-                if (ItemData.Dervish_Blade.GetItem().IsReady())
-                {
-                    Utility.DelayAction.Add(
-                        Bools.MustRandomize() ?
-                            WeightedRandom.Next(100, 200) :
-                            0,
-                        () =>
-                        {
-                            ItemData.Dervish_Blade.GetItem().Cast();
-                            return;
-                        }
-                    );
-                }
-
-                /// <summary>
-                /// The Mercurial Scimitar.
-                /// </summary>
-                if (ItemData.Mercurial_Scimitar.GetItem().IsReady())
-                {
-                    Utility.DelayAction.Add(
-                        Bools.MustRandomize() ?
-                            WeightedRandom.Next(100, 200) :
-                            0,
-                        () =>
-                        {
-                            ItemData.Mercurial_Scimitar.GetItem().Cast();
-                            return;
-                        }
-                    );
-                }
-
                 /// <summary>
                 /// The Quicksilver Sash.
                 /// </summary>

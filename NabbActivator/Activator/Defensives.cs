@@ -1,18 +1,15 @@
 namespace NabbActivator
 {
     using System;
-    using System.Linq;
-    using System.Collections.Generic;
-
     using LeagueSharp;
     using LeagueSharp.Common;
-    
+
     using ItemData = LeagueSharp.Common.Data.ItemData;
- 
+
     /// <summary>
     /// The defensive items class.
     /// </summary>
-    public class Defensives
+    class Defensives
     {
         /// <summary>
         /// Called when the game updates itself.

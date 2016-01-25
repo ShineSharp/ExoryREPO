@@ -71,6 +71,8 @@
     <Compile Include="Activator\Consumables.cs" />
     <Compile Include="Activator\Spells.cs" />
     <Compile Include="Activator\Cleansers.cs" />
+    <Compile Include="Activator\SCleansers.cs" />
+    <Compile Include="Activator\Resetters.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
