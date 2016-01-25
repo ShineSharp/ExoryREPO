@@ -3,7 +3,6 @@ namespace NabbActivator
     using System;
     using LeagueSharp;
     using LeagueSharp.Common;
-
     using ItemData = LeagueSharp.Common.Data.ItemData;
 
     /// <summary>
@@ -60,7 +59,7 @@ namespace NabbActivator
             if (Bools.IsSpellAvailable(SpellSlots.Heal) &&
                 !ItemData.Face_of_the_Mountain.GetItem().IsReady() &&
                 !ItemData.Locket_of_the_Iron_Solari.GetItem().IsReady() &&
-                (Targets.Ally.CountEnemiesInRange(850f) > 0 || 
+                (Targets.Ally?.CountEnemiesInRange(850f) > 0 || 
                     ObjectManager.Player.CountEnemiesInRange(850f) > 0))
             {
                 if (HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(250 + Game.Ping / 2f)) <= ObjectManager.Player.MaxHealth/6 ||

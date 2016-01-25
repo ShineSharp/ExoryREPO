@@ -1,16 +1,13 @@
 namespace NabbActivator
 {
-    using System;
     using System.Linq;
-    using System.Collections.Generic;
-
     using LeagueSharp;
     using LeagueSharp.Common;
 
     /// <summary>
     /// The bools.
     /// </summary>
-    public class Bools
+    class Bools
     {
         /// <summary>
         /// Defines whether a Health Potion is running.

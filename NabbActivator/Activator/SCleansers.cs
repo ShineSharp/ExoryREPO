@@ -3,7 +3,6 @@ namespace NabbActivator
     using System;
     using LeagueSharp;
     using LeagueSharp.Common;
-
     using ItemData = LeagueSharp.Common.Data.ItemData;
  
     /// <summary>

@@ -2,10 +2,8 @@
 {
     using System;
     using System.Linq;
-    
     using LeagueSharp;
     using LeagueSharp.Common;
-
     using ItemData = LeagueSharp.Common.Data.ItemData;
 
     /// <summary>
@@ -18,9 +16,9 @@
         /// </summary>
         public static void OnLoad()
         {
-            Settings.SetSpells();
-            Settings.SetMenu();
-            Settings.SetMethods();
+            Menus.Initialize();
+            ISpells.Initialize();
+            Methods.Initialize();
         }
 
         /// <summary>
@@ -99,6 +97,7 @@
             /// Load the Ohmwrecker logic.
             /// </summary>
             if (args.Target.IsAlly &&
+                sender != null &&
                 sender.IsValid<Obj_AI_Turret>() &&
                 args.Target.IsValid<Obj_AI_Hero>() &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.defensives").GetValue<bool>())

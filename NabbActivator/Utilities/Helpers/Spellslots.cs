@@ -1,36 +1,12 @@
 namespace NabbActivator
 {
-    using System;
-    using System.Linq;
-    using System.Collections.Generic;
-
     using LeagueSharp;
     using LeagueSharp.Common;
 
     /// <summary>
     /// The spellslots.
     /// </summary>
-    public class Managers
-    {
-        /// <summary>
-        /// Sets the minimum necessary health percent to use a health potion.
-        /// </summary>
-        public static int MinHealthPercent
-        =>
-            Variables.Menu.Item($"{Variables.MainMenuName}.consumables.on_health_percent").GetValue<Slider>().Value;
-
-        /// <summary>
-        /// Sets the minimum necessary mana percent to use a mana potion.
-        /// </summary>
-        public static int MinManaPercent
-        =>
-            Variables.Menu.Item($"{Variables.MainMenuName}.consumables.on_mana_percent").GetValue<Slider>().Value;
-    }
-
-    /// <summary>
-    /// The spellslots.
-    /// </summary>
-    public class SpellSlots
+    class SpellSlots
     {
         /// <summary>
         /// Gets the Cleanse SpellSlot.

@@ -62,8 +62,12 @@
     <Compile Include="NabbActivator.cs" />
     <Compile Include="Utilities\Entities\GameObjects.cs" />
     <Compile Include="Utilities\Entities\Jungle.cs" />
-    <Compile Include="Utilities\Utility.cs" />
-    <Compile Include="Utilities\Helpers.cs" />
+    <Compile Include="Utilities\Properties\Menus.cs" />
+    <Compile Include="Utilities\Properties\Methods.cs" />
+    <Compile Include="Utilities\Properties\Spells.cs" />
+    <Compile Include="Utilities\Properties\Targets.cs" />
+    <Compile Include="Utilities\Helpers\Managers.cs" />
+    <Compile Include="Utilities\Helpers\Spellslots.cs" />
     <Compile Include="Utilities\Bools.cs" />
     <Compile Include="Utilities\Variables.cs" />
     <Compile Include="Activator\Offensives.cs" />

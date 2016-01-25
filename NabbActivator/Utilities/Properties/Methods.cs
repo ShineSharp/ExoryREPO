@@ -1,21 +1,20 @@
-namespace ExorAIO.Champions.Akali
+namespace NabbActivator
 {
     using LeagueSharp;
     using LeagueSharp.Common;
-    using ExorAIO.Utilities;
 
     /// <summary>
     /// The methods class.
     /// </summary>
     class Methods
-    {
+    {  
         /// <summary>
         /// Sets the methods.
         /// </summary>
         public static void Initialize()
         {
-            Game.OnUpdate += Akali.OnUpdate;
-            Obj_AI_Base.OnDoCast += Akali.OnDoCast;
+            Game.OnUpdate += Activator.Game_OnGameUpdate;
+            Obj_AI_Base.OnDoCast += Activator.Obj_AI_Base_OnDoCast;
         }
     }
 }
