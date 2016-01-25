@@ -26,6 +26,7 @@ namespace ExorLucian
         /// </summary>   
         public static bool HasNoProtection(Obj_AI_Base target)
         =>
+            target != null &&
             !target.IsInvulnerable &&
             !target.HasBuffOfType(BuffType.SpellShield);
     }
