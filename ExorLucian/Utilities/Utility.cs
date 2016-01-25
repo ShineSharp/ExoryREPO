@@ -93,7 +93,8 @@ namespace ExorLucian
 
                     Variables.RMenu = new Menu("R Settings", $"{Variables.MainMenuName}.rsettingsmenu");
                     {
-                        Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rsettings.usersemiauto", "Semi-Automatic R")).SetValue(new KeyBind("T".ToCharArray()[0], KeyBindType.Press));
+                        Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rsettings.enablersemiauto", "Enable Semi-Automatic R")).SetValue(false);
+                        Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rsettings.usersemiauto", "Semi-Automatic R Key")).SetValue(new KeyBind("T".ToCharArray()[0], KeyBindType.Press));
                     }
                     Variables.SettingsMenu.AddSubMenu(Variables.RMenu);
                 }
