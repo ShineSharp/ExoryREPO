@@ -43,7 +43,7 @@ namespace ExorLucian
                 /// <summary>
                 /// Sets the spells menu.
                 /// </summary>
-                Variables.SettingsMenu = new Menu("Spells Menu", $"{Variables.MainMenuName}.settingsmenu");
+                Variables.SettingsMenu = new Menu("Spells", $"{Variables.MainMenuName}.settingsmenu");
                 {
                     Variables.QMenu = new Menu("Use Q to:", $"{Variables.MainMenuName}.qmenu")
                         .SetFontStyle(FontStyle.Regular, SharpDX.Color.Green);
