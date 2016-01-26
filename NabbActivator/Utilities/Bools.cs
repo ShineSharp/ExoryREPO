@@ -76,13 +76,9 @@ namespace NabbActivator
         public static bool IsValidSnare()
         =>
             ObjectManager.Player.Buffs
-                .Any(buff =>
-                    buff.Type.Equals(BuffType.Snare) &&
-                    (
-                        !((Obj_AI_Hero)buff.Caster).ChampionName.Equals("Leona") &&
-                        !((Obj_AI_Hero)buff.Caster).ChampionName.Equals("Amumu")
-                    )
-                );
+                .Any(buff =>buff.Type.Equals(BuffType.Snare) &&
+                    !((Obj_AI_Hero)buff.Caster).ChampionName.Equals("Leona") &&
+                    !((Obj_AI_Hero)buff.Caster).ChampionName.Equals("Amumu"));
 
         /// <summary>
         /// Defines whether the arg spell is available and ready.
