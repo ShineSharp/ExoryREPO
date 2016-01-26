@@ -1,9 +1,10 @@
 ﻿using LeagueSharp;
 using LeagueSharp.Common;
-using ExorAIO.Core;
 
 namespace ExorAIO
 {
+    using ExorAIO.Core;
+
     /// <summary>
     /// The AIO class.
     /// </summary>

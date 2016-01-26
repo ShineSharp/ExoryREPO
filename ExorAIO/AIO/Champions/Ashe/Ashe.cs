@@ -1,8 +1,9 @@
+using LeagueSharp;
+using LeagueSharp.Common;
+
 namespace ExorAIO.Champions.Ashe
 {
     using System;
-    using LeagueSharp;
-    using LeagueSharp.Common;
     using ExorAIO.Utilities;
     using Orbwalking = SFXTargetSelector.Orbwalking;
 
@@ -28,9 +29,9 @@ namespace ExorAIO.Champions.Ashe
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void OnUpdate(EventArgs args)
         {
-            if (!ObjectManager.Player.IsDead &&
-                Targets.Target != null &&
+            if (Targets.Target != null &&
                 Targets.Target.IsValid &&
+                !ObjectManager.Player.IsDead &&
                 Bools.HasNoProtection(Targets.Target) &&
                 Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
@@ -47,22 +48,17 @@ namespace ExorAIO.Champions.Ashe
         {
             if (sender.IsMe &&
 				Orbwalking.IsAutoAttack(args.SData.Name) &&
-                Bools.HasNoProtection((Obj_AI_Base)args.Target) &&
+                Bools.HasNoProtection((Obj_AI_Hero)args.Target) &&
                 Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
-				switch (args.Target.Type)
-				{
-					case GameObjectType.obj_AI_Hero: 
-						Logics.ExecuteModes(sender, args);
-						break;
-
-					case GameObjectType.obj_AI_Minion: 
-						Logics.ExecuteFarm(sender, args);
-						break;
-
-					default: 
-						break;
-				}
+				if (args.Target.Type.Equals(GameObjectType.obj_AI_Hero))
+                {
+					Logics.ExecuteModes(sender, args);
+                }
+                else if (args.Target.Type.Equals(GameObjectType.obj_AI_Minion))
+                {
+					Logics.ExecuteFarm(sender, args);
+                }
             }
         }
     }

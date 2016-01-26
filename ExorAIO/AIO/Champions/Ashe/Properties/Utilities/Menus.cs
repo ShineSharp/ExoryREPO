@@ -1,8 +1,10 @@
+using LeagueSharp.Common;
+
 namespace ExorAIO.Champions.Ashe
 {
     using System.Drawing;
-    using LeagueSharp.Common;
     using ExorAIO.Utilities;
+    using Color = SharpDX.Color;
 
     /// <summary>
     /// The menu class.
@@ -20,7 +22,7 @@ namespace ExorAIO.Champions.Ashe
             Variables.SettingsMenu = new Menu("Spells", $"{Variables.MainMenuName}.settingsmenu");
             {
                 Variables.QMenu = new Menu("Use Q to:", $"{Variables.MainMenuName}.qmenu")
-                    .SetFontStyle(FontStyle.Regular, SharpDX.Color.Green);
+                    .SetFontStyle(FontStyle.Regular, Color.Green);
                 {
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.combo",    "Combo")).SetValue(true);
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.farm",     "LaneClear")).SetValue(false);
@@ -30,7 +32,7 @@ namespace ExorAIO.Champions.Ashe
                 Variables.SettingsMenu.AddSubMenu(Variables.QMenu);
 
                 Variables.WMenu = new Menu("Use W to:", $"{Variables.MainMenuName}.wmenu")
-                    .SetFontStyle(FontStyle.Regular, SharpDX.Color.Purple);
+                    .SetFontStyle(FontStyle.Regular, Color.Purple);
                 {
                     Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.combo",    "Combo")).SetValue(true);
                     Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.ks",       "KillSteal")).SetValue(true);
@@ -42,7 +44,7 @@ namespace ExorAIO.Champions.Ashe
                 Variables.SettingsMenu.AddSubMenu(Variables.WMenu);
 
                 Variables.RMenu = new Menu("Use R to:", $"{Variables.MainMenuName}.rmenu")
-                    .SetFontStyle(FontStyle.Regular, SharpDX.Color.Red);
+                    .SetFontStyle(FontStyle.Regular, Color.Red);
                 {
                     Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rspell.combo",    "Combo")).SetValue(true);
                     Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rspell.ks",       "KillSteal")).SetValue(true);
@@ -83,7 +85,7 @@ namespace ExorAIO.Champions.Ashe
                 Variables.DrawingsMenu
                     .AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.w", "W Range"))
                     .SetValue(false)
-                    .SetFontStyle(FontStyle.Regular, SharpDX.Color.Purple);
+                    .SetFontStyle(FontStyle.Regular, Color.Purple);
             }
             Variables.Menu.AddSubMenu(Variables.DrawingsMenu);
         }

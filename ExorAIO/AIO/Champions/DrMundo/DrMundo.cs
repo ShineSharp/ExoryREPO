@@ -1,8 +1,9 @@
+using LeagueSharp;
+using LeagueSharp.Common;
+
 namespace ExorAIO.Champions.DrMundo
 {
     using System;
-    using LeagueSharp;
-    using LeagueSharp.Common;
     using ExorAIO.Utilities;
     using Orbwalking = SFXTargetSelector.Orbwalking;
 
@@ -49,19 +50,12 @@ namespace ExorAIO.Champions.DrMundo
         public static void OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             if (sender.IsMe &&
-				Bools.HasNoProtection((Obj_AI_Hero)args.Target) &&
                 Orbwalking.IsAutoAttack(args.SData.Name) &&
+                Bools.HasNoProtection((Obj_AI_Hero)args.Target) &&
+                args.Target.Type.Equals(GameObjectType.obj_AI_Hero) &&
                 Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
-				switch (args.Target.Type)
-				{
-					case GameObjectType.obj_AI_Hero: 
-						Logics.ExecuteModes(sender, args);
-						break;
-
-					default: 
-						break;
-				}
+                Logics.ExecuteModes(sender, args);
             }
         }
     }

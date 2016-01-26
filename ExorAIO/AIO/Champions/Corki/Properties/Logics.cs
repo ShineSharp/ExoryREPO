@@ -1,9 +1,10 @@
+using LeagueSharp;
+using LeagueSharp.Common;
+
 namespace ExorAIO.Champions.Corki
 {
     using System;
     using System.Linq;
-    using LeagueSharp;
-    using LeagueSharp.Common;
     using ExorAIO.Utilities;
     using Orbwalking = SFXTargetSelector.Orbwalking;
 
@@ -110,7 +111,7 @@ namespace ExorAIO.Champions.Corki
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
                 (Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 3 ||
-                    GameObjects.Jungle.Contains((Obj_AI_Minion)args.Target)) &&
+                    GameObjects.Jungle.Contains(args.Target)) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").GetValue<bool>())
             {
                 Variables.Q.Cast(Variables.Q.GetCircularFarmLocation(Targets.Minions, Variables.Q.Width).Position);
@@ -123,7 +124,7 @@ namespace ExorAIO.Champions.Corki
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
                 (Targets.Minions.Count() > 3 ||
-                    GameObjects.Jungle.Contains((Obj_AI_Minion)args.Target)) &&
+                    GameObjects.Jungle.Contains(args.Target)) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.farm").GetValue<bool>())
             {
                 Variables.E.Cast();

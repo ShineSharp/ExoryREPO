@@ -1,9 +1,10 @@
+using LeagueSharp;
+using LeagueSharp.Common;
+
 namespace ExorAIO.Champions.Ashe
 {
     using System;
     using System.Linq;
-    using LeagueSharp;
-    using LeagueSharp.Common;
     using ExorAIO.Utilities;
     using Orbwalking = SFXTargetSelector.Orbwalking;
 
@@ -123,7 +124,7 @@ namespace ExorAIO.Champions.Ashe
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededWMana &&
                 (Variables.W.GetLineFarmLocation(Targets.Minions, Variables.W.Width).MinionsHit >= 3 ||
-                    GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
+                    GameObjects.Jungle.Contains(args.Target)) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.wspell.farm").GetValue<bool>())
             {
                 Variables.W.Cast(Variables.W.GetLineFarmLocation(Targets.Minions, Variables.W.Width).Position);

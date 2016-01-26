@@ -1,8 +1,9 @@
+using LeagueSharp;
+using LeagueSharp.Common;
+
 namespace ExorAIO.Champions.Corki
 {
     using System;
-    using LeagueSharp;
-    using LeagueSharp.Common;
     using ExorAIO.Utilities;
 
     /// <summary>
@@ -16,7 +17,7 @@ namespace ExorAIO.Champions.Corki
         public static void Initialize()
         {
             Variables.Q = new Spell(SpellSlot.Q, 775f);
-            Variables.E = new Spell(SpellSlot.E, 600f);
+            Variables.E = new Spell(SpellSlot.E, 600f + ObjectManager.Player.BoundingRadius);
             Variables.R = new Spell(SpellSlot.R, 1250f);
 
             Variables.Q.SetSkillshot(0.3f, 250f, 1000f, false, SkillshotType.SkillshotCircle);

@@ -1,8 +1,9 @@
+using LeagueSharp;
+using LeagueSharp.Common;
+
 namespace ExorAIO.Champions.Darius
 {
-	using System;
-    using LeagueSharp;
-    using LeagueSharp.Common;
+    using System;
     using ExorAIO.Utilities;
 
     /// <summary>

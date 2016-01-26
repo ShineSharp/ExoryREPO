@@ -1,8 +1,8 @@
-﻿namespace ExorAIO.Utilities
+﻿using LeagueSharp;
+using LeagueSharp.Common;
+
+namespace ExorAIO.Utilities
 {
-    using System.Collections.Generic;
-    using LeagueSharp;
-    using LeagueSharp.Common;
     using Orbwalking = SFXTargetSelector.Orbwalking;
 
     /// <summary>

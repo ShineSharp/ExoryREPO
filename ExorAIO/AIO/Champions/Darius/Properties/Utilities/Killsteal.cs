@@ -1,8 +1,8 @@
+using LeagueSharp;
+using LeagueSharp.Common;
+
 namespace ExorAIO.Champions.Darius
 {
-    using LeagueSharp;
-    using LeagueSharp.Common;
-
     /// <summary>
     /// The killsteal class.
     /// </summary>

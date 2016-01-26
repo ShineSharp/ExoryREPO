@@ -63,7 +63,7 @@ namespace ExorAIO.Champions.Olaf
             /// </summary>
             if (Variables.R.IsReady() &&
 
-                (Bools.ShouldCleanse() &&
+                (Bools.ShouldCleanse(ObjectManager.Player) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.useranticc").GetValue<bool>()))
             {
                 Variables.R.Cast();

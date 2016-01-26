@@ -1,9 +1,8 @@
+using LeagueSharp;
+using LeagueSharp.Common;
+
 namespace ExorAIO.Champions.Corki
 {
-    using LeagueSharp;
-    using LeagueSharp.Common;
-    using ExorAIO.Utilities;
-
     /// <summary>
     /// The methods class.
     /// </summary>

@@ -1,8 +1,9 @@
+using LeagueSharp;
+using LeagueSharp.Common;
+
 namespace ExorAIO.Champions.Cassiopeia
 {
     using System;
-    using LeagueSharp;
-    using LeagueSharp.Common;
     using ExorAIO.Utilities;
 
     /// <summary>

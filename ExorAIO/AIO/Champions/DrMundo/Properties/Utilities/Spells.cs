@@ -1,7 +1,8 @@
+using LeagueSharp;
+using LeagueSharp.Common;
+
 namespace ExorAIO.Champions.DrMundo
 {
-    using LeagueSharp;
-    using LeagueSharp.Common;
     using ExorAIO.Utilities;
 
     /// <summary>

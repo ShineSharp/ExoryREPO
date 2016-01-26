@@ -1,8 +1,9 @@
+using LeagueSharp;
+using LeagueSharp.Common;
+
 namespace ExorAIO.Champions.Cassiopeia
 {
     using System.Collections.Generic;
-    using LeagueSharp;
-    using LeagueSharp.Common;
     using ExorAIO.Utilities;
     using TargetSelector = SFXTargetSelector.TargetSelector;
 

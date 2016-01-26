@@ -1,8 +1,10 @@
+using LeagueSharp.Common;
+
 namespace ExorAIO.Champions.Cassiopeia
 {
     using System.Drawing;
-    using LeagueSharp.Common;
     using ExorAIO.Utilities;
+    using Color = SharpDX.Color;
 
     /// <summary>
     /// The menu class.
@@ -20,7 +22,7 @@ namespace ExorAIO.Champions.Cassiopeia
             Variables.SettingsMenu = new Menu("Spells", $"{Variables.MainMenuName}.settingsmenu");
             {
                 Variables.QMenu = new Menu("Use Q to:", $"{Variables.MainMenuName}.qmenu")
-                    .SetFontStyle(FontStyle.Regular, SharpDX.Color.Green);
+                    .SetFontStyle(FontStyle.Regular, Color.Green);
                 {
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspells.combo",     "Combo")).SetValue(true);
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspells.farm",      "LaneClear")).SetValue(true);
@@ -30,7 +32,7 @@ namespace ExorAIO.Champions.Cassiopeia
                 Variables.SettingsMenu.AddSubMenu(Variables.QMenu);
 
                 Variables.WMenu = new Menu("Use W to:", $"{Variables.MainMenuName}.wmenu")
-                    .SetFontStyle(FontStyle.Regular, SharpDX.Color.Purple);
+                    .SetFontStyle(FontStyle.Regular, Color.Purple);
                 {
                     Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspells.combo",     "Combo")).SetValue(true);
                     Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspells.farm",      "LaneClear")).SetValue(true);
@@ -40,7 +42,7 @@ namespace ExorAIO.Champions.Cassiopeia
                 Variables.SettingsMenu.AddSubMenu(Variables.WMenu);
 
                 Variables.EMenu = new Menu("Use E to:", $"{Variables.MainMenuName}.emenu")
-                    .SetFontStyle(FontStyle.Regular, SharpDX.Color.Cyan);
+                    .SetFontStyle(FontStyle.Regular, Color.Cyan);
                 {
                     Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.espells.combo",     "Combo")).SetValue(true);
                     Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.espells.farm",      "LastHit")).SetValue(true);
@@ -50,7 +52,7 @@ namespace ExorAIO.Champions.Cassiopeia
                 Variables.SettingsMenu.AddSubMenu(Variables.EMenu);
 
                 Variables.RMenu = new Menu("Use R to:", $"{Variables.MainMenuName}.rmenu")
-                    .SetFontStyle(FontStyle.Regular, SharpDX.Color.Red);
+                    .SetFontStyle(FontStyle.Regular, Color.Red);
                 {
                     Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rspells.combo",     "Combo")).SetValue(true);
                     Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rspells.enemies",   "Combo: if facing Enemies >="))
@@ -81,22 +83,22 @@ namespace ExorAIO.Champions.Cassiopeia
                 Variables.DrawingsMenu
                     .AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.q", "Q Range"))
                     .SetValue(false)
-                    .SetFontStyle(FontStyle.Regular, SharpDX.Color.Green);
+                    .SetFontStyle(FontStyle.Regular, Color.Green);
 
                 Variables.DrawingsMenu
                     .AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.w", "W Range"))
                     .SetValue(false)
-                    .SetFontStyle(FontStyle.Regular, SharpDX.Color.Purple);
+                    .SetFontStyle(FontStyle.Regular, Color.Purple);
 
                 Variables.DrawingsMenu
                     .AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.e", "E Range"))
                     .SetValue(false)
-                    .SetFontStyle(FontStyle.Regular, SharpDX.Color.Cyan);
+                    .SetFontStyle(FontStyle.Regular, Color.Cyan);
 
                 Variables.DrawingsMenu
                     .AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.r", "R Range"))
                     .SetValue(false)
-                    .SetFontStyle(FontStyle.Regular, SharpDX.Color.Red);
+                    .SetFontStyle(FontStyle.Regular, Color.Red);
             }
             Variables.Menu.AddSubMenu(Variables.DrawingsMenu);
         }

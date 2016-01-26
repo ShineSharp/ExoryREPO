@@ -1,8 +1,10 @@
+using LeagueSharp.Common;
+
 namespace ExorAIO.Champions.Akali
 {
     using System.Drawing;
-    using LeagueSharp.Common;
     using ExorAIO.Utilities;
+    using Color = SharpDX.Color;
 
     /// <summary>
     /// The menu class.
@@ -20,7 +22,7 @@ namespace ExorAIO.Champions.Akali
             Variables.SettingsMenu = new Menu("Spells", $"{Variables.MainMenuName}.settingsmenu");
             {
                 Variables.QMenu = new Menu("Use Q to:", $"{Variables.MainMenuName}.qmenu")
-                    .SetFontStyle(FontStyle.Regular, SharpDX.Color.Green);
+                    .SetFontStyle(FontStyle.Regular, Color.Green);
                 {
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.combo",  "Combo")).SetValue(true);
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.ks",     "KillSteal")).SetValue(true);
@@ -31,7 +33,7 @@ namespace ExorAIO.Champions.Akali
                 Variables.SettingsMenu.AddSubMenu(Variables.QMenu);
 
                 Variables.EMenu = new Menu("Use E to:", $"{Variables.MainMenuName}.emenu")
-                    .SetFontStyle(FontStyle.Regular, SharpDX.Color.Cyan);
+                    .SetFontStyle(FontStyle.Regular, Color.Cyan);
                 {
                     Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.espell.combo",  "Combo")).SetValue(true);
                     Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.espell.ks",     "KillSteal")).SetValue(true);
@@ -42,7 +44,7 @@ namespace ExorAIO.Champions.Akali
                 Variables.SettingsMenu.AddSubMenu(Variables.EMenu);
 
                 Variables.RMenu = new Menu("Use R to:", $"{Variables.MainMenuName}.rmenu")
-                    .SetFontStyle(FontStyle.Regular, SharpDX.Color.Red);
+                    .SetFontStyle(FontStyle.Regular, Color.Red);
                 {
                     Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rspell.combo",  "Combo")).SetValue(true);
                     Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rspell.ks",     "KillSteal")).SetValue(true);
@@ -68,17 +70,17 @@ namespace ExorAIO.Champions.Akali
                 Variables.DrawingsMenu
                     .AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.q", "Q Range"))
                     .SetValue(false)
-                    .SetFontStyle(FontStyle.Regular, SharpDX.Color.Green);
+                    .SetFontStyle(FontStyle.Regular, Color.Green);
 
                 Variables.DrawingsMenu
                     .AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.e", "E Range"))
                     .SetValue(false)
-                    .SetFontStyle(FontStyle.Regular, SharpDX.Color.Cyan);
+                    .SetFontStyle(FontStyle.Regular, Color.Cyan);
 
                 Variables.DrawingsMenu
                     .AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.r", "R Range"))
                     .SetValue(false)
-                    .SetFontStyle(FontStyle.Regular, SharpDX.Color.Red);
+                    .SetFontStyle(FontStyle.Regular, Color.Red);
             }
             Variables.Menu.AddSubMenu(Variables.DrawingsMenu);
         }
