@@ -31,19 +31,18 @@ namespace NabbActivator
                 {
                     ItemData.Face_of_the_Mountain.GetItem().Cast(ObjectManager.Player);
                 }
-                return;
             }
 
             /// <summary>
             /// The Locket of the Iron Solari.
             /// </summary>             
             if (ItemData.Locket_of_the_Iron_Solari.GetItem().IsReady() &&
+                !ItemData.Face_of_the_Mountain.GetItem().IsReady() &&
                 (Targets.Ally != null &&
                     HealthPrediction.GetHealthPrediction(Targets.Ally, (int)(250 + Game.Ping / 2f)) <= Targets.Ally.MaxHealth/1.5) ||
                 HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(250 + Game.Ping / 2f)) <= ObjectManager.Player.MaxHealth/1.5)
             {
                 ItemData.Locket_of_the_Iron_Solari.GetItem().Cast();
-                return;
             }
 
             /// <summary>
@@ -53,7 +52,6 @@ namespace NabbActivator
                 HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(250 + Game.Ping / 2f)) <= ObjectManager.Player.MaxHealth/4)
             {
                 ItemData.Seraphs_Embrace.GetItem().Cast();
-                return;
             }
 
             /// <summary>
@@ -63,7 +61,6 @@ namespace NabbActivator
                 HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(250 + Game.Ping / 2f)) <= ObjectManager.Player.MaxHealth/4)
             {
                 ItemData.Zhonyas_Hourglass.GetItem().Cast();
-                return;
             }
 
             /// <summary>
