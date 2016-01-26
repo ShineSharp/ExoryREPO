@@ -36,7 +36,8 @@ namespace ExorLucian
                 /// <summary>
                 /// The Q AutoHarass Logic.
                 /// </summary>
-                if (!Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
+                if (!Targets.Target.IsValidTarget(Variables.Q.Range) &&
+                    Targets.Target.IsValidTarget(Variables.Q.Range + 600f) &&
                     ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.harass").GetValue<bool>())
                 {
