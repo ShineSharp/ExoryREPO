@@ -1,10 +1,10 @@
-﻿using System;
-
-using LeagueSharp;
+﻿using LeagueSharp;
 using LeagueSharp.Common;
 
 namespace NabbTracker
 {
+    using System;
+
     class Program
     {
         public static void Main(string[] args)

@@ -1,15 +1,15 @@
+using LeagueSharp;
+using LeagueSharp.Common;
+
 namespace NabbTracker
 {
-    using LeagueSharp;
-    using LeagueSharp.Common;
-
     using Font = SharpDX.Direct3D9.Font;
     using Color = System.Drawing.Color;    
 
     /// <summary>
     /// The Variables class.
     /// </summary>
-    public class Variables
+    class Variables
     {
         /// <summary>
         /// The Menu.
@@ -40,17 +40,17 @@ namespace NabbTracker
         /// Gets the spellslots.
         /// </summary>
         public static SpellSlot[]
-        SpellSlots = {
-            SpellSlot.Q,
-            SpellSlot.W,
-            SpellSlot.E,
-            SpellSlot.R
-        },
+            SpellSlots = {
+                SpellSlot.Q,
+                SpellSlot.W,
+                SpellSlot.E,
+                SpellSlot.R
+            },
 
-        SummonerSpellSlots = {
-            SpellSlot.Summoner1,
-            SpellSlot.Summoner2
-        };
+            SummonerSpellSlots = {
+                SpellSlot.Summoner1,
+                SpellSlot.Summoner2
+            };
 
         /// <summary>
         /// The Spells Healthbars X coordinate.
