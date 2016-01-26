@@ -1,22 +1,17 @@
+using LeagueSharp;
+using LeagueSharp.Common;
+
 namespace ExorAIO.Champions.Jax
 {
     using System;
     using System.Linq;
-    using System.Collections.Generic;
-
-    using LeagueSharp;
-    using LeagueSharp.Common;
-
     using ExorAIO.Utilities;
-
-    using ItemData = LeagueSharp.Common.Data.ItemData;
-
     using Orbwalking = SFXTargetSelector.Orbwalking;
 
     /// <summary>
     /// The logics class.
     /// </summary>
-    public class Logics
+    class Logics
     {
         /// <summary>
         /// Called when the game updates itself.
@@ -29,16 +24,15 @@ namespace ExorAIO.Champions.Jax
             /// The Q KillSteal Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
-                Bools.HasNoProtection(Targets.Target) &&
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
                 !Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
 
                 ((Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqks").GetValue<bool>()) ||
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").GetValue<bool>()) ||
 
-                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    !Utility.UnderTurret(Targets.Target) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>())))
+                (!Utility.UnderTurret(Targets.Target) &&
+                    Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").GetValue<bool>())))
             {
                 if (Variables.E.IsReady())
                 {
@@ -56,7 +50,7 @@ namespace ExorAIO.Champions.Jax
             if (Variables.E.IsReady() &&
                 !ObjectManager.Player.IsWindingUp &&
                 ObjectManager.Player.HasBuff("JaxCounterStrike") &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useecombo").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").GetValue<bool>())
             {
                 Variables.E.Cast();
             }
@@ -65,9 +59,8 @@ namespace ExorAIO.Champions.Jax
             /// The R Lifesaver Logic.
             /// </summary>
             if (Variables.R.IsReady() &&
-
-                (HealthPrediction.GetHealthPrediction(ObjectManager.Player, 2000) <= ObjectManager.Player.MaxHealth/2 &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.userlifesaver").GetValue<bool>()))
+                HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(250f + Game.Ping/2f)) <= ObjectManager.Player.MaxHealth/2 &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.lifesaver").GetValue<bool>())
             {
                 Variables.R.Cast();
             }
@@ -84,10 +77,8 @@ namespace ExorAIO.Champions.Jax
             /// The W Combo Logic.
             /// </summary>
             if (Variables.W.IsReady() &&
-                Bools.HasNoProtection((Obj_AI_Hero)args.Target) &&
-
-                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>()))
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").GetValue<bool>())
             {
                 Variables.W.Cast();
             }
@@ -104,11 +95,10 @@ namespace ExorAIO.Champions.Jax
             /// The W Farm Logic.
             /// </summary>
             if (Variables.W.IsReady() &&
-
-                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                    ObjectManager.Player.ManaPercent > ManaManager.NeededWMana &&
-                        GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget()) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewjc").GetValue<bool>()))
+                ObjectManager.Player.ManaPercent > ManaManager.NeededWMana &&
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
+                GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget()) &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewjc").GetValue<bool>())
             {
                 Variables.W.Cast();
             }
@@ -118,12 +108,11 @@ namespace ExorAIO.Champions.Jax
             /// </summary>
             if (Variables.E.IsReady() &&
                 ObjectManager.Player.CountEnemiesInRange(700) == 0 &&
-
-                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                    ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
-                    (Targets.Minions.Count() > 3 ||
-                        GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>()))
+                ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
+                (Targets.Minions.Count() > 3 ||
+                    GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>())
             {
                 Variables.E.Cast();
             }
