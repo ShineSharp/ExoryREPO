@@ -32,7 +32,7 @@ namespace AsunaCondemn
                     .Where(
                         c =>
                             c.IsValidTarget(Variables.E.Range) &&
-                            ObjectManager.Player.Distance(c) < 425f - ObjectManager.Player.BoundingRadius*2))
+                            ObjectManager.Player.Distance(c) < 425f - ObjectManager.Player.BoundingRadius*3))
                 {
                     for (int i = 1; i < 10; i++)
                     {
@@ -40,7 +40,7 @@ namespace AsunaCondemn
                             (Variables.E.GetPrediction(e).UnitPosition - Vector3.Normalize(e.ServerPosition - ObjectManager.Player.Position) * i * 44).IsWall())
                         {
                             Variables.E.CastOnUnit(e);
-                            ObjectManager.Player.Spellbook.CastSpell(Variables.Flash, ObjectManager.Player.ServerPosition.Extend(e.ServerPosition, 425f - ObjectManager.Player.BoundingRadius*2));
+                            ObjectManager.Player.Spellbook.CastSpell(Variables.Flash, ObjectManager.Player.ServerPosition.Extend(e.ServerPosition, 425f - ObjectManager.Player.BoundingRadius*3));
                         }
                     }
                 }
