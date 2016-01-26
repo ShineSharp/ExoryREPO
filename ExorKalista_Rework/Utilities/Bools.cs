@@ -39,9 +39,11 @@ namespace ExorKalista
         public static bool IsPerfectRendTarget(Obj_AI_Base target)
         =>
             target != null &&
+            !target.IsDead &&
             !target.IsZombie &&
-            target.IsValidTarget(Variables.E.Range) &&
+            Variables.E.CanCast(target) &&
             Bools.HasNoProtection(target) &&
+            target.IsValidTarget(Variables.E.Range) &&
             target.GetBuffCount("kalistaexpungemarker") > 0;
 
         /// <summary>

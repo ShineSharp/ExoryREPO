@@ -99,7 +99,7 @@ namespace ExorKalista
                         h.IsValid() &&
                         h.IsHPBarRendered &&
                         !h.CharData.BaseSkinName.Contains("Minion") &&
-                        Bools.IsPerfectRendTarget(h))
+                        h.GetBuffCount("kalistaexpungemarker") > 0)
                 .ForEach(
                     unit =>
                     {
