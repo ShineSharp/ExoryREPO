@@ -53,7 +53,7 @@ namespace ExorAIO.Champions.Corki
                     Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rspell.mana",      "AutoHarass: Mana >= x%"))
                         .SetValue(new Slider(50, 0, 99));
                     {
-                        Variables.WhiteListMenu = new Menu("Ultimate Whitelist Menu", $"{Variables.MainMenuName}.rmenu.whitelistmenu");
+                        Variables.WhiteListMenu = new Menu("AutoHarass: Whitelist Menu", $"{Variables.MainMenuName}.rmenu.whitelistmenu");
                         {
                             foreach (var champ in HeroManager.Enemies)
                             {
@@ -61,7 +61,7 @@ namespace ExorAIO.Champions.Corki
                                     .AddItem(
                                         new MenuItem(
                                             $"{Variables.MainMenuName}.rspell.whitelist.{champ.ChampionName.ToLower()}",
-                                            $"AutoHarass Only: {champ.ChampionName}")
+                                            $"AutoHarass: {champ.ChampionName}")
                                     .SetValue(true));
                             }
                         }

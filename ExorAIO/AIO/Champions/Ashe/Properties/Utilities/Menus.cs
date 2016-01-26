@@ -47,7 +47,7 @@ namespace ExorAIO.Champions.Ashe
                     Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rspell.combo",    "Combo")).SetValue(true);
                     Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rspell.ks",       "KillSteal")).SetValue(true);
                     {
-                        Variables.WhiteListMenu = new Menu("Ultimate Whitelist Menu", $"{Variables.MainMenuName}.rmenu.whitelistmenu");
+                        Variables.WhiteListMenu = new Menu("Ultimate: Whitelist Menu", $"{Variables.MainMenuName}.rmenu.whitelistmenu");
                         {
                             foreach (var champ in HeroManager.Enemies)
                             {
@@ -55,7 +55,7 @@ namespace ExorAIO.Champions.Ashe
                                     .AddItem(
                                         new MenuItem(
                                             $"{Variables.MainMenuName}.rspell.whitelist.{champ.ChampionName.ToLower()}",
-                                            $"Ult Only: {champ.ChampionName}")
+                                            $"Ultimate: {champ.ChampionName}")
                                     .SetValue(true));
                             }
                         }
