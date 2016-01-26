@@ -34,7 +34,7 @@ namespace ExorAIO.Champions.Ezreal
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.QMenu);
 
-                Variables.WMenu = new Menu("Use W to:", $"{Variables.MainMenuName}.wsettingsmenu")
+                Variables.WMenu = new Menu("Use W to:", $"{Variables.MainMenuName}.wmenu")
                     .SetFontStyle(FontStyle.Regular, Color.Purple);
                 {
                     Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.combo",    "Combo")).SetValue(true);
@@ -47,7 +47,7 @@ namespace ExorAIO.Champions.Ezreal
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.WMenu);
 
-                Variables.RMenu = new Menu("Use R to:", $"{Variables.MainMenuName}.rsettingsmenu")
+                Variables.RMenu = new Menu("Use R to:", $"{Variables.MainMenuName}.rmenu")
                     .SetFontStyle(FontStyle.Regular, Color.Red);
                 {
                     Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rspell.combo",    "Combo")).SetValue(true);
@@ -60,7 +60,7 @@ namespace ExorAIO.Champions.Ezreal
                                 Variables.WhiteListMenu
                                     .AddItem(
                                         new MenuItem(
-                                            $"{Variables.MainMenuName}.rsettings.rwhitelist.{champ.ChampionName.ToLower()}",
+                                            $"{Variables.MainMenuName}.rspell.whitelist.{champ.ChampionName.ToLower()}",
                                             $"Use against: {champ.ChampionName}")
                                     .SetValue(true));
                             }
@@ -69,16 +69,19 @@ namespace ExorAIO.Champions.Ezreal
                     }
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.RMenu);
-
-                Variables.MiscMenu = new Menu("Miscellaneous", $"{Variables.MainMenuName}.miscmenu");
-                {
-                    Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.misc.stacktear", "Stack Tear")).SetValue(true);
-                    Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.misc.stacktearmana", "Stack Tear: Mana > x%"))
-                        .SetValue(new Slider(80, 1, 95));
-                }
-                Variables.SettingsMenu.AddSubMenu(Variables.MiscMenu);
             }
             Variables.Menu.AddSubMenu(Variables.SettingsMenu);
+
+            /// <summary>
+            /// Sets the miscellaneous menu.
+            /// </summary>
+            Variables.MiscMenu = new Menu("Miscellaneous", $"{Variables.MainMenuName}.miscmenu");
+            {
+                Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.misc.stacktear", "Stack Tear")).SetValue(true);
+                Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.misc.stacktearmana", "Stack Tear: Mana > x%"))
+                    .SetValue(new Slider(80, 1, 95));
+            }
+            Variables.Menu.AddSubMenu(Variables.MiscMenu);
 
             /// <summary>
             /// Sets the drawings menu.

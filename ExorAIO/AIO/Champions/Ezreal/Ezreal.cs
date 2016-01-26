@@ -8,7 +8,7 @@ namespace ExorAIO.Champions.Ezreal
     using Orbwalking = SFXTargetSelector.Orbwalking;
 
     /// <summary>
-    /// The main class.
+    /// The champion class.
     /// </summary>
     class Ezreal
     {
@@ -29,13 +29,14 @@ namespace ExorAIO.Champions.Ezreal
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void OnUpdate(EventArgs args)
         {
-            if (!ObjectManager.Player.IsDead)
+            if (!ObjectManager.Player.IsDead &&
+                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
                 Logics.ExecuteTearStacking(args);
                 
                 if (Targets.Target != null &&
                     Targets.Target.IsValid &&
-                    Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
+                    Bools.HasNoProtection(Targets.Target))
                 {
                     Logics.ExecuteAuto(args);
                 }

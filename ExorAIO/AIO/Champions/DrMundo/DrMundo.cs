@@ -33,7 +33,8 @@ namespace ExorAIO.Champions.DrMundo
 			{
 				if (Targets.Target != null &&
 					Targets.Target.IsValid &&
-					Bools.HasNoProtection(Targets.Target))
+					Bools.HasNoProtection(Targets.Target) &&
+                    Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
 				{
 					Logics.ExecuteAuto(args);
 				}

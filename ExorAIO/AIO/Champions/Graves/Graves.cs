@@ -1,26 +1,25 @@
+using LeagueSharp;
+using LeagueSharp.Common;
+
 namespace ExorAIO.Champions.Graves
 {
     using System;
-    using System.Linq;
-    using System.Collections.Generic;
-    using LeagueSharp;
-    using LeagueSharp.Common;
-    using Orbwalking = SFXTargetSelector.Orbwalking;
     using ExorAIO.Utilities;
+    using Orbwalking = SFXTargetSelector.Orbwalking;
 
     /// <summary>
-    /// The main class.
+    /// The champion class.
     /// </summary>
-    public class Graves
+    class Graves
     {
         /// <summary>
-        /// Triggers when the champion is loaded.
+        /// Called when the game loads itself.
         /// </summary>
         public void OnLoad()
         {
-            Settings.SetSpells();
-            Settings.SetMenu();
-            Settings.SetMethods();
+            Menus.Initialize();
+            Spells.Initialize();
+            Methods.Initialize();
             Drawings.Initialize();
         }
 
@@ -28,18 +27,20 @@ namespace ExorAIO.Champions.Graves
         /// Called when the game updates itself.
         /// </summary>
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
-        public static void Game_OnGameUpdate(EventArgs args)
+        public static void OnUpdate(EventArgs args)
         {
-            if (!ObjectManager.Player.IsDead)
+            if (!ObjectManager.Player.IsDead &&
+                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
                 if (Targets.Target != null &&
-                    Targets.Target.IsValid)
+                    Targets.Target.IsValid &&
+                    Bools.HasNoProtection(Targets.Target))
                 {
                     Logics.ExecuteAuto(args);
                 }
 
                 if (Variables.Orbwalker.GetTarget() != null &&
-                    Variables.Orbwalker.GetTarget().IsValid)
+                    Variables.Orbwalker.GetTarget().IsValid<Obj_AI_Minion>())
                 {
                     Logics.ExecuteFarm(args);
                 }
@@ -51,17 +52,17 @@ namespace ExorAIO.Champions.Graves
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="args">The args.</param>
-        public static void Obj_AI_Base_OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
+        public static void OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             if (sender.IsMe &&
-                Orbwalking.IsAutoAttack(args.SData.Name) &&
+                args.Target.IsValid<Obj_AI_Hero>() &&
+				Orbwalking.IsAutoAttack(args.SData.Name) &&
+                Bools.HasNoProtection((Obj_AI_Hero)args.Target) &&
                 Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
-                if (args.Target.IsValid<Obj_AI_Hero>())
-                {
-                    Logics.ExecuteModes(sender, args);
-                }
+                Logics.ExecuteModes(sender, args);
             }
         }
     }
 }
+

@@ -147,7 +147,7 @@ namespace ExorAIO.Champions.KogMaw
             /// The E Farm Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
-
+                Variables.Orbwalker.GetTarget() != null &&
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                     ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
                     (Variables.E.GetLineFarmLocation(Targets.Minions, Variables.E.Width).MinionsHit >= 3 ||
