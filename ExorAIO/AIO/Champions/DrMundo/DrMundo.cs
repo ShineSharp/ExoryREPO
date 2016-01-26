@@ -50,9 +50,9 @@ namespace ExorAIO.Champions.DrMundo
         public static void OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             if (sender.IsMe &&
+                args.Target.IsValid<Obj_AI_Hero>() &&
                 Orbwalking.IsAutoAttack(args.SData.Name) &&
                 Bools.HasNoProtection((Obj_AI_Hero)args.Target) &&
-                args.Target.Type.Equals(GameObjectType.obj_AI_Hero) &&
                 Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
                 Logics.ExecuteModes(sender, args);

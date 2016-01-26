@@ -1,6 +1,6 @@
 using LeagueSharp.Common;
 
-namespace ExorAIO.Champions.Ashe
+namespace ExorAIO.Champions.Ezreal
 {
     using System.Drawing;
     using ExorAIO.Utilities;
@@ -25,38 +25,42 @@ namespace ExorAIO.Champions.Ashe
                     .SetFontStyle(FontStyle.Regular, Color.Green);
                 {
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.combo",    "Combo")).SetValue(true);
-                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.farm",     "LaneClear")).SetValue(false);
-                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.mana",     "LaneClear: Mana >= x%"))
-                        .SetValue(new Slider(50, 0, 99));
+                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.ks",       "KillSteal")).SetValue(true);
+                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.farm",     "FarmHelper")).SetValue(true);
+                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.immobile", "Harass Impaires Enemies")).SetValue(true);
+                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.harass",   "AutoHarass")).SetValue(true);
+                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.mana",     "FarmHelper/AutoHarass: Mana >= x"))
+                        .SetValue(new Slider(50, 10, 99));
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.QMenu);
 
-                Variables.WMenu = new Menu("Use W to:", $"{Variables.MainMenuName}.wmenu")
+                Variables.WMenu = new Menu("Use W to:", $"{Variables.MainMenuName}.wsettingsmenu")
                     .SetFontStyle(FontStyle.Regular, Color.Purple);
                 {
                     Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.combo",    "Combo")).SetValue(true);
                     Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.ks",       "KillSteal")).SetValue(true);
                     Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.immobile", "Harass Impaired Enemies")).SetValue(true);
-                    Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.farm",     "LaneClear")).SetValue(true);
-                    Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.mana",     "LaneClear: Mana >= x%"))
-                        .SetValue(new Slider(50, 0, 99));
+                    Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.harass",   "AutoHarass")).SetValue(true);
+                    Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.mana",     "AutoHarass: Mana >= x"))
+                        .SetValue(new Slider(50, 10, 99));
+                    
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.WMenu);
 
-                Variables.RMenu = new Menu("Use R to:", $"{Variables.MainMenuName}.rmenu")
+                Variables.RMenu = new Menu("Use R to:", $"{Variables.MainMenuName}.rsettingsmenu")
                     .SetFontStyle(FontStyle.Regular, Color.Red);
                 {
                     Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rspell.combo",    "Combo")).SetValue(true);
                     Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rspell.ks",       "KillSteal")).SetValue(true);
                     {
-                        Variables.WhiteListMenu = new Menu("Ultimate: Whitelist Menu", $"{Variables.MainMenuName}.rmenu.whitelistmenu");
+                        Variables.WhiteListMenu = new Menu("Ultimate: Whitelist Menu", $"{Variables.MainMenuName}.rspell.whitelist");
                         {
                             foreach (var champ in HeroManager.Enemies)
                             {
                                 Variables.WhiteListMenu
                                     .AddItem(
                                         new MenuItem(
-                                            $"{Variables.MainMenuName}.rspell.whitelist.{champ.ChampionName.ToLower()}",
+                                            $"{Variables.MainMenuName}.rsettings.rwhitelist.{champ.ChampionName.ToLower()}",
                                             $"Use against: {champ.ChampionName}")
                                     .SetValue(true));
                             }
@@ -65,23 +69,27 @@ namespace ExorAIO.Champions.Ashe
                     }
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.RMenu);
+
+                Variables.MiscMenu = new Menu("Miscellaneous", $"{Variables.MainMenuName}.miscmenu");
+                {
+                    Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.misc.stacktear", "Stack Tear")).SetValue(true);
+                    Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.misc.stacktearmana", "Stack Tear: Mana > x%"))
+                        .SetValue(new Slider(80, 1, 95));
+                }
+                Variables.SettingsMenu.AddSubMenu(Variables.MiscMenu);
             }
             Variables.Menu.AddSubMenu(Variables.SettingsMenu);
-
-            /// <summary>
-            /// Sets the miscellaneous menu.
-            /// </summary>
-            Variables.MiscMenu = new Menu("Miscellaneous", $"{Variables.MainMenuName}.miscmenu");
-            {
-                Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.misc.ermechanic",    "E->R Doublelift Mechanic")).SetValue(true);
-            }
-            Variables.Menu.AddSubMenu(Variables.MiscMenu);
 
             /// <summary>
             /// Sets the drawings menu.
             /// </summary>
             Variables.DrawingsMenu = new Menu("Drawings", $"{Variables.MainMenuName}.drawingsmenu");
             {
+                Variables.DrawingsMenu
+                    .AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.q", "Q Range"))
+                    .SetValue(false)
+                    .SetFontStyle(FontStyle.Regular, Color.Green);
+
                 Variables.DrawingsMenu
                     .AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.w", "W Range"))
                     .SetValue(false)

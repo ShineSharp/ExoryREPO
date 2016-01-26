@@ -51,13 +51,13 @@ namespace ExorAIO.Champions.Akali
                 Bools.HasNoProtection((Obj_AI_Hero)args.Target) &&
                 Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
-				if (args.Target.Type.Equals(GameObjectType.obj_AI_Hero))
+                if (args.Target.IsValid<Obj_AI_Hero>())
                 {
-					Logics.ExecuteModes(sender, args);
+                    Logics.ExecuteModes(sender, args);
                 }
-                else if (args.Target.Type.Equals(GameObjectType.obj_AI_Minion))
+                else if (args.Target.IsValid<Obj_AI_Minion>())
                 {
-					Logics.ExecuteFarm(sender, args);
+                    Logics.ExecuteFarm(sender, args);
                 }
             }
         }

@@ -20,23 +20,23 @@ namespace ExorAIO.Champions.DrMundo
         public static void ExecuteAuto(EventArgs args)
         {
             /// <summary>
+            /// The Q Killsteal Logic,
             /// The Q Combo Logic,
             /// The Q AutoHarass Logic,
-            /// The Q Killsteal Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
 				ObjectManager.Player.HealthPercent > 10 &&
 			    Targets.Target.IsValidTarget(Variables.Q.Range) &&
                 Variables.R.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
 
-                ((Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                ((Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").GetValue<bool>()) ||
+
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").GetValue<bool>()) ||
 
                 (ObjectManager.Player.HealthPercent > ManaManager.NeededQMana &&
-					Variables.Menu.Item($"{Variables.MainMenuName}.qspell.harass").GetValue<bool>()) ||
-
-                (Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").GetValue<bool>())))
+					Variables.Menu.Item($"{Variables.MainMenuName}.qspell.harass").GetValue<bool>())))
             {
                 Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
             }
@@ -50,11 +50,11 @@ namespace ExorAIO.Champions.DrMundo
             {
                 if ((!ObjectManager.Player.HasBuff("BurningAgony") &&
 					Targets.Target.IsValidTarget(Variables.W.Range) &&
-					ObjectManager.Player.HealthPercent > ManaManager.NeededQMana) ||
+					ObjectManager.Player.HealthPercent >= ManaManager.NeededQMana) ||
 
                     ((ObjectManager.Player.HasBuff("BurningAgony") &&
-					(!Targets.Target.IsValidTarget(Variables.W.Range) ||
-					ObjectManager.Player.HealthPercent < 35))))
+					!Targets.Target.IsValidTarget(Variables.W.Range) ||
+					ObjectManager.Player.HealthPercent < ManaManager.NeededQMana)))
                 {
                     Variables.W.Cast();
                 }
@@ -104,15 +104,16 @@ namespace ExorAIO.Champions.DrMundo
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.wspell.farm").GetValue<bool>())
             {
-                if ((!ObjectManager.Player.HasBuff("BurningAgony") && 
-                    ((Targets.Minions?.Count() >= 2 ||
-						GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
-						ObjectManager.Player.Health >= ManaManager.NeededWMana)) ||
-
-                    (ObjectManager.Player.HasBuff("BurningAgony") && 
-                    ((Targets.Minions?.Count() < 2 ||
-						!GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) ||
-						ObjectManager.Player.Health < ManaManager.NeededWMana)))
+                if (!ObjectManager.Player.HasBuff("BurningAgony") &&
+                    ObjectManager.Player.Health >= ManaManager.NeededWMana &&
+                    (Targets.Minions.Any() && Targets.Minions.Count() >= 2 ||
+                    Variables.Orbwalker.GetTarget() != null &&
+                    Variables.Orbwalker.GetTarget().Type.Equals(GameObjectType.obj_AI_Minion) &&
+                    GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) ||
+                    
+                    ObjectManager.Player.HasBuff("BurningAgony") &&
+                    !Targets.Minions.Any() ||
+                    ObjectManager.Player.Health < ManaManager.NeededWMana)
                 {
                     Variables.W.Cast();
                 }

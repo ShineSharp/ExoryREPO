@@ -32,8 +32,9 @@ namespace ExorAIO.Champions.Akali
                 (Targets.Target.Health < Variables.Q.GetDamage(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").GetValue<bool>()) ||
 
-                (ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
-                    !Targets.Target.UnderTurret() &&
+                (!Targets.Target.UnderTurret() &&
+                    ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
+                    Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.autoharass").GetValue<bool>())))
             {
                 Variables.Q.CastOnUnit(Targets.Target);

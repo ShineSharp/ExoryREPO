@@ -30,7 +30,7 @@ namespace ExorAIO.Champions.Corki
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").GetValue<bool>()) ||
 
                 (Bools.IsImmobile(Targets.Target) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.harass").GetValue<bool>())))
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.immobile").GetValue<bool>())))
             {
                 Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).CastPosition);
             }
@@ -59,6 +59,7 @@ namespace ExorAIO.Champions.Corki
 
                 (!Targets.Target.UnderTurret() &&
 					ObjectManager.Player.ManaPercent > ManaManager.NeededRMana &&
+                    Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.rspell.harass").GetValue<bool>() &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.rspell.whitelist.{Targets.Target.ChampionName.ToLower()}").GetValue<bool>())))
             {
