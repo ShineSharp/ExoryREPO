@@ -1,8 +1,8 @@
+using LeagueSharp;
+using LeagueSharp.Common;
+
 namespace NabbActivator
 {
-    using LeagueSharp;
-    using LeagueSharp.Common;
-
     /// <summary>
     /// The menu class.
     /// </summary>

@@ -1,10 +1,10 @@
-﻿using System;
-
-using LeagueSharp;
+﻿using LeagueSharp;
 using LeagueSharp.Common;
 
 namespace NabbActivator
 {
+    using System;
+
     class Program
     {
         static void Main(string[] args)

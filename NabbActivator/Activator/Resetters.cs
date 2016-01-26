@@ -1,10 +1,11 @@
+using LeagueSharp;
+using LeagueSharp.Common;
+
 namespace NabbActivator
 {
     using System;
-    using LeagueSharp;
-    using LeagueSharp.Common;
     using ItemData = LeagueSharp.Common.Data.ItemData;
-
+ 
     /// <summary>
     /// The resetter items class.
     /// </summary>

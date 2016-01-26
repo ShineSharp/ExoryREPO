@@ -1,16 +1,12 @@
+using LeagueSharp;
+using LeagueSharp.Common;
+
 namespace NabbActivator
 {
-    using System;
-    using System.Linq;
-    using System.Collections.Generic;
-
-    using LeagueSharp;
-    using LeagueSharp.Common;
-
     /// <summary>
     /// The variables.
     /// </summary>
-    public class Variables
+    class Variables
     {
         /// <summary>
         /// Gets or sets the assembly menu.

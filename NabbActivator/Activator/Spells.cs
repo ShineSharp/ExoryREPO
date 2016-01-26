@@ -1,10 +1,11 @@
+using LeagueSharp;
+using LeagueSharp.Common;
+
 namespace NabbActivator
 {
     using System;
-    using LeagueSharp;
-    using LeagueSharp.Common;
     using ItemData = LeagueSharp.Common.Data.ItemData;
-
+ 
     /// <summary>
     /// The spells class.
     /// </summary>
@@ -32,7 +33,7 @@ namespace NabbActivator
                 if (Bools.IsSpellAvailable(SpellSlots.Cleanse))
                 {
                     Utility.DelayAction.Add(
-                        Bools.MustRandomize() ?
+                        Variables.Menu.Item($"{Variables.MainMenuName}.randomizer").GetValue<bool>() ?
                             WeightedRandom.Next(100, 200) :
                             0,
                         () => 

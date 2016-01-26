@@ -1,8 +1,9 @@
+using LeagueSharp;
+using LeagueSharp.Common;
+
 namespace NabbActivator
 {
     using System.Linq;
-    using LeagueSharp;
-    using LeagueSharp.Common;
 
     /// <summary>
     /// The targets.

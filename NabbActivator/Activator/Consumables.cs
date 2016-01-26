@@ -1,11 +1,12 @@
+using LeagueSharp;
+using LeagueSharp.Common;
+
 namespace NabbActivator
 {
     using System;
     using System.Linq;
-    using LeagueSharp;
-    using LeagueSharp.Common;
     using ItemData = LeagueSharp.Common.Data.ItemData;
-
+ 
     /// <summary>
     /// The consumables class.
     /// </summary>

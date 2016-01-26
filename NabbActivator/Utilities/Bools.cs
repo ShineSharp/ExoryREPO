@@ -1,8 +1,9 @@
+using LeagueSharp;
+using LeagueSharp.Common;
+
 namespace NabbActivator
 {
     using System.Linq;
-    using LeagueSharp;
-    using LeagueSharp.Common;
 
     /// <summary>
     /// The bools.
@@ -34,7 +35,8 @@ namespace NabbActivator
         public static bool HasNoProtection(Obj_AI_Hero target)
         =>
             !target.IsInvulnerable &&
-            !target.HasBuffOfType(BuffType.SpellShield);
+            !target.HasBuffOfType(BuffType.SpellShield) &&
+            target.Type.Equals(GameObjectType.obj_AI_Hero);
 
         /// <summary>
         /// Defines whether the player should use cleanse.
@@ -42,14 +44,14 @@ namespace NabbActivator
         public static bool ShouldUseCleanse(Obj_AI_Hero target)
         =>  
             Bools.HasNoProtection(ObjectManager.Player) &&
-            (target.HasBuffOfType(BuffType.Charm) ||
+            target.HasBuffOfType(BuffType.Charm) ||
             target.HasBuffOfType(BuffType.Flee) ||
             target.HasBuffOfType(BuffType.Polymorph) ||
-            (target.HasBuffOfType(BuffType.Snare) && Bools.IsValidRoot()) ||
+            Bools.IsValidSnare() ||
             target.HasBuffOfType(BuffType.Stun) ||
             target.HasBuffOfType(BuffType.Taunt) ||
             target.HasBuff("summonerexhaust") ||
-            target.HasBuff("summonerdot"));
+            target.HasBuff("summonerdot");
 
         /// <summary>
         /// Defines whether the player should use a cleanser.
@@ -67,7 +69,7 @@ namespace NabbActivator
         /// <summary>
         /// Defines whether the casted root is worth cleansing.
         /// </summary>
-        public static bool IsValidRoot()
+        public static bool IsValidSnare()
         =>
             ObjectManager.Player.Buffs
                 .Any(buff =>
@@ -82,12 +84,5 @@ namespace NabbActivator
         =>
             arg != SpellSlot.Unknown &&
             ObjectManager.Player.Spellbook.CanUseSpell(arg) == SpellState.Ready;
-
-        /// <summary>
-        /// Defines whether it has to randomize actions.
-        /// </summary>
-        public static bool MustRandomize()
-        => 
-            Variables.Menu.Item($"{Variables.MainMenuName}.randomizer").GetValue<bool>();
     }
 }

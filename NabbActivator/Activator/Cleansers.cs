@@ -1,11 +1,11 @@
+using LeagueSharp;
+using LeagueSharp.Common;
+
 namespace NabbActivator
 {
     using System;
-    using System.Linq;
-    using LeagueSharp;
-    using LeagueSharp.Common;
     using ItemData = LeagueSharp.Common.Data.ItemData;
-
+ 
     /// <summary>
     /// The cleansers class.
     /// </summary>
@@ -27,7 +27,7 @@ namespace NabbActivator
                 if (ItemData.Quicksilver_Sash.GetItem().IsReady())
                 {
                     Utility.DelayAction.Add(
-                        Bools.MustRandomize() ?
+                        Variables.Menu.Item($"{Variables.MainMenuName}.randomizer").GetValue<bool>() ?
                             WeightedRandom.Next(100, 200) :
                             0,
                         () =>
@@ -43,23 +43,28 @@ namespace NabbActivator
                 /// </summary>
                 if (ItemData.Mikaels_Crucible.GetItem().IsReady())
                 {
-                    foreach (var Ally in HeroManager.Allies
-                        .Where(
-                            h =>
-                                h.IsValidTarget(750f, false) &&
-                                Bools.ShouldUseCleanse(h) &&
-                                Bools.HasNoProtection(h)))
+                    if (Targets.Ally != null &&
+                        Bools.ShouldUseCleanse(Targets.Ally))
                     {
                         Utility.DelayAction.Add(
-                            Bools.MustRandomize() ?
-                                WeightedRandom.Next(100, 200) :
-                                0,
+                            Variables.Menu.Item($"{Variables.MainMenuName}.randomizer").GetValue<bool>() ?
+                                WeightedRandom.Next(100, 200) : 0,
                             () =>
                             {
-                                ItemData.Mikaels_Crucible.GetItem().Cast(Ally);
+                                ItemData.Mikaels_Crucible.GetItem().Cast(Targets.Ally);
                             }
                         );
-                        break;
+                    }
+                    else if (Bools.ShouldUseCleanse(ObjectManager.Player))
+                    {
+                        Utility.DelayAction.Add(
+                            Variables.Menu.Item($"{Variables.MainMenuName}.randomizer").GetValue<bool>() ?
+                                WeightedRandom.Next(100, 200) : 0,
+                            () =>
+                            {
+                                ItemData.Mikaels_Crucible.GetItem().Cast(ObjectManager.Player);
+                            }
+                        );
                     }
                 }
             }

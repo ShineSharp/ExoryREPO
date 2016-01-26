@@ -1,8 +1,9 @@
+using LeagueSharp;
+using LeagueSharp.Common;
+
 namespace NabbActivator
 {
     using System;
-    using LeagueSharp;
-    using LeagueSharp.Common;
     using ItemData = LeagueSharp.Common.Data.ItemData;
  
     /// <summary>
@@ -26,7 +27,7 @@ namespace NabbActivator
                 if (ItemData.Dervish_Blade.GetItem().IsReady())
                 {
                     Utility.DelayAction.Add(
-                        Bools.MustRandomize() ?
+                        Variables.Menu.Item($"{Variables.MainMenuName}.randomizer").GetValue<bool>() ?
                             WeightedRandom.Next(100, 200) : 0,
                         () =>
                         {
@@ -42,7 +43,7 @@ namespace NabbActivator
                 if (ItemData.Mercurial_Scimitar.GetItem().IsReady())
                 {
                     Utility.DelayAction.Add(
-                        Bools.MustRandomize() ?
+                        Variables.Menu.Item($"{Variables.MainMenuName}.randomizer").GetValue<bool>() ?
                             WeightedRandom.Next(100, 200) : 0,
                         () =>
                         {
