@@ -1,10 +1,8 @@
+using LeagueSharp;
+using LeagueSharp.Common;
+
 namespace ExorLucian
 {
-    using System.Collections.Generic;
-    using LeagueSharp;
-    using LeagueSharp.Common;
-    using TargetSelector = SFXTargetSelector.TargetSelector;
-
     /// <summary>
     /// The methods class.
     /// </summary>

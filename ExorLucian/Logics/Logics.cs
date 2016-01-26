@@ -1,10 +1,11 @@
+using LeagueSharp;
+using LeagueSharp.Common;
+
 namespace ExorLucian
 {
     using System;
     using System.Linq;
     using System.Collections.Generic;
-    using LeagueSharp;
-    using LeagueSharp.Common;
     using SharpDX;
     using Orbwalking = SFXTargetSelector.Orbwalking;
 

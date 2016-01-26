@@ -1,8 +1,8 @@
+using LeagueSharp;
+using LeagueSharp.Common;
+
 namespace ExorLucian
 {
-    using LeagueSharp;
-    using LeagueSharp.Common;
-
     using Color = System.Drawing.Color;
 
     /// <summary>

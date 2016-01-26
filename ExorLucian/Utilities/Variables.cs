@@ -1,15 +1,9 @@
+using LeagueSharp;
+using LeagueSharp.Common;
+
 namespace ExorLucian
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-    using LeagueSharp;
-    using LeagueSharp.Common;
-
     using Orbwalking = SFXTargetSelector.Orbwalking;
-    using TargetSelector = SFXTargetSelector.TargetSelector;
 
     /// <summary>
     /// The Variables class.
