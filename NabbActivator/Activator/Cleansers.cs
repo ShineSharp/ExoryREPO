@@ -18,8 +18,8 @@ namespace NabbActivator
         public static void Execute(EventArgs args)
         {
             if (Bools.ShouldUseCleanser() ||
-                (Bools.ShouldUseCleanse(ObjectManager.Player) &&
-                !Bools.IsSpellAvailable(SpellSlots.Cleanse)))
+                (!Bools.IsSpellAvailable(SpellSlots.Cleanse) &&
+                Bools.ShouldUseCleanse(ObjectManager.Player)))
             {
                 /// <summary>
                 /// The Quicksilver Sash.

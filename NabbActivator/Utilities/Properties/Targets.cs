@@ -15,10 +15,7 @@ namespace NabbActivator
         /// </summary>
         public static Obj_AI_Hero Target
         =>
-            HeroManager.Enemies
-                .Find(e =>
-                    Bools.HasNoProtection(e) &&
-                    e.IsValidTarget(1250f));
+            TargetSelector.GetTarget(1250f, TargetSelector.DamageType.Physical);
 
         /// <summary>
         /// The main ally target.
