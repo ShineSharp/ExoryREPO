@@ -39,6 +39,7 @@ namespace ExorLucian
                 if (!Targets.Target.IsValidTarget(Variables.Q.Range) &&
                     Targets.Target.IsValidTarget(Variables.Q.Range + 600f) &&
                     ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
+                    Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.harass").GetValue<bool>())
                 {
                     foreach (var tgminion in from target in ObjectManager.Player.GetEnemiesInRange(Variables.Q.Range + 600f)
