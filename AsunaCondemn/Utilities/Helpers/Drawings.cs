@@ -1,37 +1,33 @@
+using LeagueSharp;
+using LeagueSharp.Common;
+
 namespace AsunaCondemn
 {
-    using System;
     using System.Linq;
-    using System.Collections.Generic;
-
-    using LeagueSharp;
-    using LeagueSharp.Common;
-
     using SharpDX;
-    
+    using Color = System.Drawing.Color;
+
     /// <summary>
     /// The drawings class.
     /// </summary>
-    public class Drawings
+    class Drawings
     {
         /// <summary>
         /// Loads the range drawings.
         /// </summary>
-        public static void Load()
+        public static void Initialize()
         {
             Drawing.OnDraw += delegate
             {
                 /// <summary>
                 /// Loads the E drawing.
                 /// </summary>
-                if (!ObjectManager.Player.IsDead &&
-                    Variables.E.IsReady() &&
+                if (Variables.E.IsReady() &&
+                    !ObjectManager.Player.IsDead &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.drawings.e").GetValue<bool>())
                 {
                     foreach (var e in HeroManager.Enemies
-                        .Where(
-                            c =>
-                                c.IsValidTarget(Variables.E.Range)))
+                        .Where(c => c.IsValidTarget(Variables.E.Range)))
                     {
                         Drawing.DrawLine(
                             Drawing.WorldToScreen(e.Position).X,
@@ -41,16 +37,16 @@ namespace AsunaCondemn
                             1,
                             (Variables.E.GetPrediction(e).UnitPosition - Vector3.Normalize(e.ServerPosition - ObjectManager.Player.Position) * 420).IsWall() &&
                             (Variables.E.GetPrediction(e).UnitPosition - Vector3.Normalize(e.ServerPosition - ObjectManager.Player.Position) * 440).IsWall() ?
-                                System.Drawing.Color.Green :
-                                System.Drawing.Color.Red
+                                Color.Green :
+                                Color.Red
                         );
 
                         Render.Circle.DrawCircle(
-                            ObjectManager.Player.ServerPosition.Extend(e.ServerPosition, 425f - ObjectManager.Player.BoundingRadius*3),
+                            ObjectManager.Player.ServerPosition.Extend(e.ServerPosition, 425f),
                             50,
-                            ObjectManager.Player.Distance(e) < 425f - ObjectManager.Player.BoundingRadius*3 ?
-                                System.Drawing.Color.Green :
-                                System.Drawing.Color.Red,
+                            ObjectManager.Player.Distance(e) < 425f - ObjectManager.Player.BoundingRadius*3?
+                                Color.Green :
+                                Color.Red,
                             1
                         );
                     }

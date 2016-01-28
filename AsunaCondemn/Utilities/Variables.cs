@@ -1,14 +1,8 @@
+using LeagueSharp;
+using LeagueSharp.Common;
+
 namespace AsunaCondemn
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-    
-    using LeagueSharp;
-    using LeagueSharp.Common;
-
     /// <summary>
     /// The Variables class.
     /// </summary>
@@ -28,21 +22,6 @@ namespace AsunaCondemn
         /// Gets or sets the assembly menu.
         /// </summary>
         public static Menu Menu { get; set; }
-
-        /// <summary>
-        /// Gets or sets the settings menu.
-        /// </summary>
-        public static Menu SettingsMenu { get; set; }
-
-        /// <summary>
-        /// Gets or sets the E Spell menu.
-        /// </summary>
-        public static Menu EMenu { get; set; }
-
-        /// <summary>
-        /// Gets or sets the Drawings menu.
-        /// </summary>
-        public static Menu DrawingsMenu { get; set; }
 
         /// <summary>
         /// The main menu codename.
