@@ -131,16 +131,6 @@ namespace ExorAIO.Utilities
             );
 
         /// <summary>
-        /// Gets a value indicating whether the Jinx is using Fishbones.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if the Q is activated.; otherwise, <c>false</c>.
-        /// </value>
-        public static bool IsUsingFishBones()
-        =>
-            ObjectManager.Player.HasBuff("JinxQ");
-
-        /// <summary>
         /// Gets a value indicating whether the e is activated.
         /// </summary>
         /// <value>

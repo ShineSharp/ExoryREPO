@@ -62,8 +62,11 @@ namespace ExorAIO.Champions.Jinx
         /// <param name="args">The args.</param>
         public static void OnProcessSpellCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            if (sender.IsEnemy &&
-                sender.IsValid<Obj_AI_Hero>())
+            if (sender != null &&
+                sender.IsEnemy &&
+                Variables.E.IsReady() &&
+                sender.IsValid<Obj_AI_Hero>() &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.auto").GetValue<bool>())
             {
                 Logics.ExecuteSpellCast(sender, args);
             }
@@ -76,7 +79,7 @@ namespace ExorAIO.Champions.Jinx
         {
             if (Variables.E.IsReady() &&
                 ObjectManager.Player.Distance(gapcloser.End) <= Variables.E.Range &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useeauto").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.auto").GetValue<bool>())
             {
                 Variables.E.Cast(gapcloser.End);
             }

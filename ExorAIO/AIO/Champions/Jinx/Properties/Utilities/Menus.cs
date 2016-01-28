@@ -48,7 +48,7 @@ namespace ExorAIO.Champions.Jinx
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.EMenu);
 
-                Variables.RMenu = new Menu("R Settings", $"{Variables.MainMenuName}.rmenu")
+                Variables.RMenu = new Menu("Use R to:", $"{Variables.MainMenuName}.rmenu")
                     .SetFontStyle(FontStyle.Regular, Color.Red);
                 {
                     Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rspell.ks",       "KillSteal")).SetValue(true);
