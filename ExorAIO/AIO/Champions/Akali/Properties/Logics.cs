@@ -35,9 +35,25 @@ namespace ExorAIO.Champions.Akali
                 (!Targets.Target.UnderTurret() &&
                     ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
                     Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.autoharass").GetValue<bool>())))
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.harass").GetValue<bool>())))
             {
                 Variables.Q.CastOnUnit(Targets.Target);
+            }
+
+            /// <summary>
+            /// The R Combo Logic.
+            /// </summary>
+            if (Variables.R.IsReady() &&
+                Targets.Target.IsValidTarget(Variables.Q.Range) &&
+
+                ((Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                    (!Targets.Target.UnderTurret() || !Variables.Menu.Item($"{Variables.MainMenuName}.misc.safecheck").GetValue<bool>()) &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").GetValue<bool>()) ||
+
+                (Targets.Target.Health < Variables.R.GetDamage(Targets.Target) * 2 &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").GetValue<bool>())))
+            {
+                Variables.R.CastOnUnit(Targets.Target);
             }
 
             /// <summary>
@@ -49,22 +65,6 @@ namespace ExorAIO.Champions.Akali
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.ks").GetValue<bool>())
             {
                 Variables.E.Cast();
-            }
-
-            /// <summary>
-            /// The R Combo Logic.
-            /// </summary>
-            if (Variables.R.IsReady() &&
-                Targets.Target.IsValidTarget(Variables.R.Range) &&
-
-                ((Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    (!Targets.Target.UnderTurret() || !Variables.Menu.Item($"{Variables.MainMenuName}.misc.safecheck").GetValue<bool>()) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").GetValue<bool>()) ||
-
-                (Targets.Target.Health < Variables.R.GetDamage(Targets.Target) * 2 &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").GetValue<bool>())))
-            {
-                Variables.R.CastOnUnit(Targets.Target);
             }
         }
 
@@ -98,10 +98,10 @@ namespace ExorAIO.Champions.Akali
             /// The E Farm Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
-                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                 (Targets.Minions.Count() >= 3 ||
-                    GameObjects.Jungle.Contains(args.Target)) &&
+                    GameObjects.Jungle.Contains((Obj_AI_Minion)args.Target)) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.farm").GetValue<bool>())
             {
                 Variables.E.Cast();
