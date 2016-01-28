@@ -45,10 +45,9 @@ namespace ExorAIO.Champions.Sivir
         /// <param name="args">The args.</param>
         public static void Obj_AI_Hero_OnProcessSpellCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            if (Variables.E.IsReady() &&
-                sender.IsValid<Obj_AI_Hero>() &&
-                sender != null &&
-                sender.IsEnemy)
+            if (sender != null &&
+                sender.IsEnemy &&
+                sender.IsValid<Obj_AI_Hero>())
             {
                 Logics.ExecuteShield(sender, args);
             }

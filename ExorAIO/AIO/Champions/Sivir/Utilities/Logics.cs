@@ -54,10 +54,8 @@ namespace ExorAIO.Champions.Sivir
                 Bools.HasNoProtection(ObjectManager.Player) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useelogic").GetValue<bool>())
             {
-                if (sender != null &&
-                    sender.IsEnemy &&
+                if (args.Target != null &&
                     args.Target.IsMe &&
-                    sender.IsValid<Obj_AI_Hero>() &&
                     (!args.SData.TargettingType.Equals(SpellDataTargetType.SelfAoe) || args.SData.Name.Equals("MockingShout")) &&
                     !args.SData.IsAutoAttack())
                 {
