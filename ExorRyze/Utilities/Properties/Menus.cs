@@ -95,9 +95,9 @@ namespace ExorRyze
                 /// </summary>
                 Variables.MiscMenu = new Menu("Miscellaneous", $"{Variables.MainMenuName}.miscmenu");
                 {
-                    Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.misc.stackmanager",  "Keep Perfect Passive (2)")).SetValue(false);
-                    Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.misc.tear",          "Stack Tear")).SetValue(true);
-                    Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.misc.tearmana",      "KPP/Stack Tear: Mana > x%"))
+                    Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.misc.manager",  "Keep Perfect Passive (2)")).SetValue(false);
+                    Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.misc.tear",     "Stack Tear")).SetValue(true);
+                    Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.misc.tearmana", "KPP/Stack Tear: Mana > x%"))
                         .SetValue(new Slider(80, 1, 95));
                 }
                 Variables.Menu.AddSubMenu(Variables.MiscMenu);

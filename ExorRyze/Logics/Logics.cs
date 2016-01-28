@@ -33,7 +33,7 @@ namespace ExorRyze
                     Variables.Menu.Item($"{Variables.MainMenuName}.misc.tear").GetValue<bool>()) ||
 
                     (ObjectManager.Player.GetBuffCount("RyzePassiveStack") < 2 &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.misc.stackmanager").GetValue<bool>()))
+                    Variables.Menu.Item($"{Variables.MainMenuName}.misc.manager").GetValue<bool>()))
                 {
                     Variables.Q.Cast(Game.CursorPos);
                 }
