@@ -1,25 +1,24 @@
+using LeagueSharp;
+using LeagueSharp.Common;
+
 namespace ExorAIO.Champions.Jinx
 {
     using System;
-    using System.Linq;
-    using System.Collections.Generic;
-    using LeagueSharp;
-    using LeagueSharp.Common;
     using ExorAIO.Utilities;
     using Orbwalking = SFXTargetSelector.Orbwalking;
 
     /// <summary>
     /// The main class.
     /// </summary>
-    public class Jinx
+    class Jinx
     {
         /// <summary>
         /// Triggers when the champion is loaded.
         /// </summary>
         public void OnLoad()
         {
-            Settings.SetMenu();
-            Settings.SetMethods();
+            Menus.Initialize();
+            Methods.Initialize();
             Drawings.Initialize();
         }
 
@@ -27,13 +26,13 @@ namespace ExorAIO.Champions.Jinx
         /// Called when the game updates itself.
         /// </summary>
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
-        public static void Game_OnGameUpdate(EventArgs args)
+        public static void OnUpdate(EventArgs args)
         {
-            Settings.SetSpells();
+            Spells.Initialize();
 
-            if (!ObjectManager.Player.IsDead &&
-                Targets.Target != null &&
-                Targets.Target.IsValid)
+            if (Targets.Target != null &&
+                Targets.Target.IsValid &&
+                !ObjectManager.Player.IsDead)
             {
                 Logics.ExecuteAuto(args);
             }
@@ -44,16 +43,15 @@ namespace ExorAIO.Champions.Jinx
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="args">The args.</param>
-        public static void Obj_AI_Base_OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
+        public static void OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             if (sender.IsMe &&
+                args.Target.IsValid<Obj_AI_Hero>() &&
                 Orbwalking.IsAutoAttack(args.SData.Name) &&
+                Bools.HasNoProtection((Obj_AI_Hero)args.Target) &&
                 Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
-                if (args.Target.IsValid<Obj_AI_Hero>())
-                {
-                    Logics.ExecuteModes(sender, args);
-                }
+                Logics.ExecuteModes(sender, args);
             }
         }
 
@@ -77,14 +75,10 @@ namespace ExorAIO.Champions.Jinx
         public static void OnGapcloser(ActiveGapcloser gapcloser)
         {
             if (Variables.E.IsReady() &&
+                ObjectManager.Player.Distance(gapcloser.End) <= Variables.E.Range &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useeauto").GetValue<bool>())
             {
-                if (Variables.E.IsReady() &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useeauto").GetValue<bool>() &&
-                    ObjectManager.Player.Distance(gapcloser.End) <= Variables.E.Range)
-                {
-                    Variables.E.Cast(gapcloser.End);
-                }
+                Variables.E.Cast(gapcloser.End);
             }
         }
     }

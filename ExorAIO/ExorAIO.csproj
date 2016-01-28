@@ -115,9 +115,12 @@
     <Compile Include="AIO\Champions\Jax\Properties\Utilities\Methods.cs" />
     <Compile Include="AIO\Champions\Jax\Properties\Utilities\Spells.cs" />
     <Compile Include="AIO\Champions\Jax\Properties\Utilities\Targets.cs" />
-    <Compile Include="AIO\Champions\Jinx\Utilities\Logics.cs" />
-    <Compile Include="AIO\Champions\Jinx\Utilities\Utility.cs" />
     <Compile Include="AIO\Champions\Jinx\Jinx.cs" />
+    <Compile Include="AIO\Champions\Jinx\Properties\Logics.cs" />
+    <Compile Include="AIO\Champions\Jinx\Properties\Utilities\Menus.cs" />
+    <Compile Include="AIO\Champions\Jinx\Properties\Utilities\Methods.cs" />
+    <Compile Include="AIO\Champions\Jinx\Properties\Utilities\Spells.cs" />
+    <Compile Include="AIO\Champions\Jinx\Properties\Utilities\Targets.cs" />
     <Compile Include="AIO\Champions\KogMaw\Utilities\Logics.cs" />
     <Compile Include="AIO\Champions\KogMaw\Utilities\Utility.cs" />
     <Compile Include="AIO\Champions\KogMaw\KogMaw.cs" />

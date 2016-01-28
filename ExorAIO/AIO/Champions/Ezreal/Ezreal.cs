@@ -55,7 +55,7 @@ namespace ExorAIO.Champions.Ezreal
                 Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
                 if (args.Target.IsValid<Obj_AI_Hero>() &&
-                    Bools.HasNoProtection((Obj_AI_Hero)args.Target) &&)
+                    Bools.HasNoProtection((Obj_AI_Hero)args.Target))
                 {
                     Logics.ExecuteModes(sender, args);
                 }
