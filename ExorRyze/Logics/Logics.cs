@@ -18,6 +18,32 @@ namespace ExorRyze
         /// Called when the game updates itself.
         /// </summary>
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
+        public static void ExecuteStacks(EventArgs args)
+        {
+            /// <summary>
+            /// The Tear Stacking Logic,
+            /// The Passive Stacking Logic.
+            /// </summary>
+            if (Variables.Q.IsReady() &&
+                !ObjectManager.Player.IsRecalling() &&
+                ObjectManager.Player.CountEnemiesInRange(1500) == 0 &&
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.None)
+            {
+                if ((ObjectManager.Player.ManaPercent > ManaManager.NeededTearMana &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.misc.tear").GetValue<bool>()) ||
+
+                    (ObjectManager.Player.GetBuffCount("RyzePassiveStack") < 2 &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.misc.stackmanager").GetValue<bool>()))
+                {
+                    Variables.Q.Cast(Game.CursorPos);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Called when the game updates itself.
+        /// </summary>
+        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void ExecuteAuto(EventArgs args)
         {
             /// <summary>
@@ -48,6 +74,7 @@ namespace ExorRyze
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").GetValue<bool>()) ||
                 
                 (ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
+                    Variables.Q.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.harass").GetValue<bool>()) ||
 
                 (Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health &&
@@ -109,6 +136,18 @@ namespace ExorRyze
                 Variables.Menu.Item($"{Variables.MainMenuName}.wspell.farm").GetValue<bool>())
             {
                 Variables.W.CastOnUnit((Obj_AI_Minion)Variables.Orbwalker.GetTarget());
+            }
+
+            /// <summary>
+            /// The R LaneClear Logic.
+            /// </summary>
+            if (Variables.R.IsReady() &&
+                Targets.Minions.Any() &&
+                Targets.Minions.Count() > 3 &&
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.farm").GetValue<bool>())
+            {
+                Variables.R.Cast();
             }
 
             /// <summary>

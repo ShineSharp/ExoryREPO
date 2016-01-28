@@ -28,5 +28,12 @@ namespace ExorRyze
         public static int NeededEMana
         =>
             Variables.Menu.Item($"{Variables.MainMenuName}.espell.mana").GetValue<Slider>().Value;
+
+        /// <summary>
+        /// The minimum mana needed to stack the Tear Item.
+        /// </summary>
+        public static int NeededTearMana
+        =>
+            Variables.Menu.Item($"{Variables.MainMenuName}.misc.tearmana").GetValue<Slider>().Value;
     }
 }

@@ -83,11 +83,24 @@ namespace ExorRyze
                     Variables.RMenu = new Menu("Use R to:", $"{Variables.MainMenuName}.rmenu")
                         .SetFontStyle(FontStyle.Regular, Color.Red);
                     {
-                        Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rspell.combo",  "Smart Combo")).SetValue(true);
+                        Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rspell.combo",  "Combo")).SetValue(true);
+                        Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rspell.farm",   "LaneClear")).SetValue(true);
                     }
                     Variables.SettingsMenu.AddSubMenu(Variables.RMenu);
                 }
                 Variables.Menu.AddSubMenu(Variables.SettingsMenu);
+
+                /// <summary>
+                /// Sets the miscellaneous menu.
+                /// </summary>
+                Variables.MiscMenu = new Menu("Miscellaneous", $"{Variables.MainMenuName}.miscmenu");
+                {
+                    Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.misc.stackmanager",  "Keep Perfect Passive (2)")).SetValue(false);
+                    Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.misc.tear",          "Stack Tear")).SetValue(true);
+                    Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.misc.tearmana",      "KPP/Stack Tear: Mana > x%"))
+                        .SetValue(new Slider(80, 1, 95));
+                }
+                Variables.Menu.AddSubMenu(Variables.MiscMenu);
 
                 /// <summary>
                 /// Sets the drawings menu.
