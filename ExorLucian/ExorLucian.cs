@@ -28,9 +28,9 @@ namespace ExorLucian
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void OnUpdate(EventArgs args)
         {
-            if (!ObjectManager.Player.IsDead &&
-                Targets.Target != null &&
+            if (Targets.Target != null &&
                 Targets.Target.IsValid &&
+                !ObjectManager.Player.IsDead &&
                 Bools.HasNoProtection(Targets.Target))
             {
                 Logics.ExecuteAuto(args);
@@ -45,23 +45,18 @@ namespace ExorLucian
         public static void OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             if (sender.IsMe &&
-                Bools.HasNoProtection(Targets.Target) &&
                 Orbwalking.IsAutoAttack(args.SData.Name) &&
                 !args.SData.Name.Equals("lucianpassiveattack"))
             {
-				switch (args.Target.Type)
-				{
-					case GameObjectType.obj_AI_Hero: 
-						Logics.ExecuteModes(sender, args);
-						break;
-
-					case GameObjectType.obj_AI_Minion: 
-						Logics.ExecuteFarm(sender, args);
-						break;
-
-					default: 
-						break;
-				}
+                if (args.Target.IsValid<Obj_AI_Hero>() &&
+                    Bools.HasNoProtection((Obj_AI_Hero)args.Target))
+                {
+                    Logics.ExecuteModes(sender, args);
+                }
+                else if (args.Target.IsValid<Obj_AI_Minion>())
+                {
+                    Logics.ExecuteFarm(sender, args);
+                }
             }
         }
     }
