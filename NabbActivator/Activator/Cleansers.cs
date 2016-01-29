@@ -19,7 +19,7 @@ namespace NabbActivator
         {
             if (Bools.ShouldUseCleanser() ||
                 (!Bools.IsSpellAvailable(SpellSlots.Cleanse) &&
-                Bools.ShouldUseCleanse(ObjectManager.Player)))
+                    Bools.ShouldUseCleanse(ObjectManager.Player)))
             {
                 /// <summary>
                 /// The Quicksilver Sash.
