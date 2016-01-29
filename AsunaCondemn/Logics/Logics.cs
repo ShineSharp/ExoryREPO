@@ -25,6 +25,8 @@ namespace AsunaCondemn
             /// </summary>
             if (Variables.E.IsReady() &&
                 Variables.Flash.IsReady() &&
+                !ObjectManager.Player.IsDashing() &&
+                !ObjectManager.Player.IsWindingUp &&
                 Variables.Flash != SpellSlot.Unknown &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.execute").GetValue<KeyBind>().Active)
             {
