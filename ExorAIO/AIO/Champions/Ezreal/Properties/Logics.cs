@@ -27,6 +27,7 @@ namespace ExorAIO.Champions.Ezreal
                 !ObjectManager.Player.IsRecalling() &&
                 ObjectManager.Player.CountEnemiesInRange(1500) == 0 &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededTearMana &&
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.None &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.misc.stacktear").GetValue<bool>())
             {
                 Variables.Q.Cast(Game.CursorPos);

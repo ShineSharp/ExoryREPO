@@ -29,14 +29,14 @@ namespace ExorAIO.Champions.Ezreal
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void OnUpdate(EventArgs args)
         {
-            if (!ObjectManager.Player.IsDead &&
-                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
+            if (!ObjectManager.Player.IsDead)
             {
                 Logics.ExecuteTearStacking(args);
                 
                 if (Targets.Target != null &&
                     Targets.Target.IsValid &&
-                    Bools.HasNoProtection(Targets.Target))
+                    Bools.HasNoProtection(Targets.Target) &&
+                    Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
                 {
                     Logics.ExecuteAuto(args);
                 }
