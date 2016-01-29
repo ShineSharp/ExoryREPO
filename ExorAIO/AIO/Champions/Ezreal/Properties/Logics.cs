@@ -51,11 +51,8 @@ namespace ExorAIO.Champions.Ezreal
                 ((Targets.Target.Health < Variables.Q.GetDamage(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").GetValue<bool>()) ||
 
-                (Bools.IsImmobile(Targets.Target) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.immobile").GetValue<bool>()) ||
-
                 (ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
-                    ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
+                    !Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.harass").GetValue<bool>())))
             {
                 Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
@@ -74,10 +71,8 @@ namespace ExorAIO.Champions.Ezreal
                 ((Targets.Target.Health < Variables.W.GetDamage(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.wspell.ks").GetValue<bool>()) ||
 
-                (Bools.IsImmobile(Targets.Target) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.wspell.immobile").GetValue<bool>()) ||
-
                 (ObjectManager.Player.ManaPercent > ManaManager.NeededWMana &&
+                    !Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.wspell.harass").GetValue<bool>())))
             {
                 Variables.W.Cast(Variables.W.GetPrediction(Targets.Target).UnitPosition);
@@ -159,8 +154,8 @@ namespace ExorAIO.Champions.Ezreal
             if (Variables.Q.IsReady() &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                Targets.Minions.Any() ||
-                    GameObjects.Jungle.Contains((Obj_AI_Minion)args.Target) &&
+                (Targets.Minions.Any() ||
+                    GameObjects.Jungle.Contains((Obj_AI_Minion)args.Target)) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").GetValue<bool>())
             {
                 Variables.Q.Cast((Obj_AI_Minion)args.Target);

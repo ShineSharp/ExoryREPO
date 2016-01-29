@@ -27,7 +27,6 @@ namespace ExorAIO.Champions.Ezreal
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.combo",    "Combo")).SetValue(true);
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.ks",       "KillSteal")).SetValue(true);
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.farm",     "FarmHelper")).SetValue(true);
-                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.immobile", "Harass Impaires Enemies")).SetValue(true);
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.harass",   "AutoHarass")).SetValue(true);
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.mana",     "FarmHelper/AutoHarass: Mana >= x"))
                         .SetValue(new Slider(50, 10, 99));
@@ -39,7 +38,6 @@ namespace ExorAIO.Champions.Ezreal
                 {
                     Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.combo",    "Combo")).SetValue(true);
                     Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.ks",       "KillSteal")).SetValue(true);
-                    Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.immobile", "Harass Impaired Enemies")).SetValue(true);
                     Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.harass",   "AutoHarass")).SetValue(true);
                     Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.mana",     "AutoHarass: Mana >= x"))
                         .SetValue(new Slider(50, 10, 99));
