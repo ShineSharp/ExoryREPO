@@ -30,14 +30,14 @@ namespace ExorAIO.Champions.KogMaw
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.QMenu);
 
-                Variables.WMenu = new Menu("W Settings", $"{Variables.MainMenuName}.wmenu")
+                Variables.WMenu = new Menu("Use W to:", $"{Variables.MainMenuName}.wmenu")
                     .SetFontStyle(FontStyle.Regular, Color.Purple);
                 {
                     Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.combo",    "Combo")).SetValue(true);
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.WMenu);
 
-                Variables.EMenu = new Menu("E Settings", $"{Variables.MainMenuName}.emenu")
+                Variables.EMenu = new Menu("Use E to:", $"{Variables.MainMenuName}.emenu")
                     .SetFontStyle(FontStyle.Regular, Color.Cyan);
                 {
                     Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.espell.combo",    "Combo")).SetValue(true);
@@ -49,7 +49,7 @@ namespace ExorAIO.Champions.KogMaw
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.EMenu);
 
-                Variables.RMenu = new Menu("R Settings", $"{Variables.MainMenuName}.rmenu")
+                Variables.RMenu = new Menu("Use R to:", $"{Variables.MainMenuName}.rmenu")
                     .SetFontStyle(FontStyle.Regular, Color.Red);
                 {
                     Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rspell.combo",    "Combo")).SetValue(true);
