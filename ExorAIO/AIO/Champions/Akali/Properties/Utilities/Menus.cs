@@ -48,6 +48,21 @@ namespace ExorAIO.Champions.Akali
                 {
                     Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rspell.combo",  "Combo")).SetValue(true);
                     Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rspell.ks",     "KillSteal")).SetValue(true);
+                    {
+                        Variables.WhiteListMenu = new Menu("Ultimate: Whitelist Menu", $"{Variables.MainMenuName}.rmenu.whitelistmenu");
+                        {
+                            foreach (var champ in HeroManager.Enemies)
+                            {
+                                Variables.WhiteListMenu
+                                    .AddItem(
+                                        new MenuItem(
+                                            $"{Variables.MainMenuName}.rspell.whitelist.{champ.ChampionName.ToLower()}",
+                                            $"Use against: {champ.ChampionName}")
+                                    .SetValue(true));
+                            }
+                        }
+                        Variables.RMenu.AddSubMenu(Variables.WhiteListMenu);
+                    }
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.RMenu);
             }
