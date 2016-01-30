@@ -55,7 +55,7 @@ namespace ExorAIO.Champions.Vayne
                 /// The Condemn Logic.
                 /// </summary>
                 if (!ObjectManager.Player.IsDashing() &&
-                    ObjectManager.Player.Distance(Targets.Target) >= ObjectManager.Player.BoundingRadius + 75f &&
+                    ObjectManager.Player.Distance(Targets.Target) >= ObjectManager.Player.BoundingRadius*2 &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useeauto").GetValue<bool>() &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.esettings.ewhitelist.{Targets.Target.ChampionName.ToLower()}").GetValue<bool>())
                 {
