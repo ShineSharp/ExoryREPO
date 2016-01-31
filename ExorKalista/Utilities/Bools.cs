@@ -39,9 +39,7 @@ namespace ExorKalista
         public static bool IsPerfectRendTarget(Obj_AI_Base target)
         =>
             target != null &&
-            !target.IsDead &&
             !target.IsZombie &&
-            Variables.E.CanCast(target) &&
             Bools.HasNoProtection(target) &&
             target.IsValidTarget(Variables.E.Range) &&
             target.GetBuffCount("kalistaexpungemarker") > 0;
@@ -49,8 +47,8 @@ namespace ExorKalista
         /// <summary>
         /// Returns true if the target is killable by Rend.
         /// </summary>   
-        public static bool IsKillableRendTarget(Obj_AI_Base target)
+        public static bool IsKillableByRend(Obj_AI_Base target)
         =>
-            target.Health < Variables.GetPerfectRendDamage(target);
+            DamageManager.GetPerfectRendDamage(target) > target.Health;
     }
 }

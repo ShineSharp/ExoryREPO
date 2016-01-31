@@ -2,48 +2,17 @@ namespace ExorKalista
 {
     using System;
     using System.Linq;
+    using System.Drawing;
     using System.Collections.Generic;
 
     using LeagueSharp;
+    using LeagueSharp.SDK;
     using LeagueSharp.Common;
 
     using SharpDX;
     using SharpDX.Direct3D9;
 
     using Color = System.Drawing.Color;
-
-    /// <summary>
-    /// The Sentinel manager class.
-    /// </summary>
-    class SentinelManager
-    {
-        /// <summary>
-        /// Gets all the sentinel locations.
-        /// </summary>
-        public static Vector2[] AllLocations =
-        {
-            SummonersRift.River.Baron,
-            SummonersRift.River.Dragon,
-            SummonersRift.Jungle.Red_RedBuff,
-            SummonersRift.Jungle.Red_BlueBuff,
-            SummonersRift.Jungle.Blue_BlueBuff,
-            SummonersRift.Jungle.Blue_BlueBuff
-        };
-
-        /// <summary>
-        /// Gets the possible sentinel locations.
-        /// </summary>
-        public static Vector2 GetPerfectSpot
-        => 
-            AllLocations.Where(
-                loc =>
-                    loc != null &&
-                    loc.Distance(ObjectManager.Player) < Variables.W.Range)
-            .OrderBy(
-                h =>
-                    h.Distance(ObjectManager.Player))
-            .FirstOrDefault();
-    }
 
     /// <summary>
     /// The Mana manager class.
@@ -94,28 +63,25 @@ namespace ExorKalista
                 /// <summary>
                 /// Loads the Q drawing.
                 /// </summary>
-                if (Variables.Q.IsReady() &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.drawings.q").GetValue<bool>())
+                if (Variables.Menu.Item($"{Variables.MainMenuName}.drawings.q").GetValue<bool>())
                 {
-                    Render.Circle.DrawCircle(ObjectManager.Player.Position, Variables.Q.Range, System.Drawing.Color.Green, 1);
+                    Drawing.DrawCircle(ObjectManager.Player.Position, Variables.Q.Range, System.Drawing.Color.Green);
                 }
 
                 /// <summary>
                 /// Loads the E drawing.
                 /// </summary>
-                if (Variables.E.IsReady() &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.drawings.e").GetValue<bool>())
+                if (Variables.Menu.Item($"{Variables.MainMenuName}.drawings.e").GetValue<bool>())
                 {
-                    Render.Circle.DrawCircle(ObjectManager.Player.Position, Variables.E.Range, System.Drawing.Color.Cyan, 1);
+                    Drawing.DrawCircle(ObjectManager.Player.Position, Variables.E.Range, System.Drawing.Color.Cyan);
                 }
 
                 /// <summary>
                 /// Loads the R drawing.
                 /// </summary>
-                if (Variables.R.IsReady() &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.drawings.r").GetValue<bool>())
+                if (Variables.Menu.Item($"{Variables.MainMenuName}.drawings.r").GetValue<bool>())
                 {
-                    Render.Circle.DrawCircle(ObjectManager.Player.Position, Variables.R.Range, System.Drawing.Color.Red, 1);
+                    Drawing.DrawCircle(ObjectManager.Player.Position, Variables.R.Range, System.Drawing.Color.Red);
                 }
             };
         }
@@ -127,43 +93,46 @@ namespace ExorKalista
         {
             Drawing.OnDraw += delegate
             {
-                if (Variables.Menu.Item($"{Variables.MainMenuName}.drawings.edmg").GetValue<bool>())
-                {
-                    const int XOffset = 10;
-                    const int YOffset = 20;
-                    const int Width = 103;
-                    const int Height = 8;
-
-                    foreach (var unit in HeroManager.Enemies
-                        .Where(
-                            h => h.IsValid &&
-                            h.IsHPBarRendered))
+                ObjectManager.Get<Obj_AI_Base>().Where(
+                    h =>
+                        !h.IsMe &&
+                        h.IsValid() &&
+                        h.IsHPBarRendered &&
+                        !h.CharData.BaseSkinName.Contains("Minion") &&
+                        Bools.IsPerfectRendTarget(h))
+                .ForEach(
+                    unit =>
                     {
+                        /// <summary>
+                        /// The default enemy HP bar offset.
+                        /// </summary>
+                        int XOffset = 10;
+                        int YOffset = 20;
+                        int Width = 103;
+                        int Height = 8;
+
+                        /// <summary>
+                        /// Defines what HPBar Offsets it should display.
+                        /// </summary>
+                        var mobOffset = Variables.JungleHpBarOffsetList.FirstOrDefault(x => x.BaseSkinName == unit.CharData.BaseSkinName);
+
+                        var width = (int)(unit.Type == GameObjectType.obj_AI_Minion ? mobOffset.Width : Width);
+                        var height = (int)(unit.Type == GameObjectType.obj_AI_Minion ? mobOffset.Height : Height);
+                        var xOffset = (int)(unit.Type == GameObjectType.obj_AI_Minion ? mobOffset.XOffset : XOffset);
+                        var yOffset = (int)(unit.Type == GameObjectType.obj_AI_Minion ? mobOffset.YOffset : YOffset);
+
                         var barPos = unit.HPBarPosition;
+                        barPos.X += xOffset;
+                        barPos.Y += yOffset;
 
-                        var percentHealthAfterDamage = Math.Max(0, unit.Health - Variables.GetPerfectRendDamage(unit))/unit.MaxHealth;
-                        var yPos = barPos.Y + YOffset;
-                        var xPosDamage = barPos.X + XOffset + Width*percentHealthAfterDamage;
-                        var xPosCurrentHp = barPos.X + XOffset + Width*unit.Health/unit.MaxHealth;
+                        var drawEndXPos = barPos.X + width * (unit.HealthPercent / 100);
+                        var drawStartXPos = barPos.X + (unit.Health > DamageManager.GetPerfectRendDamage(unit) ?
+                            width * (((unit.Health - DamageManager.GetPerfectRendDamage(unit)) / unit.MaxHealth * 100) / 100) : 0);
 
-                        var differenceInHp = xPosCurrentHp - xPosDamage;
-                        var pos1 = barPos.X + 9 + 107*percentHealthAfterDamage;
-
-                        for (var i = 0; i < differenceInHp; i++)
-                        {
-                            Drawing.DrawLine(
-                                pos1 + i,
-                                yPos,
-                                pos1 + i,
-                                yPos + Height,
-                                1,
-                                Variables.GetPerfectRendDamage(unit) > unit.Health ?
-                                    Color.Blue :
-                                    Color.Orange
-                            );
-                        }
+                        Drawing.DrawLine(drawStartXPos, barPos.Y, drawEndXPos, barPos.Y, height, Bools.IsKillableByRend(unit) ? Color.Blue : Color.Orange);
+                        Drawing.DrawLine(drawStartXPos, barPos.Y, drawStartXPos, barPos.Y + height + 1, 1, Color.Lime);
                     }
-                }
+                );
             };
         }
     }

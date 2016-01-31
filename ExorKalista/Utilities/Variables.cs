@@ -5,6 +5,7 @@ namespace ExorKalista
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+
     using LeagueSharp;
     using LeagueSharp.Common;
 
@@ -87,6 +88,11 @@ namespace ExorKalista
         public static Menu DrawingsMenu { get; set; }
 
         /// <summary>
+        /// Gets or sets the Whitelist menu.
+        /// </summary>
+        public static Menu WhiteListMenu { get; set; }
+
+        /// <summary>
         /// Gets or sets the Soulbound.
         /// </summary>
         public static Obj_AI_Hero SoulBound { get; set; }
@@ -102,117 +108,38 @@ namespace ExorKalista
         public static readonly string MainMenuName = $"exor.{ObjectManager.Player.ChampionName}";
 
         /// <summary>
-        /// Gets the perfect damage reduction from sources.
-        /// </summary>
-        /// <param name="target">The target.</param>
-        /// <returns>
-        /// The damage dealt against all the sources
-        /// </returns>
-        public static float GetPerfectRendDamage(Obj_AI_Base target)
+        /// The jungle HP bar offset.
+        /// </summary>      
+        internal class JungleHpBarOffset
         {
-            float RendDamage = (float)ObjectManager.Player.CalcDamage(target, LeagueSharp.Common.Damage.DamageType.Physical, Variables.E.GetDamage(target));
-            float Calculator = 1f;
-            float healthDebuffer = 0f;
-
-            /// <summary>
-            /// Gets the reduction from the exhaust spell.
-            /// </summary>
-            /// <returns>
-            /// You deal 40% of you total damage while exhausted.
-            /// </returns>
-            if (ObjectManager.Player.HasBuff("summonerexhaust"))
-            {
-                Calculator *= 0.6f;
-            }
-
-            if (!target.IsChampion())
-            {
-                /// <summary>
-                /// Gets the reduction from the baron nashor.
-                /// </summary>
-                /// <returns>
-                /// You deal 50% reduced damage to Baron Nashor.
-                /// </returns>
-                if (target.CharData.BaseSkinName.Equals("SRU_Baron") &&
-                    ObjectManager.Player.HasBuff("barontarget"))
-                {
-                    Calculator *= 0.5f;
-                }
-
-                /// <summary>
-                /// Gets the reduction from the dragon.
-                /// </summary>
-                /// <returns>
-                /// The Dragon receives 7% reduced damage per stack.
-                /// </returns>
-                if (target.CharData.BaseSkinName.Equals("SRU_Dragon") &&
-                    ObjectManager.Player.GetBuffCount("s5test_dragonslayerbuff") > 0)
-                {
-                    Calculator *= 1f - (ObjectManager.Player.GetBuffCount("s5test_dragonslayerbuff") * 0.07f);
-                }
-
-                return (RendDamage * Calculator);
-            }
-
-            /// <summary>
-            /// Gets the reduction from Alistar's R.
-            /// </summary>
-            /// <returns>
-            /// You deal 70% reducted damage to Alistar if he's in Ultimate Stance.
-            /// </returns>
-            if (target.CharData.BaseSkinName.Equals("Alistar") &&
-                target.HasBuff("FerociousHowl"))
-            {
-                Calculator *= 0.3f;
-            }
-
-            /// <summary>
-            /// Gets the reduction from Garen's W.
-            /// </summary>
-            /// <returns>
-            /// You deal 30% reducted damage to Garen if he's in W Stance.
-            /// </returns>
-            if (target.CharData.BaseSkinName.Equals("Garen") &&
-                target.HasBuff("GarenW"))
-            {
-                Calculator *= 0.7f;
-            }
-
-            /// <summary>
-            /// Gets the reduction from Master Yi's E.
-            /// </summary>
-            /// <returns>
-            /// You deal 45% reduced damage + Master Yi's W Level (70% Reducted Damage at Level 5).
-            /// </returns>
-            if (target.CharData.BaseSkinName.Equals("MasterYi") &&
-                target.HasBuff("Medidate"))
-            {
-                Calculator *= 0.55f - (target.Spellbook.GetSpell(SpellSlot.W).Level * 0.05f);
-            }
-
-            /// <summary>
-            /// Gets the reduction from Gragas's W.
-            /// </summary>
-            /// <returns>
-            /// You deal 8% reduced damage + Gragas's W Level (18% Reducted Damage at Level 5).
-            /// </returns>
-            if (target.CharData.BaseSkinName.Equals("Gragas") &&
-                target.HasBuff("gragaswself"))
-            {
-                Calculator *= 0.92f - (target.Spellbook.GetSpell(SpellSlot.W).Level * 0.02f);
-            }
-
-            /// <summary>
-            /// Gets the predicted reduction from Blitacrank Shield.
-            /// </summary>
-            if (((Obj_AI_Hero)target).ChampionName.Equals("Blitzcrank") &&
-                !target.HasBuff("BlitzcrankManaBarrierCD") &&
-                !target.HasBuff("ManaBarrier"))
-            {
-                healthDebuffer += target.Mana / 2;
-            }
-
-            return RendDamage * Calculator - healthDebuffer;
+            internal string BaseSkinName;
+            internal int Height;
+            internal int Width;
+            internal int XOffset;
+            internal int YOffset;
         }
+
+        /// <summary>
+        /// The jungle HP bar offset list.
+        /// </summary>
+        internal static readonly List<JungleHpBarOffset> JungleHpBarOffsetList = new List<JungleHpBarOffset>
+        {
+            new JungleHpBarOffset{BaseSkinName = "SRU_Dragon", Width = 140, Height = 4, XOffset = 12, YOffset = 24},
+            new JungleHpBarOffset{BaseSkinName = "SRU_Baron", Width = 190, Height = 10, XOffset = 16, YOffset = 24},
+            new JungleHpBarOffset{BaseSkinName = "SRU_RiftHerald", Width = 139, Height = 6, XOffset = 12, YOffset = 22},
+            new JungleHpBarOffset{BaseSkinName = "SRU_Red", Width = 139, Height = 4, XOffset = 12, YOffset = 24},
+            new JungleHpBarOffset{BaseSkinName = "SRU_RedMini", Width = 49, Height = 2, XOffset = 1, YOffset = 5},
+            new JungleHpBarOffset{BaseSkinName = "SRU_Blue", Width = 139, Height = 4, XOffset = 12, YOffset = 24},
+            new JungleHpBarOffset{BaseSkinName = "SRU_BlueMini", Width = 49, Height = 2, XOffset = 1, YOffset = 5},
+            new JungleHpBarOffset{BaseSkinName = "SRU_BlueMini2", Width = 49, Height = 2, XOffset = 1, YOffset = 5},
+            new JungleHpBarOffset{BaseSkinName = "SRU_Gromp", Width = 86, Height = 2, XOffset = 1, YOffset = 7},
+            new JungleHpBarOffset{BaseSkinName = "Sru_Crab", Width = 61, Height = 2, XOffset = 1, YOffset = 5},
+            new JungleHpBarOffset{BaseSkinName = "SRU_Krug", Width = 79, Height = 2, XOffset = 1, YOffset = 7},
+            new JungleHpBarOffset{BaseSkinName = "SRU_KrugMini", Width = 55, Height = 2, XOffset = 1, YOffset = 5},
+            new JungleHpBarOffset{BaseSkinName = "SRU_Razorbeak", Width = 74, Height = 2, XOffset = 1, YOffset = 7},
+            new JungleHpBarOffset{BaseSkinName = "SRU_RazorbeakMini", Width = 49, Height = 2, XOffset = 1, YOffset = 5},
+            new JungleHpBarOffset{BaseSkinName = "SRU_Murkwolf", Width = 74, Height = 2, XOffset = 1, YOffset = 7},
+            new JungleHpBarOffset{BaseSkinName = "SRU_MurkwolfMini", Width = 55, Height = 2, XOffset = 1, YOffset = 5}
+        };
     }
 }
