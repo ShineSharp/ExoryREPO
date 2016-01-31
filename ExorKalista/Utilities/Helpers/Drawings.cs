@@ -1,52 +1,14 @@
+using LeagueSharp;
+using LeagueSharp.SDK;
+using LeagueSharp.Common;
+
 namespace ExorKalista
 {
     using System;
     using System.Linq;
     using System.Drawing;
     using System.Collections.Generic;
-
-    using LeagueSharp;
-    using LeagueSharp.SDK;
-    using LeagueSharp.Common;
-
-    using SharpDX;
-    using SharpDX.Direct3D9;
-
     using Color = System.Drawing.Color;
-
-    /// <summary>
-    /// The Mana manager class.
-    /// </summary>
-    class ManaManager
-    {
-        /// <summary>
-        /// Sets the minimum necessary mana to use the Q spell.
-        /// </summary>
-        public static int NeededQMana
-        => 
-            Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.qmana").GetValue<Slider>().Value;
-
-        /// <summary>
-        /// Sets the minimum necessary mana to use the W spell.
-        /// </summary>
-        public static int NeededWMana 
-        =>
-            Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.wmana").GetValue<Slider>().Value;
-
-        /// <summary>
-        /// Sets the minimum necessary mana to use the E spell.
-        /// </summary>
-        public static int NeededEMana
-        =>
-            Variables.Menu.Item($"{Variables.MainMenuName}.esettings.emana").GetValue<Slider>().Value;
-
-        /// <summary>
-        /// Sets the minimum necessary mana to use the R spell.
-        /// </summary>
-        public static int NeededRMana
-        =>
-            Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.rmana").GetValue<Slider>().Value;
-    }
 
     /// <summary>
     /// The drawings class.
@@ -56,7 +18,7 @@ namespace ExorKalista
         /// <summary>
         /// Loads the range drawings.
         /// </summary>
-        public static void LoadRanges()
+        public static void InitializeDrawings()
         {
             Drawing.OnDraw += delegate
             {
@@ -89,37 +51,30 @@ namespace ExorKalista
         /// <summary>
         /// Loads the damage drawings.
         /// </summary>
-        public static void LoadDamage()
+        public static void InitializeDamage()
         {
             Drawing.OnDraw += delegate
             {
-                ObjectManager.Get<Obj_AI_Base>().Where(
-                    h =>
+                ObjectManager.Get<Obj_AI_Base>()
+                    .Where(h =>
                         !h.IsMe &&
                         h.IsValid() &&
                         h.IsHPBarRendered &&
-                        !h.CharData.BaseSkinName.Contains("Minion") &&
-                        Bools.IsPerfectRendTarget(h))
-                .ForEach(
-                    unit =>
+                        Bools.IsPerfectRendTarget(h) &&
+                        !h.CharData.BaseSkinName.Contains("Minion"))
+                    .ForEach(unit =>
                     {
-                        /// <summary>
-                        /// The default enemy HP bar offset.
-                        /// </summary>
-                        int XOffset = 10;
-                        int YOffset = 20;
-                        int Width = 103;
-                        int Height = 8;
-
                         /// <summary>
                         /// Defines what HPBar Offsets it should display.
                         /// </summary>
-                        var mobOffset = Variables.JungleHpBarOffsetList.FirstOrDefault(x => x.BaseSkinName == unit.CharData.BaseSkinName);
+                        var mobOffset = 
+                            Variables.JungleHpBarOffsetList
+                                .FirstOrDefault(x => x.BaseSkinName.Equals(unit.CharData.BaseSkinName));
 
-                        var width = (int)(unit.Type == GameObjectType.obj_AI_Minion ? mobOffset.Width : Width);
-                        var height = (int)(unit.Type == GameObjectType.obj_AI_Minion ? mobOffset.Height : Height);
-                        var xOffset = (int)(unit.Type == GameObjectType.obj_AI_Minion ? mobOffset.XOffset : XOffset);
-                        var yOffset = (int)(unit.Type == GameObjectType.obj_AI_Minion ? mobOffset.YOffset : YOffset);
+                        var width = (int)(unit.Type.Equals(GameObjectType.obj_AI_Minion) ? mobOffset.Width : Variables.Width);
+                        var height = (int)(unit.Type.Equals(GameObjectType.obj_AI_Minion) ? mobOffset.Height : Variables.Height);
+                        var xOffset = (int)(unit.Type.Equals(GameObjectType.obj_AI_Minion) ? mobOffset.XOffset : Variables.XOffset);
+                        var yOffset = (int)(unit.Type.Equals(GameObjectType.obj_AI_Minion) ? mobOffset.YOffset : Variables.YOffset);
 
                         var barPos = unit.HPBarPosition;
                         barPos.X += xOffset;

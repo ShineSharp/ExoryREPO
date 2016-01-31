@@ -1,40 +1,39 @@
+using LeagueSharp;
+using LeagueSharp.Common;
+
 namespace ExorKalista
 {
     using System;
-    using System.Linq;
     using System.Collections.Generic;
-
-    using LeagueSharp;
-    using LeagueSharp.Common;
-
     using Orbwalking = SFXTargetSelector.Orbwalking;
     using TargetSelector = SFXTargetSelector.TargetSelector;
 
     /// <summary>
-    /// The main class.
+    /// The champion class.
     /// </summary>
-    public class Kalista
+    class Kalista
     {
         /// <summary>
         /// Triggers when the champion is loaded.
         /// </summary>
         public static void OnLoad()
         {
-            Settings.SetSpells();
-            Settings.SetMenu();
-            Settings.SetMethods();
-            Drawings.LoadRanges();
-            Drawings.LoadDamage();
+            Menus.Initialize();
+            Spells.Initialize();
+            Methods.Initialize();
+            Drawings.InitializeDamage();
+            Drawings.InitializeDrawings();
         }
 
         /// <summary>
         /// Called when the game updates itself.
         /// </summary>
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
-        public static void Game_OnGameUpdate(EventArgs args)
+        public static void OnUpdate(EventArgs args)
         {
             if (!ObjectManager.Player.IsDead &&
-                !ObjectManager.Player.IsDashing())
+                !ObjectManager.Player.IsDashing() &&
+                !ObjectManager.Player.Spellbook.IsCastingSpell)
             {
                 /// <summary>
                 /// The Soulbound declaration.
@@ -59,7 +58,7 @@ namespace ExorKalista
 
                 Logics.ExecuteAuto(args);
                 Logics.ExecuteFarm(args);
-                SentinelManager.ExecuteSentinels(args);
+                SentinelManager.Initialize(args);
             }
         }
 
@@ -68,7 +67,7 @@ namespace ExorKalista
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="args">The args.</param>
-        public static void Obj_AI_Base_OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
+        public static void OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             if (sender.IsMe &&
                 args.Target.IsValid<Obj_AI_Hero>() &&
@@ -87,25 +86,10 @@ namespace ExorKalista
         {
             if (Variables.E.IsReady() &&
                 !ObjectManager.Player.IsDashing() &&
-            
-                (Bools.IsKillableByRend((Obj_AI_Base)minion) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>()))
+                Bools.IsKillableByRend((Obj_AI_Minion)minion) &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.helper").GetValue<bool>())
             {
                 Variables.E.Cast();
-            }
-        }
-
-        /// <summary>
-        /// Triggers when a spell is being processed.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="args">The args.</param>
-        public static void OnProcessSpellCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
-        {
-            if (sender.IsMe &&
-                args.SData.Name == "kalistaexpungewrapper")
-            {
-                Orbwalking.ResetAutoAttackTimer();
             }
         }
     }

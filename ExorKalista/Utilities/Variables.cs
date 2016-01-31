@@ -1,16 +1,13 @@
+using LeagueSharp;
+using LeagueSharp.Common;
+
 namespace ExorKalista
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-
-    using LeagueSharp;
-    using LeagueSharp.Common;
-
+    using SharpDX;
     using Orbwalking = SFXTargetSelector.Orbwalking;
-    using TargetSelector = SFXTargetSelector.TargetSelector;
 
     /// <summary>
     /// The Variables class.
@@ -108,38 +105,53 @@ namespace ExorKalista
         public static readonly string MainMenuName = $"exor.{ObjectManager.Player.ChampionName}";
 
         /// <summary>
+        /// The default enemy HP bar offset.
+        /// </summary>
+        public static int XOffset = 10;
+        public static int YOffset = 20;
+        public static int Width = 103;
+        public static int Height = 8;
+
+        /// <summary>
         /// The jungle HP bar offset.
         /// </summary>      
         internal class JungleHpBarOffset
         {
-            internal string BaseSkinName;
             internal int Height;
             internal int Width;
             internal int XOffset;
             internal int YOffset;
+            internal string BaseSkinName;
         }
+
+        /// <summary>
+        /// Gets all the sentinel locations.
+        /// </summary>
+        internal static readonly List<Vector3> SentinelLocations = new List<Vector3>
+        {
+            new Vector3(9827.56f,  4426.136f, -71.2406f),
+            new Vector3(4951.126f, 10394.05f, -71.2406f),
+            new Vector3(10998.14f, 6954.169f, 51.72351f),
+            new Vector3(7082.083f, 10838.25f, 56.2041f),
+            new Vector3(3804.958f, 7875.456f, 52.11121f),
+            new Vector3(7811.249f, 4034.486f, 53.81299f)
+        };
 
         /// <summary>
         /// The jungle HP bar offset list.
         /// </summary>
         internal static readonly List<JungleHpBarOffset> JungleHpBarOffsetList = new List<JungleHpBarOffset>
         {
-            new JungleHpBarOffset{BaseSkinName = "SRU_Dragon", Width = 140, Height = 4, XOffset = 12, YOffset = 24},
-            new JungleHpBarOffset{BaseSkinName = "SRU_Baron", Width = 190, Height = 10, XOffset = 16, YOffset = 24},
-            new JungleHpBarOffset{BaseSkinName = "SRU_RiftHerald", Width = 139, Height = 6, XOffset = 12, YOffset = 22},
-            new JungleHpBarOffset{BaseSkinName = "SRU_Red", Width = 139, Height = 4, XOffset = 12, YOffset = 24},
-            new JungleHpBarOffset{BaseSkinName = "SRU_RedMini", Width = 49, Height = 2, XOffset = 1, YOffset = 5},
-            new JungleHpBarOffset{BaseSkinName = "SRU_Blue", Width = 139, Height = 4, XOffset = 12, YOffset = 24},
-            new JungleHpBarOffset{BaseSkinName = "SRU_BlueMini", Width = 49, Height = 2, XOffset = 1, YOffset = 5},
-            new JungleHpBarOffset{BaseSkinName = "SRU_BlueMini2", Width = 49, Height = 2, XOffset = 1, YOffset = 5},
-            new JungleHpBarOffset{BaseSkinName = "SRU_Gromp", Width = 86, Height = 2, XOffset = 1, YOffset = 7},
-            new JungleHpBarOffset{BaseSkinName = "Sru_Crab", Width = 61, Height = 2, XOffset = 1, YOffset = 5},
-            new JungleHpBarOffset{BaseSkinName = "SRU_Krug", Width = 79, Height = 2, XOffset = 1, YOffset = 7},
-            new JungleHpBarOffset{BaseSkinName = "SRU_KrugMini", Width = 55, Height = 2, XOffset = 1, YOffset = 5},
-            new JungleHpBarOffset{BaseSkinName = "SRU_Razorbeak", Width = 74, Height = 2, XOffset = 1, YOffset = 7},
-            new JungleHpBarOffset{BaseSkinName = "SRU_RazorbeakMini", Width = 49, Height = 2, XOffset = 1, YOffset = 5},
-            new JungleHpBarOffset{BaseSkinName = "SRU_Murkwolf", Width = 74, Height = 2, XOffset = 1, YOffset = 7},
-            new JungleHpBarOffset{BaseSkinName = "SRU_MurkwolfMini", Width = 55, Height = 2, XOffset = 1, YOffset = 5}
+            new JungleHpBarOffset{BaseSkinName = "SRU_Dragon",        Width = 140, Height = 4,  XOffset = 12, YOffset = 24},
+            new JungleHpBarOffset{BaseSkinName = "SRU_Baron",         Width = 190, Height = 10, XOffset = 16, YOffset = 24},
+            new JungleHpBarOffset{BaseSkinName = "SRU_RiftHerald",    Width = 139, Height = 6,  XOffset = 12, YOffset = 22},
+            new JungleHpBarOffset{BaseSkinName = "SRU_Red",           Width = 139, Height = 4,  XOffset = 12, YOffset = 24},
+            new JungleHpBarOffset{BaseSkinName = "SRU_Blue",          Width = 139, Height = 4,  XOffset = 12, YOffset = 24},
+            new JungleHpBarOffset{BaseSkinName = "SRU_Gromp",         Width = 86,  Height = 2,  XOffset = 1,  YOffset = 7},
+            new JungleHpBarOffset{BaseSkinName = "SRU_Crab",          Width = 61,  Height = 2,  XOffset = 1,  YOffset = 5},
+            new JungleHpBarOffset{BaseSkinName = "SRU_Krug",          Width = 79,  Height = 2,  XOffset = 1,  YOffset = 7},
+            new JungleHpBarOffset{BaseSkinName = "SRU_Razorbeak",     Width = 74,  Height = 2,  XOffset = 1,  YOffset = 7},
+            new JungleHpBarOffset{BaseSkinName = "SRU_Murkwolf",      Width = 74,  Height = 2,  XOffset = 1,  YOffset = 7},
         };
     }
 }

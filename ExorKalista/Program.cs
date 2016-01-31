@@ -1,9 +1,10 @@
-﻿using System;
-using LeagueSharp;
+﻿using LeagueSharp;
 using LeagueSharp.Common;
 
 namespace ExorKalista
 {
+    using System;
+
     class Program
     {
         static void Main(string[] args)

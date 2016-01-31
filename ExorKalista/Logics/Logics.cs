@@ -1,22 +1,18 @@
+using LeagueSharp;
+using LeagueSharp.Common;
+
 namespace ExorKalista
 {
     using System;
     using System.Linq;
     using System.Collections.Generic;
-
     using SharpDX;
-    using SharpDX.Direct3D9;
-
-    using LeagueSharp;
-    using LeagueSharp.Common;
-
     using Orbwalking = SFXTargetSelector.Orbwalking;
-    using TargetSelector = SFXTargetSelector.TargetSelector;
 
     /// <summary>
     /// The logics class.
     /// </summary>
-    public class Logics
+    class Logics
     {
         /// <summary>
         /// Called when the game updates itself.
@@ -32,15 +28,11 @@ namespace ExorKalista
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
                 Variables.Q.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
 
-                ((Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqautoharass").GetValue<bool>()) ||
-
-                (Targets.Target.Health < Variables.Q.GetDamage(Targets.Target) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqks").GetValue<bool>()) ||
+                ((Targets.Target.Health < Variables.Q.GetDamage(Targets.Target) &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").GetValue<bool>()) ||
 
                 (Bools.IsImmobile(Targets.Target) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqimmobile").GetValue<bool>())))
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.immobile").GetValue<bool>())))
             {
                 Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
             }
@@ -50,7 +42,7 @@ namespace ExorKalista
             /// </summary>
             if (Variables.E.IsReady() &&
                 HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(250 + Game.Ping / 2f)) <= 0 &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useedie").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.death").GetValue<bool>())
             {
                 Variables.E.Cast();
             }
@@ -59,15 +51,12 @@ namespace ExorKalista
             /// The E Combo Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
-                !ObjectManager.Player.Spellbook.IsCastingSpell &&
-                !ObjectManager.Player.IsDashing() &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useecombo").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").GetValue<bool>())
             {
-                foreach (var unit in HeroManager.Enemies
-                    .Where(
-                        h =>
-                            Bools.IsPerfectRendTarget(h) &&
-                            Bools.IsKillableByRend(h)))
+                if (HeroManager.Enemies
+                    .Any(h =>
+                        Bools.IsKillableByRend(h) &&
+                        Bools.IsPerfectRendTarget(h)))
                 {
                     Variables.E.Cast();
                 }
@@ -79,10 +68,9 @@ namespace ExorKalista
             if (Variables.R.IsReady() &&
                 Variables.SoulBound != null &&
                 Variables.SoulBound.CountEnemiesInRange(800) > 0 &&
-                ObjectManager.Player.Distance(Variables.SoulBound) <= Variables.R.Range &&
-
-                (HealthPrediction.GetHealthPrediction(Variables.SoulBound, (int)(1500 + Game.Ping / 2f)) <= 0 &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.userlifesaver").GetValue<bool>()))
+                Variables.SoulBound.IsValidTarget(Variables.R.Range, false) &&
+                HealthPrediction.GetHealthPrediction(Variables.SoulBound, (int)(1500 + Game.Ping / 2f)) <= 0 &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.userlifesaver").GetValue<bool>())
             {
                 Variables.R.Cast();
             }
@@ -100,10 +88,9 @@ namespace ExorKalista
             /// </summary>
             if (Variables.Q.IsReady() &&
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.Q.Range) &&
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Q.GetPrediction((Obj_AI_Hero)args.Target).Hitchance >= HitChance.High &&
-
-                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>()))
+                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").GetValue<bool>())
             {
                 Variables.Q.Cast(Variables.Q.GetPrediction((Obj_AI_Hero)args.Target).UnitPosition);
             }
@@ -119,37 +106,40 @@ namespace ExorKalista
             /// The Q Farm Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
-                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                    ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>()))
+                ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.qfarm").GetValue<bool>())
             {
-                if (Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit > 2 &&
-                    Targets.Minions
-                    .Count(
-                        m =>
-                            m.Health < Variables.Q.GetDamage(m)) > 2)
+                if (Targets.Minions.Count(m => m.Health < Variables.Q.GetDamage(m)) > 2 &&
+                    Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit > 2)
                 {
                     Variables.Q.Cast(Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).Position);
                 }
             }
 
             /// <summary>
-            /// The E Farm Logic,
+            /// The E Farm Logic.
+            /// </summary>
+            if (Variables.E.IsReady() &&
+                ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.farm").GetValue<bool>())
+            {
+                if (Targets.Minions.Count(x => Bools.IsPerfectRendTarget(x) && Bools.IsKillableByRend(x)) >= 2)
+                {
+                    Variables.E.Cast();
+                }
+            }
+
+            /// <summary>
             /// The E Harass Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.harass").GetValue<bool>())
             {
-                if (Targets.Minions
-                    .Count(
-                        x =>
-                            Bools.IsPerfectRendTarget(x) &&
-                            Bools.IsKillableByRend(x)) >= 
-                                ((Targets.HarassableTargets.Count() > 1 ||
-                                    (Targets.HarassableTargets.Count() == 1 &&
-                                        Variables.Menu.Item($"{Variables.MainMenuName}.esettings.ewhitelist.{(Targets.HarassableTargets.FirstOrDefault()).ChampionName.ToLower()}").GetValue<bool>())) ?
-                                        1 : 2))
+                if (Targets.HarassableTargets.Count() > 1 ||
+                    (Targets.HarassableTargets.Count() == 1 &&
+                        Variables.Menu.Item($"{Variables.MainMenuName}.espell.ewhitelist.{(Targets.HarassableTargets.FirstOrDefault()).ChampionName.ToLower()}").GetValue<bool>()))
                 {
                     Variables.E.Cast();
                 }
@@ -159,19 +149,16 @@ namespace ExorKalista
             /// The E against Monsters Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useemonsters").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.jgc").GetValue<bool>())
             {
-                foreach (var miniontarget in GameObjects.Jungle
-                    .Where(
-                        m =>
-                            Bools.IsPerfectRendTarget(m) &&
-                            Bools.IsKillableByRend(m)))
+                if (GameObjects.Jungle
+                    .Any(m =>
+                        Bools.IsKillableByRend(m) &&
+                        Bools.IsPerfectRendTarget(m) &&
+                        (!m.CharData.BaseSkinName.Contains("Mini") ||
+                            m.CharData.BaseSkinName.Contains("Crab"))))
                 {
-                    if (!miniontarget.CharData.BaseSkinName.Contains("Mini") ||
-                        miniontarget.CharData.BaseSkinName.Contains("Crab"))
-                    {
-                        Variables.E.Cast();
-                    }
+                    Variables.E.Cast();
                 }
             }
         }

@@ -1,14 +1,8 @@
+using LeagueSharp;
+using LeagueSharp.SDK.Core.Wrappers.Damages;
+
 namespace ExorKalista
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-    
-    using LeagueSharp;
-    using LeagueSharp.SDK.Core.Wrappers.Damages;
-
     /// <summary>
     /// The Damage class.
     /// </summary>
@@ -23,11 +17,10 @@ namespace ExorKalista
         /// </returns>
         public static float GetPerfectRendDamage(Obj_AI_Base target)
         {
+            float healthDebuffer = 0f;
             float RendDamage = 
                 (float)ObjectManager.Player.GetSpellDamage(target, SpellSlot.E) +
                 (float)ObjectManager.Player.GetSpellDamage(target, SpellSlot.E, Damage.DamageStage.Buff);
-
-            float healthDebuffer = 0f;
 
             if (target.Type.Equals(GameObjectType.obj_AI_Hero))
             {
