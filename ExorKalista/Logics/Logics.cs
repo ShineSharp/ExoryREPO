@@ -51,15 +51,10 @@ namespace ExorKalista
             /// The E Combo Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").GetValue<bool>() &&
+                HeroManager.Enemies.Any(h => Bools.IsKillableByRend(h) && Bools.IsPerfectRendTarget(h)))
             {
-                if (HeroManager.Enemies
-                    .Any(h =>
-                        Bools.IsKillableByRend(h) &&
-                        Bools.IsPerfectRendTarget(h)))
-                {
-                    Variables.E.Cast();
-                }
+                Variables.E.Cast();
             }
 
             /// <summary>
@@ -107,14 +102,12 @@ namespace ExorKalista
             /// </summary>
             if (Variables.Q.IsReady() &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
+                Targets.Minions.Count(m => m.Health < Variables.Q.GetDamage(m)) > 2 &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.qfarm").GetValue<bool>())
+                Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit > 2 &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").GetValue<bool>())
             {
-                if (Targets.Minions.Count(m => m.Health < Variables.Q.GetDamage(m)) > 2 &&
-                    Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit > 2)
-                {
-                    Variables.Q.Cast(Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).Position);
-                }
+                Variables.Q.Cast(Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).Position);
             }
 
             /// <summary>
@@ -122,12 +115,10 @@ namespace ExorKalista
             /// </summary>
             if (Variables.E.IsReady() &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
+                Targets.Minions.Count(x => Bools.IsPerfectRendTarget(x) && Bools.IsKillableByRend(x)) >= 2 &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.farm").GetValue<bool>())
             {
-                if (Targets.Minions.Count(x => Bools.IsPerfectRendTarget(x) && Bools.IsKillableByRend(x)) >= 2)
-                {
-                    Variables.E.Cast();
-                }
+                Variables.E.Cast();
             }
 
             /// <summary>
@@ -137,9 +128,13 @@ namespace ExorKalista
                 ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.harass").GetValue<bool>())
             {
-                if (Targets.HarassableTargets.Count() > 1 ||
+                if (Targets.Minions
+                    .Any(h =>
+                        Bools.IsKillableByRend(h) &&
+                        Bools.IsPerfectRendTarget(h)) &&
+                    (Targets.HarassableTargets.Count() > 1 ||
                     (Targets.HarassableTargets.Count() == 1 &&
-                        Variables.Menu.Item($"{Variables.MainMenuName}.espell.ewhitelist.{(Targets.HarassableTargets.FirstOrDefault()).ChampionName.ToLower()}").GetValue<bool>()))
+                        Variables.Menu.Item($"{Variables.MainMenuName}.espell.whitelist.{(Targets.HarassableTargets.FirstOrDefault()).ChampionName.ToLower()}").GetValue<bool>())))
                 {
                     Variables.E.Cast();
                 }

@@ -61,6 +61,7 @@ namespace ExorKalista
                         h.IsValid() &&
                         h.IsHPBarRendered &&
                         Bools.IsPerfectRendTarget(h) &&
+                        !h.CharData.BaseSkinName.Contains("Mini") &&
                         !h.CharData.BaseSkinName.Contains("Minion"))
                     .ForEach(unit =>
                     {

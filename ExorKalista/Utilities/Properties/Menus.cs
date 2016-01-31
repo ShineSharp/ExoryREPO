@@ -62,6 +62,8 @@ namespace ExorKalista
                         .SetFontStyle(FontStyle.Regular, Color.Purple);
                     {
                         Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.auto",      "Logical")).SetValue(true);
+                        Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.mana",      "Logical: Mana >= %"))
+                            .SetValue(new Slider(50, 0, 99));
                     }
                     Variables.SettingsMenu.AddSubMenu(Variables.WMenu);
 

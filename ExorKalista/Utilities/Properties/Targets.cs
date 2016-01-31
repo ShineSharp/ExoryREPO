@@ -24,13 +24,14 @@ namespace ExorKalista
         /// </summary>
         public static IEnumerable<Obj_AI_Hero> HarassableTargets
         =>
-            HeroManager.Enemies.FindAll(h => Bools.IsPerfectRendTarget(h));
+            HeroManager.Enemies.Where(h => Bools.IsPerfectRendTarget(h));
 
         /// <summary>
         /// The minion targets.
         /// </summary>
         public static List<Obj_AI_Base> Minions
         => 
-            MinionManager.GetMinions(Variables.E.Range);
+            MinionManager
+                .GetMinions(Variables.E.Range);
     }
 }
