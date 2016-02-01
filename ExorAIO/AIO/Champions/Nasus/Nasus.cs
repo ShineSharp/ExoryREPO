@@ -1,26 +1,26 @@
+using LeagueSharp;
+using LeagueSharp.Common;
+
 namespace ExorAIO.Champions.Nasus
 {
     using System;
-    using System.Linq;
-    using System.Collections.Generic;
-    using LeagueSharp;
-    using LeagueSharp.Common;
     using ExorAIO.Utilities;
     using Orbwalking = SFXTargetSelector.Orbwalking;
+    using TargetSelector = SFXTargetSelector.TargetSelector;
 
     /// <summary>
-    /// The main class.
+    /// The champion class.
     /// </summary>
-    public class Nasus
+    class Nasus
     {
         /// <summary>
-        /// Triggers when the champion is loaded.
+        /// Called when the game loads itself.
         /// </summary>
         public void OnLoad()
         {
-            Settings.SetSpells();
-            Settings.SetMenu();
-            Settings.SetMethods();
+            Menus.Initialize();
+            Spells.Initialize();
+            Methods.Initialize();
             Drawings.Initialize();
         }
 
@@ -28,21 +28,30 @@ namespace ExorAIO.Champions.Nasus
         /// Called when the game updates itself.
         /// </summary>
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
-        public static void Game_OnGameUpdate(EventArgs args)
+        public static void OnUpdate(EventArgs args)
         {
             if (!ObjectManager.Player.IsDead)
             {
+                Variables.Orbwalker.SetAttack(
+                    ObjectManager.Player.HasBuff("NasusQ") ||
+                    (Variables.Orbwalker.GetTarget() != null &&
+                        Variables.Orbwalker.GetTarget().IsValid<Obj_AI_Base>() &&
+                        Variables.Orbwalker.GetTarget().Health < KillSteal.GetQDamage((Obj_AI_Base)Variables.Orbwalker.GetTarget()))
+                );
+
                 if (Targets.Target != null &&
-                    Targets.Target.IsValid)
+                    Targets.Target.IsValid &&
+                    Bools.HasNoProtection(Targets.Target) &&
+                    Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
                 {
                     Logics.ExecuteAuto(args);
                 }
-				
-				if (Variables.Orbwalker.GetTarget()?.Type != GameObjectType.obj_AI_Hero &&
-					Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
-				{
-					Logics.ExecuteFarm(args);
-				}
+
+                if (Variables.Orbwalker.GetTarget() != null &&
+                    Variables.Orbwalker.GetTarget().IsValid)
+                {
+                    Logics.ExecuteFarm(args);
+                }
             }
         }
 
@@ -51,16 +60,15 @@ namespace ExorAIO.Champions.Nasus
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="args">The args.</param>
-        public static void Obj_AI_Base_OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
+        public static void OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             if (sender.IsMe &&
+                args.Target.IsValid<Obj_AI_Hero>() &&
                 Orbwalking.IsAutoAttack(args.SData.Name) &&
-                !Variables.Orbwalker.ActiveMode.Equals(Orbwalking.OrbwalkingMode.None))
+                Bools.HasNoProtection((Obj_AI_Hero)args.Target) &&
+                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
-                if (args.Target.IsValid<Obj_AI_Hero>())
-                {
-                    Logics.ExecuteModes(sender, args);
-                }
+                Logics.ExecuteModes(sender, args);
             }
         }
     }

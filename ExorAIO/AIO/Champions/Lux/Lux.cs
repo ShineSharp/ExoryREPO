@@ -9,7 +9,7 @@ namespace ExorAIO.Champions.Lux
     using TargetSelector = SFXTargetSelector.TargetSelector;
 
     /// <summary>
-    /// The main class.
+    /// The champion class.
     /// </summary>
     class Lux
     {
