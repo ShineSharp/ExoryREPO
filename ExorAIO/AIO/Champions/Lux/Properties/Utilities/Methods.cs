@@ -16,7 +16,6 @@ namespace ExorAIO.Champions.Lux
             Game.OnUpdate += Lux.OnUpdate;
             GameObject.OnCreate += Lux.OnCreate;
             GameObject.OnDelete += Lux.OnDelete;
-            Obj_AI_Base.OnDoCast += Lux.OnDoCast;
         }
     }
 }

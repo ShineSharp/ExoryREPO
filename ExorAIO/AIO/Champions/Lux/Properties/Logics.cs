@@ -32,11 +32,20 @@ namespace ExorAIO.Champions.Lux
             }
 
             /// <summary>
+            /// The Smart W Logic.
+            /// </summary>
+            if (Variables.W.IsReady() &&
+                HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(250f + Game.Ping / 2f)) <= ObjectManager.Player.Health/1.5 &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.auto").GetValue<bool>())
+            {
+                Variables.W.Cast(Game.CursorPos);
+            }
+
+            /// <summary>
             /// The R KillSteal Logic,
             /// The R Combo Logic.
             /// </summary>
             if (Variables.R.IsReady() &&
-                !Variables.Q.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.R.Range) &&
                 Targets.Target.Health > Variables.E.GetDamage(Targets.Target) &&
 
@@ -44,6 +53,7 @@ namespace ExorAIO.Champions.Lux
                     Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").GetValue<bool>()) ||
 
                 (Bools.CanUseE() &&
+                    Targets.Target.HasBuff("luxilluminatingfraulein") &&
                     Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").GetValue<bool>())))
             {
@@ -55,26 +65,17 @@ namespace ExorAIO.Champions.Lux
             /// The Q Combo Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
-                Targets.Target.IsValidTarget(Variables.Q.Range) &&
-                Variables.Q.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
 
-                ((Targets.Target.Health < Variables.Q.GetDamage(Targets.Target) &&
+                ((!Variables.R.IsReady() &&
+                    Targets.Target.Health < Variables.Q.GetDamage(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").GetValue<bool>()) ||
 
-                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                (!Targets.Target.HasBuff("luxilluminatingfraulein") &&
+                    Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").GetValue<bool>())))
             {
                 Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
-            }
-
-            /// <summary>
-            /// The Smart W Logic.
-            /// </summary>
-            if (Variables.W.IsReady() &&
-                HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(250f + Game.Ping / 2f)) <= ObjectManager.Player.Health/1.5 &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.auto").GetValue<bool>())
-            {
-                Variables.W.Cast(Game.CursorPos);
+                return;
             }
 
             /// <summary>
@@ -88,39 +89,9 @@ namespace ExorAIO.Champions.Lux
                 ((Targets.Target.Health < Variables.E.GetDamage(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.espell.ks").GetValue<bool>()) ||
 
-                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                (!Targets.Target.HasBuff("luxilluminatingfraulein") &&
+                    Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").GetValue<bool>())))
-            {
-                Variables.E.Cast(Variables.E.GetPrediction(Targets.Target).CastPosition);
-            }
-        }
-
-        /// <summary>
-        /// Called on do-cast.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="args">The args.</param>
-        public static void ExecuteModes(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
-        {
-            /// <summary>
-            /// The Q Combo Logic Pt.2.
-            /// </summary>
-            if (Variables.Q.IsReady() &&
-                Targets.Target.IsValidTarget(Variables.Q.Range) &&
-                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").GetValue<bool>())
-            {
-                Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
-                return;
-            }
-
-            /// <summary>
-            /// The E Combo Logic.
-            /// </summary>
-            if (Variables.E.IsReady() &&
-                Targets.Target.IsValidTarget(Variables.E.Range) &&
-                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").GetValue<bool>())
             {
                 Variables.E.Cast(Variables.E.GetPrediction(Targets.Target).CastPosition);
             }

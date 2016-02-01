@@ -15,7 +15,7 @@ namespace ExorAIO.Champions.Lux
         /// </summary>
         public static void Initialize()
         {
-            Variables.Q = new Spell(SpellSlot.Q, 1250f);
+            Variables.Q = new Spell(SpellSlot.Q, 1175f);
             Variables.W = new Spell(SpellSlot.W, 1075f);
             Variables.E = new Spell(SpellSlot.E, 1100f);
             Variables.R = new Spell(SpellSlot.R, 3500f);

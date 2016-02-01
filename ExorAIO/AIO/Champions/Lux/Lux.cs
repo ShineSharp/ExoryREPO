@@ -84,22 +84,5 @@ namespace ExorAIO.Champions.Lux
                 }
             }
         }
-
-        /// <summary>
-        /// Called on do-cast.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="args">The args.</param>
-        public static void OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
-        {
-            if (sender.IsMe &&
-                args.Target.IsValid<Obj_AI_Hero>() &&
-                Orbwalking.IsAutoAttack(args.SData.Name) &&
-                Bools.HasNoProtection((Obj_AI_Hero)args.Target) &&
-                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
-            {
-                Logics.ExecuteModes(sender, args);
-            }
-        }
     }
 }
