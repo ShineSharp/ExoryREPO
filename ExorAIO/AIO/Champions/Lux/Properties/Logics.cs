@@ -35,6 +35,7 @@ namespace ExorAIO.Champions.Lux
             /// The Smart W Logic.
             /// </summary>
             if (Variables.W.IsReady() &&
+                ObjectManager.Player.CountEnemiesInRange(1000f) >= 1 &&
                 HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(250f + Game.Ping / 2f)) <= ObjectManager.Player.Health/2 &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.wspell.auto").GetValue<bool>())
             {
