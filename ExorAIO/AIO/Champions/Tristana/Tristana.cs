@@ -1,25 +1,25 @@
+using LeagueSharp;
+using LeagueSharp.Common;
+
 namespace ExorAIO.Champions.Tristana
 {
     using System;
-    using System.Linq;
-    using System.Collections.Generic;
-    using LeagueSharp;
-    using LeagueSharp.Common;
     using ExorAIO.Utilities;
     using Orbwalking = SFXTargetSelector.Orbwalking;
+    using TargetSelector = SFXTargetSelector.TargetSelector;
 
     /// <summary>
-    /// The main class.
+    /// The champion class.
     /// </summary>
-    public class Tristana
+    class Tristana
     {
         /// <summary>
-        /// Triggers when the champion is loaded.
+        /// Called when the game loads itself.
         /// </summary>
         public void OnLoad()
         {
-            Settings.SetMenu();
-            Settings.SetMethods();
+            Menus.Initialize();
+            Methods.Initialize();
             Drawings.Initialize();
         }
 
@@ -27,14 +27,26 @@ namespace ExorAIO.Champions.Tristana
         /// Called when the game updates itself.
         /// </summary>
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
-        public static void Game_OnGameUpdate(EventArgs args)
+        public static void OnUpdate(EventArgs args)
         {
-            Settings.SetSpells();
+            Spells.Initialize();
 
-            if (!ObjectManager.Player.IsDead)
+            if (!ObjectManager.Player.IsDead &&
+                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
+                /// <summary>
+                /// The target priority.
+                /// </summary>
+                TargetSelector.Weights.GetItem("low-health").ValueFunction = hero => hero.Health - KillSteal.Damage(hero);
+                TargetSelector.Weights.GetItem("low-health").Tooltip = "Low Health (Health - Combo Damage) = Higher Weight";
+                TargetSelector.Weights.Register(
+                    new TargetSelector.Weights.Item(
+                        "e-charge", "E Charge", 10, false, hero => hero.HasBuff("TristanaECharge") ? 1 : 0,
+                        "Has E Charge = Higher Weight"));
+
                 if (Targets.Target != null &&
-                    Targets.Target.IsValid)
+                    Targets.Target.IsValid &&
+                    Bools.HasNoProtection(Targets.Target))
                 {
                     Logics.ExecuteAuto(args);
                     Logics.ExecuteModes(args);

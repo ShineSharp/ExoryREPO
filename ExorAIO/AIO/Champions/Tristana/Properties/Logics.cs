@@ -1,21 +1,17 @@
+using LeagueSharp;
+using LeagueSharp.Common;
+
 namespace ExorAIO.Champions.Tristana
 {
     using System;
     using System.Linq;
-    using System.Collections.Generic;
-
-    using LeagueSharp;
-    using LeagueSharp.Common;
-
     using ExorAIO.Utilities;
-
     using Orbwalking = SFXTargetSelector.Orbwalking;
-    using TargetSelector = SFXTargetSelector.TargetSelector;
 
     /// <summary>
     /// The logics class.
     /// </summary>
-    public class Logics
+    class Logics
     {
         /// <summary>
         /// Called when the game updates itself.
@@ -24,27 +20,15 @@ namespace ExorAIO.Champions.Tristana
         public static void ExecuteAuto(EventArgs args)
         {
             /// <summary>
-            /// The target priority.
-            /// </summary>
-            TargetSelector.Weights.GetItem("low-health").ValueFunction = hero => hero.Health - KillSteal.Damage(hero);
-            TargetSelector.Weights.GetItem("low-health").Tooltip = "Low Health (Health - Combo Damage) = Higher Weight";
-            TargetSelector.Weights.Register(
-                new TargetSelector.Weights.Item(
-                    "e-charge", "E Charge", 10, false, hero => hero.HasBuff("TristanaECharge") ? 1 : 0,
-                    "Has E Charge = Higher Weight"));
-
-            /// <summary>
             /// The R KillSteal Logic.
             /// </summary>
             if (Variables.R.IsReady() &&
                 !ObjectManager.Player.IsWindingUp &&
-                Bools.HasNoProtection(Targets.Target) &&
                 Targets.Target.IsValidTarget(Variables.R.Range) &&
                 Targets.Target.Health > Targets.Target.MaxHealth/3 &&
                 KillSteal.Damage(Targets.Target) > Targets.Target.Health &&
-            
-                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.userks").GetValue<bool>()))
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").GetValue<bool>())
             {
                 Variables.R.CastOnUnit(Targets.Target);
             }
@@ -60,13 +44,14 @@ namespace ExorAIO.Champions.Tristana
             /// The Q Combo Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
+                ObjectManager.Player.IsWindingUp &&
                 (Bools.IsCharged(Targets.Target) || !Variables.E.IsReady()) &&
 
                 ((Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqauto").GetValue<bool>()) ||
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").GetValue<bool>()) ||
 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>())))
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").GetValue<bool>())))
             {
                 Variables.Q.Cast();
             }
@@ -76,13 +61,11 @@ namespace ExorAIO.Champions.Tristana
             /// </summary>
             if (Variables.E.IsReady() &&
                 !ObjectManager.Player.IsWindingUp &&
-                Bools.HasNoProtection(Targets.Target) &&
                 Targets.Target.IsValidTarget(Variables.E.Range) &&
                 Targets.Target.Health > Targets.Target.MaxHealth/6 &&
-                
-                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useeauto").GetValue<bool>() &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.esettings.ewhitelist.{Targets.Target.ChampionName.ToLower()}").GetValue<bool>()))
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").GetValue<bool>() &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.whitelist.{Targets.Target.ChampionName.ToLower()}").GetValue<bool>())
             {
                 Variables.E.CastOnUnit(Targets.Target);
             }
@@ -99,19 +82,15 @@ namespace ExorAIO.Champions.Tristana
             /// </summary>
             if (Variables.E.IsReady() &&
                 !ObjectManager.Player.IsWindingUp &&
-
-                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                    ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
-
-                    ((Variables.Orbwalker.GetTarget().IsValid<Obj_AI_Turret>() &&
-                        Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useebuildings").GetValue<bool>()) ||
-
-                    ((GameObjects.Minions.Count(
-                        units =>
-                            units.IsValidTarget(Variables.E.Range) &&
-                            units.Distance(Targets.Minions.FirstOrDefault(), false) < 150f) > 2) ||
-                        GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useefarm").GetValue<bool>())))
+                ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
+                ((GameObjects.Minions
+                    .Count(units =>
+                        units.IsValidTarget(Variables.E.Range) &&
+                        units.Distance(Targets.Minions.FirstOrDefault(), false) < 150f) > 2) ||
+                    Variables.Orbwalker.GetTarget().IsValid<Obj_AI_Turret>() ||
+                    GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.farm").GetValue<bool>())
             {
                 Variables.E.CastOnUnit((Obj_AI_Base)Variables.Orbwalker.GetTarget());
             }
