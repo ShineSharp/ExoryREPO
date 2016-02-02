@@ -44,7 +44,7 @@ namespace ExorAIO.Champions.Graves
                 Variables.EMenu = new Menu("E Settings", $"{Variables.MainMenuName}.emenu")
                     .SetFontStyle(FontStyle.Regular, Color.Cyan);
                 {
-                    Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.espell.auto",     "Smart E Logic")).SetValue(true);
+                    Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.espell.auto",     "Logical")).SetValue(true);
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.EMenu);
 

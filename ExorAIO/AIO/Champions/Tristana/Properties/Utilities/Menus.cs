@@ -37,7 +37,7 @@ namespace ExorAIO.Champions.Tristana
                     Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.espell.mana",  "LaneClear: Mana >= x%"))
                         .SetValue(new Slider(50, 0, 99));
                     {
-                        Variables.WhiteListMenu = new Menu("E: Whitelist Menu", $"{Variables.MainMenuName}.espell.whitelist");
+                        Variables.WhiteListMenu = new Menu("E: Whitelist Menu", $"{Variables.MainMenuName}.emenu.whitelistmenu");
                         {
                             foreach (var champ in HeroManager.Enemies)
                             {

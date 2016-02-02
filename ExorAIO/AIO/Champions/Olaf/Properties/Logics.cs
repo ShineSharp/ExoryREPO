@@ -31,7 +31,8 @@ namespace ExorAIO.Champions.Olaf
 
                 ((!ObjectManager.Player.UnderTurret() &&
                     ObjectManager.Player.ManaPercent >= ManaManager.NeededQMana &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.harass").GetValue<bool>()) ||
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.harass").GetValue<bool>() &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.Qspell.whitelist.{Targets.Target.ChampionName.ToLower()}").GetValue<bool>()) ||
 
                 (Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").GetValue<bool>())))

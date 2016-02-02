@@ -29,6 +29,22 @@ namespace ExorAIO.Champions.DrMundo
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.harass",     "AutoHarass")).SetValue(true);
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.mana",       "AutoHarass: Energy >= x%"))
                         .SetValue(new Slider(50, 0, 99));
+                    {
+                        Variables.WhiteListMenu = new Menu("AutoHarass: Whitelist Menu", $"{Variables.MainMenuName}.qmenu.whitelistmenu");
+                        {
+                            foreach (var champ in HeroManager.Enemies)
+                            {
+                                Variables.WhiteListMenu
+                                    .AddItem(
+                                        new MenuItem(
+                                            $"{Variables.MainMenuName}.qspell.whitelist.{champ.ChampionName.ToLower()}",
+                                            $"AutoHarass: {champ.ChampionName}")
+                                    .SetValue(true)
+                                );
+                            }
+                        }
+                        Variables.QMenu.AddSubMenu(Variables.WhiteListMenu);
+                    }
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.QMenu);
 

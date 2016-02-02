@@ -64,7 +64,8 @@ namespace ExorAIO.Champions.Corki
                                         new MenuItem(
                                             $"{Variables.MainMenuName}.rspell.whitelist.{champ.ChampionName.ToLower()}",
                                             $"AutoHarass: {champ.ChampionName}")
-                                    .SetValue(true));
+                                    .SetValue(true)
+                                );
                             }
                         }
                         Variables.RMenu.AddSubMenu(Variables.WhiteListMenu);

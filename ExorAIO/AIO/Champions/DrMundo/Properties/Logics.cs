@@ -35,8 +35,10 @@ namespace ExorAIO.Champions.DrMundo
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").GetValue<bool>()) ||
 
-                (ObjectManager.Player.HealthPercent > ManaManager.NeededQMana &&
-					Variables.Menu.Item($"{Variables.MainMenuName}.qspell.harass").GetValue<bool>())))
+                (!ObjectManager.Player.UnderTurret() &&
+                    ObjectManager.Player.HealthPercent > ManaManager.NeededQMana &&
+					Variables.Menu.Item($"{Variables.MainMenuName}.qspell.harass").GetValue<bool>() &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.whitelist.{Targets.Target.ChampionName.ToLower()}").GetValue<bool>())))
             {
                 Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
             }

@@ -58,7 +58,8 @@ namespace ExorAIO.Champions.Ashe
                                         new MenuItem(
                                             $"{Variables.MainMenuName}.rspell.whitelist.{champ.ChampionName.ToLower()}",
                                             $"Use against: {champ.ChampionName}")
-                                    .SetValue(true));
+                                    .SetValue(true)
+                                );
                             }
                         }
                         Variables.RMenu.AddSubMenu(Variables.WhiteListMenu);

@@ -51,7 +51,7 @@ namespace ExorAIO.Champions.Ezreal
                     Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rspell.combo",    "Combo")).SetValue(true);
                     Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rspell.ks",       "KillSteal")).SetValue(true);
                     {
-                        Variables.WhiteListMenu = new Menu("Ultimate: Whitelist Menu", $"{Variables.MainMenuName}.rspell.whitelist");
+                        Variables.WhiteListMenu = new Menu("Ultimate: Whitelist Menu", $"{Variables.MainMenuName}.rmenu.whitelistmenu");
                         {
                             foreach (var champ in HeroManager.Enemies)
                             {
@@ -60,7 +60,8 @@ namespace ExorAIO.Champions.Ezreal
                                         new MenuItem(
                                             $"{Variables.MainMenuName}.rspell.whitelist.{champ.ChampionName.ToLower()}",
                                             $"Use against: {champ.ChampionName}")
-                                    .SetValue(true));
+                                    .SetValue(true)
+                                );
                             }
                         }
                         Variables.RMenu.AddSubMenu(Variables.WhiteListMenu);
