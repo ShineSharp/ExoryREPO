@@ -11,7 +11,7 @@ namespace ExorAIO.Champions.Akali
     /// The champion class.
     /// </summary>
     class Akali
-    {   
+    {
         /// <summary>
         /// Called when the game loads itself.
         /// </summary>

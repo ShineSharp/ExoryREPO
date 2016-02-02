@@ -1,24 +1,18 @@
+using LeagueSharp;
+using LeagueSharp.Common;
+
 namespace ExorAIO.Champions.Olaf
 {
     using System;
     using System.Linq;
     using System.Collections.Generic;
-
-    using LeagueSharp;
-    using LeagueSharp.Common;
-
-    using SharpDX;
-
     using ExorAIO.Utilities;
-    
-    using ItemData = LeagueSharp.Common.Data.ItemData;
-
     using Orbwalking = SFXTargetSelector.Orbwalking;
 
     /// <summary>
     /// The logics class.
     /// </summary>
-    public class Logics
+    class Logics
     {
         /// <summary>
         /// Called when the game updates itself.
@@ -35,12 +29,12 @@ namespace ExorAIO.Champions.Olaf
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
                 ObjectManager.Player.Distance(Variables.Q.GetPrediction(Targets.Target).UnitPosition) < Variables.Q.Range - 100 &&
 
-                ((ObjectManager.Player.ManaPercent >= ManaManager.NeededQMana &&
-                    !Utility.UnderTurret(ObjectManager.Player) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqautoharass").GetValue<bool>()) ||
+                ((!ObjectManager.Player.UnderTurret() &&
+                    ObjectManager.Player.ManaPercent >= ManaManager.NeededQMana &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.harass").GetValue<bool>()) ||
 
                 (Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqks").GetValue<bool>())))
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").GetValue<bool>())))
             {
                 Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
             }
@@ -50,10 +44,9 @@ namespace ExorAIO.Champions.Olaf
             /// </summary>
             if (Variables.W.IsReady() &&
                 ObjectManager.Player.IsWindingUp &&
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
-
-                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>()))
+                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").GetValue<bool>())
             {
                 Variables.W.Cast();
             }
@@ -62,9 +55,8 @@ namespace ExorAIO.Champions.Olaf
             /// The R Anti-HardCC Logic.
             /// </summary>
             if (Variables.R.IsReady() &&
-
-                (Bools.ShouldCleanse(ObjectManager.Player) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.useranticc").GetValue<bool>()))
+                Bools.ShouldCleanse(ObjectManager.Player) &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.auto").GetValue<bool>())
             {
                 Variables.R.Cast();
             }
@@ -81,10 +73,9 @@ namespace ExorAIO.Champions.Olaf
             /// The Q Combo Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Orbwalking.GetRealAutoAttackRange((Obj_AI_Hero)args.Target)) &&
-
-                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>()))
+                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").GetValue<bool>())
             {
                 Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
                 return;
@@ -94,13 +85,11 @@ namespace ExorAIO.Champions.Olaf
             /// The E Combo Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
-                Bools.HasNoProtection((Obj_AI_Hero)args.Target) &&
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.E.Range) &&
-
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>()))
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").GetValue<bool>()))
             {
-                Variables.E.Cast((Obj_AI_Hero)args.Target);
+                Variables.E.CastOnUnit((Obj_AI_Hero)args.Target);
             }
         }
 
@@ -114,14 +103,13 @@ namespace ExorAIO.Champions.Olaf
             /// The Q Farm Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
-
-                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                    ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
-                    (Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 3 ||
-                        GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>()))
+                ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
+                (Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 3 ||
+                    GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").GetValue<bool>())
             {
-                Variables.Q.Cast(Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).Position);
+                Variables.Q.Cast(((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).Position);
             }
         }
     }

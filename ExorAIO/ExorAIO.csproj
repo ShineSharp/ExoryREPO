@@ -133,9 +133,12 @@
     <Compile Include="AIO\Champions\Lux\Properties\Utilities\Methods.cs" />
     <Compile Include="AIO\Champions\Lux\Properties\Utilities\Spells.cs" />
     <Compile Include="AIO\Champions\Lux\Properties\Utilities\Targets.cs" />
-    <Compile Include="AIO\Champions\Olaf\Utilities\Logics.cs" />
-    <Compile Include="AIO\Champions\Olaf\Utilities\Utility.cs" />
     <Compile Include="AIO\Champions\Olaf\Olaf.cs" />
+    <Compile Include="AIO\Champions\Olaf\Properties\Logics.cs" />
+    <Compile Include="AIO\Champions\Olaf\Properties\Utilities\Menus.cs" />
+    <Compile Include="AIO\Champions\Olaf\Properties\Utilities\Methods.cs" />
+    <Compile Include="AIO\Champions\Olaf\Properties\Utilities\Spells.cs" />
+    <Compile Include="AIO\Champions\Olaf\Properties\Utilities\Targets.cs" />
     <Compile Include="AIO\Champions\Renekton\Utilities\Logics.cs" />
     <Compile Include="AIO\Champions\Renekton\Utilities\Utility.cs" />
     <Compile Include="AIO\Champions\Renekton\Renekton.cs" />
