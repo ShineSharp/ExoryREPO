@@ -117,8 +117,8 @@ namespace ExorAIO.Utilities
         {
             "Akali", "Ashe", "Cassiopeia", "Corki", "Darius",
             "DrMundo", "Ezreal", "Graves", "Jax", "Jinx",
-            "KogMaw", "Lux", "Nasus", "Olaf", "Renekton",
-            "Sivir", "Tristana", "Tryndamere", "Varus", "Vayne"
+            "KogMaw", "Lux", "Olaf", "Renekton", "Sivir",
+            "Tristana", "Tryndamere", "Vayne"
         };
 
         /// <summary>

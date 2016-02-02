@@ -17,13 +17,11 @@ namespace ExorAIO.Core
     using ExorAIO.Champions.Jinx;
     using ExorAIO.Champions.KogMaw;
     using ExorAIO.Champions.Lux;
-    using ExorAIO.Champions.Nasus;
     using ExorAIO.Champions.Olaf;
     using ExorAIO.Champions.Renekton;
     using ExorAIO.Champions.Sivir;
     using ExorAIO.Champions.Tristana;
     using ExorAIO.Champions.Tryndamere;
-    using ExorAIO.Champions.Varus;
     using ExorAIO.Champions.Vayne;
     using Orbwalking = SFXTargetSelector.Orbwalking;
     using TargetSelector = SFXTargetSelector.TargetSelector;
@@ -76,13 +74,11 @@ namespace ExorAIO.Core
                     case "Jinx":       new Jinx()      .OnLoad(); break;
                     case "KogMaw":     new KogMaw()    .OnLoad(); break;
                     case "Lux":        new Lux()       .OnLoad(); break;
-                    case "Nasus":      new Nasus()     .OnLoad(); break;
                     case "Olaf":       new Olaf()      .OnLoad(); break;
                     case "Renekton":   new Renekton()  .OnLoad(); break;
                     case "Sivir":      new Sivir()     .OnLoad(); break;
                     case "Tristana":   new Tristana()  .OnLoad(); break;
                     case "Tryndamere": new Tryndamere().OnLoad(); break;
-                    case "Varus":      new Varus()     .OnLoad(); break;
                     case "Vayne":      new Vayne()     .OnLoad(); break;
                 }
 
