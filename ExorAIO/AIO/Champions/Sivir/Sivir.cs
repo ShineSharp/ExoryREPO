@@ -48,8 +48,9 @@ namespace ExorAIO.Champions.Sivir
         {
             if (sender != null &&
                 sender.IsEnemy &&
-                args.Target.IsMe &&
                 args.Target != null &&
+                args.Target.IsValid &&
+                args.Target.IsMe &&
                 sender.IsValid<Obj_AI_Hero>() &&
                 Bools.HasNoProtection(ObjectManager.Player))
             {
