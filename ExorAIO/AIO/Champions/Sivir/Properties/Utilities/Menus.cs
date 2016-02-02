@@ -43,7 +43,7 @@ namespace ExorAIO.Champions.Sivir
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.WMenu);
 
-                Variables.EMenu = new Menu("E Settings", $"{Variables.MainMenuName}.emenu")
+                Variables.EMenu = new Menu("Use E to:", $"{Variables.MainMenuName}.emenu")
                     .SetFontStyle(FontStyle.Regular, Color.Cyan);
                 {
                     Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.espell.auto",     "Logical")).SetValue(true);
