@@ -72,11 +72,12 @@ namespace ExorAIO.Champions.KogMaw
             if (Variables.R.IsReady() &&
                 Targets.Target.HealthPercent < 50 &&
                 !ObjectManager.Player.IsWindingUp &&
+                !Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.stacks").GetValue<Slider>().Value >=
+                    ObjectManager.Player.GetBuffCount("kogmawlivingartillerycost") &&
 
                 ((Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").GetValue<bool>() &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.stacks").GetValue<Slider>().Value >=
-                        ObjectManager.Player.GetBuffCount("kogmawlivingartillerycost")) ||
+                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").GetValue<bool>()) ||
 
                 (Targets.Target.Health < Variables.R.GetDamage(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").GetValue<bool>())))

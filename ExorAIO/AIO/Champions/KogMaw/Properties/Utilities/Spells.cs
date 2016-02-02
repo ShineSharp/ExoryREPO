@@ -21,8 +21,8 @@ namespace ExorAIO.Champions.KogMaw
             Variables.R = new Spell(SpellSlot.R, 900f + (300f * ObjectManager.Player.Spellbook.GetSpell(SpellSlot.R).Level));
 
             Variables.Q.SetSkillshot(0.25f, 70f, 1650f, true, SkillshotType.SkillshotLine);
-            Variables.E.SetSkillshot(0.25f, 120f, 1400f, false, SkillshotType.SkillshotLine);
-            Variables.R.SetSkillshot(1.2f, 225f, float.MaxValue, false, SkillshotType.SkillshotCircle);
+            Variables.E.SetSkillshot(0.25f, 120f, 1350f, false, SkillshotType.SkillshotLine);
+            Variables.R.SetSkillshot(1.2f, 100f, float.MaxValue, false, SkillshotType.SkillshotCircle);
         }
     }
 }
