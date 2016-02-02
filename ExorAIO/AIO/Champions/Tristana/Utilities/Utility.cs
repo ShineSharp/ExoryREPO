@@ -94,23 +94,13 @@ namespace ExorAIO.Champions.Tristana
     /// </summary>
     public class KillSteal
     {
-        public static float GetRealEDamage(Obj_AI_Hero target)
-        {
-            return 
-                (float)
-                    (ObjectManager.Player.CalcDamage(target, LeagueSharp.Common.Damage.DamageType.Physical, Variables.E.GetDamage(target)) +
-                    (18 + (3 * ObjectManager.Player.Spellbook.GetSpell(SpellSlot.E).Level)) +
-                    ((0.15 + (0.045 * ObjectManager.Player.Spellbook.GetSpell(SpellSlot.E).Level)) * ObjectManager.Player.FlatPhysicalDamageMod) +
-                    0.15 * ObjectManager.Player.TotalMagicalDamage);
-        }
-
         public static float Damage(Obj_AI_Hero target)
         {
             float dmg = 0f;
 
             if (Bools.IsCharged(target))
             {
-                dmg += GetRealEDamage(target);
+                dmg += Variables.E.GetDamage(target);
             }
             
             if (Variables.R.IsReady())
