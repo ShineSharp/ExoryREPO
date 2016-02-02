@@ -28,8 +28,7 @@ namespace NabbActivator
                 {
                     Utility.DelayAction.Add(
                         Variables.Menu.Item($"{Variables.MainMenuName}.randomizer").GetValue<bool>() ?
-                            WeightedRandom.Next(100, 200) :
-                            0,
+                            WeightedRandom.Next(100, 200) : 0,
                         () =>
                         {
                             ItemData.Quicksilver_Sash.GetItem().Cast();

@@ -43,11 +43,11 @@ namespace NabbActivator
         /// </summary>
         public static bool ShouldUseCleanse(Obj_AI_Hero target)
         =>
-            Bools.IsValidSnare() ||
-            target.HasBuff("summonerdot") ||
-            target.HasBuff("summonerexhaust") ||
             Bools.HasNoProtection(ObjectManager.Player) &&
             (
+                Bools.IsValidSnare() ||
+                target.HasBuff("summonerdot") ||
+                target.HasBuff("summonerexhaust") ||
                 target.HasBuffOfType(BuffType.Flee) ||
                 target.HasBuffOfType(BuffType.Stun) ||
                 target.HasBuffOfType(BuffType.Charm) ||
@@ -61,12 +61,11 @@ namespace NabbActivator
         public static bool ShouldUseCleanser()
         =>
             Bools.HasNoProtection(ObjectManager.Player) &&
-            ObjectManager.Player.HasBuffOfType(BuffType.Suppression) &&
             (
+                ObjectManager.Player.HasBuffOfType(BuffType.Suppression) ||
                 ObjectManager.Player.HasBuff("FizzMarinerDoom") ||
                 ObjectManager.Player.HasBuff("zedulttargetmark") ||
                 ObjectManager.Player.HasBuff("VladimirHemoplague") ||
-                ObjectManager.Player.HasBuff("PoppyDiplomaticImmunity") ||
                 ObjectManager.Player.HasBuff("MordekaiserChildrenOfTheGrave")
             );
 
