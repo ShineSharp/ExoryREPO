@@ -50,8 +50,8 @@ namespace ExorAIO.Champions.Sivir
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.auto").GetValue<bool>())
             {
                 if (args.SData.IsAutoAttack() ||
-                    !args.SData.Name.Equals("MockingShout") ||
-                    args.SData.TargettingType.Equals(SpellDataTargetType.SelfAoe))
+                    (args.SData.TargettingType.Equals(SpellDataTargetType.SelfAoe) && 
+                        !args.SData.Name.Equals("MockingShout")))
                 {
                     return;
                 }
