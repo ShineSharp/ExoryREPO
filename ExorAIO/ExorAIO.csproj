@@ -145,9 +145,12 @@
     <Compile Include="AIO\Champions\Renekton\Properties\Utilities\Methods.cs" />
     <Compile Include="AIO\Champions\Renekton\Properties\Utilities\Spells.cs" />
     <Compile Include="AIO\Champions\Renekton\Properties\Utilities\Targets.cs" />
-    <Compile Include="AIO\Champions\Sivir\Utilities\Logics.cs" />
-    <Compile Include="AIO\Champions\Sivir\Utilities\Utility.cs" />
     <Compile Include="AIO\Champions\Sivir\Sivir.cs" />
+    <Compile Include="AIO\Champions\Sivir\Properties\Logics.cs" />
+    <Compile Include="AIO\Champions\Sivir\Properties\Utilities\Menus.cs" />
+    <Compile Include="AIO\Champions\Sivir\Properties\Utilities\Methods.cs" />
+    <Compile Include="AIO\Champions\Sivir\Properties\Utilities\Spells.cs" />
+    <Compile Include="AIO\Champions\Sivir\Properties\Utilities\Targets.cs" />
     <Compile Include="AIO\Champions\Tristana\Utilities\Logics.cs" />
     <Compile Include="AIO\Champions\Tristana\Utilities\Utility.cs" />
     <Compile Include="AIO\Champions\Tristana\Tristana.cs" />

@@ -1,20 +1,17 @@
+using LeagueSharp;
+using LeagueSharp.Common;
+
 namespace ExorAIO.Champions.Sivir
 {
     using System;
     using System.Linq;
-    using System.Collections.Generic;
-
-    using LeagueSharp;
-    using LeagueSharp.Common;
-
     using ExorAIO.Utilities;
-
     using Orbwalking = SFXTargetSelector.Orbwalking;
 
     /// <summary>
     /// The logics class.
     /// </summary>
-    public class Logics
+    class Logics
     {
         /// <summary>
         /// Called when the game updates itself.
@@ -27,14 +24,13 @@ namespace ExorAIO.Champions.Sivir
             /// The Q Immobile Harass Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
-                Bools.HasNoProtection(Targets.Target) &&
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
 
-                ((Variables.Q.GetDamage(Targets.Target)*2) > Targets.Target.Health &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqks").GetValue<bool>()) ||
-                    
+                ((Variables.Q.GetDamage(Targets.Target)*2 > Targets.Target.Health &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").GetValue<bool>()) ||
+
                 (Bools.IsImmobile(Targets.Target) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqimmobile").GetValue<bool>()))
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.immobile").GetValue<bool>())))
             {
                 Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
             }
@@ -51,24 +47,23 @@ namespace ExorAIO.Champions.Sivir
             /// The E Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
-                Bools.HasNoProtection(ObjectManager.Player) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.esettings.useelogic").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.auto").GetValue<bool>())
             {
-                if (args.Target != null &&
-                    args.Target.IsMe &&
-                    (!args.SData.TargettingType.Equals(SpellDataTargetType.SelfAoe) || args.SData.Name.Equals("MockingShout")) &&
-                    !args.SData.IsAutoAttack())
+                if (args.SData.IsAutoAttack() ||
+                    !args.SData.Name.Equals("MockingShout") ||
+                    args.SData.TargettingType.Equals(SpellDataTargetType.SelfAoe))
                 {
-                    Utility.DelayAction.Add(
-                        ((Obj_AI_Hero)sender).ChampionName.Equals("Zed") && args.SData.TargettingType.Equals(SpellDataTargetType.Self) ?
-                            200 :
-                            0,
-                    () =>
-                        {
-                            Variables.E.Cast();
-                        }
-                    );
+                    return;
                 }
+
+                Utility.DelayAction.Add(
+                    ((Obj_AI_Hero)sender).ChampionName.Equals("Zed") &&
+                        args.SData.TargettingType.Equals(SpellDataTargetType.Self) ? 200 : 0,
+                () =>
+                    {
+                        Variables.E.Cast();
+                    }
+                );
             }
         }
 
@@ -83,9 +78,8 @@ namespace ExorAIO.Champions.Sivir
             /// The W Combo Logic.
             /// </summary>
             if (Variables.W.IsReady() &&
-
-                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewcombo").GetValue<bool>()))
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").GetValue<bool>())
             {
                 Variables.W.Cast();
                 return;
@@ -95,13 +89,11 @@ namespace ExorAIO.Champions.Sivir
             /// The Q Combo Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
-                Bools.HasNoProtection((Obj_AI_Hero)args.Target) &&
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.Q.Range) &&
-
-                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqcombo").GetValue<bool>()))
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").GetValue<bool>())
             {
-                Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
+                Variables.Q.Cast(Variables.Q.GetPrediction((Obj_AI_Hero)args.Target).UnitPosition);
             }
         }
 
@@ -116,12 +108,11 @@ namespace ExorAIO.Champions.Sivir
             /// The W Farm Logic.
             /// </summary>
             if (Variables.W.IsReady() &&
-
-                (ObjectManager.Player.ManaPercent > ManaManager.NeededWMana &&
-                    Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                    (Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 2 ||
-                        GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.wsettings.usewfarm").GetValue<bool>()))
+                ObjectManager.Player.ManaPercent > ManaManager.NeededWMana &&
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
+                (Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 2 ||
+                    GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.farm").GetValue<bool>())
             {
                 Variables.W.Cast();
                 return;
@@ -131,12 +122,11 @@ namespace ExorAIO.Champions.Sivir
             /// The Q Farm Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
-
-                (ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
-                    Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                    (Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 2 ||
-                        GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qsettings.useqfarm").GetValue<bool>()))
+                ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
+                (Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 2 ||
+                    GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").GetValue<bool>())
             {
                 Variables.Q.Cast(Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).Position);
             }
