@@ -1,26 +1,26 @@
+using LeagueSharp;
+using LeagueSharp.Common;
+
 namespace ExorAIO.Champions.Vayne
 {
     using System;
-    using System.Linq;
-    using System.Collections.Generic;
-    using LeagueSharp;
-    using LeagueSharp.Common;
     using ExorAIO.Utilities;
     using Orbwalking = SFXTargetSelector.Orbwalking;
+    using TargetSelector = SFXTargetSelector.TargetSelector;
 
     /// <summary>
-    /// The main class.
+    /// The champion class.
     /// </summary>
-    public class Vayne
+    class Vayne
     {
         /// <summary>
-        /// Triggers when the champion is loaded.
+        /// Called when the game loads itself.
         /// </summary>
         public void OnLoad()
         {
-            Settings.SetSpells();
-            Settings.SetMenu();
-            Settings.SetMethods();
+            Menus.Initialize();
+            Spells.Initialize();
+            Methods.Initialize();
             Drawings.Initialize();
         }
 
@@ -28,13 +28,35 @@ namespace ExorAIO.Champions.Vayne
         /// Called when the game updates itself.
         /// </summary>
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
-        public static void Game_OnGameUpdate(EventArgs args)
+        public static void OnUpdate(EventArgs args)
         {
             if (!ObjectManager.Player.IsDead &&
-                Targets.Target != null &&
-                Targets.Target.IsValid)
+                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
-                Logics.ExecuteAuto(args);
+                /// <summary>
+                /// The target priority.
+                /// </summary>
+                if (TargetSelector.Weights.GetItem("low-health") != null)
+                {
+                    TargetSelector.Weights
+                        .GetItem("low-health")
+                        .ValueFunction = hero => hero.Health - KillSteal.GetDamage(hero)*2;
+
+                    TargetSelector.Weights
+                        .GetItem("low-health")
+                        .Tooltip = "Low Health (Health < 2W + E Damage) = Higher Weight";
+
+                    TargetSelector.Weights
+                        .Register(new TargetSelector.Weights.Item("w-stack", "W Stack", 10, false,
+                            hero => hero.GetBuffCount("vaynesilvereddebuff") == 2 ? 1 : 0, "Has 2W Stacks = Higher Weight"));
+                }
+                
+                if (Targets.Target != null &&
+                    Targets.Target.IsValid &&
+                    Bools.HasNoProtection(Targets.Target))
+                {
+                    Logics.ExecuteAuto(args);
+                }
             }
         }
 
@@ -43,11 +65,11 @@ namespace ExorAIO.Champions.Vayne
         /// </summary>
         /// <param name="unit">The sender.</param>
         /// <param name="target">The target.</param>
-        public static void Orbwalking_OnAttack(AttackableUnit unit, AttackableUnit target)
+        public static void OnAttack(AttackableUnit unit, AttackableUnit target)
         {
             if (unit.IsMe &&
                 target.IsValid<Obj_AI_Hero>() &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.miscsettings.usebetaq").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.misc.resets").GetValue<bool>())
             {
                 Logics.ExecuteBetaModes(unit, target);
             }
@@ -58,18 +80,19 @@ namespace ExorAIO.Champions.Vayne
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="args">The args.</param>
-        public static void Obj_AI_Base_OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
+        public static void OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             if (sender.IsMe &&
-                Orbwalking.IsAutoAttack(args.SData.Name))
+				Orbwalking.IsAutoAttack(args.SData.Name) &&
+                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
                 if (args.Target.IsValid<Obj_AI_Hero>() &&
-                    !Variables.Menu.Item($"{Variables.MainMenuName}.miscsettings.usebetaq").GetValue<bool>())
+                    Bools.HasNoProtection((Obj_AI_Hero)args.Target) &&
+                    !Variables.Menu.Item($"{Variables.MainMenuName}.misc.resets").GetValue<bool>())
                 {
                     Logics.ExecuteModes(sender, args);
                 }
-
-                if (args.Target.IsValid<Obj_AI_Minion>())
+                else if (args.Target.IsValid<Obj_AI_Minion>())
                 {
                     Logics.ExecuteFarm(sender, args);
                 }
