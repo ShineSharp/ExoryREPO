@@ -64,7 +64,6 @@ namespace ExorAIO.Champions.Jinx
         {
             if (sender != null &&
                 sender.IsEnemy &&
-                Variables.E.IsReady() &&
                 sender.IsValid<Obj_AI_Hero>() &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.auto").GetValue<bool>())
             {

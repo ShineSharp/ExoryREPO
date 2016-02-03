@@ -6,6 +6,7 @@ namespace ExorAIO.Champions.Jinx
     using System;
     using System.Linq;
     using ExorAIO.Utilities;
+    using SharpDX;
     using Orbwalking = SFXTargetSelector.Orbwalking;
 
     /// <summary>
@@ -32,17 +33,15 @@ namespace ExorAIO.Champions.Jinx
                     case Orbwalking.OrbwalkingMode.Combo:
                     case Orbwalking.OrbwalkingMode.Mixed:
 
-                        if (((ObjectManager.Player.HasBuff("JinxQ") && 
-                            Targets.Target.IsValidTarget(Variables.Q.Range)) ||
-                            
-                            (!ObjectManager.Player.HasBuff("JinxQ") &&
+                        if (((!ObjectManager.Player.HasBuff("JinxQ") &&
                             !Targets.Target.IsValidTarget(Variables.Q.Range) &&
-                            Targets.Target.IsValidTarget(Variables.Q2.Range))) &&
+                            Targets.Target.IsValidTarget(Variables.Q2.Range)) ||
 
+                            (ObjectManager.Player.HasBuff("JinxQ") &&
+                            !Targets.Target.IsValidTarget(Variables.Q2.Range))) &&
                             Variables.Menu.Item($"{Variables.MainMenuName}.qspell.auto").GetValue<bool>())
                         {
                             Variables.Q.Cast();
-                            break;
                         }
 
                     break;
@@ -52,10 +51,7 @@ namespace ExorAIO.Champions.Jinx
                     /// </summary>
                     case Orbwalking.OrbwalkingMode.LaneClear:
 
-                        if (ObjectManager.Player.HasBuff("JinxQ") &&
-                            ObjectManager.Player.ManaPercent < ManaManager.NeededQMana &&
-
-                            ((!ObjectManager.Player.HasBuff("JinxQ") &&
+                        if (((!ObjectManager.Player.HasBuff("JinxQ") &&
                                 GameObjects.EnemyMinions
                                     .Count(minions => minions.Distance(GameObjects.EnemyMinions
                                     .Where(qminion => qminion.IsValidTarget(Variables.Q2.Range))
@@ -65,9 +61,11 @@ namespace ExorAIO.Champions.Jinx
                                 GameObjects.EnemyMinions
                                     .Count(minions => minions.Distance(GameObjects.EnemyMinions
                                     .Where(qminion => qminion.IsValidTarget(Variables.Q2.Range))
-                                    .FirstOrDefault()) < 225f) < 2)) &&
+                                    .FirstOrDefault()) < 225f) < 2) ||
 
-                                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").GetValue<bool>())
+                            (ObjectManager.Player.HasBuff("JinxQ") &&
+                                ObjectManager.Player.ManaPercent < ManaManager.NeededQMana)) &&
+                            Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").GetValue<bool>())
                         {
                             Variables.Q.Cast();
                         }
@@ -87,6 +85,7 @@ namespace ExorAIO.Champions.Jinx
                 Variables.W.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
 
                 ((Targets.Target.Health < Variables.W.GetDamage(Targets.Target) &&
+                    Targets.Target.Health > ObjectManager.Player.GetAutoAttackDamage(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.wspell.ks").GetValue<bool>()) ||
 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
@@ -103,16 +102,18 @@ namespace ExorAIO.Champions.Jinx
             /// The E Impaired Harass Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
-                Targets.Target.IsValidTarget(Variables.E.Range) &&
+                ObjectManager.Player
+                    .Distance(Targets.Target.ServerPosition
+                    .Extend(Targets.Target.ServerPosition, ObjectManager.Player.Distance(Targets.Target) + Targets.Target.BoundingRadius*2)) < Variables.E.Range &&
 
                 ((Targets.Target.GetEnemiesInRange(350f)
-                    .Count(enemy => Variables.E.GetPrediction(enemy).Hitchance >= HitChance.VeryHigh) >= 2 &&
+                    .Count(enemy => Variables.E.GetPrediction(enemy).Hitchance >= HitChance.VeryHigh) >= 1 &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.espell.auto").GetValue<bool>()) ||
 
                 (Bools.IsImmobile(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.espell.immobile").GetValue<bool>())))
             {
-                Variables.E.Cast(Variables.E.GetPrediction(Targets.Target).CastPosition);
+                Variables.E.Cast(ObjectManager.Player.ServerPosition.Extend(Targets.Target.ServerPosition, ObjectManager.Player.Distance(Targets.Target) + Targets.Target.BoundingRadius*2));
             }
 
             /// <summary>
@@ -138,14 +139,18 @@ namespace ExorAIO.Champions.Jinx
         /// <param name="args">The args.</param>
         public static void ExecuteSpellCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            if (args.Slot.Equals(SpellSlot.R) || 
-                args.Slot.Equals(SpellSlot.Q) && 
-                (((Obj_AI_Hero)sender).ChampionName.Equals("Blitzcrank") ||
-                ((Obj_AI_Hero)sender).ChampionName.Equals("Thresh")))
+            if (Variables.E.IsReady() &&
+                ObjectManager.Player
+                    .Distance(sender.ServerPosition
+                    .Extend(sender.ServerPosition, ObjectManager.Player.Distance(sender) + sender.BoundingRadius)) < Variables.E.Range &&
+                (args.Slot.Equals(SpellSlot.R) || 
+                    (args.Slot.Equals(SpellSlot.Q) && 
+                    (((Obj_AI_Hero)sender).ChampionName.Equals("Blitzcrank") ||
+                        ((Obj_AI_Hero)sender).ChampionName.Equals("Thresh")))))
             {
-                if (ObjectManager.Player.Distance(sender) / 2000 < 0.4f)
+                if (ObjectManager.Player.Distance(sender) / 2000f < 0.4f)
                 {
-                    Variables.E.Cast(sender.ServerPosition);
+                    Variables.E.Cast(ObjectManager.Player.ServerPosition.Extend(sender.ServerPosition, ObjectManager.Player.Distance(sender) + sender.BoundingRadius));
                 }
             }
         }

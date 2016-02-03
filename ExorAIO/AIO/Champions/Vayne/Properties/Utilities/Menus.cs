@@ -33,7 +33,7 @@ namespace ExorAIO.Champions.Vayne
                 Variables.SettingsMenu.AddSubMenu(Variables.QMenu);
 
                 Variables.EMenu = new Menu("Use E to:", $"{Variables.MainMenuName}.emenu")
-                    .SetFontStyle(FontStyle.Regular, Color.Purple);
+                    .SetFontStyle(FontStyle.Regular, Color.Cyan);
                 {
                     Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.espell.auto",  "Logical")).SetValue(true);
                     Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.espell.ks",    "KillSteal")).SetValue(false);

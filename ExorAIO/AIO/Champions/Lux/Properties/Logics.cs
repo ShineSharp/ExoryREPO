@@ -32,7 +32,7 @@ namespace ExorAIO.Champions.Lux
             }
 
             /// <summary>
-            /// The Smart W Logic.
+            /// The W Logic.
             /// </summary>
             if (Variables.W.IsReady() &&
                 ObjectManager.Player.CountEnemiesInRange(1000f) >= 1 &&

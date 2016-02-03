@@ -1,6 +1,6 @@
 using LeagueSharp.Common;
 
-namespace ExorAIO.Champions.Jinx
+namespace ExorAIO.Champions.Quinn
 {
     using System.Drawing;
     using ExorAIO.Utilities;
@@ -24,9 +24,11 @@ namespace ExorAIO.Champions.Jinx
                 Variables.QMenu = new Menu("Use Q to:", $"{Variables.MainMenuName}.qmenu")
                     .SetFontStyle(FontStyle.Regular, Color.Green);
                 {
-                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.auto",     "Combo")).SetValue(true);
-                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.farm",     "LaneClear")).SetValue(true);
-                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.mana",     "LaneClear: Mana >= x%"))
+                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.combo", "Combo")).SetValue(true);
+                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.farm",  "LaneClear")).SetValue(true);
+                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.ks",    "KillSteal")).SetValue(true);
+                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.ks",    "Harass Impaired Enemies")).SetValue(true);
+                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.mana",  "LaneClear: Mana >= x%"))
                         .SetValue(new Slider(50, 0, 99));
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.QMenu);
@@ -34,26 +36,26 @@ namespace ExorAIO.Champions.Jinx
                 Variables.WMenu = new Menu("Use W to:", $"{Variables.MainMenuName}.wmenu")
                     .SetFontStyle(FontStyle.Regular, Color.Purple);
                 {
-                    Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.combo",    "Combo")).SetValue(true);
-                    Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.ks",       "KillSteal")).SetValue(true);
-                    Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.immobile", "Harass Impaired Enemies")).SetValue(true);
+                    Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.auto",  "Logical")).SetValue(true);
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.WMenu);
 
                 Variables.EMenu = new Menu("Use E to:", $"{Variables.MainMenuName}.emenu")
                     .SetFontStyle(FontStyle.Regular, Color.Cyan);
                 {
-                    Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.espell.auto",     "Logical")).SetValue(true);
-                    Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.espell.immobile", "Harass Impaired Enemies")).SetValue(true);
+                    Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.espell.combo", "Combo")).SetValue(true);
+                    Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.espell.ks",    "KillSteal")).SetValue(true);
+                    Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.espell.ir",    "Interrupt Enemy Channels")).SetValue(true);
+                    Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.espell.gp",    "Anti-Gapcloser")).SetValue(true);
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.EMenu);
 
                 Variables.RMenu = new Menu("Use R to:", $"{Variables.MainMenuName}.rmenu")
                     .SetFontStyle(FontStyle.Regular, Color.Red);
                 {
-                    Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rspell.ks",       "KillSteal")).SetValue(true);
+                    Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rspell.auto",  "Logical")).SetValue(true);
                 }
-                Variables.SettingsMenu.AddSubMenu(Variables.RMenu);
+                Variables.SettingsMenu.AddSubMenu(Variables.EMenu);
             }
             Variables.Menu.AddSubMenu(Variables.SettingsMenu);
 

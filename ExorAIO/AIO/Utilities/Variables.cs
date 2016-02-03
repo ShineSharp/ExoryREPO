@@ -3,6 +3,8 @@ using LeagueSharp.Common;
 
 namespace ExorAIO.Utilities
 {
+    using System.Collections.Generic;
+    using SharpDX;
     using Orbwalking = SFXTargetSelector.Orbwalking;
 
     /// <summary>
@@ -117,8 +119,21 @@ namespace ExorAIO.Utilities
         {
             "Akali", "Ashe", "Cassiopeia", "Corki", "Darius",
             "DrMundo", "Ezreal", "Graves", "Jax", "Jinx",
-            "KogMaw", "Lux", "Olaf", "Renekton", "Sivir",
-            "Tristana", "Tryndamere", "Vayne"
+            "KogMaw", "Lux", "Olaf", "Quinn", "Renekton",
+            "Sivir", "Tristana", "Tryndamere", "Vayne"
+        };
+
+        /// <summary>
+        /// Gets all the important jungle locations.
+        /// </summary>
+        internal static readonly List<Vector3> Locations = new List<Vector3>
+        {
+            new Vector3(9827.56f,  4426.136f, -71.2406f),
+            new Vector3(4951.126f, 10394.05f, -71.2406f),
+            new Vector3(10998.14f, 6954.169f, 51.72351f),
+            new Vector3(7082.083f, 10838.25f, 56.2041f),
+            new Vector3(3804.958f, 7875.456f, 52.11121f),
+            new Vector3(7811.249f, 4034.486f, 53.81299f)
         };
 
         /// <summary>

@@ -22,7 +22,7 @@ namespace ExorAIO.Champions.Jinx
             Variables.R = new Spell(SpellSlot.R, 4000f);
 
             Variables.W.SetSkillshot(0.6f, 60f, 3300f, true, SkillshotType.SkillshotLine);
-            Variables.E.SetSkillshot(1.5f, 50f, 1000f, false, SkillshotType.SkillshotCircle);
+            Variables.E.SetSkillshot(0.4f, 50f, 2000f, false, SkillshotType.SkillshotCircle);
             Variables.R.SetSkillshot(0.6f, 140f, 1700f, false, SkillshotType.SkillshotLine);
         }
     }

@@ -44,7 +44,7 @@ namespace ExorKalista
                             b.HasBuff("kalistacoopstrikeally"));
 
                 /// <summary>
-                /// The Target preference.
+                /// The target priority.
                 /// </summary>
                 if (TargetSelector.Weights.GetItem("low-health") != null)
                 {

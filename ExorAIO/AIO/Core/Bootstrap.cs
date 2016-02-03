@@ -18,6 +18,7 @@ namespace ExorAIO.Core
     using ExorAIO.Champions.KogMaw;
     using ExorAIO.Champions.Lux;
     using ExorAIO.Champions.Olaf;
+    using ExorAIO.Champions.Quinn;
     using ExorAIO.Champions.Renekton;
     using ExorAIO.Champions.Sivir;
     using ExorAIO.Champions.Tristana;
@@ -75,6 +76,7 @@ namespace ExorAIO.Core
                     case "KogMaw":     new KogMaw()    .OnLoad(); break;
                     case "Lux":        new Lux()       .OnLoad(); break;
                     case "Olaf":       new Olaf()      .OnLoad(); break;
+                    case "Quinn":      new Quinn()     .OnLoad(); break;
                     case "Renekton":   new Renekton()  .OnLoad(); break;
                     case "Sivir":      new Sivir()     .OnLoad(); break;
                     case "Tristana":   new Tristana()  .OnLoad(); break;
