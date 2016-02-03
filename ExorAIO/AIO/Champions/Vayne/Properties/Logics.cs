@@ -103,7 +103,13 @@ namespace ExorAIO.Champions.Vayne
                         Variables.W.GetDamage((Obj_AI_Hero)target) : 0) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.ks").GetValue<bool>())
             {
-                Variables.E.CastOnUnit((Obj_AI_Hero)target);
+                Utility.DelayAction.Add(
+                    (int)(Game.Ping / 2f + 25), // BroScience? Pls check The Orbwalking.CanAttack method fgt.
+                    () =>
+                    {
+                        Variables.E.CastOnUnit((Obj_AI_Hero)target);
+                    }
+                );
             }
         }
 

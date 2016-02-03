@@ -17,7 +17,7 @@ namespace ExorAIO.Champions.Vayne
         {
             float dmg = 0f;
 
-            if (Bools.Has2WStacks(target))
+            if (target.GetBuffCount("vaynesilvereddebuff") == 2)
             {
                 dmg += Variables.W.GetDamage(target);
             }

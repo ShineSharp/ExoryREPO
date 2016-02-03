@@ -39,16 +39,6 @@ namespace ExorAIO.Utilities
             target.HasBuffOfType(BuffType.Suppression);
 
         /// <summary>
-        /// Gets a value indicating whether a determined champion has 2 Vayne's W stacks or not.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if the target has 2 silver bolt stacks.; otherwise, <c>false</c>.
-        /// </value>
-        public static bool Has2WStacks(Obj_AI_Base target)
-        =>
-            target.GetBuffCount("vaynesilvereddebuff") == 2;
-
-        /// <summary>
         /// Gets a value indicating whether the Vayne player should stay faded or not.
         /// </summary>
         /// <value>
@@ -57,8 +47,7 @@ namespace ExorAIO.Utilities
         public static bool ShouldStayFaded()
         =>
             ObjectManager.Player.HasBuff("vaynetumblefade") &&
-            ObjectManager.Player.CountEnemiesInRange(1000) > 2 &&
-            Variables.Menu.Item($"{Variables.MainMenuName}.miscsettings.noaastealth").GetValue<bool>();
+            Variables.Menu.Item($"{Variables.MainMenuName}.misc.stealth").GetValue<bool>();
 
         /// <summary>
         /// Gets a value indicating whether a determined champion has a stackable item.
