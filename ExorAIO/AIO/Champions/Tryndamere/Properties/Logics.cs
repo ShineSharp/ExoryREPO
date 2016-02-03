@@ -62,7 +62,7 @@ namespace ExorAIO.Champions.Tryndamere
             if (Variables.R.IsReady() &&
                 !Variables.Q.IsReady() &&
                 ObjectManager.Player.CountEnemiesInRange(700f) > 0 &&
-                HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(250 + Game.Ping / 2f)) <= ObjectManager.Player.MaxHealth/6 &&
+                HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(250 + Game.Ping / 2f)) <= ObjectManager.Player.MaxHealth/4 &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.rspell.lifesaver").GetValue<bool>())
             {
                 Variables.R.Cast();
