@@ -22,20 +22,6 @@ namespace ExorAIO.Champions.Quinn
         public static void ExecuteAuto(EventArgs args)
         {
             /// <summary>
-            /// The R Logic.
-            /// </summary>
-            if (Variables.R.IsReady() &&
-
-                ((ObjectManager.Player.InFountain() &&
-                    Variables.R.Instance.Name.Equals("QuinnR")) ||
-
-                (Targets.Target.IsMelee() &&
-                    !Variables.R.Instance.Name.Equals("QuinnR"))))
-            {
-                Variables.R.Cast();
-            }
-
-            /// <summary>
             /// The Q Combo Logic,
             /// The Q KillSteal Logic,
             /// The Q Against Impaired Targets Logic.
@@ -43,7 +29,7 @@ namespace ExorAIO.Champions.Quinn
             if (Variables.Q.IsReady() &&
                 !ObjectManager.Player.IsWindingUp &&
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
-                Variables.W.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
+                Variables.Q.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
 
                 ((Targets.Target.Health < Variables.Q.GetDamage(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").GetValue<bool>()) ||
@@ -80,7 +66,7 @@ namespace ExorAIO.Champions.Quinn
                 ((Targets.Target.Health < Variables.E.GetDamage(Targets.Target) + ObjectManager.Player.GetAutoAttackDamage(Targets.Target)*2 &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.espell.ks").GetValue<bool>()) ||
 
-                (!Variables.R.Instance.Name.Equals("QuinnR") &&
+                (ObjectManager.Player.HasBuff("QuinnR") &&
                     Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     !Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").GetValue<bool>())))
@@ -100,10 +86,12 @@ namespace ExorAIO.Champions.Quinn
             /// The Q Combo Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
+                !((Obj_AI_Hero)args.Target).HasBuff("quinnw") &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                Variables.Q.GetPrediction((Obj_AI_Hero)args.Target).Hitchance >= HitChance.High &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").GetValue<bool>())
             {
-                Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
+                Variables.Q.Cast(Variables.Q.GetPrediction((Obj_AI_Hero)args.Target).UnitPosition);
                 return;
             }
 
@@ -111,6 +99,8 @@ namespace ExorAIO.Champions.Quinn
             /// The E Combo Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
+                ObjectManager.Player.HasBuff("QuinnR") &&
+                !((Obj_AI_Hero)args.Target).HasBuff("quinnw") &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").GetValue<bool>())
             {

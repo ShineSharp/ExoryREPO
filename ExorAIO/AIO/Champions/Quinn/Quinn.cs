@@ -29,13 +29,30 @@ namespace ExorAIO.Champions.Quinn
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void OnUpdate(EventArgs args)
         {
-            if (Targets.Target != null &&
-                Targets.Target.IsValid &&
-                !ObjectManager.Player.IsDead &&
-                Bools.HasNoProtection(Targets.Target) &&
-                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
+            if (!ObjectManager.Player.IsDead)
             {
-                Logics.ExecuteAuto(args);
+                /// <summary>
+                /// The R Logic.
+                /// </summary>
+                if (Variables.R.IsReady() &&
+
+                    ((ObjectManager.Player.InFountain() &&
+                        !ObjectManager.Player.HasBuff("QuinnR")) ||
+
+                    (Targets.Target != null &&
+                        Targets.Target.IsMelee() &&
+                        ObjectManager.Player.HasBuff("QuinnR"))))
+                {
+                    Variables.R.Cast();
+                }
+
+                if (Targets.Target != null &&
+                    Targets.Target.IsValid &&
+                    Bools.HasNoProtection(Targets.Target) &&
+                    Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
+                {
+                    Logics.ExecuteAuto(args);
+                }
             }
         }
 
