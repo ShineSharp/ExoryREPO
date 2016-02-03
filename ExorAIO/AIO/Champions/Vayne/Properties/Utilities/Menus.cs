@@ -45,7 +45,7 @@ namespace ExorAIO.Champions.Vayne
                                 Variables.WhiteListMenu
                                     .AddItem(
                                         new MenuItem(
-                                            $"{Variables.MainMenuName}.esettings.ewhitelist.{champ.ChampionName.ToLower()}",
+                                            $"{Variables.MainMenuName}.espell.whitelist.{champ.ChampionName.ToLower()}",
                                             $"Condemn Only: {champ.ChampionName}")
                                     .SetValue(true)
                                 );
