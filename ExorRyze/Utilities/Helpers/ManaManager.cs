@@ -13,6 +13,7 @@ namespace ExorRyze
         /// </summary>
         public static int NeededQMana
         => 
+            (int)Variables.Q.ManaCost +
             Variables.Menu.Item($"{Variables.MainMenuName}.qspell.mana").GetValue<Slider>().Value;
 
         /// <summary>
@@ -20,6 +21,7 @@ namespace ExorRyze
         /// </summary>
         public static int NeededWMana 
         =>
+            (int)Variables.W.ManaCost +
             Variables.Menu.Item($"{Variables.MainMenuName}.wspell.mana").GetValue<Slider>().Value;
 
         /// <summary>
@@ -27,6 +29,7 @@ namespace ExorRyze
         /// </summary>
         public static int NeededEMana
         =>
+            (int)Variables.E.ManaCost +
             Variables.Menu.Item($"{Variables.MainMenuName}.espell.mana").GetValue<Slider>().Value;
 
         /// <summary>
@@ -34,6 +37,7 @@ namespace ExorRyze
         /// </summary>
         public static int NeededTearMana
         =>
+            (int)Variables.Q.ManaCost +
             Variables.Menu.Item($"{Variables.MainMenuName}.misc.tearmana").GetValue<Slider>().Value;
     }
 }

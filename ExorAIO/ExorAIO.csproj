@@ -158,9 +158,12 @@
     <Compile Include="AIO\Champions\Tristana\Properties\Utilities\Spells.cs" />
     <Compile Include="AIO\Champions\Tristana\Properties\Utilities\Targets.cs" />
     <Compile Include="AIO\Champions\Tristana\Properties\Utilities\Killsteal.cs" />
-    <Compile Include="AIO\Champions\Tryndamere\Utilities\Logics.cs" />
-    <Compile Include="AIO\Champions\Tryndamere\Utilities\Utility.cs" />
     <Compile Include="AIO\Champions\Tryndamere\Tryndamere.cs" />
+    <Compile Include="AIO\Champions\Tryndamere\Properties\Logics.cs" />
+    <Compile Include="AIO\Champions\Tryndamere\Properties\Utilities\Menus.cs" />
+    <Compile Include="AIO\Champions\Tryndamere\Properties\Utilities\Methods.cs" />
+    <Compile Include="AIO\Champions\Tryndamere\Properties\Utilities\Spells.cs" />
+    <Compile Include="AIO\Champions\Tryndamere\Properties\Utilities\Targets.cs" />
     <Compile Include="AIO\Champions\Vayne\Utilities\Logics.cs" />
     <Compile Include="AIO\Champions\Vayne\Utilities\Utility.cs" />
     <Compile Include="AIO\Champions\Vayne\Vayne.cs" />

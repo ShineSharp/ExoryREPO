@@ -28,7 +28,7 @@ namespace NabbTracker
                     for (int Spell = 0; Spell < Variables.SpellSlots.Count(); Spell++)
                     {
                         Variables.SpellX = (int)pg.HPBarPosition.X + 10 + (Spell * 25);
-                        Variables.SpellY = (int)pg.HPBarPosition.Y + 35;
+                        Variables.SpellY = (int)pg.HPBarPosition.Y + (pg.ChampionName.Equals("Jhin") ? 25 : 35);
 
                         Variables.DisplayTextFont.DrawText(
                             null,

@@ -12,7 +12,8 @@ namespace ExorLucian
         /// Sets the minimum necessary mana to use the Q spell.
         /// </summary>
         public static int NeededQMana
-        => 
+        =>
+           (int)Variables.Q.ManaCost +
             Variables.Menu.Item($"{Variables.MainMenuName}.qspell.mana").GetValue<Slider>().Value;
 
         /// <summary>
@@ -20,6 +21,7 @@ namespace ExorLucian
         /// </summary>
         public static int NeededWMana 
         =>
+            (int)Variables.W.ManaCost +
             Variables.Menu.Item($"{Variables.MainMenuName}.wspell.mana").GetValue<Slider>().Value;
 
         /// <summary>
@@ -27,6 +29,7 @@ namespace ExorLucian
         /// </summary>
         public static int NeededEMana
         =>
+            (int)Variables.E.ManaCost +
             Variables.Menu.Item($"{Variables.MainMenuName}.espell.mana").GetValue<Slider>().Value;
     }
 }
