@@ -21,8 +21,11 @@ namespace NabbActivator
             /// The Muramana.
             /// </summary>
             if (ItemData.Muramana.GetItem().IsReady() &&
-                ((!ObjectManager.Player.HasBuff("muramana") && Variables.Menu.Item($"{Variables.MainMenuName}.combo_button").GetValue<KeyBind>().Active) ||
-                (ObjectManager.Player.HasBuff("muramana") && !Variables.Menu.Item($"{Variables.MainMenuName}.combo_button").GetValue<KeyBind>().Active)))
+                ((!ObjectManager.Player.HasBuff("muramana") &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.combo_button").GetValue<KeyBind>().Active) ||
+
+                (ObjectManager.Player.HasBuff("muramana") &&
+                    !Variables.Menu.Item($"{Variables.MainMenuName}.combo_button").GetValue<KeyBind>().Active)))
             {
                 ItemData.Muramana.GetItem().Cast();
             }
