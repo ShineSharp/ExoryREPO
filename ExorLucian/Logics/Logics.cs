@@ -88,6 +88,7 @@ namespace ExorLucian
                 Targets.Target.IsValidTarget(Variables.E.Range) &&
                 !Targets.Target.IsValidTarget(Variables.Q.Range) &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                (!Game.CursorPos.UnderTurret() || ((Obj_AI_Hero)args.Target).Health < ObjectManager.Player.GetAutoAttackDamage((Obj_AI_Hero)args.Target)) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.auto").GetValue<bool>())
             {
                 Variables.E.Cast(Game.CursorPos);
@@ -116,8 +117,9 @@ namespace ExorLucian
             /// The E Combo Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
-                ((Obj_AI_Hero)args.Target).IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                ((Obj_AI_Hero)args.Target).IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
+                (!Game.CursorPos.UnderTurret() || ((Obj_AI_Hero)args.Target).Health < ObjectManager.Player.GetAutoAttackDamage((Obj_AI_Hero)args.Target)) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.auto").GetValue<bool>())
             {
                 if (ObjectManager.Player.CountEnemiesInRange(1500) >= 2 ||
