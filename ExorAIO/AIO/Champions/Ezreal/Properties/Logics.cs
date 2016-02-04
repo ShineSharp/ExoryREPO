@@ -84,14 +84,23 @@ namespace ExorAIO.Champions.Ezreal
             }
 
             /// <summary>
-            /// The R KillSteal Logic.
+            /// The R KillSteal Logic,
+            /// The R Combo Logic.
             /// </summary>
             if (Variables.R.IsReady() &&
+                !ObjectManager.Player.IsWindingUp &&
                 Targets.Target.IsValidTarget(1500f) &&
-                Targets.Target.Health < Variables.R.GetDamage(Targets.Target) &&
-                (!Variables.W.IsReady() || !Targets.Target.IsValidTarget(Variables.W.Range)) &&
-                (!Variables.Q.IsReady() || !Targets.Target.IsValidTarget(Variables.Q.Range)) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").GetValue<bool>())
+                
+                ((Targets.Target.Health < Variables.R.GetDamage(Targets.Target) &&
+                    (!Variables.W.IsReady() || !Targets.Target.IsValidTarget(Variables.W.Range)) &&
+                    (!Variables.Q.IsReady() || !Targets.Target.IsValidTarget(Variables.Q.Range)) &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").GetValue<bool>()) ||
+                
+                (!Variables.Q.IsReady() &&
+                    !Variables.W.IsReady() &&
+                    Targets.Target.CountEnemiesInRange(Variables.R.Width) >= 2 &&
+                    Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").GetValue<bool>())))
             {
                 Variables.R.Cast(Variables.R.GetPrediction(Targets.Target).UnitPosition);
             }
@@ -126,20 +135,6 @@ namespace ExorAIO.Champions.Ezreal
                 Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").GetValue<bool>())
             {
                 Variables.W.Cast(Variables.W.GetPrediction((Obj_AI_Hero)args.Target).UnitPosition);
-                return;
-            }
-
-            /// <summary>
-            /// The R Combo Logic.
-            /// </summary>
-            if (Variables.R.IsReady() &&
-                !Variables.Q.IsReady() &&
-                !Variables.W.IsReady() &&
-                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").GetValue<bool>() &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.whitelist.{((Obj_AI_Hero)args.Target).ChampionName.ToLower()}").GetValue<bool>())
-            {
-                Variables.R.Cast(Variables.R.GetPrediction((Obj_AI_Hero)args.Target).UnitPosition);
             }
         }
 
