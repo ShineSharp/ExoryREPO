@@ -1,3 +1,4 @@
+using LeagueSharp;
 using LeagueSharp.Common;
 
 namespace ExorAIO.Champions.Ezreal
