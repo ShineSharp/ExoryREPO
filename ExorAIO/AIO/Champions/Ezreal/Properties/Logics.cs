@@ -49,7 +49,11 @@ namespace ExorAIO.Champions.Ezreal
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
                 Variables.Q.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
 
-                ((Targets.Target.Health < Variables.Q.GetDamage(Targets.Target) &&
+                ((Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                    !Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").GetValue<bool>()) ||
+                
+                (Targets.Target.Health < Variables.Q.GetDamage(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").GetValue<bool>()) ||
 
                 (ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
@@ -85,8 +89,8 @@ namespace ExorAIO.Champions.Ezreal
             if (Variables.R.IsReady() &&
                 Targets.Target.IsValidTarget(1500f) &&
                 Targets.Target.Health < Variables.R.GetDamage(Targets.Target) &&
-                !Variables.W.IsReady() || !Targets.Target.IsValidTarget(Variables.W.Range) &&
-                !Variables.Q.IsReady() || !Targets.Target.IsValidTarget(Variables.Q.Range) &&
+                (!Variables.W.IsReady() || !Targets.Target.IsValidTarget(Variables.W.Range)) &&
+                (!Variables.Q.IsReady() || !Targets.Target.IsValidTarget(Variables.Q.Range)) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").GetValue<bool>())
             {
                 Variables.R.Cast(Variables.R.GetPrediction(Targets.Target).UnitPosition);
