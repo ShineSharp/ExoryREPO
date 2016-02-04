@@ -34,11 +34,11 @@ namespace ExorAIO.Champions.Jinx
                     case Orbwalking.OrbwalkingMode.Mixed:
 
                         if (((!ObjectManager.Player.HasBuff("JinxQ") &&
-                            !Targets.Target.IsValidTarget(Variables.Q.Range) &&
-                            Targets.Target.IsValidTarget(Variables.Q2.Range)) ||
+                                !Targets.Target.IsValidTarget(Variables.Q.Range) &&
+                                Targets.Target.IsValidTarget(Variables.Q2.Range)) ||
 
                             (ObjectManager.Player.HasBuff("JinxQ") &&
-                            !Targets.Target.IsValidTarget(Variables.Q2.Range))) &&
+                                Targets.Target.IsValidTarget(Variables.Q.Range))) &&
                             Variables.Menu.Item($"{Variables.MainMenuName}.qspell.auto").GetValue<bool>())
                         {
                             Variables.Q.Cast();
@@ -76,8 +76,7 @@ namespace ExorAIO.Champions.Jinx
 
             /// <summary>
             /// The W KillSteal Logic,
-            /// The W Immobile Harass Logic,
-            /// The W Combo Part.1 Logic.
+            /// The W Immobile Harass Logic.
             /// </summary>
             if (Variables.W.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.W.Range) &&
@@ -87,9 +86,6 @@ namespace ExorAIO.Champions.Jinx
                 ((Targets.Target.Health < Variables.W.GetDamage(Targets.Target) &&
                     Targets.Target.Health > ObjectManager.Player.GetAutoAttackDamage(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.wspell.ks").GetValue<bool>()) ||
-
-                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").GetValue<bool>()) ||
 
                 (Bools.IsImmobile(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.wspell.immobile").GetValue<bool>())))
@@ -163,11 +159,11 @@ namespace ExorAIO.Champions.Jinx
         public static void ExecuteModes(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             /// <summary>
-            /// The W Combo Part2 Logic.
+            /// The W Combo Logic.
             /// </summary>
             if (Variables.W.IsReady() &&
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.W.Range) &&
-                ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.Q2.Range) &&
+                !((Obj_AI_Hero)args.Target).IsValidTarget(Variables.Q.Range) &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.W.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").GetValue<bool>())
