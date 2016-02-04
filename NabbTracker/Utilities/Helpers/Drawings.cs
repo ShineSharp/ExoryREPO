@@ -75,7 +75,7 @@ namespace NabbTracker
                     for (int SummonerSpell = 0; SummonerSpell < Variables.SummonerSpellSlots.Count(); SummonerSpell++)
                     {
                         Variables.SummonerSpellX = (int)pg.HPBarPosition.X + 10 + (SummonerSpell * 88);
-                        Variables.SummonerSpellY = (int)pg.HPBarPosition.Y + 4;
+                        Variables.SummonerSpellY = (int)pg.HPBarPosition.Y + (pg.ChampionName.Equals("Jhin") ? -6 : 4);
 
                         switch (pg.Spellbook.GetSpell(Variables.SummonerSpellSlots[SummonerSpell]).Name.ToLower())
                         {
