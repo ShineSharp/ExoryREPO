@@ -38,7 +38,7 @@ namespace ExorAIO.Champions.Ezreal
                 {
                     Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.combo",    "Combo")).SetValue(true);
                     Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.ks",       "KillSteal")).SetValue(true);
-                    Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.harass",   "AutoHarass")).SetValue(true);
+                    Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.harass",   "AutoHarass")).SetValue(ObjectManager.Player.TotalMagicalDamage > ObjectManager.Player.FlatPhysicalDamageMod);
                     Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.mana",     "AutoHarass: Mana >= x"))
                         .SetValue(new Slider(50, 10, 99));
                     
@@ -76,8 +76,8 @@ namespace ExorAIO.Champions.Ezreal
             /// </summary>
             Variables.MiscMenu = new Menu("Miscellaneous", $"{Variables.MainMenuName}.miscmenu");
             {
-                Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.misc.stacktear", "Stack Tear")).SetValue(true);
-                Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.misc.stacktearmana", "Stack Tear: Mana > x%"))
+                Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.misc.tear",        "Stack Tear")).SetValue(true);
+                Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.misc.tearmana",    "Stack Tear: Mana > x%"))
                     .SetValue(new Slider(80, 1, 95));
             }
             Variables.Menu.AddSubMenu(Variables.MiscMenu);

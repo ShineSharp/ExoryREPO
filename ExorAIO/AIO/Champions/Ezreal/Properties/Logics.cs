@@ -28,7 +28,7 @@ namespace ExorAIO.Champions.Ezreal
                 ObjectManager.Player.CountEnemiesInRange(1500) == 0 &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededTearMana &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.None &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.misc.stacktear").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.misc.tear").GetValue<bool>())
             {
                 Variables.Q.Cast(Game.CursorPos);
             }
@@ -84,7 +84,6 @@ namespace ExorAIO.Champions.Ezreal
             /// </summary>
             if (Variables.R.IsReady() &&
                 Targets.Target.IsValidTarget(1500f) &&
-                Bools.HasNoProtection(Targets.Target) &&
                 Targets.Target.Health < Variables.R.GetDamage(Targets.Target) &&
                 !Variables.W.IsReady() || !Targets.Target.IsValidTarget(Variables.W.Range) &&
                 !Variables.Q.IsReady() || !Targets.Target.IsValidTarget(Variables.Q.Range) &&
@@ -105,7 +104,6 @@ namespace ExorAIO.Champions.Ezreal
             /// The Q Combo Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
-                Bools.HasNoProtection((Obj_AI_Hero)args.Target) &&
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.Q.Range) &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Q.GetPrediction((Obj_AI_Hero)args.Target).Hitchance >= HitChance.High &&
@@ -133,7 +131,6 @@ namespace ExorAIO.Champions.Ezreal
             if (Variables.R.IsReady() &&
                 !Variables.Q.IsReady() &&
                 !Variables.W.IsReady() &&
-                Bools.HasNoProtection((Obj_AI_Hero)args.Target) &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").GetValue<bool>() &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.rspell.whitelist.{((Obj_AI_Hero)args.Target).ChampionName.ToLower()}").GetValue<bool>())
@@ -159,7 +156,7 @@ namespace ExorAIO.Champions.Ezreal
                     GameObjects.Jungle.Contains((Obj_AI_Minion)args.Target)) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").GetValue<bool>())
             {
-                Variables.Q.Cast((Obj_AI_Minion)args.Target);
+                Variables.Q.Cast(((Obj_AI_Minion)args.Target).Position);
             }
         }
     }
