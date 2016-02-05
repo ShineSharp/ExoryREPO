@@ -41,7 +41,8 @@ namespace ExorAIO.Champions.Quinn
                     ((ObjectManager.Player.InFountain() &&
                         Variables.R.Instance.Name.Equals("QuinnR")) ||
 
-                    (Targets.Target.IsMelee() &&
+                    ((Targets.Target.IsValidTarget(500f) ||
+                        Targets.Target.CountEnemiesInRange(1000f) > 1) &&
                         Variables.R.Instance.Name.Equals("quinnrfinale"))))
                 {
                     Variables.R.Cast();
