@@ -37,8 +37,12 @@ namespace ExorAIO.Champions.Quinn
                 /// The R Logic.
                 /// </summary>
                 if (Variables.R.IsReady() &&
-                    ObjectManager.Player.InFountain() &&
-                    Variables.R.Instance.Name.Equals("QuinnR"))
+
+                    ((ObjectManager.Player.InFountain() &&
+                        Variables.R.Instance.Name.Equals("QuinnR")) ||
+
+                    (Targets.Target.IsMelee() &&
+                        Variables.R.Instance.Name.Equals("quinnrfinale"))))
                 {
                     Variables.R.Cast();
                 }

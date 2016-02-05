@@ -66,9 +66,10 @@ namespace ExorAIO.Champions.Quinn
                 ((Targets.Target.Health < Variables.E.GetDamage(Targets.Target) + ObjectManager.Player.GetAutoAttackDamage(Targets.Target)*2 &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.espell.ks").GetValue<bool>()) ||
 
-                (Variables.R.Instance.Name.Equals("quinnrfinale") &&
+                (!Targets.Target.IsMelee() &&
+                    Targets.Target.CountEnemiesInRange(1000f) == 0 &&
+                    Variables.R.Instance.Name.Equals("quinnrfinale") &&
                     Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    !Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").GetValue<bool>())))
             {
                 Variables.E.CastOnUnit(Targets.Target);
