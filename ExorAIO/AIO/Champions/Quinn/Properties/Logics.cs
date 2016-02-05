@@ -49,7 +49,7 @@ namespace ExorAIO.Champions.Quinn
                 Variables.Menu.Item($"{Variables.MainMenuName}.wspell.auto").GetValue<bool>())
             {
                 if (Variables.Locations
-                    .Any(h => ObjectManager.Player.Distance(h) < Variables.W.Range))
+                    .Any(h => ObjectManager.Player.Distance(h) < 250f))
                 {
                     Variables.W.Cast();
                 }
