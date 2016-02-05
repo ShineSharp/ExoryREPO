@@ -100,7 +100,6 @@ namespace ExorAIO.Champions.Quinn
             /// </summary>
             if (Variables.E.IsReady() &&
                 !((Obj_AI_Hero)args.Target).HasBuff("quinnw") &&
-                Variables.R.Instance.Name.Equals("quinnrfinale") &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").GetValue<bool>())
             {

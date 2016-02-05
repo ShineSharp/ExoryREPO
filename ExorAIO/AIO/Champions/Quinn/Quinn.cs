@@ -31,6 +31,8 @@ namespace ExorAIO.Champions.Quinn
         {
             if (!ObjectManager.Player.IsDead)
             {
+                Variables.Orbwalker.SetAttack(!Variables.R.Instance.Name.Equals("quinnrfinale"));
+
                 /// <summary>
                 /// The R Logic.
                 /// </summary>
