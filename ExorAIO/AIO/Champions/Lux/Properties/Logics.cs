@@ -22,11 +22,11 @@ namespace ExorAIO.Champions.Lux
             /// <summary>
             /// The E Management.
             /// </summary>
-            if (Bools.CanUseE() &&
-                !Variables.R.IsReady() &&
+            if (!Variables.R.IsReady() &&
                 Targets.Target.HasBuffOfType(BuffType.Slow) &&
                 (!Targets.Target.HasBuff("luxilluminatingfraulein") ||
-                    Targets.Target.Health < Variables.E.GetDamage(Targets.Target)))
+                    Targets.Target.Health < Variables.E.GetDamage(Targets.Target) &&)
+                ObjectManager.Player.Spellbook.GetSpell(SpellSlot.E).ToggleState == 1)
             {
                 Variables.E.Cast();
             }
@@ -53,9 +53,9 @@ namespace ExorAIO.Champions.Lux
                 ((Targets.Target.Health < Variables.R.GetDamage(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").GetValue<bool>()) ||
 
-                (Bools.CanUseE() &&
-                    Targets.Target.HasBuff("luxilluminatingfraulein") &&
+                (Targets.Target.HasBuff("luxilluminatingfraulein") &&
                     Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                    ObjectManager.Player.Spellbook.GetSpell(SpellSlot.E).ToggleState == 1 &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").GetValue<bool>())))
             {
                 Variables.R.Cast(Variables.R.GetPrediction(Targets.Target).UnitPosition);

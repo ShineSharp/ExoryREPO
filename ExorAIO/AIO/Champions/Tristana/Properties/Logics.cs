@@ -45,7 +45,7 @@ namespace ExorAIO.Champions.Tristana
             /// </summary>
             if (Variables.Q.IsReady() &&
                 ObjectManager.Player.IsWindingUp &&
-                (Bools.IsCharged(Targets.Target) || !Variables.E.IsReady()) &&
+                (Targets.Target.HasBuff("TristanaECharge") || !Variables.E.IsReady()) &&
 
                 ((Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").GetValue<bool>()) ||

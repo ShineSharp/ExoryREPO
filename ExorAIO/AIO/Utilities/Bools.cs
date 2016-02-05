@@ -39,17 +39,6 @@ namespace ExorAIO.Utilities
             target.HasBuffOfType(BuffType.Suppression);
 
         /// <summary>
-        /// Gets a value indicating whether the Vayne player should stay faded or not.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if the player should stay faded.; otherwise, <c>false</c>.
-        /// </value>
-        public static bool ShouldStayFaded()
-        =>
-            ObjectManager.Player.HasBuff("vaynetumblefade") &&
-            Variables.Menu.Item($"{Variables.MainMenuName}.misc.stealth").GetValue<bool>();
-
-        /// <summary>
         /// Gets a value indicating whether a determined champion has a stackable item.
         /// </summary>
         /// <value>
@@ -65,26 +54,6 @@ namespace ExorAIO.Utilities
                     item.Id.Equals(ItemId.Tear_of_the_Goddess_Crystal_Scar) ||
                     item.Id.Equals(ItemId.Archangels_Staff_Crystal_Scar) ||
                     item.Id.Equals(ItemId.Manamune_Crystal_Scar));
-
-        /// <summary>
-        /// Gets a value indicating whether the Corki has the Big One charged.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if the Corki has the Big One charged.; otherwise, <c>false</c>.
-        /// </value>
-        public static bool HasFullPowerUltimate()
-        =>
-            ObjectManager.Player.HasBuff("corkimissilebarragecounterbig");
-
-        /// <summary>
-        /// Gets a value indicating whether a determined game object has Tristana's E stack on it.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if the the target has a Tristana charge.; otherwise, <c>false</c>.
-        /// </value>
-        public static bool IsCharged(Obj_AI_Base obj)
-        =>
-            obj.HasBuff("TristanaECharge");
 
         /// <summary>
         /// Gets a value indicating whether a determined root is worth cleansing.
@@ -108,7 +77,6 @@ namespace ExorAIO.Utilities
         public static bool ShouldCleanse(Obj_AI_Hero target)
         =>
             Bools.IsValidSnare() ||
-            target.HasBuff("summonerdot") ||
             target.HasBuff("summonerexhaust") ||
             Bools.HasNoProtection(ObjectManager.Player) &&
             (
@@ -118,16 +86,5 @@ namespace ExorAIO.Utilities
                 target.HasBuffOfType(BuffType.Taunt) ||
                 target.HasBuffOfType(BuffType.Polymorph)
             );
-
-        /// <summary>
-        /// Gets a value indicating whether the e is activated.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if the E is currently being toggled.; otherwise, <c>false</c>.
-        /// </value>
-        public static bool CanUseE()
-        =>
-            Variables.EGameObject != null ||
-            ObjectManager.Player.Spellbook.GetSpell(SpellSlot.E).ToggleState == 1;
     }
 }

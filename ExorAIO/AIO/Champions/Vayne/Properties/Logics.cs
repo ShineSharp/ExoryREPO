@@ -24,7 +24,11 @@ namespace ExorAIO.Champions.Vayne
             /// <summary>
             /// The No AA when Stealthed Logic.
             /// </summary>
-            Variables.Orbwalker.SetAttack(!Bools.ShouldStayFaded());
+            if (ObjectManager.Player.HasBuff("vaynetumblefade") &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.misc.stealth").GetValue<bool>())
+            {
+                Variables.Orbwalker.SetAttack(false);
+            }
 
             /// <summary>
             /// The E Logic.

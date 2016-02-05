@@ -14,7 +14,7 @@ namespace ExorAIO.Champions.Tristana
         {
             float dmg = 0f;
 
-            if (Bools.IsCharged(target))
+            if (target.HasBuff("TristanaECharge"))
             {
                 dmg += Variables.E.GetDamage(target);
             }
