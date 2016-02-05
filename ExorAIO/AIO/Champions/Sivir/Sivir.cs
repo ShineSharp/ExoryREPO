@@ -46,12 +46,16 @@ namespace ExorAIO.Champions.Sivir
         /// <param name="args">The args.</param>
         public static void OnProcessSpellCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            if (sender != null &&
-                sender.IsEnemy &&
-                args.Target != null &&
-                args.Target.IsValid &&
+            if (args.Target != null &&
                 args.Target.IsMe &&
-                sender.IsValid<Obj_AI_Hero>() &&
+                args.Target.IsValid &&
+
+                ((sender.IsEnemy &&
+                    sender.IsValid<Obj_AI_Hero>()) ||
+
+                (sender.IsValid<Obj_AI_Minion>() &&
+                    sender.CharData.BaseSkinName.Equals("SRU_Dragon"))) &&
+
                 Bools.HasNoProtection(ObjectManager.Player))
             {
                 Logics.ExecuteShield(sender, args);

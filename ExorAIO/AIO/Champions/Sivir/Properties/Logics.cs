@@ -50,15 +50,15 @@ namespace ExorAIO.Champions.Sivir
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.auto").GetValue<bool>())
             {
                 if (args.SData.IsAutoAttack() ||
-                    (args.SData.TargettingType.Equals(SpellDataTargetType.SelfAoe) && 
-                        !args.SData.Name.Equals("MockingShout")))
+                    (!args.SData.Name.Equals("MockingShout") &&
+                        args.SData.TargettingType.Equals(SpellDataTargetType.SelfAoe)))
                 {
                     return;
                 }
 
                 Utility.DelayAction.Add(
-                    ((Obj_AI_Hero)sender).ChampionName.Equals("Zed") &&
-                        args.SData.TargettingType.Equals(SpellDataTargetType.Self) ? 200 : 0,
+                    sender.CharData.BaseSkinName.Equals("Zed") &&
+                    args.SData.TargettingType.Equals(SpellDataTargetType.Self) ? 200 : 0,
                 () =>
                     {
                         Variables.E.Cast();
