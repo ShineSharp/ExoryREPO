@@ -37,13 +37,8 @@ namespace ExorAIO.Champions.Quinn
                 /// The R Logic.
                 /// </summary>
                 if (Variables.R.IsReady() &&
-
-                    ((ObjectManager.Player.InFountain() &&
-                        Variables.R.Instance.Name.Equals("QuinnR")) ||
-
-                    ((Targets.Target.IsValidTarget(500f) ||
-                        Targets.Target.CountEnemiesInRange(1000f) > 1) &&
-                        Variables.R.Instance.Name.Equals("quinnrfinale"))))
+                    ObjectManager.Player.InFountain() &&
+                    Variables.R.Instance.Name.Equals("QuinnR"))
                 {
                     Variables.R.Cast();
                 }
@@ -53,6 +48,13 @@ namespace ExorAIO.Champions.Quinn
                     Bools.HasNoProtection(Targets.Target) &&
                     Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
                 {
+                    if ((Targets.Target.IsValidTarget(500f) ||
+                        Targets.Target.CountEnemiesInRange(1000f) > 1) &&
+                        Variables.R.Instance.Name.Equals("quinnrfinale"))
+                    {
+                        Variables.R.Cast();
+                    }
+                    
                     Logics.ExecuteAuto(args);
                 }
             }
