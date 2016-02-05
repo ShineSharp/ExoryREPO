@@ -94,8 +94,7 @@ namespace ExorAIO.Champions.Quinn
         /// <summary>
         /// Called on gapclosing spell.
         /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="args">The <see cref="ActiveGapcloser"/> instance containing the event data.</param>
+        /// <param name="gapcloser">The <see cref="ActiveGapcloser"/> instance containing the event data.</param>
         public static void OnEnemyGapcloser(ActiveGapcloser gapcloser)
         {
             if (Variables.E.IsReady() &&
