@@ -26,7 +26,7 @@ namespace ExorAIO.Champions.Tristana
         public static Obj_AI_Base ETarget
         =>
             GameObjects.Enemy
-                .Find(unit => Bools.IsCharged(unit));
+                .Find(unit => unit.HasBuff("TristanaECharge"));
 
         /// <summary>
         /// The minions target.

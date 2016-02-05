@@ -25,7 +25,7 @@ namespace ExorAIO.Champions.Lux
             if (!Variables.R.IsReady() &&
                 Targets.Target.HasBuffOfType(BuffType.Slow) &&
                 (!Targets.Target.HasBuff("luxilluminatingfraulein") ||
-                    Targets.Target.Health < Variables.E.GetDamage(Targets.Target) &&)
+                    Targets.Target.Health < Variables.E.GetDamage(Targets.Target)) &&
                 ObjectManager.Player.Spellbook.GetSpell(SpellSlot.E).ToggleState == 1)
             {
                 Variables.E.Cast();
