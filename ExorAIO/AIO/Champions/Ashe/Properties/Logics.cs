@@ -53,41 +53,32 @@ namespace ExorAIO.Champions.Ashe
             {
                 Variables.W.Cast(Variables.W.GetPrediction(Targets.Target).UnitPosition);
             }
-            
+
             /// <summary>
-            /// The R Logics.
+            /// The R KillSteal Logic,
+            /// The R Doublelift Mechanic Logic,
+            /// The R Normal Combo Logic.
             /// </summary>
             if (Variables.R.IsReady() &&
-                Targets.Target.IsValidTarget(Variables.W.Range+200) &&
-                !Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)))
-            {
-                /// <summary>
-                /// R KillSteal Logic.
-                /// </summary>
-                if ((!Variables.W.IsReady() ||
-                    !Targets.Target.IsValidTarget(Variables.W.Range)) &&
-                    Targets.Target.Health < Variables.R.GetDamage(Targets.Target) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").GetValue<bool>())
-                {
-                    Variables.R.Cast(Variables.R.GetPrediction(Targets.Target).UnitPosition);
-                }
+                Targets.Target.IsValidTarget(Variables.R.Range) &&
+                !Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
 
-                /// <summary>
-                /// The R Doublelift Mechanic Logic,
-                /// The R Normal Combo Logic.
-                /// </summary>
-                if ((Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                ((Targets.Target.Health < Variables.R.GetDamage(Targets.Target) &&
+                    (!Variables.W.IsReady() || !Targets.Target.IsValidTarget(Variables.W.Range)) &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").GetValue<bool>()) ||
+
+                ((Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").GetValue<bool>() &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.whitelist.{Targets.Target.ChampionName.ToLower()}").GetValue<bool>()))
+                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.whitelist.{Targets.Target.ChampionName.ToLower()}").GetValue<bool>()))))
+            {
+                if (Variables.E.IsReady() &&
+                    Targets.Target.Health > Variables.R.GetDamage(Targets.Target) &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.misc.ermechanic").GetValue<bool>())
                 {
-                    if (Variables.E.IsReady() &&
-                        Variables.Menu.Item($"{Variables.MainMenuName}.misc.ermechanic").GetValue<bool>())
-                    {
-                        Variables.E.Cast(Variables.E.GetPrediction(Targets.Target).UnitPosition);
-                    }
-
-                    Variables.R.Cast(Variables.R.GetPrediction(Targets.Target).UnitPosition);
+                    Variables.E.Cast(Variables.E.GetPrediction(Targets.Target).UnitPosition);
                 }
+
+                Variables.R.Cast(Variables.R.GetPrediction(Targets.Target).UnitPosition);
             }
         }
 

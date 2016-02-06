@@ -19,7 +19,7 @@ namespace ExorAIO.Champions.Jinx
             Variables.Q2 = new Spell(SpellSlot.Q, Variables.Q.Range + (50 + (25f * ObjectManager.Player.Spellbook.GetSpell(SpellSlot.Q).Level)));
             Variables.W = new Spell(SpellSlot.W, 1500f);
             Variables.E = new Spell(SpellSlot.E, 900f);
-            Variables.R = new Spell(SpellSlot.R, 4000f);
+            Variables.R = new Spell(SpellSlot.R, 1500f);
 
             Variables.W.SetSkillshot(0.6f, 60f, 3300f, true, SkillshotType.SkillshotLine);
             Variables.E.SetSkillshot(0.4f, 50f, 2000f, false, SkillshotType.SkillshotCircle);

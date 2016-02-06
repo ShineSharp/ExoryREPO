@@ -117,7 +117,7 @@ namespace ExorAIO.Champions.Jinx
             /// </summary>
             if (Variables.R.IsReady() &&
                 !Variables.W.IsReady() &&
-                Targets.Target.IsValidTarget(Variables.W.Range) &&
+                Targets.Target.IsValidTarget(Variables.R.Range) &&
                 !Targets.Target.IsValidTarget(Variables.Q2.Range) &&
                 Variables.W.GetDamage(Targets.Target) < Targets.Target.Health &&
                 Variables.R.GetPrediction(Targets.Target).Hitchance >= HitChance.VeryHigh &&

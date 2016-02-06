@@ -17,7 +17,7 @@ namespace ExorAIO.Champions.Ezreal
         {
             Variables.Q = new Spell(SpellSlot.Q, 1150f);
             Variables.W = new Spell(SpellSlot.W, 1000f);
-            Variables.R = new Spell(SpellSlot.R, 3000f);
+            Variables.R = new Spell(SpellSlot.R, 1500f);
 
             Variables.Q.SetSkillshot(0.25f, 60f, 2000f, true, SkillshotType.SkillshotLine);
             Variables.W.SetSkillshot(0.25f, 80f, 1600f, false, SkillshotType.SkillshotLine);

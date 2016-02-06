@@ -89,7 +89,7 @@ namespace ExorAIO.Champions.Ezreal
             /// </summary>
             if (Variables.R.IsReady() &&
                 !ObjectManager.Player.IsWindingUp &&
-                Targets.Target.IsValidTarget(1500f) &&
+                Targets.Target.IsValidTarget(Variables.R.Range) &&
                 
                 ((Targets.Target.Health < Variables.R.GetDamage(Targets.Target) &&
                     (!Variables.W.IsReady() || !Targets.Target.IsValidTarget(Variables.W.Range)) &&
@@ -98,9 +98,10 @@ namespace ExorAIO.Champions.Ezreal
                 
                 (!Variables.Q.IsReady() &&
                     !Variables.W.IsReady() &&
-                    Targets.Target.CountEnemiesInRange(Variables.R.Width) >= 2 &&
                     Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").GetValue<bool>())))
+                    ObjectManager.Player.CountEnemiesInRange(Orbwalking.GetRealAutoAttackRange(null)) >= 2 &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").GetValue<bool>() &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.whitelist.{Targets.Target.ChampionName.ToLower()}").GetValue<bool>())))
             {
                 Variables.R.Cast(Variables.R.GetPrediction(Targets.Target).UnitPosition);
             }

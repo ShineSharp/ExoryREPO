@@ -180,7 +180,8 @@
     <Compile Include="AIO\Core\Bootstrap.cs" />
     <Compile Include="AIO\Utilities\Bools.cs" />
     <Compile Include="AIO\Utilities\Variables.cs" />
-    <Compile Include="AIO\Utilities\Helpers.cs" />
+    <Compile Include="AIO\Utilities\Helpers\Drawings.cs" />
+    <Compile Include="AIO\Utilities\Helpers\ManaManager.cs" />
     <Compile Include="AIO\Utilities\Entities\Jungle.cs" />
     <Compile Include="AIO\Utilities\Entities\GameObjects.cs" />
     <Compile Include="SFXTargetSelector\Enumerations\Mode.cs" />

@@ -1,8 +1,9 @@
 using LeagueSharp;
 using LeagueSharp.Common;
 
-namespace ExorAIO.Champions.Jinx
+namespace ExorAIO.Champions.Draven
 {
+    using System.Collections.Generic;
     using ExorAIO.Utilities;
     using TargetSelector = SFXTargetSelector.TargetSelector;
 
@@ -18,5 +19,13 @@ namespace ExorAIO.Champions.Jinx
         =>
             TargetSelector
                 .GetTarget(Variables.R.Range, LeagueSharp.DamageType.Physical);
+
+        /// <summary>
+        /// The minion targets.
+        /// </summary>
+        public static List<Obj_AI_Base> Minions
+        => 
+            MinionManager
+                .GetMinions(ObjectManager.Player.ServerPosition, Variables.Orbwalker.GetRealAutoAttackRange(null));
     }
 }

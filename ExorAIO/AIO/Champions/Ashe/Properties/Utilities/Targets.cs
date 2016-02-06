@@ -18,7 +18,7 @@ namespace ExorAIO.Champions.Ashe
         public static Obj_AI_Hero Target
         =>
             TargetSelector
-                .GetTarget(Variables.W.Range, LeagueSharp.DamageType.Physical);
+                .GetTarget(Variables.R.Range, LeagueSharp.DamageType.Physical);
 
         /// <summary>
         /// The minion targets.
