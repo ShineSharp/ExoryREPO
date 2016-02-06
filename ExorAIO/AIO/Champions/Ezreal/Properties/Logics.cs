@@ -47,7 +47,7 @@ namespace ExorAIO.Champions.Ezreal
             /// </summary>
             if (Variables.Q.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
-                Variables.Q.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
+                Variables.Q.GetPrediction(Targets.Target).Hitchance >= HitChance.VeryHigh &&
 
                 ((Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     !Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
@@ -70,7 +70,7 @@ namespace ExorAIO.Champions.Ezreal
             /// </summary>
             if (Variables.W.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.W.Range) &&
-                !Variables.Q.IsReady() || Variables.Q.GetPrediction(Targets.Target).Hitchance < HitChance.High &&
+                !Variables.Q.IsReady() || Variables.Q.GetPrediction(Targets.Target).Hitchance < HitChance.VeryHigh &&
                 ObjectManager.Player.Distance(Variables.W.GetPrediction(Targets.Target).UnitPosition) < Variables.W.Range &&
 
                 ((Targets.Target.Health < Variables.W.GetDamage(Targets.Target) &&
@@ -119,7 +119,7 @@ namespace ExorAIO.Champions.Ezreal
             if (Variables.Q.IsReady() &&
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.Q.Range) &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.Q.GetPrediction((Obj_AI_Hero)args.Target).Hitchance >= HitChance.High &&
+                Variables.Q.GetPrediction((Obj_AI_Hero)args.Target).Hitchance >= HitChance.VeryHigh &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").GetValue<bool>())
             {
                 Variables.Q.Cast(Variables.Q.GetPrediction((Obj_AI_Hero)args.Target).UnitPosition);

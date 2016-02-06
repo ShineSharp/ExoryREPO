@@ -29,7 +29,7 @@ namespace ExorAIO.Champions.Quinn
             if (Variables.Q.IsReady() &&
                 !ObjectManager.Player.IsWindingUp &&
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
-                Variables.Q.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
+                Variables.Q.GetPrediction(Targets.Target).Hitchance >= HitChance.VeryHigh &&
 
                 ((Targets.Target.Health < Variables.Q.GetDamage(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").GetValue<bool>()) ||
@@ -87,7 +87,7 @@ namespace ExorAIO.Champions.Quinn
             if (Variables.Q.IsReady() &&
                 !((Obj_AI_Hero)args.Target).HasBuff("quinnw") &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.Q.GetPrediction((Obj_AI_Hero)args.Target).Hitchance >= HitChance.High &&
+                Variables.Q.GetPrediction((Obj_AI_Hero)args.Target).Hitchance >= HitChance.VeryHigh &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").GetValue<bool>())
             {
                 Variables.Q.Cast(Variables.Q.GetPrediction((Obj_AI_Hero)args.Target).UnitPosition);
