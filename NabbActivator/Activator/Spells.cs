@@ -62,11 +62,11 @@ namespace NabbActivator
                 !ItemData.Locket_of_the_Iron_Solari.GetItem().IsReady())
             {
                 if ((ObjectManager.Player.CountEnemiesInRange(850f) > 0 &&
-                    HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(250 + Game.Ping / 2f)) <= ObjectManager.Player.MaxHealth/6) ||
+                        HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(250 + Game.Ping / 2f)) <= ObjectManager.Player.MaxHealth/6) ||
 
-                    (Targets.Ally != null &&
-                    Targets.Ally.CountEnemiesInRange(850f) > 0 &&
-                    HealthPrediction.GetHealthPrediction(Targets.Ally, (int)(250 + Game.Ping / 2f)) <= Targets.Ally.MaxHealth/6))
+                    (Targets.Ally.IsValidTarget(850f) &&
+                        Targets.Ally.CountEnemiesInRange(850f) > 0 &&
+                        HealthPrediction.GetHealthPrediction(Targets.Ally, (int)(250 + Game.Ping / 2f)) <= Targets.Ally.MaxHealth/6))
                 {
                     ObjectManager.Player.Spellbook.CastSpell(SpellSlots.Heal);
                     return;
@@ -79,8 +79,8 @@ namespace NabbActivator
             if (Bools.IsSpellAvailable(SpellSlots.Exhaust) &&
                 Targets.Target.IsValidTarget(650f) &&
                 (ObjectManager.Player.CountEnemiesInRange(850f) > 0 || Targets.Ally.CountEnemiesInRange(850f) > 0) &&
-                (HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(250 + Game.Ping / 2f)) <= ObjectManager.Player.MaxHealth/6 ||
-                    HealthPrediction.GetHealthPrediction(Targets.Ally, (int)(250 + Game.Ping / 2f)) <= Targets.Ally.MaxHealth/6))
+                (HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(250 + Game.Ping / 2f)) <= ObjectManager.Player.MaxHealth/4 ||
+                    HealthPrediction.GetHealthPrediction(Targets.Ally, (int)(250 + Game.Ping / 2f)) <= Targets.Ally.MaxHealth/4))
             {
                 ObjectManager.Player.Spellbook.CastSpell(SpellSlots.Exhaust, Targets.Target);
             }

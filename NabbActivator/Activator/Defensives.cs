@@ -22,7 +22,7 @@ namespace NabbActivator
             /// </summary>
             if (ItemData.Face_of_the_Mountain.GetItem().IsReady())
             {
-                if (Targets.Ally != null &&
+                if (Targets.Ally.IsValidTarget(500f, false) &&
                     HealthPrediction.GetHealthPrediction(Targets.Ally, (int)(250 + Game.Ping / 2f)) <= Targets.Ally.MaxHealth/4)
                 {
                     ItemData.Face_of_the_Mountain.GetItem().Cast(Targets.Ally);
@@ -38,7 +38,7 @@ namespace NabbActivator
             /// </summary>             
             if (ItemData.Locket_of_the_Iron_Solari.GetItem().IsReady() &&
                 !ItemData.Face_of_the_Mountain.GetItem().IsReady() &&
-                (Targets.Ally != null &&
+                (Targets.Ally.IsValidTarget(600f, false) &&
                     HealthPrediction.GetHealthPrediction(Targets.Ally, (int)(250 + Game.Ping / 2f)) <= Targets.Ally.MaxHealth/1.5) ||
                 HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(250 + Game.Ping / 2f)) <= ObjectManager.Player.MaxHealth/1.5)
             {

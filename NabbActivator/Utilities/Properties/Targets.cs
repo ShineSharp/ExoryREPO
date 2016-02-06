@@ -25,8 +25,7 @@ namespace NabbActivator
             HeroManager.Allies
                 .Find(a =>
                     !a.IsMe &&
-                    Bools.HasNoProtection(a) &&
-                    a.IsValidTarget(850f, false));
+                    Bools.HasNoProtection(a));
 
         /// <summary>
         /// The main minion target.

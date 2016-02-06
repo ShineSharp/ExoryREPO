@@ -42,8 +42,8 @@ namespace NabbActivator
                 /// </summary>
                 if (ItemData.Mikaels_Crucible.GetItem().IsReady())
                 {
-                    if (Targets.Ally != null &&
-                        Bools.ShouldUseCleanse(Targets.Ally))
+                    if (Bools.ShouldUseCleanse(Targets.Ally) &&
+                        Targets.Ally.IsValidTarget(750f, false))
                     {
                         Utility.DelayAction.Add(
                             Variables.Menu.Item($"{Variables.MainMenuName}.randomizer").GetValue<bool>() ?
