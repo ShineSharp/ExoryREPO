@@ -74,7 +74,7 @@ namespace ExorAIO.Champions.Draven
                 !ObjectManager.Player.IsWindingUp &&
                 Targets.Target.IsValidTarget(Variables.R.Range) &&
                 
-                ((Targets.Target.Health < Variables.R.GetDamage(Targets.Target) &&
+                ((Targets.Target.Health < Variables.R.GetDamage(Targets.Target)/2 &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").GetValue<bool>()) ||
                 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
