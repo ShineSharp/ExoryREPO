@@ -39,7 +39,7 @@ namespace ExorAIO.Champions.Ezreal
                 {
                     Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.combo",    "Combo")).SetValue(true);
                     Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.ks",       "KillSteal")).SetValue(true);
-                    Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.harass",   "AutoHarass")).SetValue(ObjectManager.Player.TotalMagicalDamage > ObjectManager.Player.FlatPhysicalDamageMod);
+                    Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.harass",   "AutoHarass")).SetValue(false);
                     Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.mana",     "AutoHarass: Mana >= x"))
                         .SetValue(new Slider(50, 10, 99));
                     

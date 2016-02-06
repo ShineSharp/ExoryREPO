@@ -19,6 +19,39 @@ namespace ExorAIO.Champions.Quinn
         /// Called when the game updates itself.
         /// </summary>
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
+        public static void ExecuteRAuto(EventArgs args)
+        {
+            /// <summary>
+            /// The R Logic.
+            /// </summary>
+            if (Variables.R.IsReady() &&
+                ObjectManager.Player.InFountain() &&
+                Variables.R.Instance.Name.Equals("QuinnR"))
+            {
+                Variables.R.Cast();
+            }
+
+            Variables.Orbwalker.SetAttack(!Variables.R.Instance.Name.Equals("quinnrfinale")); 
+        }
+
+        /// <summary>
+        /// Called when the game updates itself.
+        /// </summary>
+        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
+        public static void ExecuteRTarget(EventArgs args)
+        {
+            if ((Targets.Target.IsValidTarget(500f) ||
+                Targets.Target.CountEnemiesInRange(1000f) > 1) &&
+                Variables.R.Instance.Name.Equals("quinnrfinale"))
+            {
+                Variables.R.Cast();
+            }
+        }
+        
+        /// <summary>
+        /// Called when the game updates itself.
+        /// </summary>
+        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void ExecuteAuto(EventArgs args)
         {
             /// <summary>
@@ -48,8 +81,12 @@ namespace ExorAIO.Champions.Quinn
                 ObjectManager.Player.ManaPercent > ManaManager.NeededWMana &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.wspell.auto").GetValue<bool>())
             {
-                if (Variables.Locations
-                    .Any(h => ObjectManager.Player.Distance(h) < 350f))
+                foreach (Obj_AI_Hero enemy in GameObjects.EnemyHeroes
+                    .Where(x =>
+                        x.IsValid &&
+                        !x.IsVisible &&
+                        !x.IsDead &&
+                        x.Distance(ObjectManager.Player.ServerPosition) < Variables.W.Range))
                 {
                     Variables.W.Cast();
                 }

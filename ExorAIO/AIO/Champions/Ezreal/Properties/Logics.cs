@@ -71,13 +71,13 @@ namespace ExorAIO.Champions.Ezreal
             if (Variables.W.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.W.Range) &&
                 !Variables.Q.IsReady() || Variables.Q.GetPrediction(Targets.Target).Hitchance < HitChance.VeryHigh &&
-                ObjectManager.Player.Distance(Variables.W.GetPrediction(Targets.Target).UnitPosition) < Variables.W.Range &&
+                Variables.W.GetPrediction(Targets.Target).Hitchance != HitChance.OutOfRange &&
 
                 ((Targets.Target.Health < Variables.W.GetDamage(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.wspell.ks").GetValue<bool>()) ||
 
                 (ObjectManager.Player.ManaPercent > ManaManager.NeededWMana &&
-                    !Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
+                    ObjectManager.Player.TotalMagicalDamage > ObjectManager.Player.FlatPhysicalDamageMod &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.wspell.harass").GetValue<bool>())))
             {
                 Variables.W.Cast(Variables.W.GetPrediction(Targets.Target).UnitPosition);
