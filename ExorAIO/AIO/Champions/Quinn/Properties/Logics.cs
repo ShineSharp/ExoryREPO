@@ -40,8 +40,7 @@ namespace ExorAIO.Champions.Quinn
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void ExecuteRTarget(EventArgs args)
         {
-            if ((Targets.Target.IsValidTarget(500f) ||
-                Targets.Target.CountEnemiesInRange(1000f) > 1) &&
+            if (Targets.Target.CountEnemiesInRange(1000f) > 1 &&
                 Variables.R.Instance.Name.Equals("quinnrfinale"))
             {
                 Variables.R.Cast();
