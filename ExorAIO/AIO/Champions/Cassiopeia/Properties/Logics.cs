@@ -27,7 +27,7 @@ namespace ExorAIO.Champions.Cassiopeia
                 !ObjectManager.Player.IsRecalling() &&
                 ObjectManager.Player.CountEnemiesInRange(1500) == 0 &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.None &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.misc.stacktear").GetValue<bool>() &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.misc.tear").GetValue<bool>() &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededTearMana)
             {
                 Variables.Q.Cast(Game.CursorPos);
@@ -44,7 +44,7 @@ namespace ExorAIO.Champions.Cassiopeia
             /// The No AA while in Combo option.
             /// </summary>
             if (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                !Variables.Menu.Item($"{Variables.MainMenuName}.misc.enableaa").GetValue<bool>())
+                !Variables.Menu.Item($"{Variables.MainMenuName}.misc.aa").GetValue<bool>())
             {
                 Variables.Orbwalker.SetAttack(false);
             }
@@ -143,7 +143,7 @@ namespace ExorAIO.Champions.Cassiopeia
                 !Variables.Q.IsReady() &&
                 !Variables.W.IsReady() &&
                 (((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).HasBuffOfType(BuffType.Poison) || 
-                    Variables.Menu.Item($"{Variables.MainMenuName}.misc.enopoison").GetValue<bool>()) &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.misc.poison").GetValue<bool>()) &&
 
                 (Variables.E.GetDamage(((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) > ((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).Health &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.espell.farm").GetValue<bool>()))

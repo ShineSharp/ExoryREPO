@@ -74,7 +74,7 @@ namespace ExorAIO.Champions.Akali
             /// </summary>
             Variables.MiscMenu = new Menu("Miscellaneous", $"{Variables.MainMenuName}.miscmenu");
             {
-                Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.misc.safecheck", "Enable Safety Checks?")).SetValue(true);
+                Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.misc.safe",      "Enable Safety Checks?")).SetValue(true);
             }
             Variables.Menu.AddSubMenu(Variables.MiscMenu);
 
