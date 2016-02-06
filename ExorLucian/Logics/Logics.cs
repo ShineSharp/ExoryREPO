@@ -186,7 +186,7 @@ namespace ExorLucian
             if (Variables.Q.IsReady() &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                (Variables.Q.GetLineFarmLocation(Targets.Minions, 60f).MinionsHit >= 3 ||
+                (Variables.Q.GetLineFarmLocation(Targets.Minions, 60f).MinionsHit >= 2 ||
                     GameObjects.Jungle.Contains((Obj_AI_Minion)args.Target)) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").GetValue<bool>())
             {
@@ -200,7 +200,7 @@ namespace ExorLucian
             if (Variables.W.IsReady() &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededWMana &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                (Variables.W.GetCircularFarmLocation(Targets.Minions, Variables.W.Width).MinionsHit >= 2 ||
+                (Variables.W.GetCircularFarmLocation(Targets.Minions, Variables.W.Width).MinionsHit >= 1 ||
                     GameObjects.Jungle.Contains((Obj_AI_Minion)args.Target)) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.wspell.farm").GetValue<bool>())
             {
