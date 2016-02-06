@@ -13,7 +13,7 @@ namespace ExorKalista
         /// </summary>
         public static int NeededQMana
         =>
-            (int)Variables.Q.ManaCost +
+            (int)((Variables.Q.ManaCost / ObjectManager.Player.MaxMana) * 100) +
             Variables.Menu.Item($"{Variables.MainMenuName}.qspell.mana").GetValue<Slider>().Value;
 
         /// <summary>
@@ -21,7 +21,7 @@ namespace ExorKalista
         /// </summary>
         public static int NeededWMana 
         =>
-            (int)Variables.W.ManaCost +
+            (int)((Variables.W.ManaCost / ObjectManager.Player.MaxMana) * 100) +
             Variables.Menu.Item($"{Variables.MainMenuName}.wspell.mana").GetValue<Slider>().Value;
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace ExorKalista
         /// </summary>
         public static int NeededEMana
         =>
-            (int)Variables.E.ManaCost +
+            (int)((Variables.E.ManaCost / ObjectManager.Player.MaxMana) * 100) +
             Variables.Menu.Item($"{Variables.MainMenuName}.espell.mana").GetValue<Slider>().Value;
     }
 }
