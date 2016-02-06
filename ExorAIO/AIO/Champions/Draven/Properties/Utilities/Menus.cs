@@ -40,6 +40,7 @@ namespace ExorAIO.Champions.Draven
                 Variables.EMenu = new Menu("Use E to:", $"{Variables.MainMenuName}.emenu")
                     .SetFontStyle(FontStyle.Regular, Color.Cyan);
                 {
+                    Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.espell.combo",    "Combo")).SetValue(true);
                     Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.espell.ks",       "KillSteal")).SetValue(true);
                     Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.espell.ir",       "Interrupt Enemy Channels")).SetValue(true);
                     Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.espell.gp",       "Anti-Gapcloser")).SetValue(true);
