@@ -98,11 +98,6 @@ namespace ExorAIO.Utilities
         public static Orbwalking.Orbwalker Orbwalker { get; set; }
 
         /// <summary>
-        /// The E game object definition for Lux.
-        /// </summary>
-        public static GameObject EGameObject;
-
-        /// <summary>
         /// The main menu name.
         /// </summary>
         public static readonly string MainMenuCodeName = "ExorAIO: Ultima";

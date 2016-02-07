@@ -25,32 +25,6 @@ namespace ExorAIO.Champions.Lux
         }
 
         /// <summary>
-        /// Called when an object gets created by the game.
-        /// </summary>
-        /// <param name="sender">The sender</param>
-        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
-        public static void OnCreate(GameObject sender, EventArgs args)
-        {
-            if (sender.Name.Contains("LuxLightstrike_tar_"))
-            {
-                Variables.EGameObject = sender;
-            }
-        }
-
-        /// <summary>
-        /// Called when an object gets deleted by the game.
-        /// </summary>
-        /// <param name="sender">The sender</param>
-        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
-        public static void OnDelete(GameObject sender, EventArgs args)
-        {
-            if (sender.Name.Contains("LuxLightstrike_tar_"))
-            {
-                Variables.EGameObject = null;
-            }
-        }
-
-        /// <summary>
         /// Called when the game updates itself.
         /// </summary>
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>

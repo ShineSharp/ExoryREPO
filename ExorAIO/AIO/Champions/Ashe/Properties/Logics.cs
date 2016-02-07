@@ -26,13 +26,8 @@ namespace ExorAIO.Champions.Ashe
             if (Variables.Q.IsReady() &&
                 !ObjectManager.Player.IsWindingUp &&
                 ObjectManager.Player.HasBuff("AsheQCastReady") &&
-
-                ((Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").GetValue<bool>()) ||
-
-                (ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
-                    Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").GetValue<bool>())))
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").GetValue<bool>())
             {
                 Variables.Q.Cast();
             }
@@ -108,6 +103,19 @@ namespace ExorAIO.Champions.Ashe
         /// <param name="args">The args.</param>
         public static void ExecuteFarm(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
+            /// <summary>
+            /// The Q Farm Logic.
+            /// </summary>
+            if (Variables.Q.IsReady() &&
+                ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
+                    Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
+                    ((Targets.Minions.Any() && Targets.Minions.Count() >= 3) ||
+                        GameObjects.Jungle.Contains(args.Target)) &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").GetValue<bool>())
+            {
+                Variables.Q.Cast();
+            }
+
             /// <summary>
             /// The W Farm Logic.
             /// </summary>

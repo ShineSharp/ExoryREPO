@@ -83,7 +83,7 @@ namespace ExorAIO.Champions.Draven
                 gapcloser.Sender.IsValidTarget(Variables.E.Range) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.gp").GetValue<bool>())
             {
-                Variables.E.Cast(gapcloser.Sender.Position);
+                Variables.E.Cast(gapcloser.End);
             }
         }
     }

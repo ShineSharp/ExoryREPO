@@ -6,6 +6,7 @@ namespace ExorAIO.Core
     using System.Linq;
     using ExorAIO.Utilities;
     using ExorAIO.Champions.Akali;
+    using ExorAIO.Champions.Anivia;   
     using ExorAIO.Champions.Ashe;
     using ExorAIO.Champions.Cassiopeia;
     using ExorAIO.Champions.Corki;
