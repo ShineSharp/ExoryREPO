@@ -37,7 +37,7 @@ namespace ExorAIO.Utilities
                         foreach (GameObject gameobject in GameObjects.AllGameObjects
                             .Where(x => x.Name.Equals("Draven_Base_Q_reticle_self.troy")))
                         {
-                            Render.Circle.DrawCircle(gameobject.Position, 120f, Color.Green, 1);
+                            Render.Circle.DrawCircle(gameobject.Position, 120f, Color.LightGreen, 10);
                         }
                     }
                 }

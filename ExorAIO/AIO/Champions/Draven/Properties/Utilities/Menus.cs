@@ -74,6 +74,15 @@ namespace ExorAIO.Champions.Draven
             Variables.Menu.AddSubMenu(Variables.SettingsMenu);
 
             /// <summary>
+            /// Sets the miscellaneous menu.
+            /// </summary>
+            Variables.MiscMenu = new Menu("Miscellaneous", $"{Variables.MainMenuName}.miscmenu");
+            {
+                Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.misc.path",        "Semi-Automatic PathHelper")).SetValue(true);
+            }
+            Variables.Menu.AddSubMenu(Variables.MiscMenu);
+
+            /// <summary>
             /// Sets the drawings menu.
             /// </summary>
             Variables.DrawingsMenu = new Menu("Drawings", $"{Variables.MainMenuName}.drawingsmenu");

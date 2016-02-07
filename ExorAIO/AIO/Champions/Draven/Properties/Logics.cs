@@ -17,7 +17,7 @@ namespace ExorAIO.Champions.Draven
         /// Called when the game updates itself.
         /// </summary>
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
-        public static void ExecuteAuto(EventArgs args)
+        public static void ExecuteQ(EventArgs args)
         {
             /// <summary>
             /// The Q Logic.
@@ -25,29 +25,45 @@ namespace ExorAIO.Champions.Draven
             if (Variables.Q.IsReady() &&
                 ObjectManager.Player.IsWindingUp &&
                 ObjectManager.Player.GetBuffCount("dravenspinningattack") < 2 &&
-                Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.auto").GetValue<bool>())
             {
                 Variables.Q.Cast();
             }
+        }
 
-            /// <summary>
-            /// The W Combo Logic.
-            /// </summary>
-            if (Variables.W.IsReady() &&
-                Targets.Target.IsValidTarget(Variables.E.Range) &&
-                !ObjectManager.Player.HasBuff("dravenfurybuff") &&
-                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").GetValue<bool>())
+        /// <summary>
+        /// Called when the game updates itself.
+        /// </summary>
+        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
+        public static void ExecutePathing(EventArgs args)
+        {
+            if (Variables.Menu.Item($"{Variables.MainMenuName}.misc.path").GetValue<bool>())
             {
-                Variables.W.Cast();
+                if (GameObjects.AllGameObjects
+                    .Any(x => x.Name.Equals("Draven_Base_Q_reticle_self.troy")) &&
+                    ObjectManager.Player.Distance(GameObjects.AllGameObjects.Find(x => x.Name.Equals("Draven_Base_Q_reticle_self.troy")).Position) <= 110f)
+                {
+                    ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, ObjectManager.Player.Position);
+                    Variables.Orbwalker.SetMovement(false);
+                }
+                else
+                {
+                    Variables.Orbwalker.SetMovement(Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None);
+                }
             }
+        }
 
+        /// <summary>
+        /// Called when the game updates itself.
+        /// </summary>
+        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
+        public static void ExecuteAuto(EventArgs args)
+        {
             /// <summary>
             /// The W Combo Logic.
             /// </summary>
             if (Variables.W.IsReady() &&
-                Targets.Target.IsValidTarget(Variables.E.Range) &&
+                Targets.Target.IsValidTarget(800f) &&
                 !ObjectManager.Player.HasBuff("dravenfurybuff") &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").GetValue<bool>())
@@ -98,8 +114,8 @@ namespace ExorAIO.Champions.Draven
             /// The E Combo Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
+                Targets.Target.IsValidTarget(Variables.E.Range) &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                !((Obj_AI_Hero)args.Target).IsValidTarget(Orbwalking.GetRealAutoAttackRange(null)) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").GetValue<bool>())
             {
                 Variables.E.Cast(Variables.E.GetPrediction((Obj_AI_Hero)args.Target).UnitPosition);
