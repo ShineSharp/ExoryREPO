@@ -41,6 +41,7 @@ namespace ExorAIO.Champions.Renekton
 
                 ((!ObjectManager.Player.UnderTurret() &&
                     ObjectManager.Player.ManaPercent >= 50 &&
+                    Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.harass").GetValue<bool>()) ||
 
                 (Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health) &&
@@ -72,7 +73,6 @@ namespace ExorAIO.Champions.Renekton
             /// The W Combo Logic.
             /// </summary>
             if (Variables.W.IsReady() &&
-                Bools.HasNoProtection((Obj_AI_Hero)args.Target) &&
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.W.Range) &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").GetValue<bool>())
@@ -84,8 +84,8 @@ namespace ExorAIO.Champions.Renekton
             /// The Q Combo Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
-                !Variables.W.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
+                !ObjectManager.Player.HasBuff("RenektonPreExecute") &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").GetValue<bool>())
             {
