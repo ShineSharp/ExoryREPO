@@ -54,10 +54,10 @@ namespace ExorAIO.Champions.Cassiopeia
             /// </summary>
             if (Variables.E.IsReady() &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                ((Obj_AI_Hero)Variables.Orbwalker.GetTarget()).HasBuffOfType(BuffType.Poison) &&
+                Targets.Target.HasBuffOfType(BuffType.Poison) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").GetValue<bool>())
             {
-                Utility.DelayAction.Add(Variables.Menu.Item($"{Variables.MainMenuName}.espell.edelay").GetValue<Slider>().Value,
+                Utility.DelayAction.Add(Variables.Menu.Item($"{Variables.MainMenuName}.espell.delay").GetValue<Slider>().Value,
                 () =>
                     {
                         Variables.E.CastOnUnit(Targets.Target);
@@ -81,8 +81,8 @@ namespace ExorAIO.Champions.Cassiopeia
             /// </summary>
             if (Variables.Q.IsReady() &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                !((Obj_AI_Hero)Variables.Orbwalker.GetTarget()).HasBuffOfType(BuffType.Poison) &&
-                ((Obj_AI_Hero)Variables.Orbwalker.GetTarget()).IsValidTarget(Variables.Q.Range) &&
+                !Targets.Target.HasBuffOfType(BuffType.Poison) &&
+                Targets.Target.IsValidTarget(Variables.Q.Range) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").GetValue<bool>())
             {
                 Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).CastPosition);
@@ -95,8 +95,8 @@ namespace ExorAIO.Champions.Cassiopeia
             if (Variables.W.IsReady() &&
                 !Variables.Q.IsReady() &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                !((Obj_AI_Hero)Variables.Orbwalker.GetTarget()).HasBuffOfType(BuffType.Poison) &&
-                ((Obj_AI_Hero)Variables.Orbwalker.GetTarget()).IsValidTarget(Variables.Q.Range) &&
+                !Targets.Target.HasBuffOfType(BuffType.Poison) &&
+                Targets.Target.IsValidTarget(Variables.W.Range) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").GetValue<bool>())
             {
                 Variables.W.Cast(Variables.W.GetPrediction(Targets.Target).CastPosition);
@@ -141,11 +141,15 @@ namespace ExorAIO.Champions.Cassiopeia
             if (Variables.E.IsReady() &&
                 !Variables.Q.IsReady() &&
                 !Variables.W.IsReady() &&
-                (((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).HasBuffOfType(BuffType.Poison) || 
-                    Variables.Menu.Item($"{Variables.MainMenuName}.misc.poison").GetValue<bool>()) &&
 
-                (Variables.E.GetDamage(((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) > ((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).Health &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.espell.farm").GetValue<bool>()))
+                Variables.E.GetDamage(Targets.Minions?.FirstOrDefault()) >
+                    (Targets.Minions?.FirstOrDefault()).Health &&
+
+                ((Targets.Minions?.FirstOrDefault()).HasBuffOfType(BuffType.Poison) || 
+                    Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Mixed ||
+                    Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LastHit) &&
+
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.farm").GetValue<bool>())
             {
                 Utility.DelayAction.Add(Variables.Menu.Item($"{Variables.MainMenuName}.espell.delay").GetValue<Slider>().Value, 
                 () =>
