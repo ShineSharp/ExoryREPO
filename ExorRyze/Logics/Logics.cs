@@ -18,26 +18,38 @@ namespace ExorRyze
         /// Called when the game updates itself.
         /// </summary>
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
-        public static void ExecuteStacks(EventArgs args)
+        public static void ExecuteTearStacking(EventArgs args)
         {
             /// <summary>
-            /// The Tear Stacking Logic,
-            /// The Passive Stacking Logic.
+            /// The Tear Stacking Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
-                !ObjectManager.Player.IsRecalling() &&
+                Bools.HasTear(ObjectManager.Player) &&
                 ObjectManager.Player.CountEnemiesInRange(1500) == 0 &&
-                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.None)
+                ObjectManager.Player.ManaPercent > ManaManager.NeededTearMana &&
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.None &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.misc.tear").GetValue<bool>())
             {
-                if (Bools.HasTear(ObjectManager.Player) &&
-                    (ObjectManager.Player.ManaPercent > ManaManager.NeededTearMana &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.misc.tear").GetValue<bool>()) ||
+                Variables.Q.Cast(Game.CursorPos);
+            }
+        }
 
-                    (ObjectManager.Player.GetBuffCount("RyzePassiveStack") < 3 &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.misc.manager").GetValue<bool>()))
-                {
-                    Variables.Q.Cast(Game.CursorPos);
-                }
+        /// <summary>
+        /// Called when the game updates itself.
+        /// </summary>
+        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
+        public static void ExecuteStacking(EventArgs args)
+        {
+            /// <summary>
+            /// The Tear Stacking Logic.
+            /// </summary>
+            if (Variables.Q.IsReady() &&
+                ObjectManager.Player.GetBuffCount("RyzePassiveStack") < 3 &&
+                ObjectManager.Player.ManaPercent > ManaManager.NeededTearMana &&
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.None &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.misc.manager").GetValue<bool>())
+            {
+                Variables.Q.Cast(Game.CursorPos);
             }
         }
 

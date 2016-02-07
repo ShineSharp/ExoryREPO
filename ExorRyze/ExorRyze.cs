@@ -30,8 +30,12 @@ namespace ExorRyze
         {
             if (!ObjectManager.Player.IsDead)
             {
-                Logics.ExecuteStacks(args);
-                
+                if (!ObjectManager.Player.IsRecalling())
+                {
+                    Logics.ExecuteStacking(args);
+                    Logics.ExecuteTearStacking(args);
+                }
+
                 if (Targets.Target != null &&
                     Targets.Target.IsValid &&
                     Bools.HasNoProtection(Targets.Target))
