@@ -32,7 +32,7 @@ namespace ExorAIO.Champions.Jax
                 Variables.WMenu = new Menu("Use W to:", $"{Variables.MainMenuName}.wmenu")
                     .SetFontStyle(FontStyle.Regular, Color.Purple);
                 {
-                    Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wsspell.combo",    "Combo")).SetValue(true);
+                    Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.combo",     "Combo")).SetValue(true);
                     Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.jc",        "JungleClear")).SetValue(true);
                     Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.mana",      "JungleClear: Mana >= x"))
                         .SetValue(new Slider(50, 10, 99));
@@ -49,7 +49,7 @@ namespace ExorAIO.Champions.Jax
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.EMenu);
 
-                Variables.RMenu = new Menu("R Settings", $"{Variables.MainMenuName}.rmenu")
+                Variables.RMenu = new Menu("Use R to:", $"{Variables.MainMenuName}.rmenu")
                     .SetFontStyle(FontStyle.Regular, Color.Red);
                 {
                     Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rspell.lifesaver", "LifeSaver")).SetValue(true);
