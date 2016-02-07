@@ -104,9 +104,7 @@ namespace ExorRyze
             /// The Smart R Logic.
             /// </summary>
             if (Variables.R.IsReady() &&
-                Variables.E.IsReady() &&
                 Targets.Target.HasBuffOfType(BuffType.Snare) &&
-                ObjectManager.Player.GetBuffCount("RyzePassiveStack") > 2 &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").GetValue<bool>())
             {
                 Variables.R.Cast();
