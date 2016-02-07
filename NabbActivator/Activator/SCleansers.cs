@@ -20,6 +20,7 @@ namespace NabbActivator
             if ((Bools.ShouldUseCleanser() ||
                 (Bools.ShouldUseCleanse(ObjectManager.Player) &&
                     !Bools.IsSpellAvailable(SpellSlots.Cleanse))) ||
+                ObjectManager.Player.HealthPercent <= 10 &&
                 HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(500 + Game.Ping / 2f)) <= ObjectManager.Player.MaxHealth/6)
             {
                 /// <summary>

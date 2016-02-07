@@ -39,17 +39,36 @@ namespace NabbActivator
             target.Type.Equals(GameObjectType.obj_AI_Hero);
 
         /// <summary>
+        /// Defines whether the casted root is worth cleansing.
+        /// </summary>
+        public static bool IsValidSnare()
+        =>
+            ObjectManager.Player.Buffs
+                .Any(buff =>buff.Type.Equals(BuffType.Snare) &&
+                    !((Obj_AI_Hero)buff.Caster).ChampionName.Equals("Leona") &&
+                    !((Obj_AI_Hero)buff.Caster).ChampionName.Equals("Amumu"));
+
+        /// <summary>
+        /// Defines whether the casted stun is worth cleansing.
+        /// </summary>
+        public static bool IsValidStun()
+        =>
+            ObjectManager.Player.Buffs
+                .Any(buff =>buff.Type.Equals(BuffType.Stun) &&
+                    !((Obj_AI_Hero)buff.Caster).ChampionName.Equals("Alistar"));
+
+        /// <summary>
         /// Defines whether the player should use cleanse.
         /// </summary>
         public static bool ShouldUseCleanse(Obj_AI_Hero target)
         =>
             Bools.HasNoProtection(ObjectManager.Player) &&
             (
+                Bools.IsValidStun() ||
                 Bools.IsValidSnare() ||
                 target.HasBuff("summonerdot") ||
                 target.HasBuff("summonerexhaust") ||
                 target.HasBuffOfType(BuffType.Flee) ||
-                target.HasBuffOfType(BuffType.Stun) ||
                 target.HasBuffOfType(BuffType.Charm) ||
                 target.HasBuffOfType(BuffType.Taunt) ||
                 target.HasBuffOfType(BuffType.Polymorph)
@@ -68,16 +87,6 @@ namespace NabbActivator
                 ObjectManager.Player.HasBuff("VladimirHemoplague") ||
                 ObjectManager.Player.HasBuff("MordekaiserChildrenOfTheGrave")
             );
-
-        /// <summary>
-        /// Defines whether the casted root is worth cleansing.
-        /// </summary>
-        public static bool IsValidSnare()
-        =>
-            ObjectManager.Player.Buffs
-                .Any(buff =>buff.Type.Equals(BuffType.Snare) &&
-                    !((Obj_AI_Hero)buff.Caster).ChampionName.Equals("Leona") &&
-                    !((Obj_AI_Hero)buff.Caster).ChampionName.Equals("Amumu"));
 
         /// <summary>
         /// Defines whether the arg spell is available and ready.
