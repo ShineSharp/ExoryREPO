@@ -100,7 +100,7 @@ namespace NabbActivator
             /// Load the Offensive items.
             /// </summary>
             if (sender.IsMe &&
-			    Orbwalking.IsAutoAttackReset(args.SData.Name) &&
+			    Orbwalking.IsAutoAttack(args.SData.Name) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.resetters").GetValue<bool>() &&
                 (Variables.Menu.Item($"{Variables.MainMenuName}.combo_button").GetValue<KeyBind>().Active ||
                     Variables.Menu.Item($"{Variables.MainMenuName}.laneclear_button").GetValue<KeyBind>().Active))
