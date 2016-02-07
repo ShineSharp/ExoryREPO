@@ -21,7 +21,7 @@ namespace ExorAIO.Champions.Darius
                 Variables.QMenu = new Menu("Use Q to:", $"{Variables.MainMenuName}.qmenu")
                     .SetFontStyle(FontStyle.Regular, Color.Green);
                 {
-                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.combo",  "Smart Combo")).SetValue(true);
+                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.combo",  "Combo")).SetValue(true);
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.ks",     "KillSteal")).SetValue(true);
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.harass", "AutoHarass")).SetValue(true);
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.farm",   "LaneClear")).SetValue(true);

@@ -30,6 +30,12 @@ namespace ExorAIO.Champions.Darius
         public static void OnUpdate(EventArgs args)
         {
             if (Targets.Target != null &&
+				Targets.Target.IsValid)
+            {
+                Console.WriteLine(KillSteal.GetRDamage(Targets.Target));
+            }
+
+            if (Targets.Target != null &&
 				Targets.Target.IsValid &&
                 !ObjectManager.Player.IsDead &&
 				Bools.HasNoProtection(Targets.Target) &&

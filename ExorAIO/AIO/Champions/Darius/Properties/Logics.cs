@@ -24,11 +24,16 @@ namespace ExorAIO.Champions.Darius
             /// The Q KillSteal Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
+                !ObjectManager.Player.IsWindingUp &&
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
-                !Targets.Target.IsValidTarget(Variables.Q.Range - 220f) &&
 
-                ((!ObjectManager.Player.UnderTurret() &&
+                ((Variables.Q.IsReady() &&
+                    Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").GetValue<bool>()) ||
+                
+                (!ObjectManager.Player.UnderTurret() &&
 					ObjectManager.Player.ManaPercent >= ManaManager.NeededQMana &&
+                    Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.harass").GetValue<bool>()) ||
 
                 (Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health &&
@@ -69,7 +74,7 @@ namespace ExorAIO.Champions.Darius
         public static void ExecuteModes(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             /// <summary>
-            /// The W Combo Logic.
+            /// The Q Combo Logic.
             /// </summary>
             if (Variables.W.IsReady() &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&

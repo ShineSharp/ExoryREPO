@@ -3,6 +3,8 @@ using LeagueSharp.Common;
 
 namespace ExorAIO.Champions.Darius
 {
+    using ExorAIO.Utilities;
+
     /// <summary>
     /// The killsteal class.
     /// </summary>
@@ -10,9 +12,6 @@ namespace ExorAIO.Champions.Darius
     {
         public static float GetRDamage(Obj_AI_Hero target)
         =>
-            (float)
-                (100 * ObjectManager.Player.Spellbook.GetSpell(SpellSlot.R).Level +
-				(20 * ObjectManager.Player.Spellbook.GetSpell(SpellSlot.R).Level +
-				(0.15 * ObjectManager.Player.FlatPhysicalDamageMod)) * target.GetBuffCount("dariushemo"));
+            (float)(Variables.R.GetDamage(target) * (1 + 0.20 * target.GetBuffCount("dariushemo")));
     }
 }
