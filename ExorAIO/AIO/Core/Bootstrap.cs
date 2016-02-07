@@ -10,6 +10,7 @@ namespace ExorAIO.Core
     using ExorAIO.Champions.Cassiopeia;
     using ExorAIO.Champions.Corki;
     using ExorAIO.Champions.Darius;
+    using ExorAIO.Champions.Draven;
     using ExorAIO.Champions.DrMundo;
     using ExorAIO.Champions.Ezreal;
     using ExorAIO.Champions.Graves;
@@ -68,6 +69,7 @@ namespace ExorAIO.Core
                     case "Cassiopeia": new Cassiopeia().OnLoad(); break;
                     case "Corki":      new Corki()     .OnLoad(); break;
                     case "Darius":     new Darius()    .OnLoad(); break;
+                    case "Draven":     new Draven()    .OnLoad(); break;
                     case "DrMundo":    new DrMundo()   .OnLoad(); break;
                     case "Ezreal":     new Ezreal()    .OnLoad(); break;
                     case "Graves":     new Graves()    .OnLoad(); break;
