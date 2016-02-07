@@ -14,6 +14,8 @@ namespace ExorAIO.Champions.Draven
         public static void Initialize()
         {
             Game.OnUpdate += Draven.OnUpdate;
+            AntiGapcloser.OnEnemyGapcloser += Draven.OnEnemyGapcloser;
+            Interrupter2.OnInterruptableTarget += Draven.OnInterruptableTarget;
         }
     }
 }
