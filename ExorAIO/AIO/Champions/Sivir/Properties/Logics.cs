@@ -81,6 +81,7 @@ namespace ExorAIO.Champions.Sivir
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").GetValue<bool>())
             {
+                Orbwalking.ResetAutoAttackTimer();
                 Variables.W.Cast();
                 return;
             }
@@ -114,6 +115,7 @@ namespace ExorAIO.Champions.Sivir
                     GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.wspell.farm").GetValue<bool>())
             {
+                Orbwalking.ResetAutoAttackTimer();
                 Variables.W.Cast();
                 return;
             }

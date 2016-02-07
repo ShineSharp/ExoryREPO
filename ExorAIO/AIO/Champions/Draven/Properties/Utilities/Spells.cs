@@ -20,8 +20,8 @@ namespace ExorAIO.Champions.Draven
             Variables.E = new Spell(SpellSlot.E, 1050f);
             Variables.R = new Spell(SpellSlot.R, 1500f);
 
-            Variables.E.SetSkillShot(0.25f, 130f, 1400f, SkillshotType.SkillshotLine);
-            Variables.R.SetSkillShot(0.4f, 160f, 2000f, SkillshotType.SkillshotLine);
+            Variables.E.SetSkillshot(0.25f, 130f, 1400f, false, SkillshotType.SkillshotLine);
+            Variables.R.SetSkillshot(0.4f, 160f, 2000f, false, SkillshotType.SkillshotLine);
         }
     }
 }

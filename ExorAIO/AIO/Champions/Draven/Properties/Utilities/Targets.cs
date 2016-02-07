@@ -26,6 +26,6 @@ namespace ExorAIO.Champions.Draven
         public static List<Obj_AI_Base> Minions
         => 
             MinionManager
-                .GetMinions(ObjectManager.Player.ServerPosition, Variables.Orbwalker.GetRealAutoAttackRange(null));
+                .GetMinions(ObjectManager.Player.ServerPosition, Orbwalking.GetRealAutoAttackRange(null));
     }
 }

@@ -84,6 +84,12 @@
     <Compile Include="AIO\Champions\Corki\Properties\Utilities\Methods.cs" />
     <Compile Include="AIO\Champions\Corki\Properties\Utilities\Spells.cs" />
     <Compile Include="AIO\Champions\Corki\Properties\Utilities\Targets.cs" />
+    <Compile Include="AIO\Champions\Draven\Draven.cs" />
+    <Compile Include="AIO\Champions\Draven\Properties\Logics.cs" />
+    <Compile Include="AIO\Champions\Draven\Properties\Utilities\Menus.cs" />
+    <Compile Include="AIO\Champions\Draven\Properties\Utilities\Methods.cs" />
+    <Compile Include="AIO\Champions\Draven\Properties\Utilities\Spells.cs" />
+    <Compile Include="AIO\Champions\Draven\Properties\Utilities\Targets.cs" />
     <Compile Include="AIO\Champions\Darius\Darius.cs" />
     <Compile Include="AIO\Champions\Darius\Properties\Logics.cs" />
     <Compile Include="AIO\Champions\Darius\Properties\Utilities\Menus.cs" />

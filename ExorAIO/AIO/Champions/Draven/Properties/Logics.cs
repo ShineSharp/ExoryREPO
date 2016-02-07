@@ -23,7 +23,7 @@ namespace ExorAIO.Champions.Draven
             /// The Q Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
-                Variables.Orbwalker.IsWindingUp &&
+                ObjectManager.Player.IsWindingUp &&
                 ObjectManager.Player.GetBuffCount("dravenspinningattack") < 2 &&
                 Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.auto").GetValue<bool>())

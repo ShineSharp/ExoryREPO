@@ -101,7 +101,7 @@ namespace ExorAIO.Champions.Vayne
             /// </summary>
             if (Variables.E.IsReady() &&
                 ((Obj_AI_Hero)target).Health < 
-                    Variables.E.GetDamage((Obj_AI_Hero)target) +
+                    Variables.E.GetDamage((Obj_AI_Hero)target) - 20 + 
                     ObjectManager.Player.GetAutoAttackDamage((Obj_AI_Hero)target) +
                     (((Obj_AI_Hero)target).GetBuffCount("vaynesilvereddebuff") == 1 ?
                         Variables.W.GetDamage((Obj_AI_Hero)target) : 0) &&
@@ -141,7 +141,7 @@ namespace ExorAIO.Champions.Vayne
             /// </summary>
             if (Variables.E.IsReady() &&
                 ((Obj_AI_Hero)args.Target).Health < 
-                    Variables.E.GetDamage((Obj_AI_Hero)args.Target) +
+                    Variables.E.GetDamage((Obj_AI_Hero)args.Target) - 20 +
                     ObjectManager.Player.GetAutoAttackDamage((Obj_AI_Hero)args.Target) +
                     (((Obj_AI_Hero)args.Target).GetBuffCount("vaynesilvereddebuff") == 1 ?
                         Variables.W.GetDamage((Obj_AI_Hero)args.Target) : 0) &&

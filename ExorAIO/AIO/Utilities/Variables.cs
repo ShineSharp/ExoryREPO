@@ -117,10 +117,11 @@ namespace ExorAIO.Utilities
         /// </summary>
         public static readonly string[] LoadableChampions = 
         {
-            "Akali", "Ashe", "Cassiopeia", "Corki", "Darius",
-            "DrMundo", "Ezreal", "Graves", "Jax", "Jinx",
-            "KogMaw", "Lux", "Olaf", "Quinn", "Renekton",
-            "Sivir", "Tristana", "Tryndamere", "Vayne"
+            "Akali", "Ashe", "Cassiopeia", "Draven", "Corki",
+            "Darius", "DrMundo", "Ezreal", "Graves", "Jax",
+            "Jinx", "KogMaw", "Lux", "Olaf", "Quinn",
+            "Renekton", "Sivir", "Tristana", "Tryndamere",
+            "Vayne"
         };
 
         /// <summary>
