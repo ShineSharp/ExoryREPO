@@ -89,12 +89,6 @@ namespace ExorAIO.Core
                 }
 
                 Game.PrintChat($"<b><font color='#009aff'>Exor</font></b>AIO: <font color='#009aff'>Ultima</font> - {ObjectManager.Player.ChampionName} Loaded.");
-
-                if (Variables.Kappa.Contains(ObjectManager.Player.Name))
-                {
-                    Game.PrintChat("~Thanks Kurumi <3!");
-                }
-
                 return;
             }
 

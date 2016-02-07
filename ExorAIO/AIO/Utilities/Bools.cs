@@ -69,6 +69,18 @@ namespace ExorAIO.Utilities
                     !((Obj_AI_Hero)buff.Caster).ChampionName.Equals("Amumu"));
 
         /// <summary>
+        /// Gets a value indicating whether a determined STUN is worth cleansing.
+        /// </summary>
+        /// <summary>
+        /// Defines whether the casted STUN is worth cleansing.
+        /// </summary>
+        public static bool IsValidStun()
+        =>
+            ObjectManager.Player.Buffs
+                .Any(buff =>buff.Type.Equals(BuffType.Stun) &&
+                    !((Obj_AI_Hero)buff.Caster).ChampionName.Equals("Alistar"));
+
+        /// <summary>
         /// Gets a value indicating whether BuffType is worth cleansing.
         /// </summary>
         /// <value>
@@ -76,6 +88,7 @@ namespace ExorAIO.Utilities
         /// </value>
         public static bool ShouldCleanse(Obj_AI_Hero target)
         =>
+            Bools.IsValidStun() ||
             Bools.IsValidSnare() ||
             target.HasBuff("summonerexhaust") ||
             Bools.HasNoProtection(ObjectManager.Player) &&

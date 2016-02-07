@@ -131,10 +131,5 @@ namespace ExorAIO.Utilities
             new Vector3(3804.958f, 7875.456f, 52.11121f),
             new Vector3(7811.249f, 4034.486f, 53.81299f)
         };
-
-        /// <summary>
-        /// Kurumi is a god.
-        /// </summary>
-        public static readonly string Kappa = "jesuske12, Im gay 69.";
     }
 }
