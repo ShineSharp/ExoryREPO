@@ -24,7 +24,7 @@ namespace ExorAIO.Champions.Ashe
             /// The Q Farm Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
-                !ObjectManager.Player.IsWindingUp &&
+                ObjectManager.Player.IsWindingUp &&
                 ObjectManager.Player.HasBuff("AsheQCastReady") &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").GetValue<bool>())
@@ -110,11 +110,16 @@ namespace ExorAIO.Champions.Ashe
             if (Variables.W.IsReady() &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededWMana &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                (Variables.W.GetLineFarmLocation(Targets.Minions, Variables.W.Width).MinionsHit >= 3 || Targets.JungleMinions.Any()) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.wspell.farm").GetValue<bool>())
             {
-                Variables.W.Cast(Variables.W.GetLineFarmLocation(Targets.Minions, Variables.W.Width).Position);
-                return;
+                if (Variables.W.GetLineFarmLocation(Targets.Minions, Variables.W.Width).MinionsHit >= 3)
+                {
+                    Variables.W.Cast(Variables.W.GetLineFarmLocation(Targets.Minions, Variables.W.Width).Position);
+                }
+                else if (Targets.JungleMinions.Any())
+                {
+                    Variables.W.Cast((Targets.JungleMinions.FirstOrDefault()).Position)
+                }
             }
 
             /// <summary>
@@ -123,9 +128,9 @@ namespace ExorAIO.Champions.Ashe
             /// </summary>
             if (Variables.Q.IsReady() &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
-                    Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                    (Targets.Minions.Count() >= 3 || Targets.JungleMinions.Any()) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").GetValue<bool>())
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
+                (Targets.Minions.Count() >= 3 || Targets.JungleMinions.Any()) &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").GetValue<bool>())
             {
                 Variables.Q.Cast();
             }
