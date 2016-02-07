@@ -26,9 +26,9 @@ namespace ExorAIO.Champions.Cassiopeia
                 Bools.HasTear(ObjectManager.Player) &&
                 !ObjectManager.Player.IsRecalling() &&
                 ObjectManager.Player.CountEnemiesInRange(1500) == 0 &&
+                ObjectManager.Player.ManaPercent > ManaManager.NeededTearMana &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.None &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.misc.tear").GetValue<bool>() &&
-                ObjectManager.Player.ManaPercent > ManaManager.NeededTearMana)
+                Variables.Menu.Item($"{Variables.MainMenuName}.misc.tear").GetValue<bool>())
             {
                 Variables.Q.Cast(Game.CursorPos);
             }

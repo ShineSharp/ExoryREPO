@@ -20,7 +20,7 @@ namespace ExorAIO.Champions.Ezreal
         public static void ExecuteTearStacking(EventArgs args)
         {
             /// <summary>
-            /// The Tear Stacking Logic
+            /// The Tear Stacking Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
                 Bools.HasTear(ObjectManager.Player) &&
