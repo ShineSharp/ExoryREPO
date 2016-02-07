@@ -52,7 +52,7 @@ namespace ExorAIO.Champions.Anivia
                                 );
                             }
                         }
-                        Variables.RMenu.AddSubMenu(Variables.WhiteListMenu);
+                        Variables.WMenu.AddSubMenu(Variables.WhiteListMenu);
                     }
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.WMenu);

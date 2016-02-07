@@ -87,8 +87,8 @@ namespace ExorAIO.Champions.Anivia
                     Logics.ExecuteAuto(args);
                 }
 
-                if (Variables.Orbwalker.GetTarget() != null &&
-                    Variables.Orbwalker.GetTarget().IsValid)
+                if ((Obj_AI_Minion)Variables.Orbwalker.GetTarget() != null &&
+                    ((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).IsValid)
                 {
                     Logics.ExecuteFarm(args);
                 }

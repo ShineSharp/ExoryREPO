@@ -34,7 +34,8 @@ namespace ExorAIO.Champions.Anivia
             /// </summary>
             if (Variables.R.IsReady() &&
                 ObjectManager.Player.InFountain() &&
-                Bools.HasTear(ObjectManager.Player))
+                Bools.HasTear(ObjectManager.Player) &&
+                ObjectManager.Player.Spellbook.GetSpell(SpellSlot.R).ToggleState == 1)
             {
                 Variables.R.Cast();
             }
@@ -44,12 +45,12 @@ namespace ExorAIO.Champions.Anivia
             /// </summary>
             if (Variables.R.IsReady() &&
                 Anivia.RMissile != null &&
+                !ObjectManager.Player.InFountain() &&
 
                 ((Targets.RMinions.Count() < 2 &&
                     Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear) ||
 
-                ((!ObjectManager.Player.InFountain() || 
-                    Anivia.RMissile.Position.CountEnemiesInRange(Variables.R.Width) < 0) &&
+                (Anivia.RMissile.Position.CountEnemiesInRange(Variables.R.Width) < 0 &&
                     Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear)))
             {
                 Variables.R.Cast();
@@ -73,7 +74,7 @@ namespace ExorAIO.Champions.Anivia
                 Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").GetValue<bool>() &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.wspell.whitelist.{Targets.Target.ChampionName.ToLower()}").GetValue<bool>())
             {
-                Variables.W.Cast(ObjectManager.Player.ServerPosition.Extend(Targets.Target.ServerPosition, ObjectManager.Player.Distance(Targets.Target) + Targets.Target.BoundingRadius));
+                Variables.W.Cast(ObjectManager.Player.ServerPosition.Extend(Variables.W.GetPrediction(Targets.Target).CastPosition, ObjectManager.Player.Distance(Targets.Target) + Targets.Target.BoundingRadius));
             }
 
             /// <summary>
@@ -82,7 +83,7 @@ namespace ExorAIO.Champions.Anivia
             /// </summary>
             if (Variables.Q.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
-                ObjectManager.Player.Distance(Variables.Q.GetPrediction(Targets.Target).CastPosition) < Variables.Q.Range - 100 &&
+                ObjectManager.Player.Distance(Variables.Q.GetPrediction(Targets.Target).UnitPosition) < Variables.Q.Range - 100 &&
 
                 ((Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").GetValue<bool>()) ||
@@ -90,7 +91,7 @@ namespace ExorAIO.Champions.Anivia
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").GetValue<bool>())))
             {
-                Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).CastPosition);
+                Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
             }
 
             /// <summary>
@@ -101,11 +102,11 @@ namespace ExorAIO.Champions.Anivia
                 Targets.Target.IsValidTarget(Variables.E.Range) &&
 
                 ((Variables.E.GetDamage(Targets.Target) > Targets.Target.Health &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.wspell.ks").GetValue<bool>()) ||
+                    Variables.Menu.Item($"{Variables.MainMenuName}.espell.ks").GetValue<bool>()) ||
 
-                (Targets.Target.HasBuff("chilled") &&
-                    Targets.Target.HasBuffOfType(BuffType.Slow) &&
+                (Targets.Target.HasBuffOfType(BuffType.Slow) &&
                     Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                    ObjectManager.Player.Spellbook.GetSpell(SpellSlot.R).ToggleState != 1 &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").GetValue<bool>())))
             {
                 Variables.E.CastOnUnit(Targets.Target);
