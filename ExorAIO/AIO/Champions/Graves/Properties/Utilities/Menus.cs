@@ -41,14 +41,14 @@ namespace ExorAIO.Champions.Graves
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.WMenu);
 
-                Variables.EMenu = new Menu("E Settings", $"{Variables.MainMenuName}.emenu")
+                Variables.EMenu = new Menu("Use E to:", $"{Variables.MainMenuName}.emenu")
                     .SetFontStyle(FontStyle.Regular, Color.Cyan);
                 {
                     Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.espell.auto",     "Logical")).SetValue(true);
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.EMenu);
 
-                Variables.RMenu = new Menu("R Settings", $"{Variables.MainMenuName}.rmenu")
+                Variables.RMenu = new Menu("Use R to:", $"{Variables.MainMenuName}.rmenu")
                     .SetFontStyle(FontStyle.Regular, Color.Red);
                 {
                     Variables.RMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.rspell.ks",       "KillSteal")).SetValue(true);

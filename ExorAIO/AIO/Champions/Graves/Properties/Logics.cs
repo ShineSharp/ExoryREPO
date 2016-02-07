@@ -95,7 +95,7 @@ namespace ExorAIO.Champions.Graves
             /// The E Combo Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
-                ObjectManager.Player.HasBuff("gravesbasicattackammo1") &&
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.auto").GetValue<bool>())
             {
                 Variables.E.Cast(Game.CursorPos);
