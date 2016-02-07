@@ -65,6 +65,7 @@ namespace ExorAIO.Core
                 switch (ObjectManager.Player.ChampionName)
                 {
                     case "Akali":      new Akali()     .OnLoad(); break;
+                    case "Anivia":     new Anivia()    .OnLoad(); break;
                     case "Ashe":       new Ashe()      .OnLoad(); break;
                     case "Cassiopeia": new Cassiopeia().OnLoad(); break;
                     case "Corki":      new Corki()     .OnLoad(); break;

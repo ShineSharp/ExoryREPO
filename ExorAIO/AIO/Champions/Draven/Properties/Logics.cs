@@ -59,8 +59,9 @@ namespace ExorAIO.Champions.Draven
             /// The E KillSteal Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
+                Targets.Target.IsValidTarget(Variables.E.Range) &&
                 Targets.Target.Health < Variables.E.GetDamage(Targets.Target) &&
-                Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
+                !Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.ks").GetValue<bool>())
             {
                 Variables.E.Cast(Variables.E.GetPrediction(Targets.Target).UnitPosition);

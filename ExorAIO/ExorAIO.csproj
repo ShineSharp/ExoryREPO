@@ -66,6 +66,12 @@
     <Compile Include="AIO\Champions\Akali\Properties\Utilities\Methods.cs" />
     <Compile Include="AIO\Champions\Akali\Properties\Utilities\Spells.cs" />
     <Compile Include="AIO\Champions\Akali\Properties\Utilities\Targets.cs" />
+    <Compile Include="AIO\Champions\Anivia\Anivia.cs" />
+    <Compile Include="AIO\Champions\Anivia\Properties\Logics.cs" />
+    <Compile Include="AIO\Champions\Anivia\Properties\Utilities\Menus.cs" />
+    <Compile Include="AIO\Champions\Anivia\Properties\Utilities\Methods.cs" />
+    <Compile Include="AIO\Champions\Anivia\Properties\Utilities\Spells.cs" />
+    <Compile Include="AIO\Champions\Anivia\Properties\Utilities\Targets.cs" />
     <Compile Include="AIO\Champions\Ashe\Ashe.cs" />
     <Compile Include="AIO\Champions\Ashe\Properties\Logics.cs" />
     <Compile Include="AIO\Champions\Ashe\Properties\Utilities\Menus.cs" />
