@@ -32,7 +32,7 @@ namespace ExorRyze
                 if ((ObjectManager.Player.ManaPercent > ManaManager.NeededTearMana &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.misc.tear").GetValue<bool>()) ||
 
-                    (ObjectManager.Player.GetBuffCount("RyzePassiveStack") < 2 &&
+                    (ObjectManager.Player.GetBuffCount("RyzePassiveStack") < 3 &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.misc.manager").GetValue<bool>()))
                 {
                     Variables.Q.Cast(Game.CursorPos);
@@ -103,7 +103,9 @@ namespace ExorRyze
             /// The Smart R Logic.
             /// </summary>
             if (Variables.R.IsReady() &&
+                Variables.E.IsReady() &&
                 Targets.Target.HasBuffOfType(BuffType.Snare) &&
+                ObjectManager.Player.GetBuffCount("RyzePassiveStack") > 2 &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").GetValue<bool>())
             {
                 Variables.R.Cast();
@@ -124,7 +126,14 @@ namespace ExorRyze
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").GetValue<bool>())
             {
-                Variables.Q.Cast(((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).Position);
+                if (Targets.Minions.Any())
+                {
+                    Variables.Q.Cast((Targets.Minions.FirstOrDefault()).Position);
+                }
+                else if (Targets.JungleMinions.Any())
+                {
+                    Variables.Q.Cast((Targets.JungleMinions.FirstOrDefault()).Position)
+                }
             }
 
             /// <summary>
@@ -135,15 +144,22 @@ namespace ExorRyze
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.wspell.farm").GetValue<bool>())
             {
-                Variables.W.CastOnUnit((Obj_AI_Minion)Variables.Orbwalker.GetTarget());
+                if (Targets.Minions.Any())
+                {
+                    Variables.W.CastOnUnit(Targets.Minions.FirstOrDefault());
+                }
+                else if (Targets.JungleMinions.Any())
+                {
+                    Variables.W.CastOnUnit(Targets.JungleMinions.FirstOrDefault());
+                }
             }
 
             /// <summary>
             /// The R LaneClear Logic.
             /// </summary>
             if (Variables.R.IsReady() &&
-                Targets.Minions.Any() &&
-                Targets.Minions.Count() > 3 &&
+                Variables.E.IsReady() &&
+                Targets.Minions?.Count() >= 3 &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.rspell.farm").GetValue<bool>())
             {
@@ -158,7 +174,14 @@ namespace ExorRyze
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.farm").GetValue<bool>())
             {
-                Variables.E.CastOnUnit((Obj_AI_Minion)Variables.Orbwalker.GetTarget());
+                if (Targets.Minions?.Count() >= 3))
+                {
+                    Variables.E.CastOnUnit(Targets.Minions.FirstOrDefault());
+                }
+                else if (Targets.JungleMinions.Any())
+                {
+                    Variables.E.CastOnUnit(Targets.JungleMinions.FirstOrDefault());
+                }
             }
         }
     }

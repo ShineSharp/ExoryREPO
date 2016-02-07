@@ -14,6 +14,7 @@ namespace ExorRyze
         public static void Initialize()
         {
             Game.OnUpdate += Ryze.OnUpdate;
+            AntiGapcloser.OnEnemyGapcloser += Ryze.OnEnemyGapcloser;
         }
     }
 }

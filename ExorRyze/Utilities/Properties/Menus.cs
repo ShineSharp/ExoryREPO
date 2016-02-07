@@ -63,6 +63,7 @@ namespace ExorRyze
                     {
                         Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.combo",  "Combo")).SetValue(true);
                         Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.ks",     "KillSteal")).SetValue(true);
+                        Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.gp",     "Anti-Gapcloser")).SetValue(true);
                         Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.farm",   "LaneClear")).SetValue(true);
                         Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.mana",   "LaneClear: Mana >= x%"))
                             .SetValue(new Slider(50, 0, 99));
@@ -95,7 +96,7 @@ namespace ExorRyze
                 /// </summary>
                 Variables.MiscMenu = new Menu("Miscellaneous", $"{Variables.MainMenuName}.miscmenu");
                 {
-                    Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.misc.manager",  "Keep Perfect Passive (2)")).SetValue(false);
+                    Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.misc.manager",  "Keep Perfect Passive (3)")).SetValue(false);
                     Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.misc.tear",     "Stack Tear")).SetValue(true);
                     Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.misc.tearmana", "KPP/Stack Tear: Mana > x%"))
                         .SetValue(new Slider(80, 1, 95));

@@ -46,5 +46,19 @@ namespace ExorRyze
                 }
             }
         }
+
+        /// <summary>
+        /// Called on gapclosing spell.
+        /// </summary>
+        /// <param name="gapcloser">The <see cref="ActiveGapcloser"/> instance containing the event data.</param>
+        public static void OnEnemyGapcloser(ActiveGapcloser gapcloser)
+        {
+            if (Variables.W.IsReady() &&
+                gapcloser.Sender.IsValidTarget(Variables.W.Range) &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.gp").GetValue<bool>())
+            {
+                Variables.W.CastOnUnit(gapcloser.Sender);
+            }
+        }
     }
 }
