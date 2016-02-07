@@ -118,7 +118,7 @@ namespace ExorAIO.Champions.Ashe
                 }
                 else if (Targets.JungleMinions.Any())
                 {
-                    Variables.W.Cast((Targets.JungleMinions.FirstOrDefault()).Position)
+                    Variables.W.Cast((Targets.JungleMinions.FirstOrDefault()).Position);
                 }
             }
 
