@@ -132,7 +132,7 @@ namespace ExorRyze
                 }
                 else if (Targets.JungleMinions.Any())
                 {
-                    Variables.Q.Cast((Targets.JungleMinions.FirstOrDefault()).Position)
+                    Variables.Q.Cast((Targets.JungleMinions.FirstOrDefault()).Position);
                 }
             }
 
@@ -174,7 +174,7 @@ namespace ExorRyze
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.farm").GetValue<bool>())
             {
-                if (Targets.Minions?.Count() >= 3))
+                if (Targets.Minions?.Count() >= 3)
                 {
                     Variables.E.CastOnUnit(Targets.Minions.FirstOrDefault());
                 }
