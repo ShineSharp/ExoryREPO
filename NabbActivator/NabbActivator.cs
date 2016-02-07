@@ -73,19 +73,9 @@ namespace NabbActivator
                     Variables.Menu.Item($"{Variables.MainMenuName}.laneclear_button").GetValue<KeyBind>().Active))
             {
                 Offensives.Execute(args);
-
-                if (Variables.Menu.Item($"{Variables.MainMenuName}.resetters").GetValue<bool>())
-                {
-                    foreach (var reset in ObjectManager.Player.Buffs
-                        .Where(b => Orbwalking.IsAutoAttackReset(b.Name)))
-                    {
-                        Resetters.Execute(args);
-                        break;
-                    }
-                }
             }
         }
-        
+
         /// <summary>
         /// Called when a cast has been executed.
         /// </summary>
@@ -104,6 +94,18 @@ namespace NabbActivator
                 Variables.Menu.Item($"{Variables.MainMenuName}.defensives").GetValue<bool>())
             {
                 Ohmwrecker.Execute(sender, args);
+            }
+
+            /// <summary>
+            /// Load the Offensive items.
+            /// </summary>
+            if (sender.IsMe &&
+			    Orbwalking.IsAutoAttackReset(args.SData.Name) &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.resetters").GetValue<bool>() &&
+                (Variables.Menu.Item($"{Variables.MainMenuName}.combo_button").GetValue<KeyBind>().Active ||
+                    Variables.Menu.Item($"{Variables.MainMenuName}.laneclear_button").GetValue<KeyBind>().Active))
+            {
+                Resetters.Execute(sender, args);
             }
         }
     }
