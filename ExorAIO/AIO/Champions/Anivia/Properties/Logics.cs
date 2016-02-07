@@ -74,7 +74,7 @@ namespace ExorAIO.Champions.Anivia
                 Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").GetValue<bool>() &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.wspell.whitelist.{Targets.Target.ChampionName.ToLower()}").GetValue<bool>())
             {
-                Variables.W.Cast(ObjectManager.Player.ServerPosition.Extend(Variables.W.GetPrediction(Targets.Target).CastPosition, ObjectManager.Player.Distance(Targets.Target) + Targets.Target.BoundingRadius));
+                Variables.W.Cast(ObjectManager.Player.ServerPosition.Extend(Targets.Target.ServerPosition, ObjectManager.Player.Distance(Targets.Target) + 10f));
             }
 
             /// <summary>

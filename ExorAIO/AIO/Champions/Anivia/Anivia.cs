@@ -87,8 +87,8 @@ namespace ExorAIO.Champions.Anivia
                     Logics.ExecuteAuto(args);
                 }
 
-                if ((Obj_AI_Minion)Variables.Orbwalker.GetTarget() != null &&
-                    ((Obj_AI_Minion)Variables.Orbwalker.GetTarget()).IsValid)
+                if (Variables.Orbwalker.GetTarget() != null &&
+                    (Variables.Orbwalker.GetTarget()).IsValid<Obj_AI_Minion>())
                 {
                     Logics.ExecuteFarm(args);
                 }
@@ -106,7 +106,7 @@ namespace ExorAIO.Champions.Anivia
                 ObjectManager.Player.Distance(sender) < Variables.W.Range + sender.BoundingRadius &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.wspell.ir").GetValue<bool>())
             {
-                Variables.W.Cast(ObjectManager.Player.ServerPosition.Extend(Targets.Target.ServerPosition, ObjectManager.Player.Distance(Targets.Target) + Targets.Target.BoundingRadius));
+                Variables.W.Cast(ObjectManager.Player.ServerPosition.Extend(Targets.Target.ServerPosition, ObjectManager.Player.Distance(Targets.Target) + 10f));
             }
         }
 
