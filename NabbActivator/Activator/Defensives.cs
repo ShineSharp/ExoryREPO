@@ -77,6 +77,7 @@ namespace NabbActivator
             /// The Frost Queen's Claim.
             /// </summary>
             if (ItemData.Frost_Queens_Claim.GetItem().IsReady() &&
+                Targets.Target != null &&
                 (Targets.Target.CountEnemiesInRange(1000f) < ObjectManager.Player.CountAlliesInRange(600f) ||
                 Targets.Target.CountEnemiesInRange(1000f) > ObjectManager.Player.CountAlliesInRange(600f)))
             {

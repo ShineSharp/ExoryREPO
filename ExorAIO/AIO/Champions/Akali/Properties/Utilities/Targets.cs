@@ -27,5 +27,13 @@ namespace ExorAIO.Champions.Akali
         => 
             MinionManager
                 .GetMinions(ObjectManager.Player.ServerPosition, Variables.E.Range);
+
+        /// <summary>
+        /// The jungle minion targets.
+        /// </summary>
+        public static List<Obj_AI_Base> JungleMinions
+        => 
+            MinionManager
+                .GetMinions(ObjectManager.Player.ServerPosition, Variables.E.Range, MinionTypes.All, MinionTeam.Neutral, MinionOrderTypes.MaxHealth);
     }
 }

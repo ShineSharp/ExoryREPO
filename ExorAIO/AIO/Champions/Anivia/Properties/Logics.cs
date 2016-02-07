@@ -26,10 +26,10 @@ namespace ExorAIO.Champions.Anivia
                 Anivia.QMissile != null &&
                 ObjectManager.Player.Spellbook.GetSpell(SpellSlot.Q).ToggleState != 1 &&
                 
-                ((Variables.Q.GetCircularFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 3 &&
+                ((Targets.QMinions.Count() >= 2 &&
                     Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear) ||
 
-                (Anivia.QMissile.Position.CountEnemiesInRange(Variables.Q.Width) > 0 &&
+                (Anivia.QMissile.Position.CountEnemiesInRange(100f) > 0 &&
                     Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear)))
             {
                 Variables.Q.Cast();
@@ -126,8 +126,6 @@ namespace ExorAIO.Champions.Anivia
             /// The Q KillSteal.
             /// </summary>
             if (Variables.Q.IsReady() &&
-                !Variables.E.IsReady() &&
-                !Variables.W.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
                 ObjectManager.Player.Spellbook.GetSpell(SpellSlot.Q).ToggleState == 1 &&
                 ObjectManager.Player.Distance(Variables.Q.GetPrediction(Targets.Target).UnitPosition) < Variables.Q.Range - 100 &&
@@ -135,7 +133,11 @@ namespace ExorAIO.Champions.Anivia
                 ((Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").GetValue<bool>()) ||
 
-                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                ((ObjectManager.Player.Spellbook.GetSpell(SpellSlot.R).Level < 1 ?
+                    Variables.W.IsReady() && Variables.E.IsReady():
+                    !Variables.W.IsReady() && !Variables.E.IsReady()) &&
+                    
+                    Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").GetValue<bool>())))
             {
                 Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
@@ -149,31 +151,32 @@ namespace ExorAIO.Champions.Anivia
         public static void ExecuteFarm(EventArgs args)
         {
             /// <summary>
-            /// The Q Farm Logic.
-            /// </summary>
-            if (Variables.Q.IsReady() &&
-                ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
-                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                ObjectManager.Player.Spellbook.GetSpell(SpellSlot.Q).ToggleState == 1 &&
-                (Variables.W.GetLineFarmLocation(Targets.Minions, Variables.W.Width).MinionsHit >= 3 ||
-                    GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").GetValue<bool>())
-            {
-                Variables.Q.Cast(Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.W.Width).Position);
-            }
-
-            /// <summary>
-            /// The R Farm Logic.
+            /// The R LaneClear Logic,
+            /// The R JungleClear Logic.
             /// </summary>
             if (Variables.R.IsReady() &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededRMana &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                 ObjectManager.Player.Spellbook.GetSpell(SpellSlot.R).ToggleState == 1 &&
-                (Variables.R.GetCircularFarmLocation(Targets.Minions, Variables.R.Width).MinionsHit >= 4 ||
-                    GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
+                (Variables.R.GetCircularFarmLocation(Targets.Minions, Variables.R.Width).MinionsHit >= 4 || Targets.JungleMinions.Any()) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.rspell.farm").GetValue<bool>())
             {
                 Variables.R.Cast(Variables.R.GetCircularFarmLocation(Targets.Minions, Variables.R.Width).Position);
+                return;
+            }
+
+            /// <summary>
+            /// The Q LaneClear Logic,
+            /// The Q JungleClear Logic.
+            /// </summary>
+            if (Variables.Q.IsReady() &&
+                ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
+                ObjectManager.Player.Spellbook.GetSpell(SpellSlot.Q).ToggleState == 1 &&
+                (Variables.W.GetLineFarmLocation(Targets.Minions, Variables.W.Width).MinionsHit >= 3 || Targets.JungleMinions.Any()) &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").GetValue<bool>())
+            {
+                Variables.Q.Cast(Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.W.Width).Position);
             }
         }
     }

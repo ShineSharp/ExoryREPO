@@ -110,8 +110,7 @@ namespace ExorAIO.Champions.Lux
             if (Variables.Q.IsReady() &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                (Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit == 2 ||
-                    GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
+                (Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit == 2 || Targets.JungleMinions.Any()) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").GetValue<bool>())
             {
                 Variables.Q.Cast((Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width)).Position);
@@ -123,11 +122,16 @@ namespace ExorAIO.Champions.Lux
             if (Variables.E.IsReady() &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                (Variables.E.GetCircularFarmLocation(Targets.Minions, Variables.E.Width).MinionsHit >= 2 ||
-                    GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.farm").GetValue<bool>())
             {
-                Variables.E.Cast((Variables.E.GetCircularFarmLocation(Targets.Minions, Variables.E.Width)).Position);
+                if (Variables.E.GetCircularFarmLocation(Targets.Minions, Variables.E.Width).MinionsHit >= 2)
+                {
+                    Variables.E.Cast(Variables.E.GetCircularFarmLocation(Targets.Minions, Variables.E.Width).Position);
+                }
+                else if (Targets.JungleMinions.Any())
+                {
+                    Variables.E.Cast((Targets.JungleMinions.FirstOrDefault()).Position);
+                }
             }
         }
     }

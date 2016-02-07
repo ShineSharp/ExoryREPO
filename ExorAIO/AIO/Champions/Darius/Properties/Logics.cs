@@ -93,13 +93,13 @@ namespace ExorAIO.Champions.Darius
         public static void ExecuteFarm(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             /// <summary>
-            /// The Q Farm Logic.
+            /// The Q LaneClear Logic,
+            /// The Q JungleClear Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
                 ObjectManager.Player.ManaPercent >= ManaManager.NeededQMana &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                (Targets.Minions?.Count() >= 3 ||
-                    GameObjects.Jungle.Contains((Obj_AI_Minion)args.Target)) &&
+                (Targets.Minions?.Count() >= 3 || Targets.JungleMinions.Any()) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").GetValue<bool>())
             {
                 Variables.Q.Cast();

@@ -147,13 +147,13 @@ namespace ExorAIO.Champions.Ezreal
         public static void ExecuteFarm(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             /// <summary>
-            /// The Q Farm Logic.
+            /// The Q LaneClear Logic,
+            /// The Q JungleClear Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                (Targets.Minions.Any() ||
-                    GameObjects.Jungle.Contains((Obj_AI_Minion)args.Target)) &&
+                (Targets.Minions.Any() || Targets.JungleMinions.Any()) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").GetValue<bool>())
             {
                 Variables.Q.Cast(((Obj_AI_Minion)args.Target).Position);

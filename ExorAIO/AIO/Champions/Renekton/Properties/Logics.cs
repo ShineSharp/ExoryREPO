@@ -101,12 +101,12 @@ namespace ExorAIO.Champions.Renekton
         public static void ExecuteFarm(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             /// <summary>
-            /// The Q Farm Logic.
+            /// The Q LaneClear Logic,
+            /// The Q JungleClear Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                (Targets.Minions.Count() >= 3 ||
-                    GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
+                (Targets.Minions?.Count() >= 3 || Targets.JungleMinions.Any()) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").GetValue<bool>())
             {
                 Variables.Q.Cast();

@@ -21,11 +21,19 @@ namespace ExorAIO.Champions.Quinn
                 .GetTarget(Variables.Q.Range, LeagueSharp.DamageType.Physical);
 
         /// <summary>
-        /// The minions target.
+        /// The minion targets.
         /// </summary>
         public static List<Obj_AI_Base> Minions
         => 
             MinionManager
                 .GetMinions(ObjectManager.Player.ServerPosition, Variables.Q.Range);
+
+        /// <summary>
+        /// The jungle minions targets.
+        /// </summary>
+        public static List<Obj_AI_Base> JungleMinions
+        => 
+            MinionManager
+                .GetMinions(ObjectManager.Player.ServerPosition, Variables.Q.Range, MinionTypes.All, MinionTeam.Neutral, MinionOrderTypes.MaxHealth);
     }
 }

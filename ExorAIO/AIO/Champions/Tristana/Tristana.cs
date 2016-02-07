@@ -53,7 +53,7 @@ namespace ExorAIO.Champions.Tristana
                 }
 
                 if (Variables.Orbwalker.GetTarget() != null &&
-                    Variables.Orbwalker.GetTarget().IsValid)
+                    Variables.Orbwalker.GetTarget().IsValid<Obj_AI_Minion>())
                 {
                     Logics.ExecuteFarm(args);
                 }

@@ -53,14 +53,14 @@ namespace ExorAIO.Champions.Cassiopeia
             /// The E Combo Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
-                ((Obj_AI_Hero)Variables.Orbwalker.GetTarget()).HasBuffOfType(BuffType.Poison) &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                ((Obj_AI_Hero)Variables.Orbwalker.GetTarget()).HasBuffOfType(BuffType.Poison) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").GetValue<bool>())
             {
                 Utility.DelayAction.Add(Variables.Menu.Item($"{Variables.MainMenuName}.espell.edelay").GetValue<Slider>().Value,
                 () =>
                     {
-                        Variables.E.CastOnUnit((Obj_AI_Hero)Variables.Orbwalker.GetTarget());
+                        Variables.E.CastOnUnit(Targets.Target);
                     }
                 ); 
             }
@@ -80,12 +80,12 @@ namespace ExorAIO.Champions.Cassiopeia
             /// The Q Combo Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
-                ((Obj_AI_Hero)Variables.Orbwalker.GetTarget()).IsValidTarget(Variables.Q.Range) &&
-                !((Obj_AI_Hero)Variables.Orbwalker.GetTarget()).HasBuffOfType(BuffType.Poison) &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                !((Obj_AI_Hero)Variables.Orbwalker.GetTarget()).HasBuffOfType(BuffType.Poison) &&
+                ((Obj_AI_Hero)Variables.Orbwalker.GetTarget()).IsValidTarget(Variables.Q.Range) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").GetValue<bool>())
             {
-                Variables.Q.Cast(Variables.Q.GetPrediction((Obj_AI_Hero)Variables.Orbwalker.GetTarget()).CastPosition);
+                Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).CastPosition);
                 return;
             }
 
@@ -94,12 +94,12 @@ namespace ExorAIO.Champions.Cassiopeia
             /// </summary>
             if (Variables.W.IsReady() &&
                 !Variables.Q.IsReady() &&
-                ((Obj_AI_Hero)Variables.Orbwalker.GetTarget()).IsValidTarget(Variables.W.Range) &&
-                !((Obj_AI_Hero)Variables.Orbwalker.GetTarget()).HasBuffOfType(BuffType.Poison) &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                !((Obj_AI_Hero)Variables.Orbwalker.GetTarget()).HasBuffOfType(BuffType.Poison) &&
+                ((Obj_AI_Hero)Variables.Orbwalker.GetTarget()).IsValidTarget(Variables.Q.Range) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").GetValue<bool>())
             {
-                Variables.W.Cast(Variables.W.GetPrediction((Obj_AI_Hero)Variables.Orbwalker.GetTarget()).CastPosition);
+                Variables.W.Cast(Variables.W.GetPrediction(Targets.Target).CastPosition);
             }
         }
 
@@ -113,13 +113,13 @@ namespace ExorAIO.Champions.Cassiopeia
             /// The Q Farm Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
-                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
-                (Variables.Q.GetCircularFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 3 ||
-                    GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
+                (Variables.Q.GetCircularFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 3 || Targets.JungleMinions.Any()) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").GetValue<bool>())
             {
                 Variables.Q.Cast(Variables.Q.GetCircularFarmLocation(Targets.Minions, Variables.Q.Width).Position);
+                return;
             }
 
             /// <summary>
@@ -127,10 +127,9 @@ namespace ExorAIO.Champions.Cassiopeia
             /// </summary>
             if (Variables.W.IsReady() &&
                 !Variables.Q.IsReady() &&
-                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededWMana &&
-                (Variables.W.GetCircularFarmLocation(Targets.Minions, Variables.W.Width).MinionsHit >= 3 ||
-                    GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
+                (Variables.W.GetCircularFarmLocation(Targets.Minions, Variables.W.Width).MinionsHit >= 3 || Targets.JungleMinions.Any()) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.wspell.farm").GetValue<bool>())
             {
                 Variables.W.Cast(Variables.W.GetCircularFarmLocation(Targets.Minions, Variables.W.Width).Position);

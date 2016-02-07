@@ -27,5 +27,13 @@ namespace ExorAIO.Champions.Renekton
         => 
             MinionManager
                 .GetMinions(ObjectManager.Player.ServerPosition, Variables.Q.Range);
+
+        /// <summary>
+        /// The jungle minions targets.
+        /// </summary>
+        public static List<Obj_AI_Base> JungleMinions
+        => 
+            MinionManager
+                .GetMinions(ObjectManager.Player.ServerPosition, Variables.Q.Range, MinionTypes.All, MinionTeam.Neutral, MinionOrderTypes.MaxHealth);
     }
 }

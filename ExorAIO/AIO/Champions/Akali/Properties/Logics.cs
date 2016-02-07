@@ -96,13 +96,13 @@ namespace ExorAIO.Champions.Akali
         public static void ExecuteFarm(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             /// <summary>
-            /// The E Farm Logic.
+            /// The E LaneClear Logic,
+            /// The E JungleClear Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                (Targets.Minions.Count() >= 3 ||
-                    GameObjects.Jungle.Contains((Obj_AI_Minion)args.Target)) &&
+                (Targets.Minions.Count() >= 3 || Targets.JungleMinions.Any()) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.farm").GetValue<bool>())
             {
                 Variables.E.Cast();

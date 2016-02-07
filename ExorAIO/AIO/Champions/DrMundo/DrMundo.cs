@@ -39,7 +39,11 @@ namespace ExorAIO.Champions.DrMundo
 					Logics.ExecuteAuto(args);
 				}
 
-                Logics.ExecuteFarm(args);
+                if (Variables.Orbwalker.GetTarget() != null &&
+                    (Variables.Orbwalker.GetTarget()).IsValid<Obj_AI_Minion>())
+                {
+                    Logics.ExecuteFarm(args);
+                }
 			}
 		}
 

@@ -31,6 +31,8 @@ namespace ExorAIO.Champions.Cassiopeia
         {
             if (!ObjectManager.Player.IsDead)
             {
+                Logics.ExecuteTearStacking(args);
+
                 if (Targets.Target != null &&
                     Targets.Target.IsValid &&
                     Bools.HasNoProtection(Targets.Target) &&
@@ -39,8 +41,11 @@ namespace ExorAIO.Champions.Cassiopeia
                     Logics.ExecuteModes(args);
                 }
 
-                Logics.ExecuteFarm(args);
-                Logics.ExecuteTearStacking(args);
+                if (Variables.Orbwalker.GetTarget() != null &&
+                    (Variables.Orbwalker.GetTarget()).IsValid<Obj_AI_Minion>())
+                {
+                    Logics.ExecuteFarm(args);
+                }
             }
         }
     }

@@ -77,7 +77,8 @@ namespace ExorAIO.Champions.Tryndamere
         public static void ExecuteFarm(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             /// <summary>
-            /// The E Farm Logic.
+            /// The E LaneClear Logic,
+            /// The E JungleClear Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
                 ObjectManager.Player.CountEnemiesInRange(800f) == 0 &&
@@ -85,7 +86,14 @@ namespace ExorAIO.Champions.Tryndamere
                 Variables.E.GetLineFarmLocation(Targets.Minions, Variables.E.Width).MinionsHit >= 3 &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.farm").GetValue<bool>())
             {
-                Variables.E.Cast(Variables.E.GetLineFarmLocation(Targets.Minions, Variables.E.Width).Position);
+                if (Variables.E.GetLineFarmLocation(Targets.Minions, Variables.E.Width).MinionsHit >= 3)
+                {
+                    Variables.E.Cast(Variables.E.GetLineFarmLocation(Targets.Minions, Variables.E.Width).Position);
+                }
+                else if (Targets.JungleMinions.Any())
+                {
+                    Variables.E.Cast((Targets.JungleMinions.FirstOrDefault()).Position);
+                }
             }
         }
     }

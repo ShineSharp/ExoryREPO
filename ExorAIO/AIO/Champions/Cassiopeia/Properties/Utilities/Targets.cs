@@ -29,6 +29,14 @@ namespace ExorAIO.Champions.Cassiopeia
                 .GetMinions(ObjectManager.Player.ServerPosition, Variables.E.Range);
 
         /// <summary>
+        /// The minion targets.
+        /// </summary>
+        public static List<Obj_AI_Base> JungleMinions
+        => 
+            MinionManager
+                .GetMinions(ObjectManager.Player.ServerPosition, Variables.E.Range, MinionTypes.All, MinionTeam.Neutral, MinionOrderTypes.MaxHealth);
+
+        /// <summary>
         /// The R Range targets.
         /// </summary>
         public static IEnumerable<Obj_AI_Hero> RTargets

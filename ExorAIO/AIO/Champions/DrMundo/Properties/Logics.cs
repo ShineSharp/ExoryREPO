@@ -100,22 +100,20 @@ namespace ExorAIO.Champions.DrMundo
         public static void ExecuteFarm(EventArgs args)
         {
             /// <summary>
-            /// The W Farm Logic.
+            /// The W LaneClear Logic,
+            /// The W JungleClear Logic.
             /// </summary>
             if (Variables.W.IsReady() &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.wspell.farm").GetValue<bool>())
             {
-                if (!ObjectManager.Player.HasBuff("BurningAgony") &&
+                if ((!ObjectManager.Player.HasBuff("BurningAgony") &&
                     ObjectManager.Player.Health >= ManaManager.NeededWMana &&
-                    (Targets.Minions.Any() && Targets.Minions.Count() >= 2 ||
-                    Variables.Orbwalker.GetTarget() != null &&
-                    Variables.Orbwalker.GetTarget().Type.Equals(GameObjectType.obj_AI_Minion) &&
-                    GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) ||
+                    (Targets.Minions?.Count() >= 2 || Targets.JungleMinions.Any())) ||
                     
-                    ObjectManager.Player.HasBuff("BurningAgony") &&
-                    !Targets.Minions.Any() ||
-                    ObjectManager.Player.Health < ManaManager.NeededWMana)
+                    (ObjectManager.Player.HasBuff("BurningAgony") &&
+                        !Targets.Minions.Any() && !Targets.JungleMinions.Any() &&
+                        ObjectManager.Player.Health < ManaManager.NeededWMana))
                 {
                     Variables.W.Cast();
                 }

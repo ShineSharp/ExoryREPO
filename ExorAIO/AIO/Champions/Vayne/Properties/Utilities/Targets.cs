@@ -3,6 +3,7 @@ using LeagueSharp.Common;
 
 namespace ExorAIO.Champions.Vayne
 {
+    using System.Collections.Generic;
     using System.Linq;
     using ExorAIO.Utilities;
     using TargetSelector = SFXTargetSelector.TargetSelector;
@@ -29,5 +30,13 @@ namespace ExorAIO.Champions.Vayne
                 .GetMinions(ObjectManager.Player.ServerPosition, Variables.Q.Range)
                 .Where(m => m.Health < ObjectManager.Player.GetAutoAttackDamage(m) * 1.30)
                 .OrderBy(m => m.HealthPercent);
+
+        /// <summary>
+        /// The jungle minions targets.
+        /// </summary>
+        public static List<Obj_AI_Base> JungleMinions
+        => 
+            MinionManager
+                .GetMinions(ObjectManager.Player.ServerPosition, Variables.Q.Range, MinionTypes.All, MinionTeam.Neutral, MinionOrderTypes.MaxHealth);
     }
 }

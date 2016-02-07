@@ -109,13 +109,13 @@ namespace ExorAIO.Champions.Graves
         public static void ExecuteFarm(EventArgs args)
         {
             /// <summary>
-            /// The Q Farm Logic.
+            /// The Q LaneClear Logic,
+            /// The Q JungleClear Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                (Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 3 ||
-                    GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
+                (Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 3 || Targets.JungleMinions.Any()) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").GetValue<bool>())
             {
                 Variables.Q.Cast(Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).Position);

@@ -29,8 +29,16 @@ namespace ExorAIO.Champions.Ezreal
             MinionManager
                 .GetMinions(ObjectManager.Player.ServerPosition, Variables.Q.Range)
                 .FindAll(h =>
-                    h.Health < Variables.Q.GetDamage(h) &&
+                    h.Health < Variables.Q.GetDamage(h) + ObjectManager.Player.GetAutoAttackDamage(h) &&
                     h.Health > ObjectManager.Player.GetAutoAttackDamage(h))
                 .OrderBy(h => h.HealthPercent);
+
+        /// <summary>
+        /// The jungle minions targets.
+        /// </summary>
+        public static List<Obj_AI_Base> JungleMinions
+        => 
+            MinionManager
+                .GetMinions(ObjectManager.Player.ServerPosition, Variables.Q.Range, MinionTypes.All, MinionTeam.Neutral, MinionOrderTypes.MaxHealth);
     }
 }

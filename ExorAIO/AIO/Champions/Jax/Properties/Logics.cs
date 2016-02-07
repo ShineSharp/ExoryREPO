@@ -97,7 +97,7 @@ namespace ExorAIO.Champions.Jax
             if (Variables.W.IsReady() &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededWMana &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget()) &&
+                Targets.JungleMinions.Any() &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.wspell.jc").GetValue<bool>())
             {
                 Variables.W.Cast();
@@ -110,8 +110,7 @@ namespace ExorAIO.Champions.Jax
                 ObjectManager.Player.CountEnemiesInRange(700) == 0 &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                (Targets.Minions.Count() > 3 ||
-                    GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
+                (Targets.Minions?.Count() > 3 || Targets.JungleMinions.Any()) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.farm").GetValue<bool>())
             {
                 Variables.E.Cast();

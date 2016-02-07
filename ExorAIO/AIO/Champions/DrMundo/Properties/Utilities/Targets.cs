@@ -27,5 +27,13 @@ namespace ExorAIO.Champions.DrMundo
         => 
             MinionManager
                 .GetMinions(ObjectManager.Player.ServerPosition, Variables.W.Range);
+
+        /// <summary>
+        /// The jungle minions targets.
+        /// </summary>
+        public static List<Obj_AI_Base> JungleMinions
+        => 
+            MinionManager
+                .GetMinions(ObjectManager.Player.ServerPosition, Variables.W.Range, MinionTypes.All, MinionTeam.Neutral, MinionOrderTypes.MaxHealth);
     }
 }

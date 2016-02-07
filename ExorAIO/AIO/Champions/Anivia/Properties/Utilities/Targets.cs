@@ -26,10 +26,25 @@ namespace ExorAIO.Champions.Anivia
         public static List<Obj_AI_Base> Minions
         => 
             MinionManager
-                .GetMinions(ObjectManager.Player.ServerPosition, Variables.W.Range);
+                .GetMinions(ObjectManager.Player.ServerPosition, Variables.R.Range);
 
         /// <summary>
-        /// The minions hit by R.
+        /// The jungle minion targets.
+        /// </summary>
+        public static List<Obj_AI_Base> JungleMinions
+        => 
+            MinionManager
+                .GetMinions(Anivia.RMissile.Position, Variables.R.Width, MinionTypes.All, MinionTeam.Neutral, MinionOrderTypes.MaxHealth);
+
+        /// <summary>
+        /// The minions hit by the Q missile.
+        /// </summary>
+        public static List<Obj_AI_Base> QMinions
+        => 
+            MinionManager
+                .GetMinions(Anivia.QMissile.Position, Variables.Q.Width);
+        /// <summary>
+        /// The minions hit by the R gameobject.
         /// </summary>
         public static List<Obj_AI_Base> RMinions
         => 

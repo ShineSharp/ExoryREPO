@@ -150,16 +150,22 @@ namespace ExorAIO.Champions.Quinn
         public static void ExecuteFarm(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             /// <summary>
-            /// The Q Farm Logic.
+            /// The Q LaneClear Logic,
+            /// The Q JungleClear Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                (Variables.Q.GetCircularFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 3 ||
-                    GameObjects.Jungle.Contains((Obj_AI_Minion)args.Target)) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").GetValue<bool>())
             {
-                Variables.Q.Cast(Variables.Q.GetCircularFarmLocation(Targets.Minions, Variables.Q.Width).Position);
+                if (Variables.Q.GetCircularFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 3)
+                {
+                    Variables.Q.Cast(Variables.Q.GetCircularFarmLocation(Targets.Minions, Variables.Q.Width).Position);
+                }
+                else if (Targets.JungleMinions.Any())
+                {
+                    Variables.Q.Cast((Targets.JungleMinions.FirstOrDefault()).Position);
+                }
             }
         }
     }

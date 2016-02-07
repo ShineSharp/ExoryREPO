@@ -164,11 +164,13 @@ namespace ExorAIO.Champions.Vayne
             if (Variables.Q.IsReady() &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
                 Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo &&
-                (Targets.Minions.Count() > 1 ||
-                    GameObjects.Jungle.Contains((Obj_AI_Minion)args.Target)) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").GetValue<bool>())
             {
-                Variables.Q.Cast(Game.CursorPos);
+                if (Targets.Minions?.Count() > 1 ||
+                    Targets.JungleMinions.Any())
+                {
+                    Variables.Q.Cast(Game.CursorPos);
+                }
             }
         }
     }

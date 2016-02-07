@@ -78,21 +78,31 @@ namespace ExorAIO.Champions.Tristana
         public static void ExecuteFarm(EventArgs args)
         {
             /// <summary>
-            /// The E Farm Logic.
+            /// The E LaneClear Logic,
+            /// The E against Towers Logic,
+            /// The E JungleClear Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
                 !ObjectManager.Player.IsWindingUp &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                ((GameObjects.Minions
-                    .Count(units =>
-                        units.IsValidTarget(Variables.E.Range) &&
-                        units.Distance(Targets.Minions.FirstOrDefault(), false) < 150f) > 2) ||
-                    Variables.Orbwalker.GetTarget().IsValid<Obj_AI_Turret>() ||
-                    GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.farm").GetValue<bool>())
             {
-                Variables.E.CastOnUnit((Obj_AI_Base)Variables.Orbwalker.GetTarget());
+                if (GameObjects.Minions
+                    .Count(units =>
+                        units.IsValidTarget(Variables.E.Range) &&
+                        units.Distance(Targets.Minions?.FirstOrDefault(), false) < 150f) > 2)
+                {
+                    Variables.E.CastOnUnit(Targets.Minions?.FirstOrDefault());
+                }
+                else if (Variables.Orbwalker.GetTarget().IsValid<Obj_AI_Turret>())
+                {
+                    Variables.E.CastOnUnit((Obj_AI_Turret)Variables.Orbwalker.GetTarget());
+                }
+                else if (Targets.JungleMinions.Any())
+                {
+                    Variables.E.CastOnUnit(Targets.JungleMinions.FirstOrDefault());
+                }
             }
         }
     }
