@@ -3,6 +3,8 @@ using LeagueSharp.Common;
 
 namespace ExorRyze
 {
+    using System.Linq;
+
     /// <summary>
     /// The bools class.
     /// </summary>
@@ -29,5 +31,22 @@ namespace ExorRyze
             target != null &&
             !target.IsInvulnerable &&
             !target.HasBuffOfType(BuffType.SpellShield);
+
+        /// <summary>
+        /// Gets a value indicating whether a determined champion has a stackable item.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if the player has a tear item.; otherwise, <c>false</c>.
+        /// </value>
+        public static bool HasTear(Obj_AI_Hero target) 
+        =>
+            target.InventoryItems
+                .Any(item => 
+                    item.Id.Equals(ItemId.Tear_of_the_Goddess) ||
+                    item.Id.Equals(ItemId.Archangels_Staff) ||
+                    item.Id.Equals(ItemId.Manamune) ||
+                    item.Id.Equals(ItemId.Tear_of_the_Goddess_Crystal_Scar) ||
+                    item.Id.Equals(ItemId.Archangels_Staff_Crystal_Scar) ||
+                    item.Id.Equals(ItemId.Manamune_Crystal_Scar));
     }
 }
