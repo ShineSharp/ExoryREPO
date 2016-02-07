@@ -24,20 +24,26 @@ namespace ExorAIO.Champions.Anivia
             /// </summary>
             if (Variables.Q.IsReady() &&
                 Anivia.QMissile != null &&
-                Anivia.QMissile.Position.CountEnemiesInRange(Variables.Q.Width) > 0)
+                ObjectManager.Player.Spellbook.GetSpell(SpellSlot.Q).ToggleState != 1 &&
+                
+                ((Variables.Q.GetCircularFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 3 &&
+                    Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear) ||
+
+                (Anivia.QMissile.Position.CountEnemiesInRange(Variables.Q.Width) > 0 &&
+                    Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear)))
             {
                 Variables.Q.Cast();
             }
 
             /// <summary>
-            /// The R Tear Stacking.
+            /// The R Stacking Manager.
             /// </summary>
-            if (Variables.R.IsReady() &&
-                ObjectManager.Player.InFountain() &&
+            if (ObjectManager.Player.InFountain() &&
                 Bools.HasTear(ObjectManager.Player) &&
-                ObjectManager.Player.Spellbook.GetSpell(SpellSlot.R).ToggleState == 1)
+                ObjectManager.Player.Spellbook.GetSpell(SpellSlot.R).ToggleState == 1 &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.misc.tear").GetValue<bool>())
             {
-                Variables.R.Cast();
+                Variables.R.Cast(Game.CursorPos);
             }
 
             /// <summary>
@@ -46,11 +52,12 @@ namespace ExorAIO.Champions.Anivia
             if (Variables.R.IsReady() &&
                 Anivia.RMissile != null &&
                 !ObjectManager.Player.InFountain() &&
+                ObjectManager.Player.Spellbook.GetSpell(SpellSlot.R).ToggleState != 1 &&
 
                 ((Targets.RMinions.Count() < 2 &&
                     Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear) ||
 
-                (Anivia.RMissile.Position.CountEnemiesInRange(Variables.R.Width) < 0 &&
+                (Anivia.RMissile.Position.CountEnemiesInRange(Variables.R.Width) < 1 &&
                     Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.LaneClear)))
             {
                 Variables.R.Cast();
@@ -75,23 +82,7 @@ namespace ExorAIO.Champions.Anivia
                 Variables.Menu.Item($"{Variables.MainMenuName}.wspell.whitelist.{Targets.Target.ChampionName.ToLower()}").GetValue<bool>())
             {
                 Variables.W.Cast(ObjectManager.Player.ServerPosition.Extend(Targets.Target.ServerPosition, ObjectManager.Player.Distance(Targets.Target) + 10f));
-            }
-
-            /// <summary>
-            /// The Q Combo Logic.
-            /// The Q KillSteal.
-            /// </summary>
-            if (Variables.Q.IsReady() &&
-                Targets.Target.IsValidTarget(Variables.Q.Range) &&
-                ObjectManager.Player.Distance(Variables.Q.GetPrediction(Targets.Target).UnitPosition) < Variables.Q.Range - 100 &&
-
-                ((Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").GetValue<bool>()) ||
-
-                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").GetValue<bool>())))
-            {
-                Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
+                return;
             }
 
             /// <summary>
@@ -110,12 +101,12 @@ namespace ExorAIO.Champions.Anivia
                     Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").GetValue<bool>())))
             {
                 Variables.E.CastOnUnit(Targets.Target);
+                return;
             }
 
             /// <summary>
             /// The R KillSteal Logic,
-            /// The R Doublelift Mechanic Logic,
-            /// The R Normal Combo Logic.
+            /// The R Combo Logic.
             /// </summary>
             if (Variables.R.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.R.Range) &&
@@ -127,6 +118,27 @@ namespace ExorAIO.Champions.Anivia
                     Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").GetValue<bool>())))
             {
                 Variables.R.Cast(Variables.R.GetPrediction(Targets.Target).CastPosition);
+                return;
+            }
+
+            /// <summary>
+            /// The Q Combo Logic.
+            /// The Q KillSteal.
+            /// </summary>
+            if (Variables.Q.IsReady() &&
+                !Variables.E.IsReady() &&
+                !Variables.W.IsReady() &&
+                Targets.Target.IsValidTarget(Variables.Q.Range) &&
+                ObjectManager.Player.Spellbook.GetSpell(SpellSlot.Q).ToggleState == 1 &&
+                ObjectManager.Player.Distance(Variables.Q.GetPrediction(Targets.Target).UnitPosition) < Variables.Q.Range - 100 &&
+
+                ((Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").GetValue<bool>()) ||
+
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").GetValue<bool>())))
+            {
+                Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
             }
         }
 
@@ -142,6 +154,7 @@ namespace ExorAIO.Champions.Anivia
             if (Variables.Q.IsReady() &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
+                ObjectManager.Player.Spellbook.GetSpell(SpellSlot.Q).ToggleState == 1 &&
                 (Variables.W.GetLineFarmLocation(Targets.Minions, Variables.W.Width).MinionsHit >= 3 ||
                     GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").GetValue<bool>())
@@ -155,6 +168,7 @@ namespace ExorAIO.Champions.Anivia
             if (Variables.R.IsReady() &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededRMana &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
+                ObjectManager.Player.Spellbook.GetSpell(SpellSlot.R).ToggleState == 1 &&
                 (Variables.R.GetCircularFarmLocation(Targets.Minions, Variables.R.Width).MinionsHit >= 4 ||
                     GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.rspell.farm").GetValue<bool>())
