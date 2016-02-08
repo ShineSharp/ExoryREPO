@@ -8,7 +8,6 @@ namespace ExorAIO.Champions.Quinn
     using ExorAIO.Utilities;
     using SharpDX;
     using Orbwalking = SFXTargetSelector.Orbwalking;
-    using TargetSelector = SFXTargetSelector.TargetSelector;
 
     /// <summary>
     /// The logics class.
@@ -53,15 +52,6 @@ namespace ExorAIO.Champions.Quinn
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void ExecuteAuto(EventArgs args)
         {
-            /// <summary>
-            /// The Focus Logic (Passive Mark).
-            /// </summary>
-            if (Targets.Target.HasBuff("quinnw"))
-            {
-                TargetSelector.Selected.Target = Targets.Target;
-                Variables.Orbwalker.ForceTarget(Targets.Target);
-            }
-
             /// <summary>
             /// The Q Combo Logic,
             /// The Q KillSteal Logic,

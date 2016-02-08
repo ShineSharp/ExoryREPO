@@ -4,8 +4,10 @@ using LeagueSharp.Common;
 namespace ExorAIO.Champions.Quinn
 {
     using System;
+    using System.Linq;
     using ExorAIO.Utilities;
     using Orbwalking = SFXTargetSelector.Orbwalking;
+    using TargetSelector = SFXTargetSelector.TargetSelector;
 
     /// <summary>
     /// The champion class.
@@ -32,14 +34,28 @@ namespace ExorAIO.Champions.Quinn
             if (!ObjectManager.Player.IsDead)
             {
                 Logics.ExecuteRAuto(args);
-                
-                if (Targets.Target != null &&
-                    Targets.Target.IsValid &&
-                    Bools.HasNoProtection(Targets.Target) &&
-                    Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
+
+                if (Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
                 {
-                    Logics.ExecuteRTarget(args);
-                    Logics.ExecuteAuto(args);
+                    /// <summary>
+                    /// The Focus Logic (Passive Mark).
+                    /// </summary>
+                    foreach (var tg in HeroManager.Enemies
+                        .Where(h =>
+                            h.HasBuff("quinnw") &&
+                            h.IsValidTarget(ObjectManager.Player.AttackRange)))
+                    {
+                        TargetSelector.Selected.Target = tg;
+                        Variables.Orbwalker.ForceTarget(tg);
+                    }
+
+                    if (Targets.Target != null &&
+                        Targets.Target.IsValid &&
+                        Bools.HasNoProtection(Targets.Target))
+                    {
+                        Logics.ExecuteRTarget(args);
+                        Logics.ExecuteAuto(args);
+                    }
                 }
             }
         }

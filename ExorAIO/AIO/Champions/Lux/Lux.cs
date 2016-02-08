@@ -4,6 +4,7 @@ using LeagueSharp.Common;
 namespace ExorAIO.Champions.Lux
 {
     using System;
+    using System.Linq;
     using ExorAIO.Utilities;
     using Orbwalking = SFXTargetSelector.Orbwalking;
     using TargetSelector = SFXTargetSelector.TargetSelector;
@@ -30,23 +31,24 @@ namespace ExorAIO.Champions.Lux
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void OnUpdate(EventArgs args)
         {
-            if (!ObjectManager.Player.IsDead)
+            if (!ObjectManager.Player.IsDead &&
+                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
                 /// <summary>
-                /// The Target preference.
+                /// The Focus Logic (Passive Mark).
                 /// </summary>
-                if (TargetSelector.Weights.GetItem("low-health") != null)
+                foreach (var tg in HeroManager.Enemies
+                    .Where(h =>
+                        h.HasBuff("luxilluminatingfraulein") &&
+                        h.IsValidTarget(ObjectManager.Player.AttackRange)))
                 {
-                    TargetSelector.Weights.Register(
-                        new TargetSelector.Weights.Item(
-                            "p-stack", "Passive Stack", 10, false, hero => hero.HasBuff("luxilluminatingfraulein") ? 1 : 0,
-                            "Has Passive Stack = Higher Weight"));
+                    TargetSelector.Selected.Target = tg;
+                    Variables.Orbwalker.ForceTarget(tg);
                 }
 
                 if (Targets.Target != null &&
                     Targets.Target.IsValid &&
-                    Bools.HasNoProtection(Targets.Target) &&
-                    Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
+                    Bools.HasNoProtection(Targets.Target))
                 {
                     Logics.ExecuteAuto(args);
                 }

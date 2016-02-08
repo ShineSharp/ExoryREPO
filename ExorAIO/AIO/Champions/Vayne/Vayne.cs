@@ -4,6 +4,7 @@ using LeagueSharp.Common;
 namespace ExorAIO.Champions.Vayne
 {
     using System;
+    using System.Linq;
     using ExorAIO.Utilities;
     using Orbwalking = SFXTargetSelector.Orbwalking;
     using TargetSelector = SFXTargetSelector.TargetSelector;
@@ -30,13 +31,27 @@ namespace ExorAIO.Champions.Vayne
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void OnUpdate(EventArgs args)
         {
-            if (Targets.Target != null &&
-                Targets.Target.IsValid &&
-                !ObjectManager.Player.IsDead &&
-                Bools.HasNoProtection(Targets.Target) &&
+            if (!ObjectManager.Player.IsDead &&  
                 Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
-                Logics.ExecuteAuto(args);
+                /// <summary>
+                /// The Focus Logic (W Stacks).
+                /// </summary>
+                foreach (var tg in HeroManager.Enemies
+                    .Where(h =>
+                        h.HasBuff("vaynesilvereddebuff") &&
+                        h.IsValidTarget(ObjectManager.Player.AttackRange)))
+                {
+                    TargetSelector.Selected.Target = tg;
+                    Variables.Orbwalker.ForceTarget(tg);
+                }
+
+                if (Targets.Target != null &&
+                    Targets.Target.IsValid &&
+                    Bools.HasNoProtection(Targets.Target))
+                {
+                    Logics.ExecuteAuto(args);
+                }
             }
         }
 

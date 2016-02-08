@@ -4,6 +4,7 @@ using LeagueSharp.Common;
 namespace ExorAIO.Champions.Tristana
 {
     using System;
+    using System.Linq;
     using ExorAIO.Utilities;
     using Orbwalking = SFXTargetSelector.Orbwalking;
     using TargetSelector = SFXTargetSelector.TargetSelector;
@@ -34,6 +35,18 @@ namespace ExorAIO.Champions.Tristana
             if (!ObjectManager.Player.IsDead &&
                 Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
+                /// <summary>
+                /// The Focus Logic (E Charges).
+                /// </summary>
+                foreach (var tg in HeroManager.Enemies
+                    .Where(h =>
+                        h.HasBuff("TristanaECharge") &&
+                        h.IsValidTarget(ObjectManager.Player.AttackRange)))
+                {
+                    TargetSelector.Selected.Target = tg;
+                    Variables.Orbwalker.ForceTarget(tg);
+                }
+
                 if (Targets.Target != null &&
                     Targets.Target.IsValid &&
                     Bools.HasNoProtection(Targets.Target))
