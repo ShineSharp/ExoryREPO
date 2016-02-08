@@ -59,7 +59,7 @@ namespace ExorRyze
         {
             if (Variables.W.IsReady() &&
                 gapcloser.Sender.IsValidTarget(Variables.W.Range) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.gp").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.gp").IsActive())
             {
                 Variables.W.CastOnUnit(gapcloser.Sender);
             }
