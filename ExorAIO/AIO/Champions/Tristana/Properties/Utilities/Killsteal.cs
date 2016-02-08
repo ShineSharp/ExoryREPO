@@ -12,7 +12,7 @@ namespace ExorAIO.Champions.Tristana
     {
         public static float Damage(Obj_AI_Hero target)
         {
-            float dmg = 0f;
+            double dmg = 0f;
 
             if (target.HasBuff("TristanaECharge"))
             {
@@ -24,7 +24,7 @@ namespace ExorAIO.Champions.Tristana
                 dmg += Variables.R.GetDamage(target);
             }
             
-            return dmg;
+            return (float)dmg;
         }
     }
 }
