@@ -26,8 +26,7 @@ namespace ExorAIO.Champions.Ashe
             if (Variables.Q.IsReady() &&
                 ObjectManager.Player.IsWindingUp &&
                 ObjectManager.Player.HasBuff("AsheQCastReady") &&
-                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.auto").IsActive())
             {
                 Variables.Q.Cast();
             }
@@ -41,10 +40,10 @@ namespace ExorAIO.Champions.Ashe
                 Variables.W.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
 
                 ((Bools.IsImmobile(Targets.Target) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.wspell.immobile").GetValue<bool>()) ||
+                    Variables.Menu.Item($"{Variables.MainMenuName}.wspell.immobile").IsActive()) ||
 
                 (Targets.Target.Health < Variables.W.GetDamage(Targets.Target) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.wspell.ks").GetValue<bool>())))
+                    Variables.Menu.Item($"{Variables.MainMenuName}.wspell.ks").IsActive())))
             {
                 Variables.W.Cast(Variables.W.GetPrediction(Targets.Target).UnitPosition);
             }
@@ -60,15 +59,15 @@ namespace ExorAIO.Champions.Ashe
 
                 ((Targets.Target.Health < Variables.R.GetDamage(Targets.Target) &&
                     (!Variables.W.IsReady() || !Targets.Target.IsValidTarget(Variables.W.Range)) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").GetValue<bool>()) ||
+                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").IsActive()) ||
 
                 ((Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").GetValue<bool>() &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.whitelist.{Targets.Target.ChampionName.ToLower()}").GetValue<bool>()))))
+                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").IsActive() &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.whitelist.{Targets.Target.ChampionName.ToLower()}").IsActive()))))
             {
                 if (Variables.E.IsReady() &&
                     Targets.Target.Health > Variables.R.GetDamage(Targets.Target) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.misc.ermechanic").GetValue<bool>())
+                    Variables.Menu.Item($"{Variables.MainMenuName}.misc.ermechanic").IsActive())
                 {
                     Variables.E.Cast(Variables.E.GetPrediction(Targets.Target).UnitPosition);
                 }
@@ -89,8 +88,8 @@ namespace ExorAIO.Champions.Ashe
             /// </summary>
             if (Variables.W.IsReady() &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.W.GetPrediction(Targets.Target).Hitchance >= HitChance.Medium &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").GetValue<bool>())
+                Variables.W.GetPrediction(Targets.Target).Hitchance >= HitChance.VeryHigh &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").IsActive())
             {
                 Variables.W.Cast(Variables.W.GetPrediction(Targets.Target).UnitPosition);
             }
@@ -110,7 +109,7 @@ namespace ExorAIO.Champions.Ashe
             if (Variables.W.IsReady() &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededWMana &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.farm").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.farm").IsActive())
             {
                 if (Variables.W.GetLineFarmLocation(Targets.Minions, Variables.W.Width).MinionsHit >= 3)
                 {
@@ -120,19 +119,6 @@ namespace ExorAIO.Champions.Ashe
                 {
                     Variables.W.Cast((Targets.JungleMinions.FirstOrDefault()).Position);
                 }
-            }
-
-            /// <summary>
-            /// The Q LaneClear Logic,
-            /// The Q JungleClear Logic.
-            /// </summary>
-            if (Variables.Q.IsReady() &&
-                ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
-                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                (Targets.Minions.Count() >= 3 || Targets.JungleMinions.Any()) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").GetValue<bool>())
-            {
-                Variables.Q.Cast();
             }
         }
     }

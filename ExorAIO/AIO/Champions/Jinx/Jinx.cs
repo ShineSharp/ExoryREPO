@@ -64,8 +64,7 @@ namespace ExorAIO.Champions.Jinx
         {
             if (sender != null &&
                 sender.IsEnemy &&
-                sender.IsValid<Obj_AI_Hero>() &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.espell.auto").GetValue<bool>())
+                sender.IsValid<Obj_AI_Hero>())
             {
                 Logics.ExecuteSpellCast(sender, args);
             }
@@ -78,7 +77,7 @@ namespace ExorAIO.Champions.Jinx
         {
             if (Variables.E.IsReady() &&
                 ObjectManager.Player.Distance(gapcloser.End) <= Variables.E.Range &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.espell.auto").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.gp").IsActive())
             {
                 Variables.E.Cast(gapcloser.End);
             }

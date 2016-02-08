@@ -27,10 +27,10 @@ namespace ExorAIO.Champions.Sivir
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
 
                 ((Variables.Q.GetDamage(Targets.Target)*2 > Targets.Target.Health &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").GetValue<bool>()) ||
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").IsActive()) ||
 
                 (Bools.IsImmobile(Targets.Target) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.immobile").GetValue<bool>())))
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.immobile").IsActive())))
             {
                 Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
             }
@@ -47,7 +47,7 @@ namespace ExorAIO.Champions.Sivir
             /// The E Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.espell.auto").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.auto").IsActive())
             {
                 if (args.SData.IsAutoAttack() ||
                     (!args.SData.Name.Equals("MockingShout") &&
@@ -79,7 +79,7 @@ namespace ExorAIO.Champions.Sivir
             /// </summary>
             if (Variables.W.IsReady() &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").IsActive())
             {
                 Orbwalking.ResetAutoAttackTimer();
                 Variables.W.Cast();
@@ -92,7 +92,7 @@ namespace ExorAIO.Champions.Sivir
             if (Variables.Q.IsReady() &&
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.Q.Range) &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive())
             {
                 Variables.Q.Cast(Variables.Q.GetPrediction((Obj_AI_Hero)args.Target).UnitPosition);
             }
@@ -111,9 +111,8 @@ namespace ExorAIO.Champions.Sivir
             if (Variables.W.IsReady() &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededWMana &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                (Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 2 ||
-                    GameObjects.Jungle.Contains((Obj_AI_Minion)Variables.Orbwalker.GetTarget())) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.farm").GetValue<bool>())
+                (Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 2 || Targets.JungleMinions.Any()) &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.farm").IsActive())
             {
                 Orbwalking.ResetAutoAttackTimer();
                 Variables.W.Cast();
@@ -126,7 +125,7 @@ namespace ExorAIO.Champions.Sivir
             if (Variables.Q.IsReady() &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").IsActive())
             {
                 if (Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 2)
                 {

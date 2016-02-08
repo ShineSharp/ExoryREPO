@@ -27,7 +27,7 @@ namespace ExorAIO.Champions.Renekton
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 (!Targets.Target.UnderTurret() || Targets.Target.HealthPercent < 10) &&
                 Targets.Target.IsValidTarget(Variables.E.Range + Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").IsActive())
             {
                 Variables.E.Cast(Targets.Target.Position);
             }
@@ -39,13 +39,13 @@ namespace ExorAIO.Champions.Renekton
             if (Variables.Q.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
 
-                ((!ObjectManager.Player.UnderTurret() &&
+                ((Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health) &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").IsActive()) ||
+
+                (!ObjectManager.Player.UnderTurret() &&
                     ObjectManager.Player.ManaPercent >= 50 &&
                     Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.harass").GetValue<bool>()) ||
-
-                (Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").GetValue<bool>()))
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.harass").IsActive()))
             {
                 Variables.Q.Cast();
             }
@@ -56,7 +56,7 @@ namespace ExorAIO.Champions.Renekton
             if (Variables.R.IsReady() &&
                 ObjectManager.Player.CountEnemiesInRange(700) > 0 &&
                 HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(250 + Game.Ping / 2f)) <= ObjectManager.Player.MaxHealth/4 &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.lifesaver").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.lifesaver").IsActive())
             {
                 Variables.R.Cast();
             }
@@ -75,7 +75,7 @@ namespace ExorAIO.Champions.Renekton
             if (Variables.W.IsReady() &&
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.W.Range) &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").IsActive())
             {
                 Variables.W.Cast();
             }
@@ -87,7 +87,7 @@ namespace ExorAIO.Champions.Renekton
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
                 !ObjectManager.Player.HasBuff("RenektonPreExecute") &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive())
             {
                 Variables.Q.Cast();
             }
@@ -105,9 +105,9 @@ namespace ExorAIO.Champions.Renekton
             /// The Q JungleClear Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
-                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                 (Targets.Minions?.Count() >= 3 || Targets.JungleMinions.Any()) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").GetValue<bool>())
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").IsActive())
             {
                 Variables.Q.Cast();
             }

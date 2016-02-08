@@ -24,7 +24,7 @@ namespace ExorAIO.Champions.Tryndamere
             /// </summary>
             if (Variables.W.IsReady() &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.auto").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.auto").IsActive())
             {
                 Variables.W.Cast();
             }
@@ -37,7 +37,7 @@ namespace ExorAIO.Champions.Tryndamere
                 !Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
                 (!Targets.Target.UnderTurret() || Variables.E.GetDamage(Targets.Target) > Targets.Target.Health) &&
                 ObjectManager.Player.Distance(Variables.E.GetPrediction(Targets.Target).CastPosition) < Variables.E.Range - 50 &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").IsActive())
             {
                 Variables.E.Cast(Variables.E.GetPrediction(Targets.Target).CastPosition);
             }
@@ -50,7 +50,7 @@ namespace ExorAIO.Champions.Tryndamere
                 ObjectManager.Player.ManaPercent >= 50 &&
                 !ObjectManager.Player.IsFacing(Targets.Target) &&
                 HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(250 + Game.Ping / 2f)) <= ObjectManager.Player.MaxHealth/2 &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.auto").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.auto").IsActive())
             {
                 Variables.Q.Cast();
                 return;
@@ -63,7 +63,7 @@ namespace ExorAIO.Champions.Tryndamere
                 !Variables.Q.IsReady() &&
                 ObjectManager.Player.CountEnemiesInRange(700f) > 0 &&
                 HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(250 + Game.Ping / 2f)) <= ObjectManager.Player.MaxHealth/4 &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.lifesaver").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.lifesaver").IsActive())
             {
                 Variables.R.Cast();
             }
@@ -84,7 +84,7 @@ namespace ExorAIO.Champions.Tryndamere
                 ObjectManager.Player.CountEnemiesInRange(800f) == 0 &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                 Variables.E.GetLineFarmLocation(Targets.Minions, Variables.E.Width).MinionsHit >= 3 &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.espell.farm").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.farm").IsActive())
             {
                 if (Variables.E.GetLineFarmLocation(Targets.Minions, Variables.E.Width).MinionsHit >= 3)
                 {

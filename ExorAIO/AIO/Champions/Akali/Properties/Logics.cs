@@ -21,21 +21,22 @@ namespace ExorAIO.Champions.Akali
         {
             /// <summary>
             /// The Q Combo Logic,
-            /// The Q KillSteal Logic.
+            /// The Q KillSteal Logic,
+            /// The Q AutoHarass Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
 
-                ((Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").GetValue<bool>()) ||
+                ((Targets.Target.Health < Variables.Q.GetDamage(Targets.Target) &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").IsActive()) ||
 
-                (Targets.Target.Health < Variables.Q.GetDamage(Targets.Target) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").GetValue<bool>()) ||
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive()) ||
 
                 (!Targets.Target.UnderTurret() &&
                     ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
                     Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.harass").GetValue<bool>())))
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.harass").IsActive())))
             {
                 Variables.Q.CastOnUnit(Targets.Target);
             }
@@ -47,12 +48,12 @@ namespace ExorAIO.Champions.Akali
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
 
                 ((Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").GetValue<bool>() &&
-                    (!Targets.Target.UnderTurret() || !Variables.Menu.Item($"{Variables.MainMenuName}.misc.safe").GetValue<bool>()) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.whitelist.{Targets.Target.ChampionName.ToLower()}").GetValue<bool>()) ||
+                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").IsActive() &&
+                    (!Targets.Target.UnderTurret() || !Variables.Menu.Item($"{Variables.MainMenuName}.misc.safe").IsActive()) &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.whitelist.{Targets.Target.ChampionName.ToLower()}").IsActive()) ||
 
                 (Targets.Target.Health < Variables.R.GetDamage(Targets.Target) * 2 &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").GetValue<bool>())))
+                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").IsActive())))
             {
                 Variables.R.CastOnUnit(Targets.Target);
             }
@@ -63,7 +64,7 @@ namespace ExorAIO.Champions.Akali
             if (Variables.E.IsReady() &&
                 Targets.Target.Health < Variables.E.GetDamage(Targets.Target) &&
                 Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.espell.ks").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.ks").IsActive())
             {
                 Variables.E.Cast();
             }
@@ -82,7 +83,7 @@ namespace ExorAIO.Champions.Akali
             if (Variables.E.IsReady() &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").IsActive())
             {
                 Variables.E.Cast();
             }
@@ -103,7 +104,7 @@ namespace ExorAIO.Champions.Akali
                 ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                 (Targets.Minions.Count() >= 3 || Targets.JungleMinions.Any()) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.espell.farm").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.farm").IsActive())
             {
                 Variables.E.Cast();
             }

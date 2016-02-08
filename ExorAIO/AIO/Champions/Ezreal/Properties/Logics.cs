@@ -28,7 +28,7 @@ namespace ExorAIO.Champions.Ezreal
                 ObjectManager.Player.CountEnemiesInRange(1500) == 0 &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededTearMana &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.None &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.misc.tear").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.misc.tear").IsActive())
             {
                 Variables.Q.Cast(Game.CursorPos);
             }
@@ -51,14 +51,14 @@ namespace ExorAIO.Champions.Ezreal
 
                 ((Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     !Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").GetValue<bool>()) ||
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive()) ||
                 
                 (Targets.Target.Health < Variables.Q.GetDamage(Targets.Target) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").GetValue<bool>()) ||
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").IsActive()) ||
 
                 (ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
                     !Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.harass").GetValue<bool>())))
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.harass").IsActive())))
             {
                 Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
             }
@@ -74,11 +74,11 @@ namespace ExorAIO.Champions.Ezreal
                 Variables.W.GetPrediction(Targets.Target).Hitchance != HitChance.OutOfRange &&
 
                 ((Targets.Target.Health < Variables.W.GetDamage(Targets.Target) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.wspell.ks").GetValue<bool>()) ||
+                    Variables.Menu.Item($"{Variables.MainMenuName}.wspell.ks").IsActive()) ||
 
                 (ObjectManager.Player.ManaPercent > ManaManager.NeededWMana &&
                     ObjectManager.Player.TotalMagicalDamage > ObjectManager.Player.FlatPhysicalDamageMod &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.wspell.harass").GetValue<bool>())))
+                    Variables.Menu.Item($"{Variables.MainMenuName}.wspell.harass").IsActive())))
             {
                 Variables.W.Cast(Variables.W.GetPrediction(Targets.Target).UnitPosition);
             }
@@ -94,14 +94,14 @@ namespace ExorAIO.Champions.Ezreal
                 ((Targets.Target.Health < Variables.R.GetDamage(Targets.Target) &&
                     (!Variables.W.IsReady() || !Targets.Target.IsValidTarget(Variables.W.Range)) &&
                     (!Variables.Q.IsReady() || !Targets.Target.IsValidTarget(Variables.Q.Range)) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").GetValue<bool>()) ||
+                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").IsActive()) ||
                 
                 (!Variables.Q.IsReady() &&
                     !Variables.W.IsReady() &&
                     Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     ObjectManager.Player.CountEnemiesInRange(Orbwalking.GetRealAutoAttackRange(null)) >= 2 &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").GetValue<bool>() &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.whitelist.{Targets.Target.ChampionName.ToLower()}").GetValue<bool>())))
+                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").IsActive() &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.whitelist.{Targets.Target.ChampionName.ToLower()}").IsActive())))
             {
                 Variables.R.Cast(Variables.R.GetPrediction(Targets.Target).UnitPosition);
             }
@@ -121,7 +121,7 @@ namespace ExorAIO.Champions.Ezreal
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.Q.Range) &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Q.GetPrediction((Obj_AI_Hero)args.Target).Hitchance >= HitChance.VeryHigh &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive())
             {
                 Variables.Q.Cast(Variables.Q.GetPrediction((Obj_AI_Hero)args.Target).UnitPosition);
                 return;
@@ -133,7 +133,7 @@ namespace ExorAIO.Champions.Ezreal
             if (Variables.W.IsReady() &&
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.W.Range) &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").IsActive())
             {
                 Variables.W.Cast(Variables.W.GetPrediction((Obj_AI_Hero)args.Target).UnitPosition);
             }
@@ -153,10 +153,16 @@ namespace ExorAIO.Champions.Ezreal
             if (Variables.Q.IsReady() &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                (Targets.Minions.Any() || Targets.JungleMinions.Any()) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").IsActive())
             {
-                Variables.Q.Cast(((Obj_AI_Minion)args.Target).Position);
+                if (Targets.Minions.Any())
+                {
+                    Variables.Q.Cast((Targets.Minions.FirstOrDefault()).Position);
+                }
+                else if (Targets.JungleMinions.Any())
+                {
+                    Variables.Q.Cast((Targets.JungleMinions.FirstOrDefault()).Position);
+                }
             }
         }
     }

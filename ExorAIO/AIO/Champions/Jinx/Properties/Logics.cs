@@ -39,7 +39,7 @@ namespace ExorAIO.Champions.Jinx
 
                             (ObjectManager.Player.HasBuff("JinxQ") &&
                                 Targets.Target.IsValidTarget(Variables.Q.Range))) &&
-                            Variables.Menu.Item($"{Variables.MainMenuName}.qspell.auto").GetValue<bool>())
+                            Variables.Menu.Item($"{Variables.MainMenuName}.qspell.auto").IsActive())
                         {
                             Variables.Q.Cast();
                         }
@@ -65,7 +65,7 @@ namespace ExorAIO.Champions.Jinx
 
                             (ObjectManager.Player.HasBuff("JinxQ") &&
                                 ObjectManager.Player.ManaPercent < ManaManager.NeededQMana)) &&
-                            Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").GetValue<bool>())
+                            Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").IsActive())
                         {
                             Variables.Q.Cast();
                         }
@@ -85,10 +85,10 @@ namespace ExorAIO.Champions.Jinx
 
                 ((Targets.Target.Health < Variables.W.GetDamage(Targets.Target) &&
                     Targets.Target.Health > ObjectManager.Player.GetAutoAttackDamage(Targets.Target) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.wspell.ks").GetValue<bool>()) ||
+                    Variables.Menu.Item($"{Variables.MainMenuName}.wspell.ks").IsActive()) ||
 
                 (Bools.IsImmobile(Targets.Target) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.wspell.immobile").GetValue<bool>())))
+                    Variables.Menu.Item($"{Variables.MainMenuName}.wspell.immobile").IsActive())))
             {
                 Variables.W.Cast(Variables.W.GetPrediction(Targets.Target).UnitPosition);
             }
@@ -100,16 +100,16 @@ namespace ExorAIO.Champions.Jinx
             if (Variables.E.IsReady() &&
                 ObjectManager.Player
                     .Distance(Targets.Target.ServerPosition
-                    .Extend(Targets.Target.ServerPosition, ObjectManager.Player.Distance(Targets.Target) + Targets.Target.BoundingRadius*2)) < Variables.E.Range &&
+                    .Extend(Targets.Target.ServerPosition, ObjectManager.Player.Distance(Targets.Target) + Targets.Target.BoundingRadius*3)) < Variables.E.Range &&
 
                 ((Targets.Target.GetEnemiesInRange(350f)
                     .Count(enemy => Variables.E.GetPrediction(enemy).Hitchance >= HitChance.VeryHigh) >= 1 &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.espell.auto").GetValue<bool>()) ||
+                    Variables.Menu.Item($"{Variables.MainMenuName}.espell.auto").IsActive()) ||
 
                 (Bools.IsImmobile(Targets.Target) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.espell.immobile").GetValue<bool>())))
+                    Variables.Menu.Item($"{Variables.MainMenuName}.espell.immobile").IsActive())))
             {
-                Variables.E.Cast(ObjectManager.Player.ServerPosition.Extend(Targets.Target.ServerPosition, ObjectManager.Player.Distance(Targets.Target) + Targets.Target.BoundingRadius*2));
+                Variables.E.Cast(ObjectManager.Player.ServerPosition.Extend(Targets.Target.ServerPosition, ObjectManager.Player.Distance(Targets.Target) + Targets.Target.BoundingRadius*3));
             }
 
             /// <summary>
@@ -122,7 +122,7 @@ namespace ExorAIO.Champions.Jinx
                 Variables.W.GetDamage(Targets.Target) < Targets.Target.Health &&
                 Variables.R.GetPrediction(Targets.Target).Hitchance >= HitChance.VeryHigh &&
                 HealthPrediction.GetHealthPrediction(Targets.Target, (int)(250 + Game.Ping / 2f)) < Variables.R.GetDamage(Targets.Target)*2 &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").IsActive())
             {
                 Variables.R.Cast(Variables.R.GetPrediction(Targets.Target).UnitPosition);
             }
@@ -136,13 +136,13 @@ namespace ExorAIO.Champions.Jinx
         public static void ExecuteSpellCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             if (Variables.E.IsReady() &&
-                ObjectManager.Player
-                    .Distance(sender.ServerPosition
+                ObjectManager.Player.Distance(sender.ServerPosition
                     .Extend(sender.ServerPosition, ObjectManager.Player.Distance(sender) + sender.BoundingRadius)) < Variables.E.Range &&
-                (args.Slot.Equals(SpellSlot.R) || 
-                    (args.Slot.Equals(SpellSlot.Q) && 
-                    (((Obj_AI_Hero)sender).ChampionName.Equals("Blitzcrank") ||
-                        ((Obj_AI_Hero)sender).ChampionName.Equals("Thresh")))))
+                args.Slot.Equals(SpellSlot.R) ||
+                (args.Slot.Equals(SpellSlot.Q) && 
+                    ((Obj_AI_Hero)sender).ChampionName.Equals("Blitzcrank") ||
+                    ((Obj_AI_Hero)sender).ChampionName.Equals("Thresh")) &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.auto").IsActive())
             {
                 if (ObjectManager.Player.Distance(sender) / 2000f < 0.4f)
                 {
@@ -165,8 +165,8 @@ namespace ExorAIO.Champions.Jinx
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.W.Range) &&
                 !((Obj_AI_Hero)args.Target).IsValidTarget(Variables.Q.Range) &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.W.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").GetValue<bool>())
+                Variables.W.GetPrediction(Targets.Target).Hitchance >= HitChance.VeryHigh &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").IsActive())
             {
                 Variables.W.Cast(Variables.W.GetPrediction((Obj_AI_Hero)args.Target).UnitPosition);
             }

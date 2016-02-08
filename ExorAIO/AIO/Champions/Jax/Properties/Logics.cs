@@ -28,11 +28,11 @@ namespace ExorAIO.Champions.Jax
                 !Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
 
                 ((Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").GetValue<bool>()) ||
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").IsActive()) ||
 
                 (!Utility.UnderTurret(Targets.Target) &&
                     Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").GetValue<bool>())))
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive())))
             {
                 if (Variables.E.IsReady())
                 {
@@ -50,7 +50,7 @@ namespace ExorAIO.Champions.Jax
             if (Variables.E.IsReady() &&
                 !ObjectManager.Player.IsWindingUp &&
                 ObjectManager.Player.HasBuff("JaxCounterStrike") &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").IsActive())
             {
                 Variables.E.Cast();
             }
@@ -60,7 +60,7 @@ namespace ExorAIO.Champions.Jax
             /// </summary>
             if (Variables.R.IsReady() &&
                 HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(250f + Game.Ping/2f)) <= ObjectManager.Player.MaxHealth/2 &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.lifesaver").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.lifesaver").IsActive())
             {
                 Variables.R.Cast();
             }
@@ -78,7 +78,7 @@ namespace ExorAIO.Champions.Jax
             /// </summary>
             if (Variables.W.IsReady() &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").IsActive())
             {
                 Variables.W.Cast();
             }
@@ -98,7 +98,7 @@ namespace ExorAIO.Champions.Jax
                 ObjectManager.Player.ManaPercent > ManaManager.NeededWMana &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                 Targets.JungleMinions.Any() &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.jc").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.jc").IsActive())
             {
                 Variables.W.Cast();
             }
@@ -109,9 +109,9 @@ namespace ExorAIO.Champions.Jax
             if (Variables.E.IsReady() &&
                 ObjectManager.Player.CountEnemiesInRange(700) == 0 &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
-                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                 (Targets.Minions?.Count() > 3 || Targets.JungleMinions.Any()) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.espell.farm").GetValue<bool>())
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.farm").IsActive())
             {
                 Variables.E.Cast();
             }

@@ -28,10 +28,10 @@ namespace ExorAIO.Champions.KogMaw
                 Variables.Q.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
 
                 ((Targets.Target.Health < Variables.Q.GetDamage(Targets.Target) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").GetValue<bool>()) ||
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").IsActive()) ||
 
                 (Bools.IsImmobile(Targets.Target) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.immobile").GetValue<bool>())))
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.immobile").IsActive())))
             {
                 Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
             }
@@ -43,7 +43,7 @@ namespace ExorAIO.Champions.KogMaw
                 ObjectManager.Player.IsWindingUp &&
                 Targets.Target.IsValidTarget(Variables.W.Range) &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").IsActive())
             {
                 Variables.W.Cast();
             }
@@ -56,10 +56,10 @@ namespace ExorAIO.Champions.KogMaw
                 Targets.Target.IsValidTarget(Variables.E.Range) &&
 
                 ((Targets.Target.Health < Variables.E.GetDamage(Targets.Target) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.espell.ks").GetValue<bool>()) ||
+                    Variables.Menu.Item($"{Variables.MainMenuName}.espell.ks").IsActive()) ||
 
                 (Bools.IsImmobile(Targets.Target) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.espell.immobile").GetValue<bool>())))
+                    Variables.Menu.Item($"{Variables.MainMenuName}.espell.immobile").IsActive())))
             {
                 Variables.E.Cast(Variables.E.GetPrediction(Targets.Target).UnitPosition);
             }
@@ -73,14 +73,14 @@ namespace ExorAIO.Champions.KogMaw
                 Targets.Target.HealthPercent < 50 &&
                 !ObjectManager.Player.IsWindingUp &&
                 !Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.stacks").GetValue<Slider>().Value >=
-                    ObjectManager.Player.GetBuffCount("kogmawlivingartillerycost") &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.stacks").GetValue<Slider>().Value 
+                    >= ObjectManager.Player.GetBuffCount("kogmawlivingartillerycost") &&
 
-                ((Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").GetValue<bool>()) ||
+                ((Targets.Target.Health < Variables.R.GetDamage(Targets.Target) &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").IsActive())) ||
 
-                (Targets.Target.Health < Variables.R.GetDamage(Targets.Target) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").GetValue<bool>())))
+                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").IsActive()))
             {
                 Variables.R.Cast(Variables.R.GetPrediction(Targets.Target).CastPosition);
             }
@@ -100,7 +100,7 @@ namespace ExorAIO.Champions.KogMaw
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
                 Variables.Q.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive())
             {
                 Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
                 return;
@@ -111,7 +111,7 @@ namespace ExorAIO.Champions.KogMaw
             /// </summary>
             if (Variables.E.IsReady() &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").IsActive())
             {
                 Variables.E.Cast(Variables.E.GetPrediction(Targets.Target).UnitPosition);
             }
@@ -125,16 +125,22 @@ namespace ExorAIO.Champions.KogMaw
         public static void ExecuteFarm(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             /// <summary>
-            /// The E Farm Logic.
+            /// The E LaneClear Logic,
+            /// The E JungleClear Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                (Variables.E.GetLineFarmLocation(Targets.Minions, Variables.E.Width).MinionsHit >= 3 ||
-                    GameObjects.Jungle.Contains((Obj_AI_Minion)args.Target)) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.espell.farm").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.farm").IsActive())
             {
-                Variables.E.Cast(((Obj_AI_Minion)args.Target).Position);
+                if (Variables.E.GetLineFarmLocation(Targets.Minions, Variables.E.Width).MinionsHit >= 3)
+                {
+                    Variables.E.Cast(Variables.E.GetLineFarmLocation(Targets.Minions, Variables.E.Width).Position);
+                }
+                else if (Targets.JungleMinions.Any())
+                {
+                    Variables.E.Cast(Targets.JungleMinions.FirstOrDefault());
+                }
             }
         }
     }    

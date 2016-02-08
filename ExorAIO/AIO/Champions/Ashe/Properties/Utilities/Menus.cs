@@ -24,10 +24,7 @@ namespace ExorAIO.Champions.Ashe
                 Variables.QMenu = new Menu("Use Q to:", $"{Variables.MainMenuName}.qmenu")
                     .SetFontStyle(FontStyle.Regular, Color.Green);
                 {
-                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.combo",    "Combo")).SetValue(true);
-                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.farm",     "LaneClear")).SetValue(false);
-                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.mana",     "LaneClear: Mana >= x%"))
-                        .SetValue(new Slider(50, 0, 99));
+                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.auto",     "Logical")).SetValue(true);
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.QMenu);
 

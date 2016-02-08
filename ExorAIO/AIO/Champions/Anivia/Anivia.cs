@@ -104,7 +104,7 @@ namespace ExorAIO.Champions.Anivia
         {
             if (Variables.W.IsReady() &&
                 ObjectManager.Player.Distance(sender) < Variables.W.Range + sender.BoundingRadius &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.ir").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.ir").IsActive())
             {
                 Variables.W.Cast(ObjectManager.Player.ServerPosition.Extend(Targets.Target.ServerPosition, ObjectManager.Player.Distance(Targets.Target) + 10f));
             }
@@ -118,7 +118,8 @@ namespace ExorAIO.Champions.Anivia
         {
             if (Variables.W.IsReady() &&
                 gapcloser.Sender.IsValidTarget(Variables.W.Range) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.gp").GetValue<bool>())
+                ObjectManager.Player.Distance(gapcloser.End) <= Variables.W.Range &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.gp").IsActive())
             {
                 Variables.W.Cast(gapcloser.End);
             }

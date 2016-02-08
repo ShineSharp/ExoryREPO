@@ -72,7 +72,7 @@ namespace ExorAIO.Champions.Draven
         {
             if (Variables.E.IsReady() &&
                 sender.IsValidTarget(Variables.E.Range) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.espell.ir").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.ir").IsActive())
             {
                 Variables.E.Cast(sender.Position);
             }
@@ -86,7 +86,8 @@ namespace ExorAIO.Champions.Draven
         {
             if (Variables.E.IsReady() &&
                 gapcloser.Sender.IsValidTarget(Variables.E.Range) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.espell.gp").GetValue<bool>())
+                ObjectManager.Player.Distance(gapcloser.End) <= Variables.E.Range &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.gp").IsActive())
             {
                 Variables.E.Cast(gapcloser.End);
             }

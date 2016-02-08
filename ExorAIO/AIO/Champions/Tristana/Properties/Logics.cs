@@ -28,7 +28,7 @@ namespace ExorAIO.Champions.Tristana
                 Targets.Target.Health > Targets.Target.MaxHealth/3 &&
                 KillSteal.Damage(Targets.Target) > Targets.Target.Health &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").IsActive())
             {
                 Variables.R.CastOnUnit(Targets.Target);
             }
@@ -48,10 +48,10 @@ namespace ExorAIO.Champions.Tristana
                 (Targets.Target.HasBuff("TristanaECharge") || !Variables.E.IsReady()) &&
 
                 ((Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").GetValue<bool>()) ||
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive()) ||
 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").GetValue<bool>())))
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").IsActive())))
             {
                 Variables.Q.Cast();
             }
@@ -64,8 +64,8 @@ namespace ExorAIO.Champions.Tristana
                 Targets.Target.IsValidTarget(Variables.E.Range) &&
                 Targets.Target.Health > Targets.Target.MaxHealth/6 &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").GetValue<bool>() &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.espell.whitelist.{Targets.Target.ChampionName.ToLower()}").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").IsActive() &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.whitelist.{Targets.Target.ChampionName.ToLower()}").IsActive())
             {
                 Variables.E.CastOnUnit(Targets.Target);
             }
@@ -86,7 +86,7 @@ namespace ExorAIO.Champions.Tristana
                 !ObjectManager.Player.IsWindingUp &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.espell.farm").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.farm").IsActive())
             {
                 if (GameObjects.Minions
                     .Count(units =>

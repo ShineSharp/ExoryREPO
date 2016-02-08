@@ -24,10 +24,9 @@ namespace ExorAIO.Champions.Vayne
             /// <summary>
             /// The No AA when Stealthed Logic.
             /// </summary>
-            if (ObjectManager.Player.HasBuff("vaynetumblefade") &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.misc.stealth").GetValue<bool>())
+            if (Variables.Menu.Item($"{Variables.MainMenuName}.misc.stealth").IsActive())
             {
-                Variables.Orbwalker.SetAttack(false);
+                Variables.Orbwalker.SetAttack(!ObjectManager.Player.HasBuff("vaynetumblefade"));
             }
 
             /// <summary>
@@ -41,8 +40,8 @@ namespace ExorAIO.Champions.Vayne
                 /// </summary>
                 if (!ObjectManager.Player.IsDashing() &&
                     ObjectManager.Player.Distance(Targets.Target) >= ObjectManager.Player.BoundingRadius*2 &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.espell.auto").GetValue<bool>() &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.espell.whitelist.{Targets.Target.ChampionName.ToLower()}").GetValue<bool>())
+                    Variables.Menu.Item($"{Variables.MainMenuName}.espell.auto").IsActive() &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.espell.whitelist.{Targets.Target.ChampionName.ToLower()}").IsActive())
                 {
                     for (int i = 1; i < 10; i++)
                     {
@@ -64,7 +63,7 @@ namespace ExorAIO.Champions.Vayne
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
                 Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
                 HealthPrediction.GetHealthPrediction(Targets.Target, (int)(250 + Game.Ping / 2f)) < ObjectManager.Player.GetAutoAttackDamage(Targets.Target) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").IsActive())
             {
                 Variables.Q.Cast(Targets.Target.Position);
                 TargetSelector.Selected.Target = Targets.Target;
@@ -83,9 +82,9 @@ namespace ExorAIO.Champions.Vayne
             /// </summary>
             if (Variables.Q.IsReady() &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").GetValue<bool>() &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive() &&
                 (((Obj_AI_Hero)target).GetBuffCount("vaynesilvereddebuff") == 1 ||
-                    !Variables.Menu.Item($"{Variables.MainMenuName}.misc.stacks").GetValue<bool>()))
+                    !Variables.Menu.Item($"{Variables.MainMenuName}.misc.stacks").IsActive()))
             {
                 Utility.DelayAction.Add(
                     (int)(Game.Ping / 2f + 25), // BroScience? Pls check The Orbwalking.CanAttack method fgt.
@@ -101,11 +100,10 @@ namespace ExorAIO.Champions.Vayne
             /// </summary>
             if (Variables.E.IsReady() &&
                 ((Obj_AI_Hero)target).Health < 
-                    Variables.E.GetDamage((Obj_AI_Hero)target) - 20 + 
-                    ObjectManager.Player.GetAutoAttackDamage((Obj_AI_Hero)target) +
+                    Variables.E.GetDamage((Obj_AI_Hero)target) - 20 + ObjectManager.Player.GetAutoAttackDamage((Obj_AI_Hero)target) +
                     (((Obj_AI_Hero)target).GetBuffCount("vaynesilvereddebuff") == 1 ?
                         Variables.W.GetDamage((Obj_AI_Hero)target) : 0) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.espell.ks").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.ks").IsActive())
             {
                 Utility.DelayAction.Add(
                     (int)(Game.Ping / 2f + 25), // BroScience? Pls check The Orbwalking.CanAttack method fgt.
@@ -129,9 +127,9 @@ namespace ExorAIO.Champions.Vayne
             /// </summary>
             if (Variables.Q.IsReady() &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").GetValue<bool>() &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive() &&
                 (((Obj_AI_Hero)args.Target).GetBuffCount("vaynesilvereddebuff") == 1 ||
-                    !Variables.Menu.Item($"{Variables.MainMenuName}.misc.stacks").GetValue<bool>()))
+                    !Variables.Menu.Item($"{Variables.MainMenuName}.misc.stacks").IsActive()))
             {
                 Variables.Q.Cast(Game.CursorPos);
             }
@@ -141,11 +139,10 @@ namespace ExorAIO.Champions.Vayne
             /// </summary>
             if (Variables.E.IsReady() &&
                 ((Obj_AI_Hero)args.Target).Health < 
-                    Variables.E.GetDamage((Obj_AI_Hero)args.Target) - 20 +
-                    ObjectManager.Player.GetAutoAttackDamage((Obj_AI_Hero)args.Target) +
+                    Variables.E.GetDamage((Obj_AI_Hero)args.Target) - 20 + ObjectManager.Player.GetAutoAttackDamage((Obj_AI_Hero)args.Target) +
                     (((Obj_AI_Hero)args.Target).GetBuffCount("vaynesilvereddebuff") == 1 ?
                         Variables.W.GetDamage((Obj_AI_Hero)args.Target) : 0) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.espell.ks").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.ks").IsActive())
             {
                 Variables.E.CastOnUnit((Obj_AI_Hero)args.Target);
             }
@@ -164,7 +161,7 @@ namespace ExorAIO.Champions.Vayne
             if (Variables.Q.IsReady() &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
                 Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").IsActive())
             {
                 if (Targets.Minions?.Count() > 1 ||
                     Targets.JungleMinions.Any())

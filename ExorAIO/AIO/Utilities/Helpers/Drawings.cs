@@ -26,13 +26,13 @@ namespace ExorAIO.Utilities
                 {
                     if (Variables.Q.IsReady() &&
                         Variables.Menu.Item($"{Variables.MainMenuName}.drawings.q") != null &&
-                        Variables.Menu.Item($"{Variables.MainMenuName}.drawings.q").GetValue<bool>())
+                        Variables.Menu.Item($"{Variables.MainMenuName}.drawings.q").IsActive())
                     {
                         Render.Circle.DrawCircle(ObjectManager.Player.Position, Variables.Q.Range, Color.Green, 1);
                     }
 
                     if (Variables.Menu.Item($"{Variables.MainMenuName}.drawings.qs") != null &&
-                        Variables.Menu.Item($"{Variables.MainMenuName}.drawings.qs").GetValue<bool>())
+                        Variables.Menu.Item($"{Variables.MainMenuName}.drawings.qs").IsActive())
                     {
                         foreach (GameObject gameobject in GameObjects.AllGameObjects
                             .Where(x => x.Name.Equals("Draven_Base_Q_reticle_self.troy")))
@@ -48,7 +48,7 @@ namespace ExorAIO.Utilities
                 if (Variables.W != null &&
                     Variables.W.IsReady() &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.drawings.w") != null &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.drawings.w").GetValue<bool>())
+                    Variables.Menu.Item($"{Variables.MainMenuName}.drawings.w").IsActive())
                 {
                     Render.Circle.DrawCircle(ObjectManager.Player.Position, Variables.W.Range, Color.Purple, 1);
                 }
@@ -59,7 +59,7 @@ namespace ExorAIO.Utilities
                 if (Variables.E != null &&
                     Variables.E.IsReady() &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.drawings.e") != null &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.drawings.e").GetValue<bool>())
+                    Variables.Menu.Item($"{Variables.MainMenuName}.drawings.e").IsActive())
                 {
                     Render.Circle.DrawCircle(ObjectManager.Player.Position, Variables.E.Range, Color.Cyan, 1);
                 }
@@ -70,7 +70,7 @@ namespace ExorAIO.Utilities
                 if (Variables.R != null &&
                     Variables.R.IsReady() &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.drawings.r") != null &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.drawings.r").GetValue<bool>())
+                    Variables.Menu.Item($"{Variables.MainMenuName}.drawings.r").IsActive())
                 {
                     Render.Circle.DrawCircle(ObjectManager.Player.Position, Variables.R.Range, Color.Red, 1);
                 }

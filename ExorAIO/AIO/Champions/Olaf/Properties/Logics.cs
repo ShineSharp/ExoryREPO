@@ -31,11 +31,11 @@ namespace ExorAIO.Champions.Olaf
 
                 ((!ObjectManager.Player.UnderTurret() &&
                     ObjectManager.Player.ManaPercent >= ManaManager.NeededQMana &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.harass").GetValue<bool>() &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.whitelist.{Targets.Target.ChampionName.ToLower()}").GetValue<bool>()) ||
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.harass").IsActive() &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.whitelist.{Targets.Target.ChampionName.ToLower()}").IsActive()) ||
 
                 (Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").GetValue<bool>())))
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").IsActive())))
             {
                 Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).CastPosition);
             }
@@ -47,7 +47,7 @@ namespace ExorAIO.Champions.Olaf
                 ObjectManager.Player.IsWindingUp &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").IsActive())
             {
                 Variables.W.Cast();
             }
@@ -57,7 +57,7 @@ namespace ExorAIO.Champions.Olaf
             /// </summary>
             if (Variables.R.IsReady() &&
                 Bools.ShouldCleanse(ObjectManager.Player) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.auto").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.auto").IsActive())
             {
                 Variables.R.Cast();
             }
@@ -76,7 +76,7 @@ namespace ExorAIO.Champions.Olaf
             if (Variables.Q.IsReady() &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Orbwalking.GetRealAutoAttackRange((Obj_AI_Hero)args.Target)) &&
-                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").GetValue<bool>())
+                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive())
             {
                 Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
                 return;
@@ -88,7 +88,7 @@ namespace ExorAIO.Champions.Olaf
             if (Variables.E.IsReady() &&
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.E.Range) &&
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").GetValue<bool>()))
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").IsActive()))
             {
                 Variables.E.CastOnUnit((Obj_AI_Hero)args.Target);
             }
@@ -107,7 +107,7 @@ namespace ExorAIO.Champions.Olaf
             if (Variables.Q.IsReady() &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").IsActive())
             {
                 if (Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 3)
                 {

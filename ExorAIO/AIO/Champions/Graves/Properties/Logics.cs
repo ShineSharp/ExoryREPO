@@ -27,10 +27,10 @@ namespace ExorAIO.Champions.Graves
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
 
                 ((Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").GetValue<bool>()) ||
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").IsActive()) ||
 
                 (Bools.IsImmobile(Targets.Target) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.immobile").GetValue<bool>())))
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.immobile").IsActive())))
             {
                 Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
                 return;
@@ -42,7 +42,7 @@ namespace ExorAIO.Champions.Graves
             if (Variables.W.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.W.Range) &&
                 Variables.W.GetDamage(Targets.Target) > Targets.Target.Health &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.ks").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.ks").IsActive())
             {
                 Variables.W.Cast(Variables.W.GetPrediction(Targets.Target).CastPosition);
                 return;
@@ -54,7 +54,7 @@ namespace ExorAIO.Champions.Graves
             if (Variables.R.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.R.Range) &&
                 Variables.R.GetDamage(Targets.Target) > Targets.Target.Health &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").IsActive())
             {
                 Variables.R.Cast(Variables.R.GetPrediction(Targets.Target).UnitPosition);
             }
@@ -73,7 +73,7 @@ namespace ExorAIO.Champions.Graves
             if (Variables.Q.IsReady() &&
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.Q.Range) &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive())
             {
                 Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
                 return;
@@ -85,7 +85,7 @@ namespace ExorAIO.Champions.Graves
             if (Variables.W.IsReady() &&
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.W.Range) &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").IsActive())
             {
                 Variables.W.Cast(Variables.W.GetPrediction(Targets.Target).CastPosition);
                 return;
@@ -96,7 +96,7 @@ namespace ExorAIO.Champions.Graves
             /// </summary>
             if (Variables.E.IsReady() &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.espell.auto").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.auto").IsActive())
             {
                 Variables.E.Cast(Game.CursorPos);
             }
@@ -116,9 +116,16 @@ namespace ExorAIO.Champions.Graves
                 ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                 (Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 3 || Targets.JungleMinions.Any()) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").IsActive())
             {
-                Variables.Q.Cast(Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).Position);
+                if (Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 3)
+                {
+                    Variables.Q.Cast(Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).Position);
+                }
+                else if (Targets.JungleMinions.Any())
+                {
+                    Variables.Q.Cast((Targets.JungleMinions.FirstOrDefault()).Position);
+                }
             }
         }
     }

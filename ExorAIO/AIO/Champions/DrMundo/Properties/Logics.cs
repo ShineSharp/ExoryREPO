@@ -30,15 +30,15 @@ namespace ExorAIO.Champions.DrMundo
                 Variables.R.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
 
                 ((Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").GetValue<bool>()) ||
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").IsActive()) ||
 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").GetValue<bool>()) ||
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive()) ||
 
                 (!ObjectManager.Player.UnderTurret() &&
                     ObjectManager.Player.HealthPercent > ManaManager.NeededQMana &&
-					Variables.Menu.Item($"{Variables.MainMenuName}.qspell.harass").GetValue<bool>() &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.whitelist.{Targets.Target.ChampionName.ToLower()}").GetValue<bool>())))
+					Variables.Menu.Item($"{Variables.MainMenuName}.qspell.harass").IsActive() &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.whitelist.{Targets.Target.ChampionName.ToLower()}").IsActive())))
             {
                 Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
             }
@@ -48,7 +48,7 @@ namespace ExorAIO.Champions.DrMundo
             /// </summary>
             if (Variables.W.IsReady() &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").IsActive())
             {
                 if ((!ObjectManager.Player.HasBuff("BurningAgony") &&
 					Targets.Target.IsValidTarget(Variables.W.Range) &&
@@ -67,7 +67,7 @@ namespace ExorAIO.Champions.DrMundo
             /// </summary>
             if (Variables.R.IsReady() &&
                 ObjectManager.Player.CountEnemiesInRange(700) > 0 &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.lifesaver").GetValue<bool>() &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.lifesaver").IsActive() &&
                 HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(250 + Game.Ping / 2f)) <= ObjectManager.Player.MaxHealth/3)
             {
                 Variables.R.Cast();
@@ -85,9 +85,9 @@ namespace ExorAIO.Champions.DrMundo
             /// The E Combo Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
-                ((Obj_AI_Hero)args.Target).IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").GetValue<bool>())
+                ((Obj_AI_Hero)args.Target).IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").IsActive())
             {
                 Variables.E.Cast();
             }
@@ -105,7 +105,7 @@ namespace ExorAIO.Champions.DrMundo
             /// </summary>
             if (Variables.W.IsReady() &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.farm").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.farm").IsActive())
             {
                 if ((!ObjectManager.Player.HasBuff("BurningAgony") &&
                     ObjectManager.Player.Health >= ManaManager.NeededWMana &&

@@ -64,10 +64,10 @@ namespace ExorAIO.Champions.Quinn
                 Variables.Q.GetPrediction(Targets.Target).Hitchance >= HitChance.VeryHigh &&
 
                 ((Targets.Target.Health < Variables.Q.GetDamage(Targets.Target) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").GetValue<bool>()) ||
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").IsActive()) ||
 
                 (Bools.IsImmobile(Targets.Target) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.immobile").GetValue<bool>())))
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.immobile").IsActive())))
             {
                 Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
             }
@@ -78,7 +78,7 @@ namespace ExorAIO.Champions.Quinn
             if (Variables.W.IsReady() &&
                !ObjectManager.Player.IsRecalling() &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededWMana &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.auto").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.auto").IsActive())
             {
                 foreach (Obj_AI_Hero enemy in GameObjects.EnemyHeroes
                     .Where(x =>
@@ -100,11 +100,11 @@ namespace ExorAIO.Champions.Quinn
                 Targets.Target.IsValidTarget(Variables.E.Range) &&
 
                 ((Targets.Target.Health < Variables.E.GetDamage(Targets.Target) + ObjectManager.Player.GetAutoAttackDamage(Targets.Target)*2 &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.espell.ks").GetValue<bool>()) ||
+                    Variables.Menu.Item($"{Variables.MainMenuName}.espell.ks").IsActive()) ||
 
                 (Variables.R.Instance.Name.Equals("quinnrfinale") &&
                     Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").GetValue<bool>())))
+                    Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").IsActive())))
             {
                 Variables.E.CastOnUnit(Targets.Target);
             }
@@ -124,7 +124,7 @@ namespace ExorAIO.Champions.Quinn
                 !((Obj_AI_Hero)args.Target).HasBuff("quinnw") &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Q.GetPrediction((Obj_AI_Hero)args.Target).Hitchance >= HitChance.VeryHigh &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive())
             {
                 Variables.Q.Cast(Variables.Q.GetPrediction((Obj_AI_Hero)args.Target).UnitPosition);
                 return;
@@ -136,7 +136,7 @@ namespace ExorAIO.Champions.Quinn
             if (Variables.E.IsReady() &&
                 !((Obj_AI_Hero)args.Target).HasBuff("quinnw") &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").IsActive())
             {
                 Variables.E.CastOnUnit((Obj_AI_Hero)args.Target);
             }
@@ -156,7 +156,7 @@ namespace ExorAIO.Champions.Quinn
             if (Variables.Q.IsReady() &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").IsActive())
             {
                 if (Variables.Q.GetCircularFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 3)
                 {

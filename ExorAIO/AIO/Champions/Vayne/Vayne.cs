@@ -69,7 +69,7 @@ namespace ExorAIO.Champions.Vayne
         {
             if (unit.IsMe &&
                 target.IsValid<Obj_AI_Hero>() &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.misc.resets").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.misc.resets").IsActive())
             {
                 Logics.ExecuteBetaModes(unit, target);
             }
@@ -88,7 +88,7 @@ namespace ExorAIO.Champions.Vayne
             {
                 if (args.Target.IsValid<Obj_AI_Hero>() &&
                     Bools.HasNoProtection((Obj_AI_Hero)args.Target) &&
-                    !Variables.Menu.Item($"{Variables.MainMenuName}.misc.resets").GetValue<bool>())
+                    !Variables.Menu.Item($"{Variables.MainMenuName}.misc.resets").IsActive())
                 {
                     Logics.ExecuteModes(sender, args);
                 }

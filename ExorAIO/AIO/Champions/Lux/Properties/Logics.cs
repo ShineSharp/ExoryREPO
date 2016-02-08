@@ -37,7 +37,7 @@ namespace ExorAIO.Champions.Lux
             if (Variables.W.IsReady() &&
                 ObjectManager.Player.CountEnemiesInRange(1000f) >= 1 &&
                 HealthPrediction.GetHealthPrediction(ObjectManager.Player, (int)(250f + Game.Ping / 2f)) <= ObjectManager.Player.Health/2 &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.auto").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.auto").IsActive())
             {
                 Variables.W.Cast(Game.CursorPos);
             }
@@ -51,12 +51,12 @@ namespace ExorAIO.Champions.Lux
                 Targets.Target.Health > Variables.E.GetDamage(Targets.Target) &&
 
                 ((Targets.Target.Health < Variables.R.GetDamage(Targets.Target) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").GetValue<bool>()) ||
+                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").IsActive()) ||
 
                 (Targets.Target.HasBuff("luxilluminatingfraulein") &&
                     Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     ObjectManager.Player.Spellbook.GetSpell(SpellSlot.E).ToggleState == 1 &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").GetValue<bool>())))
+                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").IsActive())))
             {
                 Variables.R.Cast(Variables.R.GetPrediction(Targets.Target).UnitPosition);
             }
@@ -69,11 +69,11 @@ namespace ExorAIO.Champions.Lux
 
                 ((!Variables.R.IsReady() &&
                     Targets.Target.Health < Variables.Q.GetDamage(Targets.Target) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").GetValue<bool>()) ||
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").IsActive()) ||
 
                 (!Targets.Target.HasBuff("luxilluminatingfraulein") &&
                     Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").GetValue<bool>())))
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive())))
             {
                 Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
                 return;
@@ -85,14 +85,14 @@ namespace ExorAIO.Champions.Lux
             /// </summary>
             if (Variables.E.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.E.Range) &&
-                (!Variables.Q.IsReady() || Variables.Q.GetPrediction(Targets.Target).Hitchance < HitChance.High) &&
+                (!Variables.Q.IsReady() || Variables.Q.GetPrediction(Targets.Target).Hitchance < HitChance.VeryHigh) &&
             
                 ((Targets.Target.Health < Variables.E.GetDamage(Targets.Target) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.espell.ks").GetValue<bool>()) ||
+                    Variables.Menu.Item($"{Variables.MainMenuName}.espell.ks").IsActive()) ||
 
                 (!Targets.Target.HasBuff("luxilluminatingfraulein") &&
                     Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").GetValue<bool>())))
+                    Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").IsActive())))
             {
                 Variables.E.Cast(Variables.E.GetPrediction(Targets.Target).CastPosition);
             }
@@ -110,10 +110,16 @@ namespace ExorAIO.Champions.Lux
             if (Variables.Q.IsReady() &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                (Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit == 2 || Targets.JungleMinions.Any()) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").IsActive())
             {
-                Variables.Q.Cast((Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width)).Position);
+                if (Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit == 2)
+                {
+                    Variables.Q.Cast(Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).Position);
+                }
+                else if (Targets.JungleMinions.Any())
+                {
+                    Variables.Q.Cast((Targets.JungleMinions.FirstOrDefault()).Position);
+                }
             }
 
             /// <summary>
@@ -122,7 +128,7 @@ namespace ExorAIO.Champions.Lux
             if (Variables.E.IsReady() &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.espell.farm").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.farm").IsActive())
             {
                 if (Variables.E.GetCircularFarmLocation(Targets.Minions, Variables.E.Width).MinionsHit >= 2)
                 {

@@ -29,15 +29,15 @@ namespace ExorAIO.Champions.Darius
 
                 ((Variables.Q.IsReady() &&
                     Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").GetValue<bool>()) ||
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive()) ||
                 
                 (!ObjectManager.Player.UnderTurret() &&
 					ObjectManager.Player.ManaPercent >= ManaManager.NeededQMana &&
                     Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.harass").GetValue<bool>()) ||
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.harass").IsActive()) ||
 
                 (Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").GetValue<bool>())))
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").IsActive())))
             {
                 Variables.Q.Cast();
             }
@@ -49,7 +49,7 @@ namespace ExorAIO.Champions.Darius
                 Targets.Target.IsValidTarget(Variables.E.Range) &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 ObjectManager.Player.Distance(Variables.E.GetPrediction(Targets.Target).UnitPosition) < Variables.E.Range &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").IsActive())
             {
                 Variables.E.Cast(Variables.E.GetPrediction(Targets.Target).UnitPosition);
             }
@@ -60,7 +60,7 @@ namespace ExorAIO.Champions.Darius
             if (Variables.R.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.R.Range) &&
                 KillSteal.GetRDamage(Targets.Target) > Targets.Target.Health &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").IsActive())
             {
                 Variables.R.CastOnUnit(Targets.Target);
             }
@@ -79,7 +79,7 @@ namespace ExorAIO.Champions.Darius
             if (Variables.W.IsReady() &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").IsActive())
             {
                 Variables.W.Cast();
             }
@@ -98,9 +98,9 @@ namespace ExorAIO.Champions.Darius
             /// </summary>
             if (Variables.Q.IsReady() &&
                 ObjectManager.Player.ManaPercent >= ManaManager.NeededQMana &&
-                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                 (Targets.Minions?.Count() >= 3 || Targets.JungleMinions.Any()) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").GetValue<bool>())
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").IsActive())
             {
                 Variables.Q.Cast();
             }

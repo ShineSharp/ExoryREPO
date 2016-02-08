@@ -76,7 +76,7 @@ namespace ExorAIO.Champions.Quinn
         {
             if (Variables.E.IsReady() &&
                 sender.IsValidTarget(Variables.E.Range) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.espell.ir").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.ir").IsActive())
             {
                 Variables.E.CastOnUnit(sender);
             }
@@ -90,7 +90,7 @@ namespace ExorAIO.Champions.Quinn
         {
             if (Variables.E.IsReady() &&
                 gapcloser.Sender.IsValidTarget(Variables.E.Range) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.espell.gp").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.gp").IsActive())
             {
                 Variables.E.CastOnUnit(gapcloser.Sender);
             }

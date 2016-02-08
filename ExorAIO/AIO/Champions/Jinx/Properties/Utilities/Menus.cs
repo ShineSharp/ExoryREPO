@@ -44,6 +44,7 @@ namespace ExorAIO.Champions.Jinx
                     .SetFontStyle(FontStyle.Regular, Color.Cyan);
                 {
                     Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.espell.auto",     "Logical")).SetValue(true);
+                    Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.espell.gp",       "Anti-Gapcloser")).SetValue(true);
                     Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.espell.immobile", "Harass Impaired Enemies")).SetValue(true);
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.EMenu);

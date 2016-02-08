@@ -27,10 +27,10 @@ namespace ExorAIO.Champions.Corki
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
 
                 ((Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").GetValue<bool>()) ||
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").IsActive()) ||
 
                 (Bools.IsImmobile(Targets.Target) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.immobile").GetValue<bool>())))
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.immobile").IsActive())))
             {
                 Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).CastPosition);
             }
@@ -41,7 +41,7 @@ namespace ExorAIO.Champions.Corki
             if (Variables.E.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.E.Range) &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").IsActive())
             {
                 Variables.E.Cast();
             }
@@ -55,12 +55,12 @@ namespace ExorAIO.Champions.Corki
                 Variables.R.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
 
                 ((Variables.R.GetDamage(Targets.Target) > Targets.Target.Health &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").GetValue<bool>()) ||
+                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").IsActive()) ||
 
                 (!Targets.Target.UnderTurret() &&
 					ObjectManager.Player.ManaPercent > ManaManager.NeededRMana &&
                     Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.harass").GetValue<bool>() &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.harass").IsActive() &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.rspell.whitelist.{Targets.Target.ChampionName.ToLower()}").GetValue<bool>())))
             {
                 Variables.R.Cast(Variables.R.GetPrediction(Targets.Target).UnitPosition);
@@ -80,7 +80,7 @@ namespace ExorAIO.Champions.Corki
             if (Variables.Q.IsReady() &&
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.Q.Range) &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive())
             {
                 Variables.Q.Cast(Variables.Q.GetPrediction((Obj_AI_Hero)args.Target).CastPosition);
             }
@@ -90,9 +90,9 @@ namespace ExorAIO.Champions.Corki
             /// </summary>
             if (Variables.R.IsReady() &&
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.R.Range) &&
-                Variables.R.GetPrediction((Obj_AI_Hero)args.Target).Hitchance >= HitChance.High &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").GetValue<bool>())
+                Variables.R.GetPrediction((Obj_AI_Hero)args.Target).Hitchance >= HitChance.VeryHigh &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").IsActive())
             {
                 Variables.R.Cast(Variables.R.GetPrediction(Targets.Target).UnitPosition);
             }
@@ -111,10 +111,16 @@ namespace ExorAIO.Champions.Corki
             if (Variables.Q.IsReady() &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                (Variables.Q.GetCircularFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 3 || Targets.JungleMinions.Any()) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").IsActive())
             {
-                Variables.Q.Cast(Variables.Q.GetCircularFarmLocation(Targets.Minions, Variables.Q.Width).Position);
+                if (Variables.Q.GetCircularFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 3)
+                {
+                    Variables.Q.Cast(Variables.Q.GetCircularFarmLocation(Targets.Minions, Variables.Q.Width).Position);
+                }
+                else if (Targets.JungleMinions.Any())
+                {
+                    Variables.Q.Cast((Targets.JungleMinions.FirstOrDefault()).Position);
+                }
             }
 
             /// <summary>
@@ -122,9 +128,9 @@ namespace ExorAIO.Champions.Corki
             /// </summary>
             if (Variables.E.IsReady() &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
-                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                 (Targets.Minions.Count() >= 3 || Targets.JungleMinions.Any()) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.espell.farm").GetValue<bool>())
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.farm").IsActive())
             {
                 Variables.E.Cast();
             }
@@ -135,10 +141,16 @@ namespace ExorAIO.Champions.Corki
             if (Variables.R.IsReady() &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededRMana &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                (Variables.R.GetLineFarmLocation(Targets.Minions, Variables.R.Width).MinionsHit >= 2 || Targets.JungleMinions.Any()) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.farm").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.farm").IsActive())
             {
-                Variables.R.Cast(Variables.R.GetLineFarmLocation(Targets.Minions, Variables.R.Width).Position);
+                if (Variables.R.GetLineFarmLocation(Targets.Minions, Variables.R.Width).MinionsHit >= 2)
+                {
+                    Variables.R.Cast(Variables.R.GetLineFarmLocation(Targets.Minions, Variables.R.Width).Position);
+                }
+                else if (Targets.JungleMinions.Any())
+                {
+                    Variables.R.Cast((Targets.JungleMinions.FirstOrDefault()).Position);
+                }
             }
         }
     }

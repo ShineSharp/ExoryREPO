@@ -25,7 +25,7 @@ namespace ExorAIO.Champions.Draven
             if (Variables.Q.IsReady() &&
                 ObjectManager.Player.IsWindingUp &&
                 ObjectManager.Player.GetBuffCount("dravenspinningattack") < 2 &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.auto").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.auto").IsActive())
             {
                 Variables.Q.Cast();
             }
@@ -37,11 +37,13 @@ namespace ExorAIO.Champions.Draven
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void ExecutePathing(EventArgs args)
         {
-            if (Variables.Menu.Item($"{Variables.MainMenuName}.misc.path").GetValue<bool>())
+            if (Variables.Menu.Item($"{Variables.MainMenuName}.misc.path").IsActive())
             {
                 if (GameObjects.AllGameObjects
-                    .Any(x => x.Name.Equals("Draven_Base_Q_reticle_self.troy")) &&
-                    ObjectManager.Player.Distance(GameObjects.AllGameObjects.Find(x => x.Name.Equals("Draven_Base_Q_reticle_self.troy")).Position) <= 110f)
+                        .Any(x => x.Name.Equals("Draven_Base_Q_reticle_self.troy")) &&
+
+                    ObjectManager.Player.Distance(GameObjects.AllGameObjects
+                        .Find(x => x.Name.Equals("Draven_Base_Q_reticle_self.troy")).Position) <= 110f)
                 {
                     ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, ObjectManager.Player.Position);
                     Variables.Orbwalker.SetMovement(false);
@@ -66,7 +68,7 @@ namespace ExorAIO.Champions.Draven
                 Targets.Target.IsValidTarget(800f) &&
                 !ObjectManager.Player.HasBuff("dravenfurybuff") &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").IsActive())
             {
                 Variables.W.Cast();
             }
@@ -78,7 +80,7 @@ namespace ExorAIO.Champions.Draven
                 Targets.Target.IsValidTarget(Variables.E.Range) &&
                 Targets.Target.Health < Variables.E.GetDamage(Targets.Target) &&
                 !Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.espell.ks").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.ks").IsActive())
             {
                 Variables.E.Cast(Variables.E.GetPrediction(Targets.Target).UnitPosition);
             }
@@ -92,12 +94,12 @@ namespace ExorAIO.Champions.Draven
                 Targets.Target.IsValidTarget(Variables.R.Range) &&
                 
                 ((Targets.Target.Health < Variables.R.GetDamage(Targets.Target)/2 &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").GetValue<bool>()) ||
+                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").IsActive()) ||
                 
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     ObjectManager.Player.CountEnemiesInRange(Orbwalking.GetRealAutoAttackRange(null)) >= 2 &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").GetValue<bool>() &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.whitelist.{Targets.Target.ChampionName.ToLower()}").GetValue<bool>())))
+                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").IsActive() &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.whitelist.{Targets.Target.ChampionName.ToLower()}").IsActive())))
             {
                 Variables.R.Cast(Variables.R.GetPrediction(Targets.Target).UnitPosition);
             }
@@ -116,7 +118,7 @@ namespace ExorAIO.Champions.Draven
             if (Variables.E.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.E.Range) &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").IsActive())
             {
                 Variables.E.Cast(Variables.E.GetPrediction((Obj_AI_Hero)args.Target).UnitPosition);
             }
