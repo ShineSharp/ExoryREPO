@@ -16,7 +16,7 @@ namespace ExorAIO.Champions.Tristana
 
             if (target.HasBuff("TristanaECharge"))
             {
-                dmg += Variables.E.GetDamage(target);
+                dmg += Variables.E.GetDamage(target) * ((0.3 * target.GetBuffCount("TristanaECharge") + 1);
             }
             
             if (Variables.R.IsReady())
