@@ -24,8 +24,7 @@ namespace ExorAIO.Champions.Tristana
                 Variables.QMenu = new Menu("Use Q to:", $"{Variables.MainMenuName}.qmenu")
                     .SetFontStyle(FontStyle.Regular, Color.Green);
                 {
-                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.combo", "Combo")).SetValue(true);
-                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.farm",  "LaneClear")).SetValue(true);
+                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.auto",  "Logical")).SetValue(true);
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.QMenu);
 

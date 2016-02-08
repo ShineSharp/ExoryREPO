@@ -45,13 +45,7 @@ namespace ExorAIO.Champions.Tristana
             /// </summary>
             if (Variables.Q.IsReady() &&
                 ObjectManager.Player.IsWindingUp &&
-                (Targets.Target.HasBuff("TristanaECharge") || !Variables.E.IsReady()) &&
-
-                ((Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive()) ||
-
-                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").IsActive())))
+                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.auto").IsActive())
             {
                 Variables.Q.Cast();
             }
