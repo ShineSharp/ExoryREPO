@@ -5,9 +5,7 @@ namespace ExorKalista
 {
     using System;
     using System.Linq;
-
     using SharpDX;
-
     using Orbwalking = SFXTargetSelector.Orbwalking;
 
     /// <summary>
@@ -30,7 +28,7 @@ namespace ExorKalista
                 ObjectManager.Player.CountEnemiesInRange(1500) == 0 &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededWMana &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.None &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.auto").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.auto").IsActive())
             {
                 if (Variables.SentinelLocations
                     .Any(h => ObjectManager.Player.Distance(h) < Variables.W.Range))

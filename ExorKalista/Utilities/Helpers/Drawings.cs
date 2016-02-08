@@ -25,7 +25,7 @@ namespace ExorKalista
                 /// <summary>
                 /// Loads the Q drawing.
                 /// </summary>
-                if (Variables.Menu.Item($"{Variables.MainMenuName}.drawings.q").GetValue<bool>())
+                if (Variables.Menu.Item($"{Variables.MainMenuName}.drawings.q").IsActive())
                 {
                     Drawing.DrawCircle(ObjectManager.Player.Position, Variables.Q.Range, System.Drawing.Color.Green);
                 }
@@ -33,7 +33,7 @@ namespace ExorKalista
                 /// <summary>
                 /// Loads the E drawing.
                 /// </summary>
-                if (Variables.Menu.Item($"{Variables.MainMenuName}.drawings.e").GetValue<bool>())
+                if (Variables.Menu.Item($"{Variables.MainMenuName}.drawings.e").IsActive())
                 {
                     Drawing.DrawCircle(ObjectManager.Player.Position, Variables.E.Range, System.Drawing.Color.Cyan);
                 }
@@ -41,7 +41,7 @@ namespace ExorKalista
                 /// <summary>
                 /// Loads the R drawing.
                 /// </summary>
-                if (Variables.Menu.Item($"{Variables.MainMenuName}.drawings.r").GetValue<bool>())
+                if (Variables.Menu.Item($"{Variables.MainMenuName}.drawings.r").IsActive())
                 {
                     Drawing.DrawCircle(ObjectManager.Player.Position, Variables.R.Range, System.Drawing.Color.Red);
                 }

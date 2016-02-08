@@ -87,7 +87,7 @@ namespace ExorKalista
             if (Variables.E.IsReady() &&
                 !ObjectManager.Player.IsDashing() &&
                 Bools.IsKillableByRend((Obj_AI_Minion)minion) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.espell.helper").GetValue<bool>())
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.helper").IsActive())
             {
                 Variables.E.Cast();
             }
