@@ -54,6 +54,15 @@ namespace ExorAIO.Champions.Quinn
         public static void ExecuteAuto(EventArgs args)
         {
             /// <summary>
+            /// The Focus Logic (Passive Mark).
+            /// </summary>
+            if (Targets.Target.HasBuff("quinnw"))
+            {
+                TargetSelector.Selected.Target = Targets.Target;
+                Variables.Orbwalker.ForceTarget(Targets.Target);
+            }
+
+            /// <summary>
             /// The Q Combo Logic,
             /// The Q KillSteal Logic,
             /// The Q Against Impaired Targets Logic.

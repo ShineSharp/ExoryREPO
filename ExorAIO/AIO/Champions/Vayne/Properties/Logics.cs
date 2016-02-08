@@ -22,6 +22,15 @@ namespace ExorAIO.Champions.Vayne
         public static void ExecuteAuto(EventArgs args)
         {
             /// <summary>
+            /// The Focus Logic (W Stacks).
+            /// </summary>
+            if (Targets.Target.HasBuff("vaynesilvereddebuff"))
+            {
+                TargetSelector.Selected.Target = Targets.Target;
+                Variables.Orbwalker.ForceTarget(Targets.Target);
+            }
+
+            /// <summary>
             /// The No AA when Stealthed Logic.
             /// </summary>
             if (Variables.Menu.Item($"{Variables.MainMenuName}.misc.stealth").IsActive())

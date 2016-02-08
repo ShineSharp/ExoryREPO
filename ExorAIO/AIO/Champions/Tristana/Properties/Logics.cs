@@ -7,6 +7,7 @@ namespace ExorAIO.Champions.Tristana
     using System.Linq;
     using ExorAIO.Utilities;
     using Orbwalking = SFXTargetSelector.Orbwalking;
+    using TargetSelector = SFXTargetSelector.TargetSelector;
 
     /// <summary>
     /// The logics class.
@@ -19,6 +20,15 @@ namespace ExorAIO.Champions.Tristana
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void ExecuteAuto(EventArgs args)
         {
+            /// <summary>
+            /// The Focus Logic (E Charges).
+            /// </summary>
+            if (Targets.Target.HasBuff("TristanaECharge"))
+            {
+                TargetSelector.Selected.Target = Targets.Target;
+                Variables.Orbwalker.ForceTarget(Targets.Target);
+            }
+
             /// <summary>
             /// The R KillSteal Logic.
             /// </summary>

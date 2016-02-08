@@ -30,33 +30,13 @@ namespace ExorAIO.Champions.Vayne
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void OnUpdate(EventArgs args)
         {
-            if (!ObjectManager.Player.IsDead &&
+            if (Targets.Target != null &&
+                Targets.Target.IsValid &&
+                !ObjectManager.Player.IsDead &&
+                Bools.HasNoProtection(Targets.Target) &&
                 Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
-                /// <summary>
-                /// The target priority.
-                /// </summary>
-                if (TargetSelector.Weights.GetItem("low-health") != null)
-                {
-                    TargetSelector.Weights
-                        .GetItem("low-health")
-                        .ValueFunction = hero => hero.Health - KillSteal.GetDamage(hero)*2;
-
-                    TargetSelector.Weights
-                        .GetItem("low-health")
-                        .Tooltip = "Low Health (Health < 2W + E Damage) = Higher Weight";
-
-                    TargetSelector.Weights
-                        .Register(new TargetSelector.Weights.Item("w-stack", "W Stack", 10, false,
-                            hero => hero.GetBuffCount("vaynesilvereddebuff") == 2 ? 1 : 0, "Has 2W Stacks = Higher Weight"));
-                }
-                
-                if (Targets.Target != null &&
-                    Targets.Target.IsValid &&
-                    Bools.HasNoProtection(Targets.Target))
-                {
-                    Logics.ExecuteAuto(args);
-                }
+                Logics.ExecuteAuto(args);
             }
         }
 
