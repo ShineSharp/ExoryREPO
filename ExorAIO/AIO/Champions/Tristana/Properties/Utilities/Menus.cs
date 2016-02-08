@@ -44,7 +44,7 @@ namespace ExorAIO.Champions.Tristana
                                 Variables.WhiteListMenu
                                     .AddItem(
                                         new MenuItem(
-                                            $"{Variables.MainMenuName}.settings.whitelist.{champ.ChampionName.ToLower()}",
+                                            $"{Variables.MainMenuName}.espell.whitelist.{champ.ChampionName.ToLower()}",
                                             $"E Only: {champ.ChampionName}")
                                     .SetValue(true)
                                 );
