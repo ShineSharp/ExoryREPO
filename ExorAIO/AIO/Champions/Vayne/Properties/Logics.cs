@@ -61,7 +61,7 @@ namespace ExorAIO.Champions.Vayne
             if (Variables.Q.IsReady() &&
                 !ObjectManager.Player.IsWindingUp &&
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
-                Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
+                !Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
                 HealthPrediction.GetHealthPrediction(Targets.Target, (int)(250 + Game.Ping / 2f)) < ObjectManager.Player.GetAutoAttackDamage(Targets.Target) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").IsActive())
             {
@@ -87,7 +87,7 @@ namespace ExorAIO.Champions.Vayne
                     !Variables.Menu.Item($"{Variables.MainMenuName}.misc.stacks").IsActive()))
             {
                 Utility.DelayAction.Add(
-                    (int)(Game.Ping / 2f + 25), // BroScience? Pls check The Orbwalking.CanAttack method fgt.
+                    (int)(Game.Ping / 2 + 25 - ObjectManager.Player.AttackDelay), // BroScience? Pls check The Orbwalking.CanAttack method fgt.
                     () =>
                     {
                         Variables.Q.Cast(Game.CursorPos);
@@ -106,7 +106,7 @@ namespace ExorAIO.Champions.Vayne
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.ks").IsActive())
             {
                 Utility.DelayAction.Add(
-                    (int)(Game.Ping / 2f + 25), // BroScience? Pls check The Orbwalking.CanAttack method fgt.
+                    (int)(Game.Ping / 2 + 25 - ObjectManager.Player.AttackDelay), // BroScience? Pls check The Orbwalking.CanAttack method fgt.
                     () =>
                     {
                         Variables.E.CastOnUnit((Obj_AI_Hero)target);
@@ -164,7 +164,7 @@ namespace ExorAIO.Champions.Vayne
                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").IsActive())
             {
                 if (Targets.Minions?.Count() > 1 ||
-                    Targets.JungleMinions.Any())
+                    Targets.JungleMinions?.Count() > 1)
                 {
                     Variables.Q.Cast(Game.CursorPos);
                 }
