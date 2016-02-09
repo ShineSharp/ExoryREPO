@@ -38,7 +38,6 @@ namespace ExorAIO.Champions.Ashe
             /// </summary>
             if (Variables.W.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.W.Range) &&
-                Variables.W.GetSPrediction(Targets.Target).HitChance >= HitChance.VeryHigh &&
 
                 ((Bools.IsImmobile(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.wspell.immobile").IsActive()) ||
@@ -46,7 +45,7 @@ namespace ExorAIO.Champions.Ashe
                 (Targets.Target.Health < Variables.W.GetDamage(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.wspell.ks").IsActive())))
             {
-                Variables.W.Cast(Variables.W.GetSPrediction(Targets.Target).UnitPosition.To3D());
+                Variables.W.SPredictionCast(Targets.Target, HitChance.VeryHigh);
             }
 
             /// <summary>
@@ -70,10 +69,10 @@ namespace ExorAIO.Champions.Ashe
                     Targets.Target.Health > Variables.R.GetDamage(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.misc.ermechanic").IsActive())
                 {
-                    Variables.E.Cast(Variables.E.GetSPrediction(Targets.Target).UnitPosition.To3D());
+                    Variables.E.SPredictionCast(Targets.Target, HitChance.VeryHigh);
                 }
 
-                Variables.R.Cast(Variables.R.GetSPrediction(Targets.Target).UnitPosition.To3D());
+                Variables.R.SPredictionCast(Targets.Target, HitChance.VeryHigh);
             }
         }
 
@@ -88,11 +87,11 @@ namespace ExorAIO.Champions.Ashe
             /// The W Combo Logic.
             /// </summary>
             if (Variables.W.IsReady() &&
+                ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.W.Range) &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.W.GetSPrediction(Targets.Target).HitChance >= HitChance.VeryHigh &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").IsActive())
             {
-                Variables.W.Cast(Variables.W.GetSPrediction(Targets.Target).UnitPosition.To3D());
+                Variables.W.SPredictionCast((Obj_AI_Hero)args.Target, HitChance.VeryHigh);
             }
         }
 

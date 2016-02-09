@@ -59,7 +59,7 @@ namespace ExorAIO.Champions.Lux
                     ObjectManager.Player.Spellbook.GetSpell(SpellSlot.E).ToggleState == 1 &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").IsActive())))
             {
-                Variables.R.Cast(Variables.R.GetSPrediction(Targets.Target).UnitPosition.To3D());
+                Variables.R.SPredictionCast(Targets.Target, HitChance.VeryHigh);
             }
 
             /// <summary>
@@ -76,7 +76,7 @@ namespace ExorAIO.Champions.Lux
                     Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive())))
             {
-                Variables.Q.Cast(Variables.Q.GetSPrediction(Targets.Target).UnitPosition.To3D());
+                Variables.Q.SPredictionCast(Targets.Target, HitChance.VeryHigh);
                 return;
             }
 
@@ -95,7 +95,7 @@ namespace ExorAIO.Champions.Lux
                     Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").IsActive())))
             {
-                Variables.E.Cast(Variables.E.GetSPrediction(Targets.Target).CastPosition.To3D());
+                Variables.E.SPredictionCast(Targets.Target, HitChance.VeryHigh);
             }
         }
 

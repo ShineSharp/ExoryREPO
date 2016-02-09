@@ -73,7 +73,7 @@ namespace ExorAIO.Champions.Cassiopeia
                 Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").IsActive() &&
                 Targets.RTargets.Count() >= Variables.Menu.Item($"{Variables.MainMenuName}.rspell.enemies").GetValue<Slider>().Value)
             {
-                Variables.R.Cast((Targets.RTargets.FirstOrDefault()).Position);
+                Variables.R.SPredictionCast(Targets.RTargets.FirstOrDefault(), HitChance.VeryHigh);
             }
 
             /// <summary>
@@ -85,7 +85,7 @@ namespace ExorAIO.Champions.Cassiopeia
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive())
             {
-                Variables.Q.Cast(Variables.Q.GetSPrediction(Targets.Target).CastPosition.To3D());
+                Variables.Q.SPredictionCast(Targets.Target, HitChance.VeryHigh);
                 return;
             }
 
@@ -99,7 +99,7 @@ namespace ExorAIO.Champions.Cassiopeia
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").IsActive())
             {
-                Variables.W.Cast(Variables.W.GetSPrediction(Targets.Target).CastPosition.To3D());
+                Variables.W.SPredictionCast(Targets.Target, HitChance.VeryHigh);
             }
         }
 

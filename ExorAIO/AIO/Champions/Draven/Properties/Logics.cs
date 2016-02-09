@@ -83,7 +83,7 @@ namespace ExorAIO.Champions.Draven
                 !Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.ks").IsActive())
             {
-                Variables.E.Cast(Variables.E.GetSPrediction(Targets.Target).UnitPosition.To3D());
+                Variables.E.SPredictionCast(Targets.Target, HitChance.VeryHigh);
             }
 
             /// <summary>
@@ -102,7 +102,7 @@ namespace ExorAIO.Champions.Draven
                     Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").IsActive() &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.rspell.whitelist.{Targets.Target.ChampionName.ToLower()}").IsActive())))
             {
-                Variables.R.Cast(Variables.R.GetSPrediction(Targets.Target).UnitPosition.To3D());
+                Variables.R.SPredictionCast(Targets.Target, HitChance.VeryHigh);
             }
         }
 
@@ -117,11 +117,11 @@ namespace ExorAIO.Champions.Draven
             /// The E Combo Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
-                Targets.Target.IsValidTarget(Variables.E.Range) &&
+                ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.E.Range) &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").IsActive())
             {
-                Variables.E.Cast(Variables.E.GetSPrediction((Obj_AI_Hero)args.Target).UnitPosition.To3D());
+                Variables.E.SPredictionCast((Obj_AI_Hero)args.Target, HitChance.VeryHigh);
             }
         }
     }

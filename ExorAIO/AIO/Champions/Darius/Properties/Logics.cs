@@ -52,7 +52,7 @@ namespace ExorAIO.Champions.Darius
                 ObjectManager.Player.Distance(Variables.E.GetSPrediction(Targets.Target).UnitPosition.To3D()) < Variables.E.Range &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").IsActive())
             {
-                Variables.E.Cast(Variables.E.GetSPrediction(Targets.Target).UnitPosition.To3D());
+                Variables.E.SPredictionCast(Targets.Target, HitChance.VeryHigh);
             }
 
             /// <summary>

@@ -28,7 +28,6 @@ namespace ExorAIO.Champions.Olaf
             if (Variables.Q.IsReady() &&
                 !Targets.Target.IsMovementImpaired() &&
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
-                Variables.Q.GetSPrediction(Targets.Target).HitChance >= HitChance.VeryHigh &&
                 ObjectManager.Player.Distance(Variables.Q.GetSPrediction(Targets.Target).CastPosition.To3D()) < Variables.Q.Range - 100 &&
 
                 ((!ObjectManager.Player.UnderTurret() &&
@@ -39,7 +38,7 @@ namespace ExorAIO.Champions.Olaf
                 (Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").IsActive())))
             {
-                Variables.Q.Cast(Variables.Q.GetSPrediction(Targets.Target).CastPosition.To3D());
+                Variables.Q.SPredictionCast(Targets.Target, HitChance.VeryHigh);
             }
 
             /// <summary>
@@ -76,11 +75,11 @@ namespace ExorAIO.Champions.Olaf
             /// The Q Combo Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
+                ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.Q.Range) &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                ((Obj_AI_Hero)args.Target).IsValidTarget(Orbwalking.GetRealAutoAttackRange((Obj_AI_Hero)args.Target)) &&
-                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive())
+                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive())
             {
-                Variables.Q.Cast(Variables.Q.GetSPrediction(Targets.Target).UnitPosition.To3D());
+                Variables.Q.SPredictionCast((Obj_AI_Hero)args.Target, HitChance.VeryHigh);
                 return;
             }
 

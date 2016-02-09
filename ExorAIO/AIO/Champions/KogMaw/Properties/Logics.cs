@@ -26,7 +26,6 @@ namespace ExorAIO.Champions.KogMaw
             /// </summary>
             if (Variables.Q.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
-                Variables.Q.GetSPrediction(Targets.Target).HitChance >= HitChance.VeryHigh &&
 
                 ((Targets.Target.Health < Variables.Q.GetDamage(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").IsActive()) ||
@@ -34,7 +33,7 @@ namespace ExorAIO.Champions.KogMaw
                 (Bools.IsImmobile(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.immobile").IsActive())))
             {
-                Variables.Q.Cast(Variables.Q.GetSPrediction(Targets.Target).UnitPosition.To3D());
+                Variables.Q.SPredictionCast(Targets.Target, HitChance.VeryHigh);
             }
 
             /// <summary>
@@ -62,7 +61,7 @@ namespace ExorAIO.Champions.KogMaw
                 (Bools.IsImmobile(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.espell.immobile").IsActive())))
             {
-                Variables.E.Cast(Variables.E.GetSPrediction(Targets.Target).UnitPosition.To3D());
+                Variables.E.SPredictionCast(Targets.Target, HitChance.VeryHigh);
             }
 
             /// <summary>
@@ -72,8 +71,8 @@ namespace ExorAIO.Champions.KogMaw
             /// </summary>
             if (Variables.R.IsReady() &&
                 Targets.Target.HealthPercent < 50 &&
-                !ObjectManager.Player.IsWindingUp &&
-                !Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
+                Targets.Target.IsValidTarget(Variables.W.Range) &&
+                !Targets.Target.IsValidTarget(Variables.W.Range - 100f) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.rspell.stacks").GetValue<Slider>().Value 
                     >= ObjectManager.Player.GetBuffCount("kogmawlivingartillerycost") &&
 
@@ -83,7 +82,7 @@ namespace ExorAIO.Champions.KogMaw
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").IsActive()))
             {
-                Variables.R.Cast(Variables.R.GetSPrediction(Targets.Target).CastPosition.To3D());
+                Variables.R.SPredictionCast(Targets.Target, HitChance.VeryHigh);
             }
         }
 
@@ -98,12 +97,11 @@ namespace ExorAIO.Champions.KogMaw
             /// The Q Combo Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
-                Targets.Target.IsValidTarget(Variables.Q.Range) &&
+                ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.Q.Range) &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.Q.GetSPrediction(Targets.Target).HitChance >= HitChance.VeryHigh &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive())
             {
-                Variables.Q.Cast(Variables.Q.GetSPrediction(Targets.Target).UnitPosition.To3D());
+                Variables.Q.SPredictionCast((Obj_AI_Hero)args.Target, HitChance.VeryHigh);
                 return;
             }
 
@@ -111,10 +109,11 @@ namespace ExorAIO.Champions.KogMaw
             /// The E Combo Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
+                ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.E.Range) &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").IsActive())
             {
-                Variables.E.Cast(Variables.E.GetSPrediction(Targets.Target).UnitPosition.To3D());
+                Variables.E.SPredictionCast((Obj_AI_Hero)args.Target, HitChance.VeryHigh);
             }
         }
 

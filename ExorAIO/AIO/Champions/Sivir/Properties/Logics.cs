@@ -33,7 +33,7 @@ namespace ExorAIO.Champions.Sivir
                 (Bools.IsImmobile(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.immobile").IsActive())))
             {
-                Variables.Q.Cast(Variables.Q.GetSPrediction(Targets.Target).UnitPosition.To3D());
+                Variables.Q.SPredictionCast(Targets.Target, HitChance.VeryHigh);
             }
         }
 
@@ -95,7 +95,7 @@ namespace ExorAIO.Champions.Sivir
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive())
             {
-                Variables.Q.Cast(Variables.Q.GetSPrediction((Obj_AI_Hero)args.Target).UnitPosition.To3D());
+                Variables.Q.SPredictionCast((Obj_AI_Hero)args.Target, HitChance.VeryHigh);
             }
         }
 

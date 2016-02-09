@@ -60,7 +60,6 @@ namespace ExorAIO.Champions.Quinn
             if (Variables.Q.IsReady() &&
                 !ObjectManager.Player.IsWindingUp &&
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
-                Variables.Q.GetSPrediction(Targets.Target).HitChance >= HitChance.VeryHigh &&
 
                 ((Targets.Target.Health < Variables.Q.GetDamage(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").IsActive()) ||
@@ -68,7 +67,7 @@ namespace ExorAIO.Champions.Quinn
                 (Bools.IsImmobile(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.immobile").IsActive())))
             {
-                Variables.Q.Cast(Variables.Q.GetSPrediction(Targets.Target).UnitPosition.To3D());
+                Variables.Q.SPredictionCast(Targets.Target, HitChance.VeryHigh);
             }
 
             /// <summary>
@@ -125,7 +124,7 @@ namespace ExorAIO.Champions.Quinn
                 Variables.Q.GetSPrediction((Obj_AI_Hero)args.Target).HitChance >= HitChance.VeryHigh &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive())
             {
-                Variables.Q.Cast(Variables.Q.GetSPrediction((Obj_AI_Hero)args.Target).UnitPosition.To3D());
+                Variables.Q.SPredictionCast((Obj_AI_Hero)args.Target, HitChance.VeryHigh);
                 return;
             }
 
