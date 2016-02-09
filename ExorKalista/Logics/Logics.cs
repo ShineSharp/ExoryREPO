@@ -29,7 +29,11 @@ namespace ExorKalista
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
                 Variables.Q.GetSPrediction(Targets.Target).HitChance >= HitChance.VeryHigh &&
 
-                ((Targets.Target.Health < Variables.Q.GetDamage(Targets.Target) &&
+                ((Bools.IsPerfectRendTarget(Targets.Target) && !Bools.IsKillableByRend(Targets.Target) &&
+                    Targets.Target.Health < Variables.Q.GetDamage(Targets.Target) + KillSteal.GetPerfectRendDamage(Targets.Target) &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive()) ||
+
+                (Targets.Target.Health < Variables.Q.GetDamage(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").IsActive()) ||
 
                 (Bools.IsImmobile(Targets.Target) &&
@@ -107,7 +111,6 @@ namespace ExorKalista
             if (Variables.Q.IsReady() &&
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.Q.Range) &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.Q.GetSPrediction((Obj_AI_Hero)args.Target).HitChance >= HitChance.VeryHigh &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive())
             {
                 Variables.Q.Cast(Variables.Q.GetSPrediction((Obj_AI_Hero)args.Target).UnitPosition.To3D());
