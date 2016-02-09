@@ -24,6 +24,16 @@ namespace AsunaCondemn
         public static Menu Menu { get; set; }
 
         /// <summary>
+        /// Gets or sets the E Spell menu.
+        /// </summary>
+        public static Menu EMenu { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Drawings menu.
+        /// </summary>
+        public static Menu DrawingsMenu { get; set; }
+
+        /// <summary>
         /// The main menu codename.
         /// </summary>
         public static readonly string MainMenuName = $"asuna.{ObjectManager.Player.ChampionName}";

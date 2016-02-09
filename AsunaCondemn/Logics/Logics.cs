@@ -1,13 +1,12 @@
+using LeagueSharp;
+using LeagueSharp.Common;
+
 namespace AsunaCondemn
 {
     using System;
     using System.Linq;
-    using System.Collections.Generic;
-
-    using LeagueSharp;
-    using LeagueSharp.Common;
-
     using SharpDX;
+    using SPrediction;
 
     /// <summary>
     /// The logics class.
@@ -26,19 +25,17 @@ namespace AsunaCondemn
             if (Variables.E.IsReady() &&
                 Variables.Flash.IsReady() &&
                 !ObjectManager.Player.IsDashing() &&
-                !ObjectManager.Player.IsWindingUp &&
-                Variables.Flash != SpellSlot.Unknown &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.execute").GetValue<KeyBind>().Active)
             {
                 foreach (var e in HeroManager.Enemies
                     .Where(c =>
                         c.IsValidTarget(Variables.E.Range) &&
-                        ObjectManager.Player.Distance(c) < 425f - ObjectManager.Player.BoundingRadius*3))
+                        ObjectManager.Player.Distance(c) < 425f - ObjectManager.Player.BoundingRadius*2))
                 {
                     for (int i = 1; i < 10; i++)
                     {
-                        if ((Variables.E.GetPrediction(e).UnitPosition - Vector3.Normalize(e.ServerPosition - ObjectManager.Player.Position) * i * 42).IsWall() &&
-                            (Variables.E.GetPrediction(e).UnitPosition - Vector3.Normalize(e.ServerPosition - ObjectManager.Player.Position) * i * 44).IsWall())
+                        if ((Variables.E.GetSPrediction(e).UnitPosition.To3D2() - Vector3.Normalize(e.ServerPosition - ObjectManager.Player.Position) * i * 43).IsWall() &&
+                            (Variables.E.GetSPrediction(e).UnitPosition.To3D2() - Vector3.Normalize(e.ServerPosition - ObjectManager.Player.Position) * i * 44).IsWall())
                         {
                             Variables.E.CastOnUnit(e);
                             ObjectManager.Player.Spellbook.CastSpell(Variables.Flash, ObjectManager.Player.ServerPosition.Extend(e.ServerPosition, 425f));

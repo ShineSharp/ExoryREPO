@@ -1,9 +1,10 @@
-﻿using System;
-using LeagueSharp;
+﻿using LeagueSharp;
 using LeagueSharp.Common;
 
 namespace AsunaCondemn
 {
+    using System;
+
     class Program
     {
         static void Main(string[] args)
