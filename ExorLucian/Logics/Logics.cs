@@ -8,6 +8,7 @@ namespace ExorLucian
     using System.Collections.Generic;
     using SharpDX;
     using Orbwalking = SFXTargetSelector.Orbwalking;
+    using SPrediction;
 
     /// <summary>
     /// The logics class.
@@ -25,7 +26,12 @@ namespace ExorLucian
             /// </summary>
             if (ObjectManager.Player.HasBuff("LucianR"))
             {
-                ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
+                Utility.DelayAction.Add((int)(100 + Game.Ping / 2f),
+                    () =>
+                    {
+                        ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
+                    }
+                );
             }
 
             /// <summary>
@@ -74,11 +80,11 @@ namespace ExorLucian
             if (Variables.W.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.W.Range) &&
                 Variables.W.GetDamage(Targets.Target) > Targets.Target.Health &&
-                Variables.W.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
+                Variables.W.GetSPrediction(Targets.Target).HitChance >= HitChance.VeryHigh &&
                 (!Variables.Q.IsReady() || !Targets.Target.IsValidTarget(Variables.Q.Range)) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.wspell.ks").IsActive())
             {
-                Variables.W.Cast(Variables.W.GetPrediction(Targets.Target).UnitPosition);
+                Variables.W.Cast(Variables.W.GetSPrediction(Targets.Target).UnitPosition.To3D());
             }
             
             /// <summary>
@@ -103,7 +109,7 @@ namespace ExorLucian
                 ((Variables.Menu.Item($"{Variables.MainMenuName}.rspell.keyrsa").GetValue<KeyBind>().Active && !ObjectManager.Player.HasBuff("LucianR")) ||
                 (!Variables.Menu.Item($"{Variables.MainMenuName}.rspell.keyrsa").GetValue<KeyBind>().Active && ObjectManager.Player.HasBuff("LucianR"))))
             {
-                Variables.R.Cast(Variables.R.GetPrediction(Targets.Target).UnitPosition);
+                Variables.R.Cast(Variables.R.GetSPrediction(Targets.Target).UnitPosition.To3D());
             }
         }
 
@@ -156,7 +162,7 @@ namespace ExorLucian
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").IsActive())
             {
-                Variables.W.Cast(Variables.W.GetPrediction((Obj_AI_Hero)args.Target).UnitPosition);
+                Variables.W.Cast(Variables.W.GetSPrediction((Obj_AI_Hero)args.Target).UnitPosition.To3D());
             }
         }
 
