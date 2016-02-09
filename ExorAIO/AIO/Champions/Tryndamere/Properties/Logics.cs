@@ -7,6 +7,7 @@ namespace ExorAIO.Champions.Tryndamere
     using System.Linq;
     using ExorAIO.Utilities;
     using Orbwalking = SFXTargetSelector.Orbwalking;
+    using SPrediction;
 
     /// <summary>
     /// The logics class.
@@ -36,10 +37,10 @@ namespace ExorAIO.Champions.Tryndamere
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 !Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
                 (!Targets.Target.UnderTurret() || Variables.E.GetDamage(Targets.Target) > Targets.Target.Health) &&
-                ObjectManager.Player.Distance(Variables.E.GetPrediction(Targets.Target).CastPosition) < Variables.E.Range - 50 &&
+                ObjectManager.Player.Distance(Variables.E.GetSPrediction(Targets.Target).CastPosition.To3D()) < Variables.E.Range - 50 &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").IsActive())
             {
-                Variables.E.Cast(Variables.E.GetPrediction(Targets.Target).CastPosition);
+                Variables.E.Cast(Variables.E.GetSPrediction(Targets.Target).CastPosition.To3D());
             }
 
             /// <summary>
