@@ -82,8 +82,8 @@ namespace ExorKalista
                         barPos.Y += yOffset;
 
                         var drawEndXPos = barPos.X + width * (unit.HealthPercent / 100);
-                        var drawStartXPos = barPos.X + (unit.Health > DamageManager.GetPerfectRendDamage(unit) ?
-                            width * (((unit.Health - DamageManager.GetPerfectRendDamage(unit)) / unit.MaxHealth * 100) / 100) : 0);
+                        var drawStartXPos = barPos.X + (unit.Health > KillSteal.GetPerfectRendDamage(unit) ?
+                            width * (((unit.Health - KillSteal.GetPerfectRendDamage(unit)) / unit.MaxHealth * 100) / 100) : 0);
 
                         Drawing.DrawLine(drawStartXPos, barPos.Y, drawEndXPos, barPos.Y, height, Bools.IsKillableByRend(unit) ? Color.Blue : Color.Orange);
                         Drawing.DrawLine(drawStartXPos, barPos.Y, drawStartXPos, barPos.Y + height + 1, 1, Color.Lime);

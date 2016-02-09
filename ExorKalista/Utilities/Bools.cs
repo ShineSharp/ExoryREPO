@@ -48,6 +48,6 @@ namespace ExorKalista
         /// </summary>   
         public static bool IsKillableByRend(Obj_AI_Base target)
         =>
-            DamageManager.GetPerfectRendDamage(target) > target.Health;
+            KillSteal.GetPerfectRendDamage(target) > target.Health;
     }
 }

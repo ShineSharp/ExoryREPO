@@ -4,6 +4,7 @@ using LeagueSharp.Common;
 namespace ExorKalista
 {
     using System;
+    using System.Linq;
     using System.Collections.Generic;
     using Orbwalking = SFXTargetSelector.Orbwalking;
     using TargetSelector = SFXTargetSelector.TargetSelector;
@@ -38,27 +39,26 @@ namespace ExorKalista
                 /// <summary>
                 /// The Soulbound declaration.
                 /// </summary>
-                Variables.SoulBound = HeroManager.Allies
-                    .Find(
-                        b =>
-                            b.HasBuff("kalistacoopstrikeally"));
+                if (Variables.SoulBound == null)
+                {
+                    Variables.SoulBound = HeroManager.Allies
+                        .Find(b => b.HasBuff("kalistacoopstrikeally"));
+                }
 
                 /// <summary>
-                /// The target priority.
+                /// The Focus Logic (Passive Mark).
                 /// </summary>
-                if (TargetSelector.Weights.GetItem("low-health") != null)
+                foreach (var tg in HeroManager.Enemies
+                    .Where(h =>
+                        h.HasBuff("kalistacoopstrikemarkally") &&
+                        h.IsValidTarget(ObjectManager.Player.AttackRange)))
                 {
-                    TargetSelector.Weights.GetItem("low-health").ValueFunction = hero => hero.Health - DamageManager.GetPerfectRendDamage(hero);
-                    TargetSelector.Weights.GetItem("low-health").Tooltip = "Low Health (Health < Rend Damage) = Higher Weight";
-                    TargetSelector.Weights.Register(
-                        new TargetSelector.Weights.Item(
-                            "w-stack", "W Stack", 10, false, hero => hero.HasBuff("kalistacoopstrikemarkally") ? 1 : 0,
-                            "Has W Debuff = Higher Weight"));
+                    TargetSelector.Selected.Target = tg ?? null;
+                    Variables.Orbwalker.ForceTarget(tg ?? null);
                 }
 
                 Logics.ExecuteAuto(args);
                 Logics.ExecuteFarm(args);
-                SentinelManager.Initialize(args);
             }
         }
 

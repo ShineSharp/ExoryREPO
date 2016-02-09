@@ -73,9 +73,8 @@
     <Compile Include="Utilities\Properties\Methods.cs" />
     <Compile Include="Utilities\Properties\Spells.cs" />
     <Compile Include="Utilities\Properties\Targets.cs" />
+    <Compile Include="Utilities\Properties\Killsteal.cs" />
     <Compile Include="Logics\Logics.cs" />
-    <Compile Include="Utilities\Managers\DamageManager.cs" />
-    <Compile Include="Utilities\Managers\SentinelManager.cs" />
     <Compile Include="SFXTargetSelector\Enumerations\Mode.cs" />
     <Compile Include="SFXTargetSelector\Enumerations\Priority.cs" />
     <Compile Include="SFXTargetSelector\EventArgs\ModesOnChange.cs" />

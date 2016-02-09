@@ -4,9 +4,9 @@ using LeagueSharp.SDK.Core.Wrappers.Damages;
 namespace ExorKalista
 {
     /// <summary>
-    /// The Damage class.
+    /// The Killsteal class.
     /// </summary>
-    class DamageManager
+    class KillSteal
     {
         /// <summary>
         /// Gets the perfect damage reduction from sources.
