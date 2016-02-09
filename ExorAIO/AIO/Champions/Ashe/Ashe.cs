@@ -29,14 +29,18 @@ namespace ExorAIO.Champions.Ashe
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void OnUpdate(EventArgs args)
         {
-            if (Targets.Target != null &&
-                Targets.Target.IsValid &&
-                !ObjectManager.Player.IsDead &&
-                !Targets.Target.IsInvulnerable &&
-                !Bools.IsSpellShielded(Targets.Target) &&
+            if (!ObjectManager.Player.IsDead &&
                 Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
-                Logics.ExecuteAuto(args);
+                Logics.ExecuteQ(args);
+
+                if (Targets.Target != null &&
+                    Targets.Target.IsValid &&
+                    !Targets.Target.IsInvulnerable &&
+                    !Bools.IsSpellShielded(Targets.Target))
+                {
+                    Logics.ExecuteAuto(args);
+                }
             }
         }
 

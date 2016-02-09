@@ -18,20 +18,27 @@ namespace ExorAIO.Champions.Ashe
         /// Called when the game updates itself.
         /// </summary>
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
-        public static void ExecuteAuto(EventArgs args)
+        public static void ExecuteQ(EventArgs args)
         {
             /// <summary>
             /// The Q Combo Logic,
             /// The Q Farm Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
-                ObjectManager.Player.IsWindingUp &&
+                !ObjectManager.Player.IsWindingUp &&
                 ObjectManager.Player.HasBuff("AsheQCastReady") &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.auto").IsActive())
             {
                 Variables.Q.Cast();
             }
+        }
 
+        /// <summary>
+        /// Called when the game updates itself.
+        /// </summary>
+        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
+        public static void ExecuteAuto(EventArgs args)
+        {
             /// <summary>
             /// The W Immobile Harass Logic,
             /// The W KillSteal Logic.
@@ -49,13 +56,30 @@ namespace ExorAIO.Champions.Ashe
             }
 
             /// <summary>
+            /// The E Logic.
+            /// </summary>
+            if (Variables.E.IsReady() &&
+               !ObjectManager.Player.IsWindingUp &&
+               !ObjectManager.Player.IsRecalling() &&
+                ObjectManager.Player.CountEnemiesInRange(1500) == 0 &&
+                ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.None &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.auto").IsActive())
+            {
+                Variables.E.Cast(
+                    Variables.Locations
+                        .OrderBy(d => ObjectManager.Player.Distance(d))
+                        .FirstOrDefault()
+                );
+            }
+
+            /// <summary>
             /// The R KillSteal Logic,
             /// The R Doublelift Mechanic Logic,
             /// The R Normal Combo Logic.
             /// </summary>
             if (Variables.R.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.R.Range) &&
-                !Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
 
                 ((Targets.Target.Health < Variables.R.GetDamage(Targets.Target) &&
                     (!Variables.W.IsReady() || !Targets.Target.IsValidTarget(Variables.W.Range)) &&
@@ -67,12 +91,13 @@ namespace ExorAIO.Champions.Ashe
             {
                 if (Variables.E.IsReady() &&
                     Targets.Target.Health > Variables.R.GetDamage(Targets.Target) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.misc.ermechanic").IsActive())
+                    !Targets.Target.IsValidTarget(ObjectManager.Player.AttackRange) &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.espell.auto").IsActive())
                 {
                     Variables.E.SPredictionCast(Targets.Target, HitChance.Low);
                 }
 
-                Variables.R.SPredictionCast(Targets.Target, HitChance.VeryHigh);
+                Variables.R.SPredictionCast(Targets.Target, HitChance.Low);
             }
         }
 

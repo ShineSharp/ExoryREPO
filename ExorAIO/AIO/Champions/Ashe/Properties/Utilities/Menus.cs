@@ -46,6 +46,15 @@ namespace ExorAIO.Champions.Ashe
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.WMenu);
 
+                Variables.EMenu = new Menu("Use E to:", $"{Variables.MainMenuName}.emenu")
+                    .SetFontStyle(FontStyle.Regular, Color.Cyan);
+                {
+                    Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.espell.auto",     "Logical")).SetValue(true);
+                    Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.espell.mana",     "Logical: Mana >= x%"))
+                        .SetValue(new Slider(50, 0, 99));
+                }
+                Variables.SettingsMenu.AddSubMenu(Variables.EMenu);
+
                 Variables.RMenu = new Menu("Use R to:", $"{Variables.MainMenuName}.rmenu")
                     .SetFontStyle(FontStyle.Regular, Color.Red);
                 {
@@ -71,15 +80,6 @@ namespace ExorAIO.Champions.Ashe
                 Variables.SettingsMenu.AddSubMenu(Variables.RMenu);
             }
             Variables.Menu.AddSubMenu(Variables.SettingsMenu);
-
-            /// <summary>
-            /// Sets the miscellaneous menu.
-            /// </summary>
-            Variables.MiscMenu = new Menu("Miscellaneous", $"{Variables.MainMenuName}.miscmenu");
-            {
-                Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.misc.ermechanic",    "E->R Doublelift Mechanic")).SetValue(true);
-            }
-            Variables.Menu.AddSubMenu(Variables.MiscMenu);
 
             /// <summary>
             /// Sets the drawings menu.
