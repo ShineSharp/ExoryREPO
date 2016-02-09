@@ -20,7 +20,7 @@ namespace ExorAIO.Champions.Vayne
             Variables.E = new Spell(SpellSlot.E, ObjectManager.Player.BoundingRadius*2 + 550f);
 
             //Variables.E.SetTargetted(0.413f, 1000f);
-            Variables.E.SetSkillshot(0.413f, Targets.Target.BoundingRadius, 1000f, false, SkillshotType.SkillshotLine);
+            Variables.E.SetSkillshot(0.413f, 60f, 1000f, false, SkillshotType.SkillshotLine);
         }
     }
 }
