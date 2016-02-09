@@ -42,6 +42,8 @@ namespace ExorAIO.Champions.Vayne
                     .SetFontStyle(FontStyle.Regular, Color.Cyan);
                 {
                     Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.espell.auto",  "Logical")).SetValue(true);
+                    Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.espell.gp",    "Anti-Gapcloser")).SetValue(true);
+                    Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.espell.ir",    "Interrupt Enemy Channels")).SetValue(true);
                     Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.espell.ks",    "KillSteal")).SetValue(false);
                     {
                         Variables.WhiteListMenu = new Menu("Condemn: Whitelist Menu", $"{Variables.MainMenuName}.emenu.whitelistmenu");

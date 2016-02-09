@@ -93,5 +93,35 @@ namespace ExorAIO.Champions.Vayne
                 }
             }
         }
+
+        /// <summary>
+        /// Called on interruptable spell.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The <see cref="Interrupter2.InterruptableTargetEventArgs"/> instance containing the event data.</param>
+        public static void OnInterruptableTarget(Obj_AI_Hero sender, Interrupter2.InterruptableTargetEventArgs args)
+        {
+            if (Variables.E.IsReady() &&
+                sender.IsValidTarget(Variables.E.Range) &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.ir").IsActive())
+            {
+                Variables.E.CastOnUnit(sender);
+            }
+        }
+
+        /// <summary>
+        /// Called on gapclosing spell.
+        /// </summary>
+        /// <param name="gapcloser">The <see cref="ActiveGapcloser"/> instance containing the event data.</param>
+        public static void OnEnemyGapcloser(ActiveGapcloser gapcloser)
+        {
+            if (Variables.E.IsReady() &&
+                gapcloser.Sender.IsValidTarget(Variables.E.Range) &&
+                ObjectManager.Player.Distance(gapcloser.End) <= Variables.E.Range &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.gp").IsActive())
+            {
+                Variables.E.CastOnUnit(gapcloser.Sender);
+            }
+        }
     }
 }
