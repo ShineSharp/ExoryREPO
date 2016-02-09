@@ -55,7 +55,8 @@ namespace NabbActivator
         =>
             ObjectManager.Player.Buffs
                 .Any(buff =>buff.Type.Equals(BuffType.Stun) &&
-                    !((Obj_AI_Hero)buff.Caster).ChampionName.Equals("Alistar"));
+                    !((Obj_AI_Hero)buff.Caster).ChampionName.Equals("Alistar") &&
+                    !((Obj_AI_Hero)buff.Caster).ChampionName.Equals("Blitzcrank"));
 
         /// <summary>
         /// Defines whether the player should use cleanse.
