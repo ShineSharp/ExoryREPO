@@ -48,8 +48,8 @@ namespace ExorAIO.Champions.Jax
             /// The E Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
-                !ObjectManager.Player.IsWindingUp &&
-                ObjectManager.Player.HasBuff("JaxCounterStrike") &&
+                Targets.Target.IsValidTarget(Variables.E.Range) &&
+                ObjectManager.Player.Spellbook.GetSpell(SpellSlot.E).ToggleState != 1 &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").IsActive())
             {
                 Variables.E.Cast();
@@ -92,19 +92,33 @@ namespace ExorAIO.Champions.Jax
         public static void ExecuteFarm(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             /// <summary>
-            /// The W Farm Logic.
+            /// The Q JungleClear Logic.
+            /// </summary>
+            if (Variables.Q.IsReady() &&
+                ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
+                Targets.JungleMinions.Any() &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.jc").IsActive())
+            {
+                Variables.Q.Cast();
+            }
+
+            /// <summary>
+            /// The W LaneClear Logic,
+            /// The W JungleClear Logic.
             /// </summary>
             if (Variables.W.IsReady() &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededWMana &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
-                Targets.JungleMinions.Any() &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.jc").IsActive())
+                Variables.Orbwalker.GetTarget().IsValid<Obj_AI_Minion>() &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.farm").IsActive())
             {
                 Variables.W.Cast();
             }
 
             /// <summary>
-            /// The E Farm Logic.
+            /// The E LaneClear Logic,
+            /// The E JungleClear Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
                 ObjectManager.Player.CountEnemiesInRange(700) == 0 &&

@@ -26,6 +26,9 @@ namespace ExorAIO.Champions.Jax
                 {
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.combo",     "Combo")).SetValue(true);
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.ks",        "KillSteal")).SetValue(true);
+                    Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.jc",        "JungleClear")).SetValue(true);
+                    Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.mana",      "JungleClear: Mana >= x"))
+                        .SetValue(new Slider(50, 10, 99));
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.QMenu);
 
@@ -33,8 +36,8 @@ namespace ExorAIO.Champions.Jax
                     .SetFontStyle(FontStyle.Regular, Color.Purple);
                 {
                     Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.combo",     "Combo")).SetValue(true);
-                    Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.jc",        "JungleClear")).SetValue(true);
-                    Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.mana",      "JungleClear: Mana >= x"))
+                    Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.farm",      "LaneClear")).SetValue(true);
+                    Variables.WMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.wspell.mana",      "LaneClear: Mana >= x"))
                         .SetValue(new Slider(50, 10, 99));
                 }
                 Variables.SettingsMenu.AddSubMenu(Variables.WMenu);
