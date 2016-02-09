@@ -7,6 +7,7 @@ namespace ExorAIO.Champions.Sivir
     using System.Linq;
     using ExorAIO.Utilities;
     using Orbwalking = SFXTargetSelector.Orbwalking;
+    using SPrediction;
 
     /// <summary>
     /// The logics class.
@@ -32,7 +33,7 @@ namespace ExorAIO.Champions.Sivir
                 (Bools.IsImmobile(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.immobile").IsActive())))
             {
-                Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
+                Variables.Q.Cast(Variables.Q.GetSPrediction(Targets.Target).UnitPosition.To3D());
             }
         }
 
@@ -94,7 +95,7 @@ namespace ExorAIO.Champions.Sivir
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive())
             {
-                Variables.Q.Cast(Variables.Q.GetPrediction((Obj_AI_Hero)args.Target).UnitPosition);
+                Variables.Q.Cast(Variables.Q.GetSPrediction((Obj_AI_Hero)args.Target).UnitPosition.To3D());
             }
         }
 

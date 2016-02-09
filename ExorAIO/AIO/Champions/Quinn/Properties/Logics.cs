@@ -6,8 +6,8 @@ namespace ExorAIO.Champions.Quinn
     using System;
     using System.Linq;
     using ExorAIO.Utilities;
-    using SharpDX;
     using Orbwalking = SFXTargetSelector.Orbwalking;
+    using SPrediction;
 
     /// <summary>
     /// The logics class.
@@ -60,7 +60,7 @@ namespace ExorAIO.Champions.Quinn
             if (Variables.Q.IsReady() &&
                 !ObjectManager.Player.IsWindingUp &&
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
-                Variables.Q.GetPrediction(Targets.Target).Hitchance >= HitChance.VeryHigh &&
+                Variables.Q.GetSPrediction(Targets.Target).HitChance >= HitChance.VeryHigh &&
 
                 ((Targets.Target.Health < Variables.Q.GetDamage(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").IsActive()) ||
@@ -68,7 +68,7 @@ namespace ExorAIO.Champions.Quinn
                 (Bools.IsImmobile(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.immobile").IsActive())))
             {
-                Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
+                Variables.Q.Cast(Variables.Q.GetSPrediction(Targets.Target).UnitPosition.To3D());
             }
 
             /// <summary>
@@ -122,10 +122,10 @@ namespace ExorAIO.Champions.Quinn
             if (Variables.Q.IsReady() &&
                 !((Obj_AI_Hero)args.Target).HasBuff("quinnw") &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.Q.GetPrediction((Obj_AI_Hero)args.Target).Hitchance >= HitChance.VeryHigh &&
+                Variables.Q.GetSPrediction((Obj_AI_Hero)args.Target).HitChance >= HitChance.VeryHigh &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive())
             {
-                Variables.Q.Cast(Variables.Q.GetPrediction((Obj_AI_Hero)args.Target).UnitPosition);
+                Variables.Q.Cast(Variables.Q.GetSPrediction((Obj_AI_Hero)args.Target).UnitPosition.To3D());
                 return;
             }
 

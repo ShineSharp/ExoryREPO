@@ -7,6 +7,7 @@ namespace ExorAIO.Champions.Anivia
     using System.Linq;
     using ExorAIO.Utilities;
     using Orbwalking = SFXTargetSelector.Orbwalking;
+    using SPrediction;
 
     /// <summary>
     /// The logics class.
@@ -117,7 +118,7 @@ namespace ExorAIO.Champions.Anivia
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").IsActive())))
             {
-                Variables.R.Cast(Variables.R.GetPrediction(Targets.Target).CastPosition);
+                Variables.R.Cast(Variables.R.GetSPrediction(Targets.Target).CastPosition.To3D());
                 return;
             }
 
@@ -128,7 +129,7 @@ namespace ExorAIO.Champions.Anivia
             if (Variables.Q.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
                 ObjectManager.Player.Spellbook.GetSpell(SpellSlot.Q).ToggleState == 1 &&
-                ObjectManager.Player.Distance(Variables.Q.GetPrediction(Targets.Target).UnitPosition) < Variables.Q.Range - 100 &&
+                ObjectManager.Player.Distance(Variables.Q.GetSPrediction(Targets.Target).UnitPosition.To3D()) < Variables.Q.Range - 100 &&
 
                 ((Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").IsActive()) ||
@@ -140,7 +141,7 @@ namespace ExorAIO.Champions.Anivia
                     Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive())))
             {
-                Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
+                Variables.Q.Cast(Variables.Q.GetSPrediction(Targets.Target).UnitPosition.To3D());
             }
         }
 

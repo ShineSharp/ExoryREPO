@@ -7,6 +7,7 @@ namespace ExorAIO.Champions.Draven
     using System.Linq;
     using ExorAIO.Utilities;
     using Orbwalking = SFXTargetSelector.Orbwalking;
+    using SPrediction;
 
     /// <summary>
     /// The logics class.
@@ -82,7 +83,7 @@ namespace ExorAIO.Champions.Draven
                 !Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.ks").IsActive())
             {
-                Variables.E.Cast(Variables.E.GetPrediction(Targets.Target).UnitPosition);
+                Variables.E.Cast(Variables.E.GetSPrediction(Targets.Target).UnitPosition.To3D());
             }
 
             /// <summary>
@@ -101,7 +102,7 @@ namespace ExorAIO.Champions.Draven
                     Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").IsActive() &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.rspell.whitelist.{Targets.Target.ChampionName.ToLower()}").IsActive())))
             {
-                Variables.R.Cast(Variables.R.GetPrediction(Targets.Target).UnitPosition);
+                Variables.R.Cast(Variables.R.GetSPrediction(Targets.Target).UnitPosition.To3D());
             }
         }
 
@@ -120,7 +121,7 @@ namespace ExorAIO.Champions.Draven
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").IsActive())
             {
-                Variables.E.Cast(Variables.E.GetPrediction((Obj_AI_Hero)args.Target).UnitPosition);
+                Variables.E.Cast(Variables.E.GetSPrediction((Obj_AI_Hero)args.Target).UnitPosition.To3D());
             }
         }
     }

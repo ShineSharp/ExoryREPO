@@ -7,6 +7,7 @@ namespace ExorAIO.Champions.Corki
     using System.Linq;
     using ExorAIO.Utilities;
     using Orbwalking = SFXTargetSelector.Orbwalking;
+    using SPrediction;
 
     /// <summary>
     /// The logics class.
@@ -32,7 +33,7 @@ namespace ExorAIO.Champions.Corki
                 (Bools.IsImmobile(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.immobile").IsActive())))
             {
-                Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).CastPosition);
+                Variables.Q.Cast(Variables.Q.GetSPrediction(Targets.Target).CastPosition.To3D());
             }
 
             /// <summary>
@@ -52,7 +53,7 @@ namespace ExorAIO.Champions.Corki
             /// </summary>
             if (Variables.R.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.R.Range) &&
-                Variables.R.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
+                Variables.R.GetSPrediction(Targets.Target).HitChance >= HitChance.VeryHigh &&
 
                 ((Variables.R.GetDamage(Targets.Target) > Targets.Target.Health &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").IsActive()) ||
@@ -63,7 +64,7 @@ namespace ExorAIO.Champions.Corki
                     Variables.Menu.Item($"{Variables.MainMenuName}.rspell.harass").IsActive() &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.rspell.whitelist.{Targets.Target.ChampionName.ToLower()}").GetValue<bool>())))
             {
-                Variables.R.Cast(Variables.R.GetPrediction(Targets.Target).UnitPosition);
+                Variables.R.Cast(Variables.R.GetSPrediction(Targets.Target).UnitPosition.To3D());
             }
         }
 
@@ -82,7 +83,7 @@ namespace ExorAIO.Champions.Corki
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive())
             {
-                Variables.Q.Cast(Variables.Q.GetPrediction((Obj_AI_Hero)args.Target).CastPosition);
+                Variables.Q.Cast(Variables.Q.GetSPrediction((Obj_AI_Hero)args.Target).CastPosition.To3D());
             }
 
             /// <summary>
@@ -91,10 +92,10 @@ namespace ExorAIO.Champions.Corki
             if (Variables.R.IsReady() &&
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.R.Range) &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.R.GetPrediction((Obj_AI_Hero)args.Target).Hitchance >= HitChance.VeryHigh &&
+                Variables.R.GetSPrediction((Obj_AI_Hero)args.Target).HitChance >= HitChance.VeryHigh &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").IsActive())
             {
-                Variables.R.Cast(Variables.R.GetPrediction(Targets.Target).UnitPosition);
+                Variables.R.Cast(Variables.R.GetSPrediction(Targets.Target).UnitPosition.To3D());
             }
         }
 

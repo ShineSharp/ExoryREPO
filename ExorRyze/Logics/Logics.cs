@@ -8,6 +8,7 @@ namespace ExorRyze
     using System.Collections.Generic;
     using SharpDX;
     using Orbwalking = SFXTargetSelector.Orbwalking;
+    using SPrediction;
 
     /// <summary>
     /// The logics class.
@@ -87,13 +88,13 @@ namespace ExorRyze
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive()) ||
                 
                 (ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
-                    Variables.Q.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
+                    Variables.Q.GetSPrediction(Targets.Target).HitChance >= HitChance.VeryHigh &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.harass").IsActive()) ||
 
                 (Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").IsActive())))
             {
-                Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
+                Variables.Q.Cast(Variables.Q.GetSPrediction(Targets.Target).UnitPosition.To3D());
             }
             
             /// <summary>

@@ -8,6 +8,7 @@ namespace ExorAIO.Champions.Olaf
     using System.Collections.Generic;
     using ExorAIO.Utilities;
     using Orbwalking = SFXTargetSelector.Orbwalking;
+    using SPrediction;
 
     /// <summary>
     /// The logics class.
@@ -27,7 +28,8 @@ namespace ExorAIO.Champions.Olaf
             if (Variables.Q.IsReady() &&
                 !Targets.Target.IsMovementImpaired() &&
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
-                ObjectManager.Player.Distance(Variables.Q.GetPrediction(Targets.Target).UnitPosition) < Variables.Q.Range - 100 &&
+                Variables.Q.GetSPrediction(Targets.Target).HitChance >= HitChance.VeryHigh &&
+                ObjectManager.Player.Distance(Variables.Q.GetSPrediction(Targets.Target).CastPosition.To3D()) < Variables.Q.Range - 100 &&
 
                 ((!ObjectManager.Player.UnderTurret() &&
                     ObjectManager.Player.ManaPercent >= ManaManager.NeededQMana &&
@@ -37,7 +39,7 @@ namespace ExorAIO.Champions.Olaf
                 (Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").IsActive())))
             {
-                Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).CastPosition);
+                Variables.Q.Cast(Variables.Q.GetSPrediction(Targets.Target).CastPosition.To3D());
             }
 
             /// <summary>
@@ -78,7 +80,7 @@ namespace ExorAIO.Champions.Olaf
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Orbwalking.GetRealAutoAttackRange((Obj_AI_Hero)args.Target)) &&
                  Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive())
             {
-                Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
+                Variables.Q.Cast(Variables.Q.GetSPrediction(Targets.Target).UnitPosition.To3D());
                 return;
             }
 

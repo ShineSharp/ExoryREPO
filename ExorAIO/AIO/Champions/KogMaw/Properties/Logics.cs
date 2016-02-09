@@ -7,6 +7,7 @@ namespace ExorAIO.Champions.KogMaw
     using System.Linq;
     using ExorAIO.Utilities;
     using Orbwalking = SFXTargetSelector.Orbwalking;
+    using SPrediction;
 
     /// <summary>
     /// The logics class.
@@ -25,7 +26,7 @@ namespace ExorAIO.Champions.KogMaw
             /// </summary>
             if (Variables.Q.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
-                Variables.Q.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
+                Variables.Q.GetSPrediction(Targets.Target).HitChance >= HitChance.VeryHigh &&
 
                 ((Targets.Target.Health < Variables.Q.GetDamage(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").IsActive()) ||
@@ -33,7 +34,7 @@ namespace ExorAIO.Champions.KogMaw
                 (Bools.IsImmobile(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.immobile").IsActive())))
             {
-                Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
+                Variables.Q.Cast(Variables.Q.GetSPrediction(Targets.Target).UnitPosition.To3D());
             }
 
             /// <summary>
@@ -61,7 +62,7 @@ namespace ExorAIO.Champions.KogMaw
                 (Bools.IsImmobile(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.espell.immobile").IsActive())))
             {
-                Variables.E.Cast(Variables.E.GetPrediction(Targets.Target).UnitPosition);
+                Variables.E.Cast(Variables.E.GetSPrediction(Targets.Target).UnitPosition.To3D());
             }
 
             /// <summary>
@@ -82,7 +83,7 @@ namespace ExorAIO.Champions.KogMaw
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").IsActive()))
             {
-                Variables.R.Cast(Variables.R.GetPrediction(Targets.Target).CastPosition);
+                Variables.R.Cast(Variables.R.GetSPrediction(Targets.Target).CastPosition.To3D());
             }
         }
 
@@ -98,11 +99,11 @@ namespace ExorAIO.Champions.KogMaw
             /// </summary>
             if (Variables.Q.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
-                Variables.Q.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                Variables.Q.GetSPrediction(Targets.Target).HitChance >= HitChance.VeryHigh &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive())
             {
-                Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
+                Variables.Q.Cast(Variables.Q.GetSPrediction(Targets.Target).UnitPosition.To3D());
                 return;
             }
 
@@ -113,7 +114,7 @@ namespace ExorAIO.Champions.KogMaw
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").IsActive())
             {
-                Variables.E.Cast(Variables.E.GetPrediction(Targets.Target).UnitPosition);
+                Variables.E.Cast(Variables.E.GetSPrediction(Targets.Target).UnitPosition.To3D());
             }
         }
 

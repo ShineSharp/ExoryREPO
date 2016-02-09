@@ -7,6 +7,7 @@ namespace ExorAIO.Champions.Lux
     using System.Linq;
     using ExorAIO.Utilities;
     using Orbwalking = SFXTargetSelector.Orbwalking;
+    using SPrediction;
 
     /// <summary>
     /// The logics class.
@@ -58,7 +59,7 @@ namespace ExorAIO.Champions.Lux
                     ObjectManager.Player.Spellbook.GetSpell(SpellSlot.E).ToggleState == 1 &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").IsActive())))
             {
-                Variables.R.Cast(Variables.R.GetPrediction(Targets.Target).UnitPosition);
+                Variables.R.Cast(Variables.R.GetSPrediction(Targets.Target).UnitPosition.To3D());
             }
 
             /// <summary>
@@ -75,7 +76,7 @@ namespace ExorAIO.Champions.Lux
                     Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive())))
             {
-                Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
+                Variables.Q.Cast(Variables.Q.GetSPrediction(Targets.Target).UnitPosition.To3D());
                 return;
             }
 
@@ -85,7 +86,7 @@ namespace ExorAIO.Champions.Lux
             /// </summary>
             if (Variables.E.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.E.Range) &&
-                (!Variables.Q.IsReady() || Variables.Q.GetPrediction(Targets.Target).Hitchance < HitChance.VeryHigh) &&
+                (!Variables.Q.IsReady() || Variables.Q.GetSPrediction(Targets.Target).HitChance < HitChance.VeryHigh) &&
             
                 ((Targets.Target.Health < Variables.E.GetDamage(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.espell.ks").IsActive()) ||
@@ -94,7 +95,7 @@ namespace ExorAIO.Champions.Lux
                     Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").IsActive())))
             {
-                Variables.E.Cast(Variables.E.GetPrediction(Targets.Target).CastPosition);
+                Variables.E.Cast(Variables.E.GetSPrediction(Targets.Target).CastPosition.To3D());
             }
         }
 

@@ -7,6 +7,7 @@ namespace ExorAIO.Champions.Darius
     using System.Linq;
     using ExorAIO.Utilities;
     using Orbwalking = SFXTargetSelector.Orbwalking;
+    using SPrediction;
 
     /// <summary>
     /// The logics class.
@@ -48,10 +49,10 @@ namespace ExorAIO.Champions.Darius
             if (Variables.E.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.E.Range) &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                ObjectManager.Player.Distance(Variables.E.GetPrediction(Targets.Target).UnitPosition) < Variables.E.Range &&
+                ObjectManager.Player.Distance(Variables.E.GetSPrediction(Targets.Target).UnitPosition.To3D()) < Variables.E.Range &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").IsActive())
             {
-                Variables.E.Cast(Variables.E.GetPrediction(Targets.Target).UnitPosition);
+                Variables.E.Cast(Variables.E.GetSPrediction(Targets.Target).UnitPosition.To3D());
             }
 
             /// <summary>

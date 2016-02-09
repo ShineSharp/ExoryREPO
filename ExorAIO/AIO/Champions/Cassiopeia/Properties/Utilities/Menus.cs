@@ -5,6 +5,7 @@ namespace ExorAIO.Champions.Cassiopeia
     using System.Drawing;
     using ExorAIO.Utilities;
     using Color = SharpDX.Color;
+    using SPrediction;
 
     /// <summary>
     /// The menu class.
@@ -16,6 +17,11 @@ namespace ExorAIO.Champions.Cassiopeia
         /// </summary>
         public static void Initialize()
         {
+            /// <summary>
+            /// Sets the spells menu.
+            /// </summary>
+            SPrediction.Prediction.Initialize(Variables.Menu);
+
             /// <summary>
             /// Sets the spells menu.
             /// </summary>
@@ -67,10 +73,10 @@ namespace ExorAIO.Champions.Cassiopeia
             /// </summary>
             Variables.MiscMenu = new Menu("Miscellaneous", $"{Variables.MainMenuName}.miscmenu");
             {
-                Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.misc.poison",     "E non Poisoned Minions")).SetValue(false);
-                Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.misc.aa",         "AA in Combo")).SetValue(true);
-                Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.misc.tear",       "Stack Tear")).SetValue(true);
-                Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.misc.tearmana",   "Stack Tear: Mana >= x%"))
+                Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.misc.poison",       "E non Poisoned Minions")).SetValue(false);
+                Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.misc.aa",           "AA in Combo")).SetValue(true);
+                Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.misc.tear",         "Stack Tear")).SetValue(true);
+                Variables.MiscMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.misc.tearmana",     "Stack Tear: Mana >= x%"))
                     .SetValue(new Slider(80, 1, 95));
             }
             Variables.Menu.AddSubMenu(Variables.MiscMenu);

@@ -7,6 +7,7 @@ namespace ExorAIO.Champions.Ashe
     using System.Linq;
     using ExorAIO.Utilities;
     using Orbwalking = SFXTargetSelector.Orbwalking;
+    using SPrediction;
 
     /// <summary>
     /// The logics class.
@@ -37,7 +38,7 @@ namespace ExorAIO.Champions.Ashe
             /// </summary>
             if (Variables.W.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.W.Range) &&
-                Variables.W.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
+                Variables.W.GetSPrediction(Targets.Target).HitChance >= HitChance.VeryHigh &&
 
                 ((Bools.IsImmobile(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.wspell.immobile").IsActive()) ||
@@ -45,7 +46,7 @@ namespace ExorAIO.Champions.Ashe
                 (Targets.Target.Health < Variables.W.GetDamage(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.wspell.ks").IsActive())))
             {
-                Variables.W.Cast(Variables.W.GetPrediction(Targets.Target).UnitPosition);
+                Variables.W.Cast(Variables.W.GetSPrediction(Targets.Target).UnitPosition.To3D());
             }
 
             /// <summary>
@@ -69,10 +70,10 @@ namespace ExorAIO.Champions.Ashe
                     Targets.Target.Health > Variables.R.GetDamage(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.misc.ermechanic").IsActive())
                 {
-                    Variables.E.Cast(Variables.E.GetPrediction(Targets.Target).UnitPosition);
+                    Variables.E.Cast(Variables.E.GetSPrediction(Targets.Target).UnitPosition.To3D());
                 }
 
-                Variables.R.Cast(Variables.R.GetPrediction(Targets.Target).UnitPosition);
+                Variables.R.Cast(Variables.R.GetSPrediction(Targets.Target).UnitPosition.To3D());
             }
         }
 
@@ -88,10 +89,10 @@ namespace ExorAIO.Champions.Ashe
             /// </summary>
             if (Variables.W.IsReady() &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.W.GetPrediction(Targets.Target).Hitchance >= HitChance.VeryHigh &&
+                Variables.W.GetSPrediction(Targets.Target).HitChance >= HitChance.VeryHigh &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").IsActive())
             {
-                Variables.W.Cast(Variables.W.GetPrediction(Targets.Target).UnitPosition);
+                Variables.W.Cast(Variables.W.GetSPrediction(Targets.Target).UnitPosition.To3D());
             }
         }
 

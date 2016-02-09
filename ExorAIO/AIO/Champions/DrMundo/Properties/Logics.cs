@@ -7,6 +7,7 @@ namespace ExorAIO.Champions.DrMundo
     using System.Linq;
     using ExorAIO.Utilities;
     using Orbwalking = SFXTargetSelector.Orbwalking;
+    using SPrediction;
 
     /// <summary>
     /// The logics class.
@@ -27,7 +28,7 @@ namespace ExorAIO.Champions.DrMundo
             if (Variables.Q.IsReady() &&
 				ObjectManager.Player.HealthPercent > 10 &&
 			    Targets.Target.IsValidTarget(Variables.Q.Range) &&
-                Variables.R.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
+                Variables.Q.GetSPrediction(Targets.Target).HitChance >= HitChance.VeryHigh &&
 
                 ((Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").IsActive()) ||
@@ -40,7 +41,7 @@ namespace ExorAIO.Champions.DrMundo
 					Variables.Menu.Item($"{Variables.MainMenuName}.qspell.harass").IsActive() &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.whitelist.{Targets.Target.ChampionName.ToLower()}").IsActive())))
             {
-                Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
+                Variables.Q.Cast(Variables.Q.GetSPrediction(Targets.Target).UnitPosition.To3D());
             }
 
             /// <summary>

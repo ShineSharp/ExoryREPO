@@ -7,6 +7,7 @@ namespace ExorAIO.Champions.Cassiopeia
     using System.Linq;
     using ExorAIO.Utilities;
     using Orbwalking = SFXTargetSelector.Orbwalking;
+    using SPrediction;
 
     /// <summary>
     /// The logics class.
@@ -43,10 +44,9 @@ namespace ExorAIO.Champions.Cassiopeia
             /// <summary>
             /// The No AA while in Combo option.
             /// </summary>
-            if (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                !Variables.Menu.Item($"{Variables.MainMenuName}.misc.aa").IsActive())
+            if (!Variables.Menu.Item($"{Variables.MainMenuName}.misc.aa").IsActive())
             {
-                Variables.Orbwalker.SetAttack(false);
+                Variables.Orbwalker.SetAttack(Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo);
             }
 
             /// <summary>
@@ -85,7 +85,7 @@ namespace ExorAIO.Champions.Cassiopeia
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive())
             {
-                Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).CastPosition);
+                Variables.Q.Cast(Variables.Q.GetSPrediction(Targets.Target).CastPosition.To3D());
                 return;
             }
 
@@ -99,7 +99,7 @@ namespace ExorAIO.Champions.Cassiopeia
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").IsActive())
             {
-                Variables.W.Cast(Variables.W.GetPrediction(Targets.Target).CastPosition);
+                Variables.W.Cast(Variables.W.GetSPrediction(Targets.Target).CastPosition.To3D());
             }
         }
 

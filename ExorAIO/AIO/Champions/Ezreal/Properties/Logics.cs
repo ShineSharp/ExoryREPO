@@ -7,6 +7,7 @@ namespace ExorAIO.Champions.Ezreal
     using System.Linq;
     using ExorAIO.Utilities;
     using Orbwalking = SFXTargetSelector.Orbwalking;
+    using SPrediction;
 
     /// <summary>
     /// The logics class.
@@ -47,7 +48,7 @@ namespace ExorAIO.Champions.Ezreal
             /// </summary>
             if (Variables.Q.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
-                Variables.Q.GetPrediction(Targets.Target).Hitchance >= HitChance.VeryHigh &&
+                Variables.Q.GetSPrediction(Targets.Target).HitChance >= HitChance.VeryHigh &&
 
                 ((Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     !Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
@@ -60,7 +61,7 @@ namespace ExorAIO.Champions.Ezreal
                     !Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.harass").IsActive())))
             {
-                Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
+                Variables.Q.Cast(Variables.Q.GetSPrediction(Targets.Target).UnitPosition.To3D());
             }
 
             /// <summary>
@@ -70,8 +71,8 @@ namespace ExorAIO.Champions.Ezreal
             /// </summary>
             if (Variables.W.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.W.Range) &&
-                !Variables.Q.IsReady() || Variables.Q.GetPrediction(Targets.Target).Hitchance < HitChance.VeryHigh &&
-                Variables.W.GetPrediction(Targets.Target).Hitchance != HitChance.OutOfRange &&
+                !Variables.Q.IsReady() || Variables.Q.GetSPrediction(Targets.Target).HitChance < HitChance.VeryHigh &&
+                Variables.W.GetSPrediction(Targets.Target).HitChance != HitChance.OutOfRange &&
 
                 ((Targets.Target.Health < Variables.W.GetDamage(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.wspell.ks").IsActive()) ||
@@ -80,7 +81,7 @@ namespace ExorAIO.Champions.Ezreal
                     ObjectManager.Player.TotalMagicalDamage > ObjectManager.Player.FlatPhysicalDamageMod &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.wspell.harass").IsActive())))
             {
-                Variables.W.Cast(Variables.W.GetPrediction(Targets.Target).UnitPosition);
+                Variables.W.Cast(Variables.W.GetSPrediction(Targets.Target).UnitPosition.To3D());
             }
 
             /// <summary>
@@ -103,7 +104,7 @@ namespace ExorAIO.Champions.Ezreal
                     Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").IsActive() &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.rspell.whitelist.{Targets.Target.ChampionName.ToLower()}").IsActive())))
             {
-                Variables.R.Cast(Variables.R.GetPrediction(Targets.Target).UnitPosition);
+                Variables.R.Cast(Variables.R.GetSPrediction(Targets.Target).UnitPosition.To3D());
             }
         }
 
@@ -120,10 +121,10 @@ namespace ExorAIO.Champions.Ezreal
             if (Variables.Q.IsReady() &&
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.Q.Range) &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.Q.GetPrediction((Obj_AI_Hero)args.Target).Hitchance >= HitChance.VeryHigh &&
+                Variables.Q.GetSPrediction((Obj_AI_Hero)args.Target).HitChance >= HitChance.VeryHigh &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive())
             {
-                Variables.Q.Cast(Variables.Q.GetPrediction((Obj_AI_Hero)args.Target).UnitPosition);
+                Variables.Q.Cast(Variables.Q.GetSPrediction((Obj_AI_Hero)args.Target).UnitPosition.To3D());
                 return;
             }
 
@@ -135,7 +136,7 @@ namespace ExorAIO.Champions.Ezreal
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").IsActive())
             {
-                Variables.W.Cast(Variables.W.GetPrediction((Obj_AI_Hero)args.Target).UnitPosition);
+                Variables.W.Cast(Variables.W.GetSPrediction((Obj_AI_Hero)args.Target).UnitPosition.To3D());
             }
         }
 

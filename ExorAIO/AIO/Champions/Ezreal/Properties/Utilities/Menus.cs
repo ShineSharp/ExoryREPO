@@ -6,6 +6,7 @@ namespace ExorAIO.Champions.Ezreal
     using System.Drawing;
     using ExorAIO.Utilities;
     using Color = SharpDX.Color;
+    using SPrediction;
 
     /// <summary>
     /// The menu class.
@@ -17,6 +18,11 @@ namespace ExorAIO.Champions.Ezreal
         /// </summary>
         public static void Initialize()
         {
+            /// <summary>
+            /// Sets the spells menu.
+            /// </summary>
+            SPrediction.Prediction.Initialize(Variables.Menu);
+
             /// <summary>
             /// Sets the spells menu.
             /// </summary>

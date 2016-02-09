@@ -34,8 +34,8 @@ namespace AsunaTumbler
             /// </summary>
             if (Variables.Q.IsReady() &&
 
-                (Variables.Menu.Item($"{Variables.MainMenuName}.walltumbler.executewalltumble").GetValue<KeyBind>().Active ||
-                    Variables.Menu.Item($"{Variables.MainMenuName}.walltumbler.enableonclickwalltumble").GetValue<bool>()))
+                (Variables.Menu.Item($"{Variables.MainMenuName}.walltumbler.execute").GetValue<KeyBind>().Active ||
+                    Variables.Menu.Item($"{Variables.MainMenuName}.walltumbler.onclick").GetValue<bool>()))
             {
                 if (ObjectManager.Player.Distance(new Vector2(6667, 8794)) >=
                     ObjectManager.Player.Distance(new Vector2(11514, 4462)))
@@ -51,7 +51,7 @@ namespace AsunaTumbler
                     else
                     {
                         ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, new Vector2(12050, 4827).To3D());
-                        LeagueSharp.Common.Utility.DelayAction.Add((int)(106 + Game.Ping / 2f),
+                        Utility.DelayAction.Add((int)(100 + Game.Ping / 2f),
                             () =>
                             {
                                 Variables.Q.Cast(new Vector2(11514, 4462));
@@ -71,7 +71,7 @@ namespace AsunaTumbler
                     else
                     {
                         ObjectManager.Player.IssueOrder(GameObjectOrder.MoveTo, new Vector2(6962, 8952).To3D());
-                        LeagueSharp.Common.Utility.DelayAction.Add((int)(106 + Game.Ping / 2f),
+                        Utility.DelayAction.Add((int)(100 + Game.Ping / 2f),
                             () =>
                             {
                                 Variables.Q.Cast(new Vector2(6667, 8794));

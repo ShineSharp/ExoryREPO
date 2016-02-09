@@ -8,6 +8,7 @@ namespace ExorAIO.Champions.Jinx
     using ExorAIO.Utilities;
     using SharpDX;
     using Orbwalking = SFXTargetSelector.Orbwalking;
+    using SPrediction;
 
     /// <summary>
     /// The logics class.
@@ -81,7 +82,7 @@ namespace ExorAIO.Champions.Jinx
             if (Variables.W.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.W.Range) &&
                 !Targets.Target.IsValidTarget(Variables.Q2.Range) &&
-                Variables.W.GetPrediction(Targets.Target).Hitchance >= HitChance.High &&
+                Variables.W.GetSPrediction(Targets.Target).HitChance >= HitChance.VeryHigh &&
 
                 ((Targets.Target.Health < Variables.W.GetDamage(Targets.Target) &&
                     Targets.Target.Health > ObjectManager.Player.GetAutoAttackDamage(Targets.Target) &&
@@ -90,7 +91,7 @@ namespace ExorAIO.Champions.Jinx
                 (Bools.IsImmobile(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.wspell.immobile").IsActive())))
             {
-                Variables.W.Cast(Variables.W.GetPrediction(Targets.Target).UnitPosition);
+                Variables.W.Cast(Variables.W.GetSPrediction(Targets.Target).UnitPosition.To3D());
             }
 
             /// <summary>
@@ -103,7 +104,7 @@ namespace ExorAIO.Champions.Jinx
                     .Extend(Targets.Target.ServerPosition, ObjectManager.Player.Distance(Targets.Target) + Targets.Target.BoundingRadius*3)) < Variables.E.Range &&
 
                 ((Targets.Target.GetEnemiesInRange(350f)
-                    .Count(enemy => Variables.E.GetPrediction(enemy).Hitchance >= HitChance.VeryHigh) >= 1 &&
+                    .Count(enemy => Variables.E.GetSPrediction(enemy).HitChance >= HitChance.VeryHigh) >= 1 &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.espell.auto").IsActive()) ||
 
                 (Bools.IsImmobile(Targets.Target) &&
@@ -120,11 +121,11 @@ namespace ExorAIO.Champions.Jinx
                 Targets.Target.IsValidTarget(Variables.R.Range) &&
                 !Targets.Target.IsValidTarget(Variables.Q2.Range) &&
                 Variables.W.GetDamage(Targets.Target) < Targets.Target.Health &&
-                Variables.R.GetPrediction(Targets.Target).Hitchance >= HitChance.VeryHigh &&
+                Variables.R.GetSPrediction(Targets.Target).HitChance >= HitChance.VeryHigh &&
                 HealthPrediction.GetHealthPrediction(Targets.Target, (int)(250 + Game.Ping / 2f)) < Variables.R.GetDamage(Targets.Target)*2 &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").IsActive())
             {
-                Variables.R.Cast(Variables.R.GetPrediction(Targets.Target).UnitPosition);
+                Variables.R.Cast(Variables.R.GetSPrediction(Targets.Target).UnitPosition.To3D());
             }
         }
 
@@ -165,10 +166,10 @@ namespace ExorAIO.Champions.Jinx
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.W.Range) &&
                 !((Obj_AI_Hero)args.Target).IsValidTarget(Variables.Q.Range) &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.W.GetPrediction(Targets.Target).Hitchance >= HitChance.VeryHigh &&
+                Variables.W.GetSPrediction(Targets.Target).HitChance >= HitChance.VeryHigh &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").IsActive())
             {
-                Variables.W.Cast(Variables.W.GetPrediction((Obj_AI_Hero)args.Target).UnitPosition);
+                Variables.W.Cast(Variables.W.GetSPrediction((Obj_AI_Hero)args.Target).UnitPosition.To3D());
             }
         }
     }

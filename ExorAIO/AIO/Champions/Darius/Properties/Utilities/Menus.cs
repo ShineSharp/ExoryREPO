@@ -5,6 +5,7 @@ namespace ExorAIO.Champions.Darius
     using System.Drawing;
     using ExorAIO.Utilities;
     using Color = SharpDX.Color;
+    using SPrediction;
 
     /// <summary>
     /// The menu class.
@@ -16,6 +17,14 @@ namespace ExorAIO.Champions.Darius
         /// </summary>
         public static void Initialize()
         {
+            /// <summary>
+            /// Sets the spells menu.
+            /// </summary>
+            SPrediction.Prediction.Initialize(Variables.Menu);
+
+            /// <summary>
+            /// Sets the spells menu.
+            /// </summary>
             Variables.SettingsMenu = new Menu("Spells", $"{Variables.MainMenuName}.settingsmenu");
             {
                 Variables.QMenu = new Menu("Use Q to:", $"{Variables.MainMenuName}.qmenu")
