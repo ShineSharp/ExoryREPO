@@ -20,7 +20,7 @@ namespace ExorAIO.Champions.Quinn
             Variables.E = new Spell(SpellSlot.E, 675f);
             Variables.R = new Spell(SpellSlot.R);
 
-            Variables.Q.SetSkillshot(0.25f, 210f, 1550f, true, SkillshotType.SkillshotLine);
+            Variables.Q.SetSkillshot(0.25f, 90f, 1550f, true, SkillshotType.SkillshotLine);
             Variables.E.SetTargetted(0.25f, 2000f);
         }
     }
