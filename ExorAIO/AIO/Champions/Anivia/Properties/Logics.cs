@@ -118,7 +118,7 @@ namespace ExorAIO.Champions.Anivia
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").IsActive())))
             {
-                Variables.R.SPredictionCast(Targets.Target, HitChance.VeryHigh);
+                Variables.R.SPredictionCast(Targets.Target, HitChance.Low);
                 return;
             }
 
@@ -141,7 +141,7 @@ namespace ExorAIO.Champions.Anivia
                     Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive())))
             {
-                Variables.Q.SPredictionCast(Targets.Target, HitChance.VeryHigh);
+                Variables.Q.SPredictionCast(Targets.Target, HitChance.Low);
             }
         }
 

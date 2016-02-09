@@ -83,7 +83,7 @@ namespace ExorAIO.Champions.Draven
                 !Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.ks").IsActive())
             {
-                Variables.E.SPredictionCast(Targets.Target, HitChance.VeryHigh);
+                Variables.E.SPredictionCast(Targets.Target, HitChance.Low);
             }
 
             /// <summary>
@@ -102,7 +102,7 @@ namespace ExorAIO.Champions.Draven
                     Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").IsActive() &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.rspell.whitelist.{Targets.Target.ChampionName.ToLower()}").IsActive())))
             {
-                Variables.R.SPredictionCast(Targets.Target, HitChance.VeryHigh);
+                Variables.R.SPredictionCast(Targets.Target, HitChance.Low);
             }
         }
 
@@ -121,7 +121,7 @@ namespace ExorAIO.Champions.Draven
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").IsActive())
             {
-                Variables.E.SPredictionCast((Obj_AI_Hero)args.Target, HitChance.VeryHigh);
+                Variables.E.SPredictionCast((Obj_AI_Hero)args.Target, HitChance.Low);
             }
         }
     }

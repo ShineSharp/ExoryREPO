@@ -33,7 +33,7 @@ namespace ExorAIO.Champions.Corki
                 (Bools.IsImmobile(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.immobile").IsActive())))
             {
-                Variables.Q.SPredictionCast(Targets.Target, HitChance.VeryHigh);
+                Variables.Q.SPredictionCast(Targets.Target, HitChance.Low);
             }
 
             /// <summary>
@@ -63,7 +63,7 @@ namespace ExorAIO.Champions.Corki
                     Variables.Menu.Item($"{Variables.MainMenuName}.rspell.harass").IsActive() &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.rspell.whitelist.{Targets.Target.ChampionName.ToLower()}").GetValue<bool>())))
             {
-                Variables.R.SPredictionCast(Targets.Target, HitChance.VeryHigh);
+                Variables.R.SPredictionCast(Targets.Target, HitChance.Low);
             }
         }
 
@@ -82,7 +82,7 @@ namespace ExorAIO.Champions.Corki
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive())
             {
-                Variables.Q.SPredictionCast((Obj_AI_Hero)args.Target, HitChance.VeryHigh);
+                Variables.Q.SPredictionCast((Obj_AI_Hero)args.Target, HitChance.Low);
                 return;
             }
 
@@ -94,7 +94,7 @@ namespace ExorAIO.Champions.Corki
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").IsActive())
             {
-                Variables.R.SPredictionCast((Obj_AI_Hero)args.Target, HitChance.VeryHigh);
+                Variables.R.SPredictionCast((Obj_AI_Hero)args.Target, HitChance.Low);
             }
         }
 

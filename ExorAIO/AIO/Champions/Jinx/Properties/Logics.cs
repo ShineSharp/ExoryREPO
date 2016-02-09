@@ -90,7 +90,7 @@ namespace ExorAIO.Champions.Jinx
                 (Bools.IsImmobile(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.wspell.immobile").IsActive())))
             {
-                Variables.W.SPredictionCast(Targets.Target, HitChance.VeryHigh);
+                Variables.W.SPredictionCast(Targets.Target, HitChance.Low);
             }
 
             /// <summary>
@@ -103,7 +103,7 @@ namespace ExorAIO.Champions.Jinx
                     .Extend(Targets.Target.ServerPosition, ObjectManager.Player.Distance(Targets.Target) + Targets.Target.BoundingRadius*3)) < Variables.E.Range &&
 
                 ((Targets.Target.GetEnemiesInRange(350f)
-                    .Count(enemy => Variables.E.GetSPrediction(enemy).HitChance >= HitChance.VeryHigh) >= 1 &&
+                    .Count(enemy => Variables.E.GetSPrediction(enemy).HitChance >= HitChance.Low) >= 1 &&
                         Variables.Menu.Item($"{Variables.MainMenuName}.espell.auto").IsActive()) ||
 
                 (Bools.IsImmobile(Targets.Target) &&
@@ -120,11 +120,11 @@ namespace ExorAIO.Champions.Jinx
                 Targets.Target.IsValidTarget(Variables.R.Range) &&
                 !Targets.Target.IsValidTarget(Variables.Q2.Range) &&
                 Variables.W.GetDamage(Targets.Target) < Targets.Target.Health &&
-                Variables.R.GetSPrediction(Targets.Target).HitChance >= HitChance.VeryHigh &&
+                Variables.R.GetSPrediction(Targets.Target).HitChance >= HitChance.Low &&
                 HealthPrediction.GetHealthPrediction(Targets.Target, (int)(250 + Game.Ping / 2f)) < Variables.R.GetDamage(Targets.Target)*2 &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").IsActive())
             {
-                Variables.R.SPredictionCast(Targets.Target, HitChance.VeryHigh);
+                Variables.R.SPredictionCast(Targets.Target, HitChance.Low);
             }
         }
 
@@ -167,7 +167,7 @@ namespace ExorAIO.Champions.Jinx
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").IsActive())
             {
-                Variables.W.SPredictionCast((Obj_AI_Hero)args.Target, HitChance.VeryHigh);
+                Variables.W.SPredictionCast((Obj_AI_Hero)args.Target, HitChance.Low);
             }
         }
     }

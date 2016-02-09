@@ -59,7 +59,7 @@ namespace ExorAIO.Champions.Lux
                     ObjectManager.Player.Spellbook.GetSpell(SpellSlot.E).ToggleState == 1 &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").IsActive())))
             {
-                Variables.R.SPredictionCast(Targets.Target, HitChance.VeryHigh);
+                Variables.R.SPredictionCast(Targets.Target, HitChance.Low);
             }
 
             /// <summary>
@@ -76,7 +76,7 @@ namespace ExorAIO.Champions.Lux
                     Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive())))
             {
-                Variables.Q.SPredictionCast(Targets.Target, HitChance.VeryHigh);
+                Variables.Q.SPredictionCast(Targets.Target, HitChance.Low);
                 return;
             }
 
@@ -86,7 +86,7 @@ namespace ExorAIO.Champions.Lux
             /// </summary>
             if (Variables.E.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.E.Range) &&
-                (!Variables.Q.IsReady() || Variables.Q.GetSPrediction(Targets.Target).HitChance < HitChance.VeryHigh) &&
+                (!Variables.Q.IsReady() || Variables.Q.GetSPrediction(Targets.Target).HitChance < HitChance.Low) &&
             
                 ((Targets.Target.Health < Variables.E.GetDamage(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.espell.ks").IsActive()) ||
@@ -95,7 +95,7 @@ namespace ExorAIO.Champions.Lux
                     Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").IsActive())))
             {
-                Variables.E.SPredictionCast(Targets.Target, HitChance.VeryHigh);
+                Variables.E.SPredictionCast(Targets.Target, HitChance.Low);
             }
         }
 

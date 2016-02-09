@@ -40,7 +40,7 @@ namespace ExorAIO.Champions.Tryndamere
                 ObjectManager.Player.Distance(Variables.E.GetSPrediction(Targets.Target).CastPosition.To3D()) < Variables.E.Range - 50 &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").IsActive())
             {
-                Variables.E.SPredictionCast(Targets.Target, HitChance.VeryHigh);
+                Variables.E.SPredictionCast(Targets.Target, HitChance.Low);
             }
 
             /// <summary>
