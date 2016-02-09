@@ -121,6 +121,11 @@ namespace ExorLucian
                         .SetFontStyle(FontStyle.Regular, Color.Green);
 
                     Variables.DrawingsMenu
+                        .AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.qe", "Q Extended Range"))
+                        .SetValue(false)
+                        .SetFontStyle(FontStyle.Regular, Color.LightGreen);
+
+                    Variables.DrawingsMenu
                         .AddItem(new MenuItem($"{Variables.MainMenuName}.drawings.w", "W Range"))
                         .SetValue(false)
                         .SetFontStyle(FontStyle.Regular, Color.Purple);

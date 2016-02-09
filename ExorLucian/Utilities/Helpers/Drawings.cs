@@ -26,6 +26,12 @@ namespace ExorLucian
                     Render.Circle.DrawCircle(ObjectManager.Player.Position, Variables.Q.Range, Color.Green, 1);
                 }
 
+                if (Variables.Q.IsReady() &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.drawings.qe").IsActive())
+                {
+                    Render.Circle.DrawCircle(ObjectManager.Player.Position, Variables.Q.Range + 600f, Color.LightGreen, 1);
+                }
+
                 /// <summary>
                 /// Loads the W drawing.
                 /// </summary>
