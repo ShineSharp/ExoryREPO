@@ -84,7 +84,7 @@ namespace ExorLucian
                 (!Variables.Q.IsReady() || !Targets.Target.IsValidTarget(Variables.Q.Range)) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.wspell.ks").IsActive())
             {
-                Variables.W.SPredictionCast(Targets.Target, HitChance.VeryHigh);
+                Variables.W.SPredictionCast(Targets.Target, HitChance.Low);
             }
             
             /// <summary>
@@ -109,7 +109,7 @@ namespace ExorLucian
                 ((Variables.Menu.Item($"{Variables.MainMenuName}.rspell.keyrsa").GetValue<KeyBind>().Active && !ObjectManager.Player.HasBuff("LucianR")) ||
                 (!Variables.Menu.Item($"{Variables.MainMenuName}.rspell.keyrsa").GetValue<KeyBind>().Active && ObjectManager.Player.HasBuff("LucianR"))))
             {
-                Variables.R.SPredictionCast(Targets.Target, HitChance.VeryHigh);
+                Variables.R.SPredictionCast(Targets.Target, HitChance.Low);
             }
         }
 
@@ -162,7 +162,7 @@ namespace ExorLucian
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").IsActive())
             {
-                Variables.W.SPredictionCast((Obj_AI_Hero)args.Target, HitChance.VeryHigh);
+                Variables.W.SPredictionCast((Obj_AI_Hero)args.Target, HitChance.Low);
             }
         }
 
