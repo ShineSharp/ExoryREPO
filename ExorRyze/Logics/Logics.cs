@@ -77,6 +77,16 @@ namespace ExorRyze
             }
 
             /// <summary>
+            /// The Smart R Logic.
+            /// </summary>
+            if (Variables.R.IsReady() &&
+                Targets.Target.HasBuffOfType(BuffType.Snare) &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").IsActive())
+            {
+                Variables.R.Cast();
+            }
+
+            /// <summary>
             /// The Q Combo Logic,
             /// The Q AutoHarass Logic,
             /// The Q KillSteal Logic.
@@ -110,16 +120,6 @@ namespace ExorRyze
                     Variables.Menu.Item($"{Variables.MainMenuName}.espell.ks").IsActive())))
             {
                 Variables.E.CastOnUnit(Targets.Target);
-            }
-
-            /// <summary>
-            /// The Smart R Logic.
-            /// </summary>
-            if (Variables.R.IsReady() &&
-                Targets.Target.HasBuffOfType(BuffType.Snare) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").IsActive())
-            {
-                Variables.R.Cast();
             }
         }
 
