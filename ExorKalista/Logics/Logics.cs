@@ -26,11 +26,11 @@ namespace ExorKalista
             /// The Q Immobile Harass Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
+                ObjectManager.Player.IsWindingUp &&
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
                 Variables.Q.GetSPrediction(Targets.Target).HitChance >= HitChance.VeryHigh &&
 
-                ((Bools.IsPerfectRendTarget(Targets.Target) && !Bools.IsKillableByRend(Targets.Target) &&
-                    Targets.Target.Health < Variables.Q.GetDamage(Targets.Target) + KillSteal.GetPerfectRendDamage(Targets.Target) &&
+                ((Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive()) ||
 
                 (Targets.Target.Health < Variables.Q.GetDamage(Targets.Target) &&
@@ -85,6 +85,25 @@ namespace ExorKalista
             }
 
             /// <summary>
+            /// The E Harass Logic.
+            /// </summary>
+            if (Variables.E.IsReady() &&
+                ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.harass").IsActive())
+            {
+                if (Targets.Minions
+                    .Any(h =>
+                        Bools.IsKillableByRend(h) &&
+                        Bools.IsPerfectRendTarget(h)) &&
+                    (Targets.HarassableTargets.Count() > 1 ||
+                    (Targets.HarassableTargets.Count() == 1 &&
+                        Variables.Menu.Item($"{Variables.MainMenuName}.espell.whitelist.{(Targets.HarassableTargets.FirstOrDefault()).ChampionName.ToLower()}").IsActive())))
+                {
+                    Variables.E.Cast();
+                }
+            }
+
+            /// <summary>
             /// The R Lifesaver Logic.
             /// </summary>
             if (Variables.R.IsReady() &&
@@ -95,25 +114,6 @@ namespace ExorKalista
                 Variables.Menu.Item($"{Variables.MainMenuName}.rsettings.userlifesaver").IsActive())
             {
                 Variables.R.Cast();
-            }
-        }
-
-        /// <summary>
-        /// Called on do-cast.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="args">The args.</param>
-        public static void ExecuteModes(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
-        {
-            /// <summary>
-            /// The Q Combo Logic.
-            /// </summary>
-            if (Variables.Q.IsReady() &&
-                ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.Q.Range) &&
-                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive())
-            {
-                Variables.Q.Cast(Variables.Q.GetSPrediction((Obj_AI_Hero)args.Target).UnitPosition.To3D());
             }
         }
 
@@ -145,25 +145,6 @@ namespace ExorKalista
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.farm").IsActive())
             {
                 Variables.E.Cast();
-            }
-
-            /// <summary>
-            /// The E Harass Logic.
-            /// </summary>
-            if (Variables.E.IsReady() &&
-                ObjectManager.Player.ManaPercent > ManaManager.NeededEMana &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.espell.harass").IsActive())
-            {
-                if (Targets.Minions
-                    .Any(h =>
-                        Bools.IsKillableByRend(h) &&
-                        Bools.IsPerfectRendTarget(h)) &&
-                    (Targets.HarassableTargets.Count() > 1 ||
-                    (Targets.HarassableTargets.Count() == 1 &&
-                        Variables.Menu.Item($"{Variables.MainMenuName}.espell.whitelist.{(Targets.HarassableTargets.FirstOrDefault()).ChampionName.ToLower()}").IsActive())))
-                {
-                    Variables.E.Cast();
-                }
             }
 
             /// <summary>

@@ -14,7 +14,6 @@ namespace ExorKalista
         public static void Initialize()
         {
             Game.OnUpdate += Kalista.OnUpdate;
-            Obj_AI_Base.OnDoCast += Kalista.OnDoCast;
             Orbwalking.OnNonKillableMinion += Kalista.OnNonKillableMinion;
         }
     }

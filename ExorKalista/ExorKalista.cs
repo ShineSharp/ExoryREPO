@@ -32,14 +32,13 @@ namespace ExorKalista
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void OnUpdate(EventArgs args)
         {
-            if (!ObjectManager.Player.IsDead &&
-                !ObjectManager.Player.IsDashing() &&
-                !ObjectManager.Player.Spellbook.IsCastingSpell)
+            if (!ObjectManager.Player.IsDead)
             {
                 /// <summary>
                 /// The Soulbound declaration.
                 /// </summary>
-                if (Variables.SoulBound == null)
+                if (Variables.SoulBound == null &&
+                    !ObjectManager.Player.HasBuff("kalistavounbound"))
                 {
                     Variables.SoulBound = HeroManager.Allies
                         .Find(b => b.HasBuff("kalistacoopstrikeally"));
@@ -59,22 +58,6 @@ namespace ExorKalista
 
                 Logics.ExecuteAuto(args);
                 Logics.ExecuteFarm(args);
-            }
-        }
-
-        /// <summary>
-        /// Called on do-cast.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="args">The args.</param>
-        public static void OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
-        {
-            if (sender.IsMe &&
-                args.Target.IsValid<Obj_AI_Hero>() &&
-                Orbwalking.IsAutoAttack(args.SData.Name) &&
-                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
-            {
-                Logics.ExecuteModes(sender, args);
             }
         }
 
