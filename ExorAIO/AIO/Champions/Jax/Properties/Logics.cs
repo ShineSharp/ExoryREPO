@@ -100,7 +100,7 @@ namespace ExorAIO.Champions.Jax
                 Targets.JungleMinions.Any() &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.jc").IsActive())
             {
-                Variables.Q.Cast();
+                Variables.Q.CastOnUnit(Targets.JungleMinions.FirstOrDefault());
             }
 
             /// <summary>
