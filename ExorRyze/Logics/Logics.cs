@@ -88,13 +88,12 @@ namespace ExorRyze
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive()) ||
                 
                 (ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
-                    Variables.Q.GetSPrediction(Targets.Target).HitChance >= HitChance.VeryHigh &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.harass").IsActive()) ||
 
                 (Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").IsActive())))
             {
-                Variables.Q.Cast(Variables.Q.GetSPrediction(Targets.Target).UnitPosition.To3D());
+                Variables.Q.SPredictionCast(Targets.Target, HitChance.VeryHigh);
             }
             
             /// <summary>
@@ -171,7 +170,7 @@ namespace ExorRyze
             /// </summary>
             if (Variables.R.IsReady() &&
                 Variables.E.IsReady() &&
-                Targets.Minions?.Count() >= 3 &&
+                (Targets.Minions?.Count() >= 3 || Targets.JungleMinions.Any()) &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.rspell.farm").IsActive())
             {
