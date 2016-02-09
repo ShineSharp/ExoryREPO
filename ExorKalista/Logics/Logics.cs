@@ -28,7 +28,6 @@ namespace ExorKalista
             if (Variables.Q.IsReady() &&
                 ObjectManager.Player.IsWindingUp &&
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
-                Variables.Q.GetSPrediction(Targets.Target).HitChance >= HitChance.VeryHigh &&
 
                 ((Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive()) ||
@@ -39,7 +38,7 @@ namespace ExorKalista
                 (Bools.IsImmobile(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.immobile").IsActive())))
             {
-                Variables.Q.Cast(Variables.Q.GetSPrediction(Targets.Target).UnitPosition.To3D());
+                Variables.Q.SPredictionCast(Targets.Target, HitChance.VeryHigh);
             }
 
             /// <summary>
