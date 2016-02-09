@@ -32,7 +32,8 @@ namespace ExorAIO.Champions.Tryndamere
             if (Targets.Target != null &&
                 Targets.Target.IsValid &&
                 !ObjectManager.Player.IsDead &&
-                Bools.HasNoProtection(Targets.Target) &&
+                !Targets.Target.IsInvulnerable &&
+                !Bools.IsSpellShielded(Targets.Target) &&
                 Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
                 Logics.ExecuteAuto(args);

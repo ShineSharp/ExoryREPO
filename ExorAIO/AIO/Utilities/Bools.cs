@@ -15,12 +15,17 @@ namespace ExorAIO.Utilities
         /// </summary>
         /// <value>
         /// <c>true</c> if the has no protection.; otherwise, <c>false</c>.
-        /// </value>        
-        public static bool HasNoProtection(Obj_AI_Hero target)
+        /// </value> 
+        public static bool IsSpellShielded(Obj_AI_Hero unit)
         =>
-            !target.IsInvulnerable &&
-            !target.HasBuffOfType(BuffType.SpellShield) &&
-			target.Type.Equals(GameObjectType.obj_AI_Hero);
+            unit.HasBuffOfType(BuffType.SpellShield) ||
+            unit.HasBuffOfType(BuffType.SpellImmunity) ||
+            Utils.TickCount - unit.LastCastedSpellT() < 300 &&
+            (
+                unit.LastCastedSpellName().Equals("SivirE") ||
+                unit.LastCastedSpellName().Equals("BlackShield") ||
+                unit.LastCastedSpellName().Equals("NocturneShit")
+            );
 
         /// <summary>
         /// Gets a value indicating whether a determined champion can move or not.
@@ -58,26 +63,26 @@ namespace ExorAIO.Utilities
         /// <summary>
         /// Gets a value indicating whether a determined root is worth cleansing.
         /// </summary>
-        /// <summary>
-        /// Defines whether the casted root is worth cleansing.
-        /// </summary>
+        /// <value>
+        /// <c>true</c> if it is a valid snare.; otherwise, <c>false</c>.
+        /// </value>
         public static bool IsValidSnare()
         =>
             ObjectManager.Player.Buffs
-                .Any(buff =>buff.Type.Equals(BuffType.Snare) &&
+                .Any(buff => buff.Type.Equals(BuffType.Snare) &&
                     !((Obj_AI_Hero)buff.Caster).ChampionName.Equals("Leona") &&
                     !((Obj_AI_Hero)buff.Caster).ChampionName.Equals("Amumu"));
 
         /// <summary>
-        /// Gets a value indicating whether a determined STUN is worth cleansing.
+        /// Gets a value indicating whether a determined Stun is worth cleansing.
         /// </summary>
-        /// <summary>
-        /// Defines whether the casted STUN is worth cleansing.
-        /// </summary>
+        /// <value>
+        /// <c>true</c> if it is a valid stun.; otherwise, <c>false</c>.
+        /// </value>
         public static bool IsValidStun()
         =>
             ObjectManager.Player.Buffs
-                .Any(buff =>buff.Type.Equals(BuffType.Stun) &&
+                .Any(buff => buff.Type.Equals(BuffType.Stun) &&
                     !((Obj_AI_Hero)buff.Caster).ChampionName.Equals("Alistar"));
 
         /// <summary>
@@ -91,7 +96,7 @@ namespace ExorAIO.Utilities
             Bools.IsValidStun() ||
             Bools.IsValidSnare() ||
             target.HasBuff("summonerexhaust") ||
-            Bools.HasNoProtection(ObjectManager.Player) &&
+            (!target.IsInvulnerable && !IsSpellShielded(target)) &&
             (
                 target.HasBuffOfType(BuffType.Flee) ||
                 target.HasBuffOfType(BuffType.Stun) ||

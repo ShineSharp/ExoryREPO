@@ -29,15 +29,16 @@ namespace ExorAIO.Champions.Draven
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void OnUpdate(EventArgs args)
         {
-            if (!ObjectManager.Player.IsDead)
+            if (!ObjectManager.Player.IsDead &&
+                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
                 Logics.ExecuteQ(args);
                 Logics.ExecutePathing(args);
 
                 if (Targets.Target != null &&
                     Targets.Target.IsValid &&
-                    Bools.HasNoProtection(Targets.Target) &&
-                    Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
+                    !Targets.Target.IsInvulnerable &&
+                    !Bools.IsSpellShielded(Targets.Target))
                 {
                     Logics.ExecuteAuto(args);
                 }
@@ -52,14 +53,13 @@ namespace ExorAIO.Champions.Draven
         public static void OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             if (sender.IsMe &&
+                args.Target.IsValid<Obj_AI_Hero>() &&
                 Orbwalking.IsAutoAttack(args.SData.Name) &&
+                !((Obj_AI_Hero)args.Target).IsInvulnerable &&
+                !Bools.IsSpellShielded((Obj_AI_Hero)args.Target) &&
                 Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
-                if (args.Target.IsValid<Obj_AI_Hero>() &&
-                    Bools.HasNoProtection((Obj_AI_Hero)args.Target))
-                {
-                    Logics.ExecuteModes(sender, args);
-                }
+                Logics.ExecuteModes(sender, args);
             }
         }
 
@@ -71,6 +71,7 @@ namespace ExorAIO.Champions.Draven
         public static void OnInterruptableTarget(Obj_AI_Hero sender, Interrupter2.InterruptableTargetEventArgs args)
         {
             if (Variables.E.IsReady() &&
+                !Bools.IsSpellShielded(sender) &&
                 sender.IsValidTarget(Variables.E.Range) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.ir").IsActive())
             {
@@ -85,8 +86,9 @@ namespace ExorAIO.Champions.Draven
         public static void OnEnemyGapcloser(ActiveGapcloser gapcloser)
         {
             if (Variables.E.IsReady() &&
+                !Bools.IsSpellShielded(gapcloser.Sender) &&
                 gapcloser.Sender.IsValidTarget(Variables.E.Range) &&
-                ObjectManager.Player.Distance(gapcloser.End) <= Variables.E.Range &&
+                ObjectManager.Player.Distance(gapcloser.End) < Variables.E.Range &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.gp").IsActive())
             {
                 Variables.E.Cast(gapcloser.End);

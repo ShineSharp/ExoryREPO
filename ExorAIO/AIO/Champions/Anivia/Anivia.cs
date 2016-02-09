@@ -81,7 +81,8 @@ namespace ExorAIO.Champions.Anivia
                 if (Targets.Target != null &&
                     Targets.Target.IsValid &&
                     !ObjectManager.Player.IsDead &&
-                    Bools.HasNoProtection(Targets.Target) &&
+                    !Targets.Target.IsInvulnerable &&
+                    !Bools.IsSpellShielded(Targets.Target) &&
                     Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
                 {
                     Logics.ExecuteAuto(args);
@@ -103,6 +104,7 @@ namespace ExorAIO.Champions.Anivia
         public static void OnInterruptableTarget(Obj_AI_Hero sender, Interrupter2.InterruptableTargetEventArgs args)
         {
             if (Variables.W.IsReady() &&
+                !Bools.IsSpellShielded(sender) &&
                 ObjectManager.Player.Distance(sender) < Variables.W.Range + sender.BoundingRadius &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.wspell.ir").IsActive())
             {
@@ -117,8 +119,9 @@ namespace ExorAIO.Champions.Anivia
         public static void OnEnemyGapcloser(ActiveGapcloser gapcloser)
         {
             if (Variables.W.IsReady() &&
+                !Bools.IsSpellShielded(gapcloser.Sender) &&
                 gapcloser.Sender.IsValidTarget(Variables.W.Range) &&
-                ObjectManager.Player.Distance(gapcloser.End) <= Variables.W.Range &&
+                ObjectManager.Player.Distance(gapcloser.End) < Variables.W.Range &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.wspell.gp").IsActive())
             {
                 Variables.W.Cast(gapcloser.End);

@@ -31,8 +31,11 @@ namespace ExorAIO.Champions.Jinx
             Spells.Initialize();
 
             if (Targets.Target != null &&
-                Targets.Target.IsValid &&
-                !ObjectManager.Player.IsDead)
+				Targets.Target.IsValid &&
+                !ObjectManager.Player.IsDead &&
+                !Targets.Target.IsInvulnerable &&
+                !Bools.IsSpellShielded(Targets.Target) &&
+                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
                 Logics.ExecuteAuto(args);
             }
@@ -46,9 +49,9 @@ namespace ExorAIO.Champions.Jinx
         public static void OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             if (sender.IsMe &&
-                args.Target.IsValid<Obj_AI_Hero>() &&
                 Orbwalking.IsAutoAttack(args.SData.Name) &&
-                Bools.HasNoProtection((Obj_AI_Hero)args.Target) &&
+                !((Obj_AI_Hero)args.Target).IsInvulnerable &&
+                !Bools.IsSpellShielded((Obj_AI_Hero)args.Target) &&
                 Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
                 Logics.ExecuteModes(sender, args);
@@ -76,7 +79,9 @@ namespace ExorAIO.Champions.Jinx
         public static void OnGapcloser(ActiveGapcloser gapcloser)
         {
             if (Variables.E.IsReady() &&
-                ObjectManager.Player.Distance(gapcloser.End) <= Variables.E.Range &&
+                !Bools.IsSpellShielded(gapcloser.Sender) &&
+                gapcloser.Sender.IsValidTarget(Variables.E.Range) &&
+                ObjectManager.Player.Distance(gapcloser.End) < Variables.E.Range &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.gp").IsActive())
             {
                 Variables.E.Cast(gapcloser.End);

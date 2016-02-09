@@ -32,7 +32,8 @@ namespace ExorAIO.Champions.Sivir
             if (Targets.Target != null &&
                 Targets.Target.IsValid &&
                 !ObjectManager.Player.IsDead &&
-                Bools.HasNoProtection(Targets.Target) &&
+                !Targets.Target.IsInvulnerable &&
+                !Bools.IsSpellShielded(Targets.Target) &&
                 Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
                 Logics.ExecuteAuto(args);
@@ -56,7 +57,8 @@ namespace ExorAIO.Champions.Sivir
                 (sender.IsValid<Obj_AI_Minion>() &&
                     sender.CharData.BaseSkinName.Equals("SRU_Dragon"))) &&
 
-                Bools.HasNoProtection(ObjectManager.Player))
+                !ObjectManager.Player.IsInvulnerable &&
+                !Bools.IsSpellShielded(ObjectManager.Player))
             {
                 Logics.ExecuteShield(sender, args);
             }
@@ -74,7 +76,8 @@ namespace ExorAIO.Champions.Sivir
                 Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
                 if (args.Target.IsValid<Obj_AI_Hero>() &&
-                    Bools.HasNoProtection((Obj_AI_Hero)args.Target))
+                    !((Obj_AI_Hero)args.Target).IsInvulnerable &&
+                    !Bools.IsSpellShielded((Obj_AI_Hero)args.Target))
                 {
                     Logics.ExecuteModes(sender, args);
                 }

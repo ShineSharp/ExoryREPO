@@ -34,7 +34,8 @@ namespace ExorAIO.Champions.Graves
             {
                 if (Targets.Target != null &&
                     Targets.Target.IsValid &&
-                    Bools.HasNoProtection(Targets.Target))
+                    !Targets.Target.IsInvulnerable &&
+                    !Bools.IsSpellShielded(Targets.Target))
                 {
                     Logics.ExecuteAuto(args);
                 }
@@ -56,8 +57,9 @@ namespace ExorAIO.Champions.Graves
         {
             if (sender.IsMe &&
                 args.Target.IsValid<Obj_AI_Hero>() &&
-				Orbwalking.IsAutoAttack(args.SData.Name) &&
-                Bools.HasNoProtection((Obj_AI_Hero)args.Target) &&
+                Orbwalking.IsAutoAttack(args.SData.Name) &&
+                !((Obj_AI_Hero)args.Target).IsInvulnerable &&
+                !Bools.IsSpellShielded((Obj_AI_Hero)args.Target) &&
                 Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
                 Logics.ExecuteModes(sender, args);

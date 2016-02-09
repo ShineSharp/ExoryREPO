@@ -45,13 +45,14 @@ namespace ExorAIO.Champions.Quinn
                             h.HasBuff("quinnw") &&
                             h.IsValidTarget(ObjectManager.Player.AttackRange)))
                     {
-                        TargetSelector.Selected.Target = tg;
-                        Variables.Orbwalker.ForceTarget(tg);
+                        TargetSelector.Selected.Target = tg ?? null;
+                        Variables.Orbwalker.ForceTarget(tg ?? null);
                     }
 
                     if (Targets.Target != null &&
                         Targets.Target.IsValid &&
-                        Bools.HasNoProtection(Targets.Target))
+                        !Targets.Target.IsInvulnerable &&
+                        !Bools.IsSpellShielded(Targets.Target))
                     {
                         Logics.ExecuteRTarget(args);
                         Logics.ExecuteAuto(args);
@@ -72,7 +73,8 @@ namespace ExorAIO.Champions.Quinn
                 Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
                 if (args.Target.IsValid<Obj_AI_Hero>() &&
-                    Bools.HasNoProtection((Obj_AI_Hero)args.Target))
+                    !((Obj_AI_Hero)args.Target).IsInvulnerable &&
+                    !Bools.IsSpellShielded((Obj_AI_Hero)args.Target))
                 {
                     Logics.ExecuteModes(sender, args);
                 }
@@ -91,6 +93,7 @@ namespace ExorAIO.Champions.Quinn
         public static void OnInterruptableTarget(Obj_AI_Hero sender, Interrupter2.InterruptableTargetEventArgs args)
         {
             if (Variables.E.IsReady() &&
+                !Bools.IsSpellShielded(sender) &&
                 sender.IsValidTarget(Variables.E.Range) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.ir").IsActive())
             {
@@ -105,6 +108,7 @@ namespace ExorAIO.Champions.Quinn
         public static void OnEnemyGapcloser(ActiveGapcloser gapcloser)
         {
             if (Variables.E.IsReady() &&
+                !Bools.IsSpellShielded(gapcloser.Sender) &&
                 gapcloser.Sender.IsValidTarget(Variables.E.Range) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.gp").IsActive())
             {

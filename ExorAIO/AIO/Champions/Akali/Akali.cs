@@ -32,7 +32,8 @@ namespace ExorAIO.Champions.Akali
             if (Targets.Target != null &&
                 Targets.Target.IsValid &&
                 !ObjectManager.Player.IsDead &&
-                Bools.HasNoProtection(Targets.Target) &&
+                !Targets.Target.IsInvulnerable &&
+                !Bools.IsSpellShielded(Targets.Target) &&
                 Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
                 Logics.ExecuteAuto(args);
@@ -51,7 +52,8 @@ namespace ExorAIO.Champions.Akali
                 Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
                 if (args.Target.IsValid<Obj_AI_Hero>() &&
-                    Bools.HasNoProtection((Obj_AI_Hero)args.Target))
+                    !((Obj_AI_Hero)args.Target).IsInvulnerable &&
+                    !Bools.IsSpellShielded((Obj_AI_Hero)args.Target))
                 {
                     Logics.ExecuteModes(sender, args);
                 }

@@ -29,12 +29,13 @@ namespace ExorAIO.Champions.Olaf
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void OnUpdate(EventArgs args)
         {
-            if (!ObjectManager.Player.IsDead)
+            if (!ObjectManager.Player.IsDead &&
+                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
                 if (Targets.Target != null &&
                     Targets.Target.IsValid &&
-                    Bools.HasNoProtection(Targets.Target) &&
-                    Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
+                    !Targets.Target.IsInvulnerable &&
+                    !Bools.IsSpellShielded(Targets.Target))
                 {
                     Logics.ExecuteAuto(args);
                 }
@@ -55,14 +56,13 @@ namespace ExorAIO.Champions.Olaf
         public static void OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             if (sender.IsMe &&
+                args.Target.IsValid<Obj_AI_Hero>() &&
                 Orbwalking.IsAutoAttack(args.SData.Name) &&
+                !((Obj_AI_Hero)args.Target).IsInvulnerable &&
+                !Bools.IsSpellShielded((Obj_AI_Hero)args.Target) &&
                 Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
-                if (args.Target.IsValid<Obj_AI_Hero>() &&
-                    Bools.HasNoProtection((Obj_AI_Hero)args.Target))
-                {
-                    Logics.ExecuteModes(sender, args);
-                }
+                Logics.ExecuteModes(sender, args);
             }
         }
     }

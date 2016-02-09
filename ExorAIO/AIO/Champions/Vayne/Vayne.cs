@@ -42,13 +42,14 @@ namespace ExorAIO.Champions.Vayne
                         h.HasBuff("vaynesilvereddebuff") &&
                         h.IsValidTarget(ObjectManager.Player.AttackRange)))
                 {
-                    TargetSelector.Selected.Target = tg;
-                    Variables.Orbwalker.ForceTarget(tg);
+                    TargetSelector.Selected.Target = tg ?? null;
+                    Variables.Orbwalker.ForceTarget(tg ?? null);
                 }
 
                 if (Targets.Target != null &&
                     Targets.Target.IsValid &&
-                    Bools.HasNoProtection(Targets.Target))
+                    !Targets.Target.IsInvulnerable &&
+                    !Bools.IsSpellShielded(Targets.Target))
                 {
                     Logics.ExecuteAuto(args);
                 }
@@ -64,6 +65,9 @@ namespace ExorAIO.Champions.Vayne
         {
             if (unit.IsMe &&
                 target.IsValid<Obj_AI_Hero>() &&
+                !((Obj_AI_Hero)target).IsInvulnerable &&
+                !Bools.IsSpellShielded((Obj_AI_Hero)target) &&
+                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.misc.resets").IsActive())
             {
                 Logics.ExecuteBetaModes(unit, target);
@@ -82,7 +86,8 @@ namespace ExorAIO.Champions.Vayne
                 Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
                 if (args.Target.IsValid<Obj_AI_Hero>() &&
-                    Bools.HasNoProtection((Obj_AI_Hero)args.Target) &&
+                    !((Obj_AI_Hero)args.Target).IsInvulnerable &&
+                    !Bools.IsSpellShielded((Obj_AI_Hero)args.Target) &&
                     !Variables.Menu.Item($"{Variables.MainMenuName}.misc.resets").IsActive())
                 {
                     Logics.ExecuteModes(sender, args);
@@ -102,6 +107,7 @@ namespace ExorAIO.Champions.Vayne
         public static void OnInterruptableTarget(Obj_AI_Hero sender, Interrupter2.InterruptableTargetEventArgs args)
         {
             if (Variables.E.IsReady() &&
+                !Bools.IsSpellShielded(sender) &&
                 sender.IsValidTarget(Variables.E.Range) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.ir").IsActive())
             {
@@ -116,6 +122,7 @@ namespace ExorAIO.Champions.Vayne
         public static void OnEnemyGapcloser(ActiveGapcloser gapcloser)
         {
             if (Variables.E.IsReady() &&
+                !Bools.IsSpellShielded(gapcloser.Sender) &&
                 gapcloser.Sender.IsValidTarget(Variables.E.Range) &&
                 ObjectManager.Player.Distance(gapcloser.End) <= Variables.E.Range &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.gp").IsActive())

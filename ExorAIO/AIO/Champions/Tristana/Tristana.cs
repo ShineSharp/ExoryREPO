@@ -43,13 +43,14 @@ namespace ExorAIO.Champions.Tristana
                         h.HasBuff("TristanaECharge") &&
                         h.IsValidTarget(ObjectManager.Player.AttackRange)))
                 {
-                    TargetSelector.Selected.Target = tg;
-                    Variables.Orbwalker.ForceTarget(tg);
+                    TargetSelector.Selected.Target = tg ?? null;
+                    Variables.Orbwalker.ForceTarget(tg ?? null);
                 }
 
                 if (Targets.Target != null &&
                     Targets.Target.IsValid &&
-                    Bools.HasNoProtection(Targets.Target))
+                    !Targets.Target.IsInvulnerable &&
+                    !Bools.IsSpellShielded(Targets.Target))
                 {
                     Logics.ExecuteAuto(args);
                     Logics.ExecuteModes(args);

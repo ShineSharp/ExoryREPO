@@ -29,12 +29,13 @@ namespace ExorAIO.Champions.DrMundo
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void OnUpdate(EventArgs args)
         {
-            if (!ObjectManager.Player.IsDead)
+            if (!ObjectManager.Player.IsDead &&
+                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
 			{
 				if (Targets.Target != null &&
 					Targets.Target.IsValid &&
-					Bools.HasNoProtection(Targets.Target) &&
-                    Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
+                    !Targets.Target.IsInvulnerable &&
+                    !Bools.IsSpellShielded(Targets.Target))
 				{
 					Logics.ExecuteAuto(args);
 				}
@@ -55,9 +56,9 @@ namespace ExorAIO.Champions.DrMundo
         public static void OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             if (sender.IsMe &&
-                args.Target.IsValid<Obj_AI_Hero>() &&
                 Orbwalking.IsAutoAttack(args.SData.Name) &&
-                Bools.HasNoProtection((Obj_AI_Hero)args.Target) &&
+                !((Obj_AI_Hero)args.Target).IsInvulnerable &&
+                !Bools.IsSpellShielded((Obj_AI_Hero)args.Target) &&
                 Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
                 Logics.ExecuteModes(sender, args);
