@@ -47,6 +47,7 @@ namespace ExorAIO.Champions.Ezreal
             /// The Q AutoHarass Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
+                !ObjectManager.Player.IsWindingUp &&
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
 
                 ((Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
@@ -60,7 +61,7 @@ namespace ExorAIO.Champions.Ezreal
                     !Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.harass").IsActive())))
             {
-                Variables.Q.SPredictionCast(Targets.Target, HitChance.VeryHigh);
+                Variables.Q.SPredictionCast(Targets.Target, HitChance.Low);
             }
 
             /// <summary>
@@ -69,6 +70,7 @@ namespace ExorAIO.Champions.Ezreal
             /// The W AutoHarass Logic.
             /// </summary>
             if (Variables.W.IsReady() &&
+                !ObjectManager.Player.IsWindingUp &&
                 Targets.Target.IsValidTarget(Variables.W.Range) &&
                 !Variables.Q.IsReady() || Variables.Q.GetSPrediction(Targets.Target).HitChance < HitChance.VeryHigh &&
                 Variables.W.GetSPrediction(Targets.Target).HitChance != HitChance.OutOfRange &&
@@ -80,7 +82,7 @@ namespace ExorAIO.Champions.Ezreal
                     ObjectManager.Player.TotalMagicalDamage > ObjectManager.Player.FlatPhysicalDamageMod &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.wspell.harass").IsActive())))
             {
-                Variables.W.SPredictionCast(Targets.Target, HitChance.VeryHigh);
+                Variables.W.SPredictionCast(Targets.Target, HitChance.Low);
             }
 
             /// <summary>
@@ -122,7 +124,7 @@ namespace ExorAIO.Champions.Ezreal
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive())
             {
-                Variables.Q.SPredictionCast((Obj_AI_Hero)args.Target, HitChance.VeryHigh);
+                Variables.Q.SPredictionCast((Obj_AI_Hero)args.Target, HitChance.Low);
                 return;
             }
 
@@ -134,7 +136,7 @@ namespace ExorAIO.Champions.Ezreal
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").IsActive())
             {
-                Variables.W.SPredictionCast((Obj_AI_Hero)args.Target, HitChance.VeryHigh);
+                Variables.W.SPredictionCast((Obj_AI_Hero)args.Target, HitChance.Low);
             }
         }
 
