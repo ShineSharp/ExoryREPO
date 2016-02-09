@@ -7,6 +7,7 @@ namespace ExorKalista
     using Color = SharpDX.Color;
     using Orbwalking = SFXTargetSelector.Orbwalking;
     using TargetSelector = SFXTargetSelector.TargetSelector;
+    using SPrediction;
 
     /// <summary>
     /// The settings class.
@@ -132,6 +133,11 @@ namespace ExorKalista
                 Variables.Menu.AddSubMenu(Variables.DrawingsMenu);
             }
             Variables.Menu.AddToMainMenu();
+
+            /// <summary>
+            /// Sets the spells menu.
+            /// </summary>
+            SPrediction.Prediction.Initialize(Variables.Menu);
         }
     }
 }
