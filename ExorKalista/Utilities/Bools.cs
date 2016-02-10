@@ -12,25 +12,37 @@ namespace ExorKalista
     public class Bools
     {
         /// <summary>
-        /// Returns true if the target is immobile.
+        /// Gets a value indicating whether the target has protection or not.
         /// </summary>
-        public static bool IsImmobile(Obj_AI_Hero Target)
-        => 
-            Target.HasBuffOfType(BuffType.Stun) ||
-            Target.HasBuffOfType(BuffType.Snare) ||
-            Target.HasBuffOfType(BuffType.Knockup) ||
-            Target.HasBuffOfType(BuffType.Charm) ||
-            Target.HasBuffOfType(BuffType.Flee) || 
-            Target.HasBuffOfType(BuffType.Taunt) ||
-            Target.HasBuffOfType(BuffType.Suppression);
+        /// <value>
+        /// <c>true</c> if the has no protection.; otherwise, <c>false</c>.
+        /// </value> 
+        public static bool IsSpellShielded(Obj_AI_Hero unit)
+        =>
+            unit.HasBuffOfType(BuffType.SpellShield) ||
+            unit.HasBuffOfType(BuffType.SpellImmunity) ||
+            Utils.TickCount - unit.LastCastedSpellT() < 300 &&
+            (
+                unit.LastCastedSpellName().Equals("SivirE") ||
+                unit.LastCastedSpellName().Equals("BlackShield") ||
+                unit.LastCastedSpellName().Equals("NocturneShit")
+            );
 
         /// <summary>
-        /// Returns true if the target has no protection.
-        /// </summary>   
-        public static bool HasNoProtection(Obj_AI_Base target)
-        =>
-            !target.IsInvulnerable &&
-            !target.HasBuffOfType(BuffType.SpellShield);
+        /// Gets a value indicating whether a determined champion can move or not.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if the target can't move.; otherwise, <c>false</c>.
+        /// </value>
+        public static bool IsImmobile(Obj_AI_Hero target)
+        => 
+            target.HasBuffOfType(BuffType.Stun) ||
+            target.HasBuffOfType(BuffType.Flee) ||
+            target.HasBuffOfType(BuffType.Snare) ||
+            target.HasBuffOfType(BuffType.Taunt) ||
+            target.HasBuffOfType(BuffType.Charm) ||
+            target.HasBuffOfType(BuffType.Knockup) ||
+            target.HasBuffOfType(BuffType.Suppression);
 
         /// <summary>
         /// Returns true if the target is a perfectly valid rend target.
@@ -39,7 +51,7 @@ namespace ExorKalista
         =>
             target != null &&
             !target.IsZombie &&
-            Bools.HasNoProtection(target) &&
+            !target.IsInvulnerable &&
             target.IsValidTarget(Variables.E.Range) &&
             target.GetBuffCount("kalistaexpungemarker") > 0;
 
