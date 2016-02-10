@@ -87,6 +87,12 @@ namespace ExorAIO.Champions.Quinn
                 {
                     Variables.W.Cast();
                 }
+
+                if (Variables.Locations
+                    .Any(h => ObjectManager.Player.Distance(h) < Variables.W.Range))
+                {
+                    Variables.W.Cast();
+                }
             }
 
             /// <summary>
