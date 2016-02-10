@@ -38,7 +38,8 @@ namespace ExorRyze
 
                 if (Targets.Target != null &&
                     Targets.Target.IsValid &&
-                    Bools.HasNoProtection(Targets.Target))
+                    !Targets.Target.IsInvulnerable &&
+                    !Bools.IsSpellShielded(Targets.Target))
                 {
                     Logics.ExecuteAuto(args);
                 }
