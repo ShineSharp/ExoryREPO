@@ -20,8 +20,7 @@ namespace NabbActivator
             /// <summary>
             /// The Cleanse Logic.
             /// </summary>    
-            if (Bools.HasNoProtection(ObjectManager.Player) &&
-                Bools.ShouldUseCleanse(ObjectManager.Player))
+            if (Bools.ShouldUseCleanse(ObjectManager.Player))
             {
                 if (Variables.W.IsReady() &&
                     ObjectManager.Player.ChampionName.Equals("Gangplank"))

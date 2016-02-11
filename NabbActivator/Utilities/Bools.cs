@@ -30,13 +30,21 @@ namespace NabbActivator
             ObjectManager.Player.HasBuff("ItemCrystalFlaskJungle");
 
         /// <summary>
-        /// Defines whether a target has no protection.
+        /// Gets a value indicating whether the target has protection or not.
         /// </summary>
-        public static bool HasNoProtection(Obj_AI_Hero target)
+        /// <value>
+        /// <c>true</c> if the has no protection.; otherwise, <c>false</c>.
+        /// </value> 
+        public static bool IsSpellShielded(Obj_AI_Hero unit)
         =>
-            !target.IsInvulnerable &&
-            !target.HasBuffOfType(BuffType.SpellShield) &&
-            target.Type.Equals(GameObjectType.obj_AI_Hero);
+            unit.HasBuffOfType(BuffType.SpellShield) ||
+            unit.HasBuffOfType(BuffType.SpellImmunity) ||
+            Utils.TickCount - unit.LastCastedSpellT() < 300 &&
+            (
+                unit.LastCastedSpellName().Equals("SivirE") ||
+                unit.LastCastedSpellName().Equals("BlackShield") ||
+                unit.LastCastedSpellName().Equals("NocturneShit")
+            );
 
         /// <summary>
         /// Defines whether the casted root is worth cleansing.
@@ -44,9 +52,8 @@ namespace NabbActivator
         public static bool IsValidSnare()
         =>
             ObjectManager.Player.Buffs
-                .Any(buff =>buff.Type.Equals(BuffType.Snare) &&
-                    !((Obj_AI_Hero)buff.Caster).ChampionName.Equals("Leona") &&
-                    !((Obj_AI_Hero)buff.Caster).ChampionName.Equals("Amumu"));
+                .Any(buff => buff.Type.Equals(BuffType.Snare) &&
+                    !((Obj_AI_Hero)buff.Caster).ChampionName.Equals("Leona"));
 
         /// <summary>
         /// Defines whether the casted stun is worth cleansing.
@@ -54,7 +61,8 @@ namespace NabbActivator
         public static bool IsValidStun()
         =>
             ObjectManager.Player.Buffs
-                .Any(buff =>buff.Type.Equals(BuffType.Stun) &&
+                .Any(buff => buff.Type.Equals(BuffType.Stun) &&
+                    !((Obj_AI_Hero)buff.Caster).ChampionName.Equals("Amumu") &&
                     !((Obj_AI_Hero)buff.Caster).ChampionName.Equals("Alistar") &&
                     !((Obj_AI_Hero)buff.Caster).ChampionName.Equals("Blitzcrank"));
 
@@ -63,7 +71,8 @@ namespace NabbActivator
         /// </summary>
         public static bool ShouldUseCleanse(Obj_AI_Hero target)
         =>
-            Bools.HasNoProtection(ObjectManager.Player) &&
+            !ObjectManager.Player.IsInvulnerable &&
+            !IsSpellShielded(ObjectManager.Player) &&
             (
                 Bools.IsValidStun() ||
                 Bools.IsValidSnare() ||
@@ -80,7 +89,8 @@ namespace NabbActivator
         /// </summary>
         public static bool ShouldUseCleanser()
         =>
-            Bools.HasNoProtection(ObjectManager.Player) &&
+            !ObjectManager.Player.IsInvulnerable &&
+            !IsSpellShielded(ObjectManager.Player) &&
             (
                 ObjectManager.Player.HasBuffOfType(BuffType.Suppression) ||
                 ObjectManager.Player.HasBuff("FizzMarinerDoom") ||
