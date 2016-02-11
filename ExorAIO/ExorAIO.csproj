@@ -44,6 +44,9 @@
     <Reference Include="LeagueSharp.Common">
       <HintPath>C:\Users\Enrico Drago\Desktop\XD\System\LeagueSharp.Common.dll</HintPath>
     </Reference>
+    <Reference Include="LeagueSharp.SDK">
+      <HintPath>C:\Users\Enrico Drago\Desktop\XD\System\LeagueSharp.SDK.dll</HintPath>
+    </Reference>
     <Reference Include="SharpDX">
       <HintPath>C:\Users\Enrico Drago\Desktop\XD\System\SharpDX.dll</HintPath>
     </Reference>
@@ -130,18 +133,38 @@
     <Compile Include="AIO\Champions\Jax\Properties\Utilities\Methods.cs" />
     <Compile Include="AIO\Champions\Jax\Properties\Utilities\Spells.cs" />
     <Compile Include="AIO\Champions\Jax\Properties\Utilities\Targets.cs" />
+    <Compile Include="AIO\Champions\Jhin\Jhin.cs" />
+    <Compile Include="AIO\Champions\Jhin\Properties\Logics.cs" />
+    <Compile Include="AIO\Champions\Jhin\Properties\Utilities\Menus.cs" />
+    <Compile Include="AIO\Champions\Jhin\Properties\Utilities\Methods.cs" />
+    <Compile Include="AIO\Champions\Jhin\Properties\Utilities\Spells.cs" />
+    <Compile Include="AIO\Champions\Jhin\Properties\Utilities\Targets.cs" />
+    <Compile Include="AIO\Champions\Jhin\Properties\Utilities\Killsteal.cs" />
     <Compile Include="AIO\Champions\Jinx\Jinx.cs" />
     <Compile Include="AIO\Champions\Jinx\Properties\Logics.cs" />
     <Compile Include="AIO\Champions\Jinx\Properties\Utilities\Menus.cs" />
     <Compile Include="AIO\Champions\Jinx\Properties\Utilities\Methods.cs" />
     <Compile Include="AIO\Champions\Jinx\Properties\Utilities\Spells.cs" />
     <Compile Include="AIO\Champions\Jinx\Properties\Utilities\Targets.cs" />
+    <Compile Include="AIO\Champions\Kalista\Kalista.cs" />
+    <Compile Include="AIO\Champions\Kalista\Properties\Logics.cs" />
+    <Compile Include="AIO\Champions\Kalista\Properties\Utilities\Menus.cs" />
+    <Compile Include="AIO\Champions\Kalista\Properties\Utilities\Methods.cs" />
+    <Compile Include="AIO\Champions\Kalista\Properties\Utilities\Spells.cs" />
+    <Compile Include="AIO\Champions\Kalista\Properties\Utilities\Targets.cs" />
+    <Compile Include="AIO\Champions\Kalista\Properties\Utilities\Killsteal.cs" />
     <Compile Include="AIO\Champions\KogMaw\KogMaw.cs" />
     <Compile Include="AIO\Champions\KogMaw\Properties\Logics.cs" />
     <Compile Include="AIO\Champions\KogMaw\Properties\Utilities\Menus.cs" />
     <Compile Include="AIO\Champions\KogMaw\Properties\Utilities\Methods.cs" />
     <Compile Include="AIO\Champions\KogMaw\Properties\Utilities\Spells.cs" />
     <Compile Include="AIO\Champions\KogMaw\Properties\Utilities\Targets.cs" />
+    <Compile Include="AIO\Champions\Lucian\Lucian.cs" />
+    <Compile Include="AIO\Champions\Lucian\Properties\Logics.cs" />
+    <Compile Include="AIO\Champions\Lucian\Properties\Utilities\Menus.cs" />
+    <Compile Include="AIO\Champions\Lucian\Properties\Utilities\Methods.cs" />
+    <Compile Include="AIO\Champions\Lucian\Properties\Utilities\Spells.cs" />
+    <Compile Include="AIO\Champions\Lucian\Properties\Utilities\Targets.cs" />
     <Compile Include="AIO\Champions\Lux\Lux.cs" />
     <Compile Include="AIO\Champions\Lux\Properties\Logics.cs" />
     <Compile Include="AIO\Champions\Lux\Properties\Utilities\Menus.cs" />
@@ -166,6 +189,12 @@
     <Compile Include="AIO\Champions\Renekton\Properties\Utilities\Methods.cs" />
     <Compile Include="AIO\Champions\Renekton\Properties\Utilities\Spells.cs" />
     <Compile Include="AIO\Champions\Renekton\Properties\Utilities\Targets.cs" />
+    <Compile Include="AIO\Champions\Ryze\Ryze.cs" />
+    <Compile Include="AIO\Champions\Ryze\Properties\Logics.cs" />
+    <Compile Include="AIO\Champions\Ryze\Properties\Utilities\Menus.cs" />
+    <Compile Include="AIO\Champions\Ryze\Properties\Utilities\Methods.cs" />
+    <Compile Include="AIO\Champions\Ryze\Properties\Utilities\Spells.cs" />
+    <Compile Include="AIO\Champions\Ryze\Properties\Utilities\Targets.cs" />
     <Compile Include="AIO\Champions\Sivir\Sivir.cs" />
     <Compile Include="AIO\Champions\Sivir\Properties\Logics.cs" />
     <Compile Include="AIO\Champions\Sivir\Properties\Utilities\Menus.cs" />
@@ -196,6 +225,7 @@
     <Compile Include="AIO\Utilities\Bools.cs" />
     <Compile Include="AIO\Utilities\Variables.cs" />
     <Compile Include="AIO\Utilities\Helpers\Drawings.cs" />
+    <Compile Include="AIO\Utilities\Helpers\Healthbars.cs" />
     <Compile Include="AIO\Utilities\Helpers\ManaManager.cs" />
     <Compile Include="AIO\Utilities\Entities\Jungle.cs" />
     <Compile Include="AIO\Utilities\Entities\GameObjects.cs" />

@@ -3,7 +3,9 @@ using LeagueSharp.Common;
 
 namespace ExorAIO.Utilities
 {
+    using System;
     using System.Linq;
+    using SharpDX;
 
     /// <summary>
     /// The Bools class.
@@ -104,5 +106,35 @@ namespace ExorAIO.Utilities
                 target.HasBuffOfType(BuffType.Taunt) ||
                 target.HasBuffOfType(BuffType.Polymorph)
             );
+
+        /// <summary>
+        /// Returns true if the target is a perfectly valid rend target.
+        /// </summary>   
+        public static bool IsPerfectRendTarget(Obj_AI_Base target)
+        =>
+            target != null &&
+            !target.IsZombie &&
+            !target.IsInvulnerable &&
+            target.IsValidTarget(Variables.E.Range) &&
+            target.GetBuffCount("kalistaexpungemarker") > 0;
+
+        /// <summary>
+        /// Gets a value indicating whether a determined champion is inside R Cone.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if the target is inside R Cone.; otherwise, <c>false</c>.
+        /// </value>
+        public static bool IsInsideRCone(Obj_AI_Hero target)
+        =>
+            (target.Position.To2D() - ObjectManager.Player.Position.To2D())
+                .Distance(new Vector2(), true) < Variables.R.Range * Variables.R.Range &&
+
+                (ObjectManager.Player.Position.Extend(target.Position, Variables.R.Range).To2D() - ObjectManager.Player.Position.To2D())
+                    .Rotated(-(70f * (float)Math.PI / 180) / 2)
+                    .CrossProduct(target.Position.To2D() - ObjectManager.Player.Position.To2D()) > 0 &&
+
+            (target.Position.To2D() - ObjectManager.Player.Position.To2D())
+                .CrossProduct((ObjectManager.Player.Position.Extend(target.Position, Variables.R.Range).To2D() - ObjectManager.Player.Position.To2D())
+                .Rotated(-(70f * (float)Math.PI / 180) / 2).Rotated(70f * (float)Math.PI / 180)) > 0;
     }
 }

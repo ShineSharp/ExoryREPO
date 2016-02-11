@@ -98,6 +98,11 @@ namespace ExorAIO.Utilities
         public static Orbwalking.Orbwalker Orbwalker { get; set; }
 
         /// <summary>
+        /// Gets or sets the Soulbound.
+        /// </summary>
+        public static Obj_AI_Hero SoulBound { get; set; }
+
+        /// <summary>
         /// The main menu name.
         /// </summary>
         public static readonly string MainMenuCodeName = "ExorAIO: Ultima";
@@ -114,10 +119,30 @@ namespace ExorAIO.Utilities
         {
             "Akali", "Anivia", "Ashe", "Cassiopeia", "Corki",
             "Darius", "Draven", "DrMundo", "Ezreal", "Graves",
-            "Jax", "Jinx", "KogMaw", "Lux", "Olaf",
-            "Quinn", "Renekton", "Sivir", "Tristana", "Tryndamere",
-            "Vayne"
+            "Jax", "Jhin", "Jinx", "Kalista", "KogMaw",
+            "Lucian", "Lux", "Olaf", "Quinn", "Renekton",
+            "Ryze", "Sivir", "Tristana", "Tryndamere", "Vayne"
         };
+
+        /// <summary>
+        /// The default enemy HP bar offset.
+        /// </summary>
+        public static int XOffset = 10;
+        public static int YOffset = 20;
+        public static int Width = 103;
+        public static int Height = 8;
+
+        /// <summary>
+        /// The jungle HP bar offset.
+        /// </summary>      
+        internal class JungleHpBarOffset
+        {
+            internal int Height;
+            internal int Width;
+            internal int XOffset;
+            internal int YOffset;
+            internal string BaseSkinName;
+        }
 
         /// <summary>
         /// Gets all the important jungle locations.
@@ -130,6 +155,23 @@ namespace ExorAIO.Utilities
             new Vector3(7082.083f, 10838.25f, 56.2041f),
             new Vector3(3804.958f, 7875.456f, 52.11121f),
             new Vector3(7811.249f, 4034.486f, 53.81299f)
+        };
+
+        /// <summary>
+        /// The jungle HP bar offset list.
+        /// </summary>
+        internal static readonly List<JungleHpBarOffset> JungleHpBarOffsetList = new List<JungleHpBarOffset>
+        {
+            new JungleHpBarOffset{BaseSkinName = "SRU_Dragon",        Width = 140, Height = 4,  XOffset = 12, YOffset = 24},
+            new JungleHpBarOffset{BaseSkinName = "SRU_Baron",         Width = 190, Height = 10, XOffset = 16, YOffset = 24},
+            new JungleHpBarOffset{BaseSkinName = "SRU_RiftHerald",    Width = 139, Height = 6,  XOffset = 12, YOffset = 22},
+            new JungleHpBarOffset{BaseSkinName = "SRU_Red",           Width = 139, Height = 4,  XOffset = 12, YOffset = 24},
+            new JungleHpBarOffset{BaseSkinName = "SRU_Blue",          Width = 139, Height = 4,  XOffset = 12, YOffset = 24},
+            new JungleHpBarOffset{BaseSkinName = "SRU_Gromp",         Width = 86,  Height = 2,  XOffset = 1,  YOffset = 7},
+            new JungleHpBarOffset{BaseSkinName = "SRU_Crab",          Width = 61,  Height = 2,  XOffset = 1,  YOffset = 5},
+            new JungleHpBarOffset{BaseSkinName = "SRU_Krug",          Width = 79,  Height = 2,  XOffset = 1,  YOffset = 7},
+            new JungleHpBarOffset{BaseSkinName = "SRU_Razorbeak",     Width = 74,  Height = 2,  XOffset = 1,  YOffset = 7},
+            new JungleHpBarOffset{BaseSkinName = "SRU_Murkwolf",      Width = 74,  Height = 2,  XOffset = 1,  YOffset = 7},
         };
     }
 }

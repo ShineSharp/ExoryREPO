@@ -16,12 +16,16 @@ namespace ExorAIO.Core
     using ExorAIO.Champions.Ezreal;
     using ExorAIO.Champions.Graves;
     using ExorAIO.Champions.Jax;
+    using ExorAIO.Champions.Jhin;
     using ExorAIO.Champions.Jinx;
+    using ExorAIO.Champions.Kalista;
     using ExorAIO.Champions.KogMaw;
+    using ExorAIO.Champions.Lucian;
     using ExorAIO.Champions.Lux;
     using ExorAIO.Champions.Olaf;
     using ExorAIO.Champions.Quinn;
     using ExorAIO.Champions.Renekton;
+    using ExorAIO.Champions.Ryze;
     using ExorAIO.Champions.Sivir;
     using ExorAIO.Champions.Tristana;
     using ExorAIO.Champions.Tryndamere;
@@ -76,23 +80,25 @@ namespace ExorAIO.Core
                     case "Ezreal":     new Ezreal()    .OnLoad(); break;
                     case "Graves":     new Graves()    .OnLoad(); break;
                     case "Jax":        new Jax()       .OnLoad(); break;
+                    case "Jhin":       new Jhin()      .OnLoad(); break;
                     case "Jinx":       new Jinx()      .OnLoad(); break;
+                    case "Kalista":    new Kalista()   .OnLoad(); break;
                     case "KogMaw":     new KogMaw()    .OnLoad(); break;
+                    case "Lucian":     new Lucian()    .OnLoad(); break;
                     case "Lux":        new Lux()       .OnLoad(); break;
                     case "Olaf":       new Olaf()      .OnLoad(); break;
                     case "Quinn":      new Quinn()     .OnLoad(); break;
                     case "Renekton":   new Renekton()  .OnLoad(); break;
+                    case "Ryze":       new Ryze()      .OnLoad(); break;
                     case "Sivir":      new Sivir()     .OnLoad(); break;
                     case "Tristana":   new Tristana()  .OnLoad(); break;
                     case "Tryndamere": new Tryndamere().OnLoad(); break;
                     case "Vayne":      new Vayne()     .OnLoad(); break;
+                    default: Game.PrintChat($"{Variables.MainMenuCodeName} - {ObjectManager.Player.ChampionName} not supported."); break;
                 }
 
                 Game.PrintChat($"<b><font color='#009aff'>Exor</font></b>AIO: <font color='#009aff'>Ultima</font> - {ObjectManager.Player.ChampionName} Loaded.");
-                return;
             }
-
-            Game.PrintChat($"{Variables.MainMenuCodeName} - {ObjectManager.Player.ChampionName} not supported.");
         }
     }
 }

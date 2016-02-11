@@ -139,7 +139,7 @@ namespace SFXTargetSelector
             "netherblade", "gangplankqwrapper", "poppydevastatingblow", "powerfist", "renektonpreexecute", "rengarq",
             "shyvanadoubleattack", "sivirw", "takedown", "talonnoxiandiplomacy", "trundletrollsmash", "vaynetumble",
             "vie", "volibearq", "xenzhaocombotarget", "yorickspectral", "reksaiq", "itemtitanichydracleave", "masochism",
-            "illaoiw"
+            "illaoiw", "jhinq"
         };
 
         /// <summary>
@@ -459,6 +459,15 @@ namespace SFXTargetSelector
                 }
                 return false;
             }
+
+            if (Player.ChampionName == "Jhin")
+            {
+                if (Player.HasBuff("JhinPassiveReload"))
+                {
+                    return false;
+                }
+            }
+
             return LeagueSharp.Common.Utils.GameTimeTickCount + Game.Ping / 2 + 25 >=
                    LastAaTick + Player.AttackDelay * 1000 + extraDelay && Attack;
         }
