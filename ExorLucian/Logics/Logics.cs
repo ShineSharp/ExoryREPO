@@ -80,11 +80,10 @@ namespace ExorLucian
             if (Variables.W.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.W.Range) &&
                 Variables.W.GetDamage(Targets.Target) > Targets.Target.Health &&
-                Variables.W.GetSPrediction(Targets.Target).HitChance >= HitChance.VeryHigh &&
                 (!Variables.Q.IsReady() || !Targets.Target.IsValidTarget(Variables.Q.Range)) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.wspell.ks").IsActive())
             {
-                Variables.W.SPredictionCast(Targets.Target, HitChance.Low);
+                Variables.W.SPredictionCast(Targets.Target, HitChance.High);
             }
             
             /// <summary>
