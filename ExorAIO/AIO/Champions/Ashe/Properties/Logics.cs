@@ -52,7 +52,7 @@ namespace ExorAIO.Champions.Ashe
                 (Targets.Target.Health < Variables.W.GetDamage(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.wspell.ks").IsActive())))
             {
-                Variables.W.SPredictionCast(Targets.Target, HitChance.Low);
+                Variables.W.SPredictionCast(Targets.Target, HitChance.High);
             }
 
             /// <summary>
@@ -94,10 +94,10 @@ namespace ExorAIO.Champions.Ashe
                     !Targets.Target.IsValidTarget(ObjectManager.Player.AttackRange) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.espell.auto").IsActive())
                 {
-                    Variables.E.SPredictionCast(Targets.Target, HitChance.Low);
+                    Variables.E.SPredictionCast(Targets.Target, HitChance.High);
                 }
 
-                Variables.R.SPredictionCast(Targets.Target, HitChance.Low);
+                Variables.R.SPredictionCast(Targets.Target, HitChance.High);
             }
         }
 
@@ -116,7 +116,7 @@ namespace ExorAIO.Champions.Ashe
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").IsActive())
             {
-                Variables.W.SPredictionCast((Obj_AI_Hero)args.Target, HitChance.Low);
+                Variables.W.SPredictionCast((Obj_AI_Hero)args.Target, HitChance.High);
             }
         }
 

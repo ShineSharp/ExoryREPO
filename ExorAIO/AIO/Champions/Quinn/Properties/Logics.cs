@@ -67,7 +67,7 @@ namespace ExorAIO.Champions.Quinn
                 (Bools.IsImmobile(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.immobile").IsActive())))
             {
-                Variables.Q.SPredictionCast(Targets.Target, HitChance.Low);
+                Variables.Q.SPredictionCast(Targets.Target, HitChance.High);
             }
 
             /// <summary>
@@ -129,7 +129,7 @@ namespace ExorAIO.Champions.Quinn
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive())
             {
-                Variables.Q.SPredictionCast((Obj_AI_Hero)args.Target, HitChance.Low);
+                Variables.Q.SPredictionCast((Obj_AI_Hero)args.Target, HitChance.High);
                 return;
             }
 

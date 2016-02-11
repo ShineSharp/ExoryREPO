@@ -40,7 +40,7 @@ namespace ExorAIO.Champions.DrMundo
 					Variables.Menu.Item($"{Variables.MainMenuName}.qspell.harass").IsActive() &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.whitelist.{Targets.Target.ChampionName.ToLower()}").IsActive())))
             {
-                Variables.Q.SPredictionCast(Targets.Target, HitChance.Low);
+                Variables.Q.SPredictionCast(Targets.Target, HitChance.High);
             }
 
             /// <summary>

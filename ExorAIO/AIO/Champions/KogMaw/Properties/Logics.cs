@@ -33,7 +33,7 @@ namespace ExorAIO.Champions.KogMaw
                 (Bools.IsImmobile(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.immobile").IsActive())))
             {
-                Variables.Q.SPredictionCast(Targets.Target, HitChance.Low);
+                Variables.Q.SPredictionCast(Targets.Target, HitChance.High);
             }
 
             /// <summary>
@@ -61,7 +61,7 @@ namespace ExorAIO.Champions.KogMaw
                 (Bools.IsImmobile(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.espell.immobile").IsActive())))
             {
-                Variables.E.SPredictionCast(Targets.Target, HitChance.Low);
+                Variables.E.SPredictionCast(Targets.Target, HitChance.High);
             }
 
             /// <summary>
@@ -82,7 +82,7 @@ namespace ExorAIO.Champions.KogMaw
                 (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").IsActive()))
             {
-                Variables.R.SPredictionCast(Targets.Target, HitChance.Low);
+                Variables.R.SPredictionCast(Targets.Target, HitChance.High);
             }
         }
 
@@ -101,7 +101,7 @@ namespace ExorAIO.Champions.KogMaw
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive())
             {
-                Variables.Q.SPredictionCast((Obj_AI_Hero)args.Target, HitChance.Low);
+                Variables.Q.SPredictionCast((Obj_AI_Hero)args.Target, HitChance.High);
                 return;
             }
 
@@ -113,7 +113,7 @@ namespace ExorAIO.Champions.KogMaw
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").IsActive())
             {
-                Variables.E.SPredictionCast((Obj_AI_Hero)args.Target, HitChance.Low);
+                Variables.E.SPredictionCast((Obj_AI_Hero)args.Target, HitChance.High);
             }
         }
 

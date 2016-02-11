@@ -25,7 +25,6 @@ namespace ExorAIO.Champions.Tristana
             if (Variables.R.IsReady() &&
                 !ObjectManager.Player.IsWindingUp &&
                 Targets.Target.IsValidTarget(Variables.R.Range) &&
-                Targets.Target.Health > Targets.Target.MaxHealth/3 &&
                 KillSteal.Damage(Targets.Target) > Targets.Target.Health &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").IsActive())
@@ -85,7 +84,7 @@ namespace ExorAIO.Champions.Tristana
                 if (GameObjects.Minions
                     .Count(units =>
                         units.IsValidTarget(Variables.E.Range) &&
-                        units.Distance(Targets.Minions?.FirstOrDefault(), false) < 150f) > 2)
+                        units.Distance(Targets.Minions?.FirstOrDefault()) < 150f) > 2)
                 {
                     Variables.E.CastOnUnit(Targets.Minions?.FirstOrDefault());
                 }

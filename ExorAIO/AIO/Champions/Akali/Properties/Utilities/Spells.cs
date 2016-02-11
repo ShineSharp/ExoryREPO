@@ -20,7 +20,7 @@ namespace ExorAIO.Champions.Akali
             Variables.R = new Spell(SpellSlot.R, 700f);
 
             Variables.Q.SetTargetted(0.25f, 1000f);
-            Variables.R.SetTargetted(0.25f, 2200f);
+            Variables.R.SetTargetted(0.25f, 2000f);
         }
     }
 }

@@ -61,7 +61,7 @@ namespace ExorAIO.Champions.Ezreal
                     !Targets.Target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.harass").IsActive())))
             {
-                Variables.Q.SPredictionCast(Targets.Target, HitChance.Low);
+                Variables.Q.SPredictionCast(Targets.Target, HitChance.High);
             }
 
             /// <summary>
@@ -82,7 +82,7 @@ namespace ExorAIO.Champions.Ezreal
                     ObjectManager.Player.TotalMagicalDamage > ObjectManager.Player.FlatPhysicalDamageMod &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.wspell.harass").IsActive())))
             {
-                Variables.W.SPredictionCast(Targets.Target, HitChance.Low);
+                Variables.W.SPredictionCast(Targets.Target, HitChance.High);
             }
 
             /// <summary>
@@ -124,7 +124,7 @@ namespace ExorAIO.Champions.Ezreal
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive())
             {
-                Variables.Q.SPredictionCast((Obj_AI_Hero)args.Target, HitChance.Low);
+                Variables.Q.SPredictionCast((Obj_AI_Hero)args.Target, HitChance.High);
                 return;
             }
 
@@ -136,7 +136,7 @@ namespace ExorAIO.Champions.Ezreal
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").IsActive())
             {
-                Variables.W.SPredictionCast((Obj_AI_Hero)args.Target, HitChance.Low);
+                Variables.W.SPredictionCast((Obj_AI_Hero)args.Target, HitChance.High);
             }
         }
 
