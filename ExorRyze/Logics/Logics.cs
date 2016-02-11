@@ -28,7 +28,6 @@ namespace ExorRyze
                 Bools.HasTear(ObjectManager.Player) &&
                 ObjectManager.Player.CountEnemiesInRange(1500) == 0 &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededTearMana &&
-                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.None &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.misc.tear").IsActive())
             {
                 Variables.Q.Cast(Game.CursorPos);
@@ -47,7 +46,6 @@ namespace ExorRyze
             if (Variables.Q.IsReady() &&
                 ObjectManager.Player.GetBuffCount("RyzePassiveStack") < 3 &&
                 ObjectManager.Player.ManaPercent > ManaManager.NeededTearMana &&
-                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.None &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.misc.manager").IsActive())
             {
                 Variables.Q.Cast(Game.CursorPos);
