@@ -30,24 +30,28 @@ namespace ExorRyze
         {
             if (!ObjectManager.Player.IsDead)
             {
-                if (!ObjectManager.Player.IsRecalling())
+                if (!ObjectManager.Player.IsRecalling() &&
+                    Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.None)
                 {
                     Logics.ExecuteStacking(args);
                     Logics.ExecuteTearStacking(args);
                 }
-
-                if (Targets.Target != null &&
-                    Targets.Target.IsValid &&
-                    !Targets.Target.IsInvulnerable &&
-                    !Bools.IsSpellShielded(Targets.Target))
+                
+                if (Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
                 {
-                    Logics.ExecuteAuto(args);
-                }
+                    if (Targets.Target != null &&
+                        Targets.Target.IsValid &&
+                        !Targets.Target.IsInvulnerable &&
+                        !Bools.IsSpellShielded(Targets.Target))
+                    {
+                        Logics.ExecuteAuto(args);
+                    }
 
-                if (Variables.Orbwalker.GetTarget() != null &&
-                    Variables.Orbwalker.GetTarget().IsValid<Obj_AI_Minion>())
-                {
-                    Logics.ExecuteFarm(args);
+                    if (Variables.Orbwalker.GetTarget() != null &&
+                        Variables.Orbwalker.GetTarget().IsValid<Obj_AI_Minion>())
+                    {
+                        Logics.ExecuteFarm(args);
+                    }
                 }
             }
         }
