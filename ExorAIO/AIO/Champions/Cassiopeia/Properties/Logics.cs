@@ -70,16 +70,10 @@ namespace ExorAIO.Champions.Cassiopeia
             /// </summary>
             if (Variables.R.IsReady() &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").IsActive())
+                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").IsActive() &&
+                Targets.RTargets.Count() >= Variables.Menu.Item($"{Variables.MainMenuName}.rspell.enemies").GetValue<Slider>().Value)
             {
-                if (Targets.RTargets.Count() == 1)
-                {
-                    Variables.R.SPredictionCast(Targets.Target, HitChance.High);
-                }
-                else if (Targets.RTargets.Count() >= Variables.Menu.Item($"{Variables.MainMenuName}.rspell.enemies").GetValue<Slider>().Value)
-                {
-                    Variables.R.CastIfWillHit(Targets.Target, Targets.RTargets.Count());
-                }
+                Variables.R.CastIfWillHit(Targets.Target, Targets.RTargets.Count());
             }
 
             /// <summary>
