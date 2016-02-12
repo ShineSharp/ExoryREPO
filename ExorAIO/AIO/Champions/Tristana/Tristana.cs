@@ -57,7 +57,7 @@ namespace ExorAIO.Champions.Tristana
                 }
 
                 if (Variables.Orbwalker.GetTarget() != null &&
-                    Variables.Orbwalker.GetTarget().Type != GameObjectType.obj_AI_Hero))
+                    Variables.Orbwalker.GetTarget().Type != GameObjectType.obj_AI_Hero)
                 {
                     Logics.ExecuteFarm(args);
                 }
