@@ -17,7 +17,7 @@ namespace ExorAIO.Champions.Evelynn
         {
             Variables.Q = new Spell(SpellSlot.Q, 500f);
             Variables.W = new Spell(SpellSlot.W);
-            Variables.E = new Spell(SpellSlot.E, 225f);
+            Variables.E = new Spell(SpellSlot.E, ObjectManager.Player.BoundingRadius + 225f);
             Variables.R = new Spell(SpellSlot.R, 650f);
 
             Variables.E.SetTargetted(0.25f, 1000f);

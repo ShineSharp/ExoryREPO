@@ -24,8 +24,9 @@ namespace ExorAIO.Champions.Evelynn
             /// The W Combo Logic.
             /// </summary>
             if (Variables.W.IsReady() &&
-                !Targets.Target.IsValidTarget(ObjectManager.Player.AttackRange) &&
-                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                ((!Targets.Target.IsValidTarget(ObjectManager.Player.AttackRange) &&
+                    Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo) ||
+                (ObjectManager.Player.HasBuffOfType(BuffType.Slow))) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.wspell.auto").IsActive())
             {
                 Variables.W.Cast();
@@ -49,11 +50,7 @@ namespace ExorAIO.Champions.Evelynn
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").IsActive())
             {
-                if (Targets.RTargets.Count() == 1)
-                {
-                    Variables.R.SPredictionCast(Targets.Target, HitChance.High);
-                }
-                else if (Targets.RTargets.Count() >= Variables.Menu.Item($"{Variables.MainMenuName}.rspell.enemies").GetValue<Slider>().Value)
+                if (Targets.RTargets.Count() >= Variables.Menu.Item($"{Variables.MainMenuName}.rspell.enemies").GetValue<Slider>().Value)
                 {
                     Variables.R.CastIfWillHit(Targets.Target, Targets.RTargets.Count());
                 }
