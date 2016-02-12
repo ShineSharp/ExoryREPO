@@ -8,7 +8,6 @@ namespace ExorAIO.Champions.Ashe
     using ExorAIO.Utilities;
     using Orbwalking = SFXTargetSelector.Orbwalking;
     using SPrediction;
-    using ItemData = LeagueSharp.Common.Data.ItemData;
 
     /// <summary>
     /// The logics class.
