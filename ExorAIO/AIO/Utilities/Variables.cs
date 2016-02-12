@@ -118,10 +118,11 @@ namespace ExorAIO.Utilities
         public static readonly string[] LoadableChampions = 
         {
             "Akali", "Anivia", "Ashe", "Cassiopeia", "Corki",
-            "Darius", "Draven", "DrMundo", "Ezreal", "Graves",
-            "Jax", "Jhin", "Jinx", "Kalista", "KogMaw",
-            "Lucian", "Lux", "Olaf", "Quinn", "Renekton",
-            "Ryze", "Sivir", "Tristana", "Tryndamere", "Vayne"
+            "Darius", "Draven", "DrMundo", "Evelynn", "Ezreal",
+            "Graves", "Jax", "Jhin", "Jinx", "Kalista",
+            "KogMaw", "Lucian", "Lux", "Olaf", "Quinn",
+            "Renekton", "Ryze", "Sivir", "Tristana", "Tryndamere",
+            "Vayne"
         };
 
         /// <summary>
