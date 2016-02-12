@@ -27,7 +27,7 @@ namespace AsunaCondemn
                 Variables.EMenu = new Menu("Use E to:", $"{Variables.MainMenuName}.emenu")
                     .SetFontStyle(FontStyle.Regular, Color.Cyan);
                 {
-                    Variables.Menu.AddItem(new MenuItem($"{Variables.MainMenuName}.espell.execute", "Execute Condemn -> Flash Mechanic"))
+                    Variables.EMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.espell.execute", "Execute Condemn -> Flash Mechanic"))
                         .SetValue(
                             new KeyBind(
                                 "C".ToCharArray()[0],
