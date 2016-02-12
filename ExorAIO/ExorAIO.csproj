@@ -115,6 +115,12 @@
     <Compile Include="AIO\Champions\DrMundo\Properties\Utilities\Methods.cs" />
     <Compile Include="AIO\Champions\DrMundo\Properties\Utilities\Spells.cs" />
     <Compile Include="AIO\Champions\DrMundo\Properties\Utilities\Targets.cs" />
+    <Compile Include="AIO\Champions\Evelynn\Evelynn.cs" />
+    <Compile Include="AIO\Champions\Evelynn\Properties\Logics.cs" />
+    <Compile Include="AIO\Champions\Evelynn\Properties\Utilities\Menus.cs" />
+    <Compile Include="AIO\Champions\Evelynn\Properties\Utilities\Methods.cs" />
+    <Compile Include="AIO\Champions\Evelynn\Properties\Utilities\Spells.cs" />
+    <Compile Include="AIO\Champions\Evelynn\Properties\Utilities\Targets.cs" />
     <Compile Include="AIO\Champions\Ezreal\Ezreal.cs" />
     <Compile Include="AIO\Champions\Ezreal\Properties\Logics.cs" />
     <Compile Include="AIO\Champions\Ezreal\Properties\Utilities\Menus.cs" />

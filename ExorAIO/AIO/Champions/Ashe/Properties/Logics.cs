@@ -8,6 +8,7 @@ namespace ExorAIO.Champions.Ashe
     using ExorAIO.Utilities;
     using Orbwalking = SFXTargetSelector.Orbwalking;
     using SPrediction;
+    using ItemData = LeagueSharp.Common.Data.ItemData;
 
     /// <summary>
     /// The logics class.
@@ -27,6 +28,9 @@ namespace ExorAIO.Champions.Ashe
             if (Variables.Q.IsReady() &&
                 !ObjectManager.Player.IsWindingUp &&
                 ObjectManager.Player.HasBuff("AsheQCastReady") &&
+                ((Items.HasItem(3085) &&
+                    Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear) ||
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.auto").IsActive())
             {
                 Variables.Q.Cast();

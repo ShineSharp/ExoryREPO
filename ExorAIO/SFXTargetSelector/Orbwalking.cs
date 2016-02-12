@@ -139,7 +139,7 @@ namespace SFXTargetSelector
             "netherblade", "gangplankqwrapper", "poppydevastatingblow", "powerfist", "renektonpreexecute", "rengarq",
             "shyvanadoubleattack", "sivirw", "takedown", "talonnoxiandiplomacy", "trundletrollsmash", "vaynetumble",
             "vie", "volibearq", "xenzhaocombotarget", "yorickspectral", "reksaiq", "itemtitanichydracleave", "masochism",
-            "illaoiw", "jhinq"
+            "illaoiw"
         };
 
         /// <summary>
@@ -147,15 +147,13 @@ namespace SFXTargetSelector
         /// </summary>
         private static readonly string[] NoAttacks =
         {
-            "volleyattack", "volleyattackwithsound",
-            "jarvanivcataclysmattack", "monkeykingdoubleattack", "shyvanadoubleattack", "shyvanadoubleattackdragon",
-            "zyragraspingplantattack", "zyragraspingplantattack2", "zyragraspingplantattackfire",
-            "zyragraspingplantattack2fire", "viktorpowertransfer", "sivirwattackbounce", "asheqattacknoonhit",
-            "elisespiderlingbasicattack", "heimertyellowbasicattack", "heimertyellowbasicattack2",
-            "heimertbluebasicattack", "annietibbersbasicattack", "annietibbersbasicattack2",
-            "yorickdecayedghoulbasicattack", "yorickravenousghoulbasicattack", "yorickspectralghoulbasicattack",
-            "malzaharvoidlingbasicattack", "malzaharvoidlingbasicattack2", "malzaharvoidlingbasicattack3",
-            "kindredwolfbasicattack", "kindredbasicattackoverridelightbombfinal"
+            "volleyattack", "volleyattackwithsound", "jarvanivcataclysmattack", "monkeykingdoubleattack",
+            "shyvanadoubleattack", "shyvanadoubleattackdragon", "zyragraspingplantattack", "zyragraspingplantattack2",
+            "zyragraspingplantattackfire", "zyragraspingplantattack2fire", "viktorpowertransfer", "sivirwattackbounce",
+            "asheqattacknoonhit", "elisespiderlingbasicattack", "heimertyellowbasicattack", "heimertyellowbasicattack2",
+            "heimertbluebasicattack", "annietibbersbasicattack", "annietibbersbasicattack2", "yorickdecayedghoulbasicattack",
+            "yorickravenousghoulbasicattack", "yorickspectralghoulbasicattack", "malzaharvoidlingbasicattack", "malzaharvoidlingbasicattack2",
+            "malzaharvoidlingbasicattack3", "kindredwolfbasicattack", "kindredbasicattackoverridelightbombfinal"
         };
 
         /// <summary>
@@ -163,10 +161,9 @@ namespace SFXTargetSelector
         /// </summary>
         private static readonly string[] Attacks =
         {
-            "caitlynheadshotmissile", "frostarrow", "garenslash2",
-            "kennenmegaproc", "masteryidoublestrike", "quinnwenhanced", "renektonexecute",
-            "renektonsuperexecute", "rengarnewpassivebuffdash", "trundleq", "xenzhaothrust", "xenzhaothrust2",
-            "xenzhaothrust3", "viktorqbuff"
+            "caitlynheadshotmissile", "frostarrow", "garenslash2", "kennenmegaproc", "masteryidoublestrike",
+            "quinnwenhanced", "renektonexecute", "renektonsuperexecute", "rengarnewpassivebuffdash", "trundleq",
+            "xenzhaothrust", "xenzhaothrust2", "xenzhaothrust3", "viktorqbuff"
         };
 
         /// <summary>
