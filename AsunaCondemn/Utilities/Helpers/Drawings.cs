@@ -6,7 +6,6 @@ namespace AsunaCondemn
     using System.Linq;
     using SharpDX;
     using Color = System.Drawing.Color;
-    using SPrediction;
 
     /// <summary>
     /// The drawings class.
@@ -33,11 +32,11 @@ namespace AsunaCondemn
                         Drawing.DrawLine(
                             Drawing.WorldToScreen(e.Position).X,
                             Drawing.WorldToScreen(e.Position).Y,
-                            Drawing.WorldToScreen(Variables.E.GetSPrediction(e).UnitPosition.To3D2() - Vector3.Normalize(e.ServerPosition - ObjectManager.Player.Position) * 430).X,
-                            Drawing.WorldToScreen(Variables.E.GetSPrediction(e).UnitPosition.To3D2() - Vector3.Normalize(e.ServerPosition - ObjectManager.Player.Position) * 430).Y,
+                            Drawing.WorldToScreen(Variables.E.GetPrediction(e).UnitPosition - Vector3.Normalize(e.ServerPosition - ObjectManager.Player.Position) * 430).X,
+                            Drawing.WorldToScreen(Variables.E.GetPrediction(e).UnitPosition - Vector3.Normalize(e.ServerPosition - ObjectManager.Player.Position) * 430).Y,
                             1,
-                            (Variables.E.GetSPrediction(e).UnitPosition.To3D2() - Vector3.Normalize(e.ServerPosition - ObjectManager.Player.Position) * 430).IsWall() &&
-                            (Variables.E.GetSPrediction(e).UnitPosition.To3D2() - Vector3.Normalize(e.ServerPosition - ObjectManager.Player.Position) * 440).IsWall() ?
+                            (Variables.E.GetPrediction(e).UnitPosition - Vector3.Normalize(e.ServerPosition - ObjectManager.Player.Position) * 430).IsWall() &&
+                            (Variables.E.GetPrediction(e).UnitPosition - Vector3.Normalize(e.ServerPosition - ObjectManager.Player.Position) * 440).IsWall() ?
                                 Color.Green :
                                 Color.Red
                         );
