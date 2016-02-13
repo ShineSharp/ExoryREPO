@@ -5,6 +5,7 @@ namespace AsunaCondemn
 {
     using System.Drawing;
     using Color = SharpDX.Color;
+    using SPrediction;
 
     /// <summary>
     /// The settings class.
@@ -21,6 +22,11 @@ namespace AsunaCondemn
             /// </summary>
             Variables.Menu = new Menu("AsunaCondem", $"{Variables.MainMenuName}", true);
             {
+                /// <summary>
+                /// Sets the prediction menu.
+                /// </summary>
+                Prediction.Initialize(Variables.Menu);
+
                 /// <summary>
                 /// Sets the spells menu.
                 /// </summary>
