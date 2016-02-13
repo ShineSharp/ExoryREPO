@@ -18,9 +18,9 @@ namespace ExorAIO.Champions.Ashe
         public static void Initialize()
         {
             /// <summary>
-            /// Loads the custom prediction.
+            /// Sets the prediction menu.
             /// </summary>
-            SPrediction.Prediction.Initialize(Variables.Menu);
+            Prediction.Initialize(Variables.Menu);
 
             /// <summary>
             /// Sets the spells menu.

@@ -18,9 +18,9 @@ namespace ExorAIO.Champions.Quinn
         public static void Initialize()
         {
             /// <summary>
-            /// Sets the spells menu.
+            /// Sets the prediction menu.
             /// </summary>
-            SPrediction.Prediction.Initialize(Variables.Menu);
+            Prediction.Initialize(Variables.Menu);
 
             /// <summary>
             /// Sets the spells menu.

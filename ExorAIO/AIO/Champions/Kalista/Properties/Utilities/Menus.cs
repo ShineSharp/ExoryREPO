@@ -1,17 +1,14 @@
-using LeagueSharp;
 using LeagueSharp.Common;
 
 namespace ExorAIO.Champions.Kalista
 {
     using System.Drawing;
-    using Color = SharpDX.Color;
     using ExorAIO.Utilities;
-    using Orbwalking = SFXTargetSelector.Orbwalking;
-    using TargetSelector = SFXTargetSelector.TargetSelector;
+    using Color = SharpDX.Color;
     using SPrediction;
 
     /// <summary>
-    /// The settings class.
+    /// The menu class.
     /// </summary>
     class Menus
     {
@@ -20,6 +17,11 @@ namespace ExorAIO.Champions.Kalista
         /// </summary>
         public static void Initialize()
         {
+            /// <summary>
+            /// Sets the prediction menu.
+            /// </summary>
+            Prediction.Initialize(Variables.Menu);
+
             /// <summary>
             /// Sets the spells menu.
             /// </summary>
@@ -109,11 +111,6 @@ namespace ExorAIO.Champions.Kalista
                     .SetFontStyle(FontStyle.Regular, Color.Red);
             }
             Variables.Menu.AddSubMenu(Variables.DrawingsMenu);
-
-            /// <summary>
-            /// Sets the spells menu.
-            /// </summary>
-            SPrediction.Prediction.Initialize(Variables.Menu);
         }
     }
 }
