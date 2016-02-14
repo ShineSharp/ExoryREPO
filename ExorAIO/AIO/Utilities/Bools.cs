@@ -104,7 +104,8 @@ namespace ExorAIO.Utilities
                 target.HasBuffOfType(BuffType.Stun) ||
                 target.HasBuffOfType(BuffType.Charm) ||
                 target.HasBuffOfType(BuffType.Taunt) ||
-                target.HasBuffOfType(BuffType.Polymorph)
+                target.HasBuffOfType(BuffType.Polymorph) ||
+                target.HasBuffOfType(BuffType.Suppression)
             );
 
         /// <summary>
