@@ -91,7 +91,7 @@ namespace ExorAIO.Champions.Caitlyn
                     ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.harass").IsActive())))
             {
-                Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
+                Variables.Q.SPredictionCast(Targets.Target, HitChance.High);
             }
         }
 
@@ -111,13 +111,13 @@ namespace ExorAIO.Champions.Caitlyn
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.farm").IsActive())
             {
-                if (Targets.Minions?.Count() >= 3)
+                if (Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).MinionsHit >= 3)
                 {
-                    Variables.Q.CastOnUnit(Targets.Minions.FirstOrDefault());
+                    Variables.Q.Cast(Variables.Q.GetLineFarmLocation(Targets.Minions, Variables.Q.Width).Position);
                 }
                 else if (Targets.JungleMinions.Any())
                 {
-                    Variables.Q.CastOnUnit(Targets.JungleMinions.FirstOrDefault());
+                    Variables.Q.Cast((Targets.JungleMinions.FirstOrDefault()).Position);
                 }
             }
         }
