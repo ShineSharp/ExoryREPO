@@ -8,6 +8,7 @@ namespace ExorAIO.Core
     using ExorAIO.Champions.Akali;
     using ExorAIO.Champions.Anivia;   
     using ExorAIO.Champions.Ashe;
+    using ExorAIO.Champions.Caitlyn;
     using ExorAIO.Champions.Cassiopeia;
     using ExorAIO.Champions.Corki;
     using ExorAIO.Champions.Darius;
@@ -73,6 +74,7 @@ namespace ExorAIO.Core
                     case "Akali":      new Akali()     .OnLoad(); break;
                     case "Anivia":     new Anivia()    .OnLoad(); break;
                     case "Ashe":       new Ashe()      .OnLoad(); break;
+                    case "Caitlyn":    new Caitlyn()   .OnLoad(); break;
                     case "Cassiopeia": new Cassiopeia().OnLoad(); break;
                     case "Corki":      new Corki()     .OnLoad(); break;
                     case "Darius":     new Darius()    .OnLoad(); break;

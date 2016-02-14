@@ -84,6 +84,12 @@
     <Compile Include="AIO\Champions\Ashe\Properties\Utilities\Methods.cs" />
     <Compile Include="AIO\Champions\Ashe\Properties\Utilities\Spells.cs" />
     <Compile Include="AIO\Champions\Ashe\Properties\Utilities\Targets.cs" />
+    <Compile Include="AIO\Champions\Caitlyn\Caitlyn.cs" />
+    <Compile Include="AIO\Champions\Caitlyn\Properties\Logics.cs" />
+    <Compile Include="AIO\Champions\Caitlyn\Properties\Utilities\Menus.cs" />
+    <Compile Include="AIO\Champions\Caitlyn\Properties\Utilities\Methods.cs" />
+    <Compile Include="AIO\Champions\Caitlyn\Properties\Utilities\Spells.cs" />
+    <Compile Include="AIO\Champions\Caitlyn\Properties\Utilities\Targets.cs" />
     <Compile Include="AIO\Champions\Cassiopeia\Cassiopeia.cs" />
     <Compile Include="AIO\Champions\Cassiopeia\Properties\Logics.cs" />
     <Compile Include="AIO\Champions\Cassiopeia\Properties\Utilities\Menus.cs" />

@@ -36,6 +36,29 @@ namespace ExorAIO.Champions.Draven
         /// Called when the game updates itself.
         /// </summary>
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
+        public static void ExecuteR(EventArgs args)
+        {
+            /// <summary>
+            /// The R KillSteal Logic.
+            /// </summary>
+            if (Variables.R.IsReady() &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").IsActive())
+            {
+                foreach (var target in HeroManager.Enemies
+                    .Where(t =>
+                        t.IsValidTarget(Variables.R.Range) &&
+                        t.Health < Variables.R.GetDamage(t) &&
+                        (!t.IsValidTarget(Variables.E.Range) || !Variables.E.IsReady())))
+                {
+                    Variables.R.SPredictionCast(target, HitChance.High);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Called when the game updates itself.
+        /// </summary>
+        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void ExecutePathing(EventArgs args)
         {
             if (Variables.Menu.Item($"{Variables.MainMenuName}.misc.path").IsActive())
@@ -87,20 +110,15 @@ namespace ExorAIO.Champions.Draven
             }
 
             /// <summary>
-            /// The R KillSteal Logic,
             /// The R Combo Logic.
             /// </summary>
             if (Variables.R.IsReady() &&
                 !ObjectManager.Player.IsWindingUp &&
                 Targets.Target.IsValidTarget(Variables.R.Range) &&
-                
-                ((Targets.Target.Health < Variables.R.GetDamage(Targets.Target)/2 &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").IsActive()) ||
-                
-                (Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    ObjectManager.Player.CountEnemiesInRange(Orbwalking.GetRealAutoAttackRange(null)) >= 2 &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").IsActive() &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.whitelist.{Targets.Target.ChampionName.ToLower()}").IsActive())))
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                ObjectManager.Player.CountEnemiesInRange(ObjectManager.Player.AttackRange) >= 2 &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").IsActive() &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.whitelist.{Targets.Target.ChampionName.ToLower()}").IsActive())
             {
                 Variables.R.SPredictionCast(Targets.Target, HitChance.High);
             }

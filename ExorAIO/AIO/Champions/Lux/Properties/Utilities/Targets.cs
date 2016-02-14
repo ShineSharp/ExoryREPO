@@ -18,7 +18,7 @@ namespace ExorAIO.Champions.Lux
         public static Obj_AI_Hero Target
         =>
             TargetSelector
-                .GetTarget(Variables.Q.Range, LeagueSharp.DamageType.Magical);
+                .GetTarget(Variables.E.Range, LeagueSharp.DamageType.Magical);
 
         /// <summary>
         /// The minion targets.

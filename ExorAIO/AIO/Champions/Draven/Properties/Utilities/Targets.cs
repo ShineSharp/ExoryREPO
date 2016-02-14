@@ -18,7 +18,7 @@ namespace ExorAIO.Champions.Draven
         public static Obj_AI_Hero Target
         =>
             TargetSelector
-                .GetTarget(Variables.R.Range, LeagueSharp.DamageType.Physical);
+                .GetTarget(Variables.E.Range, LeagueSharp.DamageType.Physical);
 
         /// <summary>
         /// The minion targets.
@@ -26,6 +26,6 @@ namespace ExorAIO.Champions.Draven
         public static List<Obj_AI_Base> Minions
         => 
             MinionManager
-                .GetMinions(ObjectManager.Player.ServerPosition, Orbwalking.GetRealAutoAttackRange(null));
+                .GetMinions(ObjectManager.Player.ServerPosition, ObjectManager.Player.AttackRange);
     }
 }

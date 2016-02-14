@@ -1,24 +1,23 @@
 using LeagueSharp;
 using LeagueSharp.Common;
 
-namespace ExorAIO.Champions.Draven
+namespace ExorAIO.Champions.Caitlyn
 {
     using System;
     using ExorAIO.Utilities;
     using Orbwalking = SFXTargetSelector.Orbwalking;
 
     /// <summary>
-    /// The champion class.
+    /// The main class.
     /// </summary>
-    class Draven
+    class Caitlyn
     {
         /// <summary>
-        /// Called when the game loads itself.
+        /// Triggers when the champion is loaded.
         /// </summary>
         public void OnLoad()
         {
             Menus.Initialize();
-            Spells.Initialize();
             Methods.Initialize();
             Drawings.Initialize();
         }
@@ -29,12 +28,12 @@ namespace ExorAIO.Champions.Draven
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void OnUpdate(EventArgs args)
         {
+            Spells.Initialize();
+
             if (!ObjectManager.Player.IsDead &&
                 Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
-                Logics.ExecuteQ(args);
                 Logics.ExecuteR(args);
-                Logics.ExecutePathing(args);
 
                 if (Targets.Target != null &&
                     Targets.Target.IsValid &&
@@ -47,36 +46,25 @@ namespace ExorAIO.Champions.Draven
         }
 
         /// <summary>
-        /// Called on do-cast.
+        /// Called when a cast gets executed.
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="args">The args.</param>
         public static void OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             if (sender.IsMe &&
-                args.Target.IsValid<Obj_AI_Hero>() &&
-                Orbwalking.IsAutoAttack(args.SData.Name) &&
-                !((Obj_AI_Hero)args.Target).IsInvulnerable &&
-                !Bools.IsSpellShielded((Obj_AI_Hero)args.Target) &&
-                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
+                Orbwalking.IsAutoAttack(args.SData.Name))
             {
-                Logics.ExecuteModes(sender, args);
-            }
-        }
-
-        /// <summary>
-        /// Called on interruptable spell.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="args">The <see cref="Interrupter2.InterruptableTargetEventArgs"/> instance containing the event data.</param>
-        public static void OnInterruptableTarget(Obj_AI_Hero sender, Interrupter2.InterruptableTargetEventArgs args)
-        {
-            if (Variables.E.IsReady() &&
-                !Bools.IsSpellShielded(sender) &&
-                sender.IsValidTarget(Variables.E.Range) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.espell.ir").IsActive())
-            {
-                Variables.E.Cast(sender.Position);
+                if (args.Target.IsValid<Obj_AI_Hero>() &&
+                    !((Obj_AI_Hero)args.Target).IsInvulnerable &&
+                    !Bools.IsSpellShielded(((Obj_AI_Hero)args.Target)))
+                {
+                    Logics.ExecuteModes(sender, args);
+                }
+                else if (args.Target.IsValid<Obj_AI_Minion>())
+                {
+                    Logics.ExecuteFarm(sender, args);
+                }
             }
         }
 
@@ -86,9 +74,15 @@ namespace ExorAIO.Champions.Draven
         /// <param name="gapcloser">The <see cref="ActiveGapcloser"/> instance containing the event data.</param>
         public static void OnEnemyGapcloser(ActiveGapcloser gapcloser)
         {
+            if (Variables.W.IsReady() &&
+                ObjectManager.Player.Distance(gapcloser.End) < Variables.W.Range &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.gp").IsActive())
+            {
+                Variables.W.Cast(gapcloser.End);
+            }
+
             if (Variables.E.IsReady() &&
-                !Bools.IsSpellShielded(gapcloser.Sender) &&
-                ObjectManager.Player.Distance(gapcloser.End) < Variables.E.Range &&
+                ObjectManager.Player.Distance(gapcloser.End) < 300f &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.gp").IsActive())
             {
                 Variables.E.Cast(gapcloser.End);

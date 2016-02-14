@@ -19,7 +19,7 @@ namespace ExorAIO.Champions.Ezreal
         public static Obj_AI_Hero Target
         => 
             TargetSelector
-                .GetTarget(Variables.R.Range, LeagueSharp.DamageType.Physical);
+                .GetTarget(Variables.Q.Range, LeagueSharp.DamageType.Physical);
 
         /// <summary>
         /// The minions target.

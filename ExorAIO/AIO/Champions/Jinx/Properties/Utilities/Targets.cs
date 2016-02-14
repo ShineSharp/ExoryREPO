@@ -17,6 +17,6 @@ namespace ExorAIO.Champions.Jinx
         public static Obj_AI_Hero Target
         =>
             TargetSelector
-                .GetTarget(Variables.R.Range, LeagueSharp.DamageType.Physical);
+                .GetTarget(Variables.W.Range, LeagueSharp.DamageType.Physical);
     }
 }
