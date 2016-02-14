@@ -40,6 +40,29 @@ namespace ExorAIO.Champions.Ashe
         /// Called when the game updates itself.
         /// </summary>
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
+        public static void ExecuteR(EventArgs args)
+        {
+            /// <summary>
+            /// The R KillSteal Logic.
+            /// </summary>
+            if (Variables.R.IsReady() &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").IsActive())
+            {
+                foreach (var target in HeroManager.Enemies
+                    .Where(t =>
+                        t.IsValidTarget(Variables.R.Range) &&
+                        t.Health < Variables.R.GetDamage(t) &&
+                        (!t.IsValidTarget(Variables.W.Range) || !Variables.W.IsReady())))
+                {
+                    Variables.R.SPredictionCast(target, HitChance.High);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Called when the game updates itself.
+        /// </summary>
+        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void ExecuteAuto(EventArgs args)
         {
             /// <summary>
@@ -77,20 +100,14 @@ namespace ExorAIO.Champions.Ashe
             }
 
             /// <summary>
-            /// The R KillSteal Logic,
             /// The R Doublelift Mechanic Logic,
             /// The R Normal Combo Logic.
             /// </summary>
             if (Variables.R.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.R.Range) &&
-
-                ((Targets.Target.Health < Variables.R.GetDamage(Targets.Target) &&
-                    (!Variables.W.IsReady() || !Targets.Target.IsValidTarget(Variables.W.Range)) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").IsActive()) ||
-
-                ((Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").IsActive() &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.whitelist.{Targets.Target.ChampionName.ToLower()}").IsActive()))))
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").IsActive() &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.whitelist.{Targets.Target.ChampionName.ToLower()}").IsActive())
             {
                 if (Variables.E.IsReady() &&
                     Targets.Target.Health > Variables.R.GetDamage(Targets.Target) &&
@@ -98,6 +115,8 @@ namespace ExorAIO.Champions.Ashe
                     Variables.Menu.Item($"{Variables.MainMenuName}.espell.auto").IsActive())
                 {
                     Variables.E.SPredictionCast(Targets.Target, HitChance.High);
+                    Variables.R.SPredictionCast(Targets.Target, HitChance.High);
+                    return;
                 }
 
                 Variables.R.SPredictionCast(Targets.Target, HitChance.High);

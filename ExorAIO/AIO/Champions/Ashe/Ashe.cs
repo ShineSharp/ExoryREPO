@@ -33,6 +33,7 @@ namespace ExorAIO.Champions.Ashe
                 Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
             {
                 Logics.ExecuteQ(args);
+                Logics.ExecuteR(args);
 
                 if (Targets.Target != null &&
                     Targets.Target.IsValid &&

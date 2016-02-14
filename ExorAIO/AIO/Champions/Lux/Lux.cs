@@ -46,6 +46,8 @@ namespace ExorAIO.Champions.Lux
                     Variables.Orbwalker.ForceTarget(tg ?? null);
                 }
 
+                Logics.ExecuteR(args);
+
                 if (Targets.Target != null &&
                     Targets.Target.IsValid &&
                     !Targets.Target.IsInvulnerable &&

@@ -19,6 +19,29 @@ namespace ExorAIO.Champions.Jinx
         /// Called when the game updates itself.
         /// </summary>
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
+        public static void ExecuteR(EventArgs args)
+        {
+            /// <summary>
+            /// The R KillSteal Logic.
+            /// </summary>
+            if (Variables.R.IsReady() &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").IsActive())
+            {
+                foreach (var target in HeroManager.Enemies
+                    .Where(t =>
+                        t.IsValidTarget(Variables.R.Range) &&
+                        t.Health < Variables.R.GetDamage(t)*2 &&
+                        (!t.IsValidTarget(Variables.W.Range) || !Variables.W.IsReady())))
+                {
+                    Variables.R.SPredictionCast(target, HitChance.High);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Called when the game updates itself.
+        /// </summary>
+        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void ExecuteAuto(EventArgs args)
         {
             /// <summary>
@@ -110,21 +133,6 @@ namespace ExorAIO.Champions.Jinx
                     Variables.Menu.Item($"{Variables.MainMenuName}.espell.immobile").IsActive())))
             {
                 Variables.E.Cast(ObjectManager.Player.ServerPosition.Extend(Targets.Target.ServerPosition, ObjectManager.Player.Distance(Targets.Target) + Targets.Target.BoundingRadius*3));
-            }
-
-            /// <summary>
-            /// The R KillSteal Logic.
-            /// </summary>
-            if (Variables.R.IsReady() &&
-                !Variables.W.IsReady() &&
-                Targets.Target.IsValidTarget(Variables.R.Range) &&
-                !Targets.Target.IsValidTarget(Variables.Q2.Range) &&
-                Variables.W.GetDamage(Targets.Target) < Targets.Target.Health &&
-                Variables.R.GetSPrediction(Targets.Target).HitChance >= HitChance.High &&
-                HealthPrediction.GetHealthPrediction(Targets.Target, (int)(250 + Game.Ping / 2f)) < Variables.R.GetDamage(Targets.Target)*2 &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").IsActive())
-            {
-                Variables.R.SPredictionCast(Targets.Target, HitChance.High);
             }
         }
 

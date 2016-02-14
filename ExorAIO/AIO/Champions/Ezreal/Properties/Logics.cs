@@ -18,6 +18,29 @@ namespace ExorAIO.Champions.Ezreal
         /// Called when the game updates itself.
         /// </summary>
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
+        public static void ExecuteR(EventArgs args)
+        {
+            /// <summary>
+            /// The R KillSteal Logic.
+            /// </summary>
+            if (Variables.R.IsReady() &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").IsActive())
+            {
+                foreach (var target in HeroManager.Enemies
+                    .Where(t =>
+                        t.IsValidTarget(Variables.R.Range) &&
+                        t.Health < Variables.R.GetDamage(t) &&
+                        (!t.IsValidTarget(Variables.Q.Range) || !Variables.Q.IsReady())))
+                {
+                    Variables.R.SPredictionCast(target, HitChance.High);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Called when the game updates itself.
+        /// </summary>
+        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void ExecuteTearStacking(EventArgs args)
         {
             /// <summary>
@@ -70,10 +93,9 @@ namespace ExorAIO.Champions.Ezreal
             /// The W AutoHarass Logic.
             /// </summary>
             if (Variables.W.IsReady() &&
+                !Variables.Q.IsReady() &&
                 !ObjectManager.Player.IsWindingUp &&
                 Targets.Target.IsValidTarget(Variables.W.Range) &&
-                !Variables.Q.IsReady() || Variables.Q.GetSPrediction(Targets.Target).HitChance < HitChance.VeryHigh &&
-                Variables.W.GetSPrediction(Targets.Target).HitChance != HitChance.OutOfRange &&
 
                 ((Targets.Target.Health < Variables.W.GetDamage(Targets.Target) &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.wspell.ks").IsActive()) ||
@@ -86,24 +108,17 @@ namespace ExorAIO.Champions.Ezreal
             }
 
             /// <summary>
-            /// The R KillSteal Logic,
             /// The R Combo Logic.
             /// </summary>
             if (Variables.R.IsReady() &&
+                !Variables.Q.IsReady() &&
+                !Variables.W.IsReady() &&
                 !ObjectManager.Player.IsWindingUp &&
                 Targets.Target.IsValidTarget(Variables.R.Range) &&
-                
-                ((Targets.Target.Health < Variables.R.GetDamage(Targets.Target) &&
-                    (!Variables.W.IsReady() || !Targets.Target.IsValidTarget(Variables.W.Range)) &&
-                    (!Variables.Q.IsReady() || !Targets.Target.IsValidTarget(Variables.Q.Range)) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").IsActive()) ||
-                
-                (!Variables.Q.IsReady() &&
-                    !Variables.W.IsReady() &&
-                    Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    ObjectManager.Player.CountEnemiesInRange(Orbwalking.GetRealAutoAttackRange(null)) >= 2 &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").IsActive() &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.whitelist.{Targets.Target.ChampionName.ToLower()}").IsActive())))
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                ObjectManager.Player.CountEnemiesInRange(ObjectManager.Player.AttackRange) >= 2 &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").IsActive() &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.whitelist.{Targets.Target.ChampionName.ToLower()}").IsActive())
             {
                 Variables.R.SPredictionCast(Targets.Target, HitChance.High);
             }

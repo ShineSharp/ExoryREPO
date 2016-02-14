@@ -28,16 +28,19 @@ namespace ExorAIO.Champions.Jinx
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void OnUpdate(EventArgs args)
         {
-            Spells.Initialize();
-
-            if (Targets.Target != null &&
-				Targets.Target.IsValid &&
-                !ObjectManager.Player.IsDead &&
-                !Targets.Target.IsInvulnerable &&
-                !Bools.IsSpellShielded(Targets.Target) &&
-                Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
+            if (!ObjectManager.Player.IsDead)
             {
-                Logics.ExecuteAuto(args);
+                Spells.Initialize();
+                Logics.ExecuteR(args);
+
+                if (Targets.Target != null &&
+                    Targets.Target.IsValid &&
+                    !Targets.Target.IsInvulnerable &&
+                    !Bools.IsSpellShielded(Targets.Target) &&
+                    Variables.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
+                {
+                    Logics.ExecuteAuto(args);
+                }
             }
         }
 

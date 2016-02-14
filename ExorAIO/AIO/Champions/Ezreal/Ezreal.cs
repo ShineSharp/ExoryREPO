@@ -31,6 +31,7 @@ namespace ExorAIO.Champions.Ezreal
         {
             if (!ObjectManager.Player.IsDead)
             {
+                Logics.ExecuteR(args);
                 Logics.ExecuteTearStacking(args);
                 
                 if (Targets.Target != null &&

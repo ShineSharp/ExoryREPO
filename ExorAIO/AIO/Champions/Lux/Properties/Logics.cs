@@ -18,6 +18,29 @@ namespace ExorAIO.Champions.Lux
         /// Called when the game updates itself.
         /// </summary>
         /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
+        public static void ExecuteR(EventArgs args)
+        {
+            /// <summary>
+            /// The R KillSteal Logic.
+            /// </summary>
+            if (Variables.R.IsReady() &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").IsActive())
+            {
+                foreach (var target in HeroManager.Enemies
+                    .Where(t =>
+                        t.IsValidTarget(Variables.R.Range) &&
+                        t.Health < Variables.R.GetDamage(t) &&
+                        (!t.IsValidTarget(Variables.E.Range) || !Variables.E.IsReady())))
+                {
+                    Variables.R.SPredictionCast(target, HitChance.High);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Called when the game updates itself.
+        /// </summary>
+        /// <param name="args">The <see cref="EventArgs"/> instance containing the event data.</param>
         public static void ExecuteAuto(EventArgs args)
         {
             /// <summary>
@@ -44,20 +67,15 @@ namespace ExorAIO.Champions.Lux
             }
 
             /// <summary>
-            /// The R KillSteal Logic,
             /// The R Combo Logic.
             /// </summary>
             if (Variables.R.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.R.Range) &&
+                Targets.Target.HasBuff("luxilluminatingfraulein") &&
                 Targets.Target.Health > Variables.E.GetDamage(Targets.Target) &&
-
-                ((Targets.Target.Health < Variables.R.GetDamage(Targets.Target) &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").IsActive()) ||
-
-                (Targets.Target.HasBuff("luxilluminatingfraulein") &&
-                    Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    ObjectManager.Player.Spellbook.GetSpell(SpellSlot.E).ToggleState == 1 &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").IsActive())))
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                ObjectManager.Player.Spellbook.GetSpell(SpellSlot.E).ToggleState == 1 &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").IsActive())
             {
                 Variables.R.SPredictionCast(Targets.Target, HitChance.High);
             }
