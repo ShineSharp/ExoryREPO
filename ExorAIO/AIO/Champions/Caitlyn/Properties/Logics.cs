@@ -61,6 +61,7 @@ namespace ExorAIO.Champions.Caitlyn
             /// The E Combo Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
+                Variables.Q.IsReady() &&
                 !ObjectManager.Player.IsWindingUp &&
                 Targets.Target.IsValidTarget(Variables.E.Range) &&
                 !ObjectManager.Player.HasBuff("caitlynheadshotrangecheck") &&
@@ -78,7 +79,8 @@ namespace ExorAIO.Champions.Caitlyn
             if (Variables.Q.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
                 
-                ((Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health &&
+                ((!Targets.Target.IsValidTarget(ObjectManager.Player.AttackRange) &&
+                    Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").IsActive()) ||
 
                 (ObjectManager.Player.HasBuff("caitlynheadshotrangecheck") &&
@@ -89,7 +91,7 @@ namespace ExorAIO.Champions.Caitlyn
                     ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.harass").IsActive())))
             {
-                Variables.Q.SPredictionCast(Targets.Target, HitChance.High);
+                Variables.Q.Cast(Variables.Q.GetPrediction(Targets.Target).UnitPosition);
             }
         }
 
