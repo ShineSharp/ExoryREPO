@@ -40,7 +40,6 @@ namespace ExorAIO.Champions.KogMaw
             /// The W Combo Logic.
             /// </summary>
             if (Variables.W.IsReady() &&
-                ObjectManager.Player.IsWindingUp &&
                 Targets.Target.IsValidTarget(Variables.W.Range) &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").IsActive())
@@ -71,8 +70,7 @@ namespace ExorAIO.Champions.KogMaw
             /// </summary>
             if (Variables.R.IsReady() &&
                 Targets.Target.HealthPercent < 50 &&
-                Targets.Target.IsValidTarget(Variables.W.Range) &&
-                !Targets.Target.IsValidTarget(Variables.W.Range - 100f) &&
+                !Targets.Target.IsValidTarget(Variables.W.Range) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.rspell.stacks").GetValue<Slider>().Value 
                     >= ObjectManager.Player.GetBuffCount("kogmawlivingartillerycost") &&
 
