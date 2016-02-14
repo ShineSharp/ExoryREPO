@@ -32,6 +32,7 @@ namespace ExorAIO.Champions.Caitlyn
                 {
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.combo",    "Combo")).SetValue(true);
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.ks",       "KillSteal")).SetValue(true);
+                    Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.harass",   "AutoHarass")).SetValue(true);
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.farm",     "LaneClear")).SetValue(true);
                     Variables.QMenu.AddItem(new MenuItem($"{Variables.MainMenuName}.qspell.mana",     "Harass/LaneClear: Mana >= x%"))
                         .SetValue(new Slider(50, 0, 99));

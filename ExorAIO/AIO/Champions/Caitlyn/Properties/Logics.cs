@@ -82,7 +82,11 @@ namespace ExorAIO.Champions.Caitlyn
 
                 (ObjectManager.Player.HasBuff("caitlynheadshotrangecheck") &&
                     Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive())))
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive()) ||
+
+                (Targets.Target.HasBuff("caitlynyordletrapdebuff") &&
+                    ObjectManager.Player.ManaPercent > ManaManager.NeededQMana &&
+                    Variables.Menu.Item($"{Variables.MainMenuName}.qspell.harass").IsActive())))
             {
                 Variables.Q.SPredictionCast(Targets.Target, HitChance.High);
             }
