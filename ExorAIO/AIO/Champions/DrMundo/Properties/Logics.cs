@@ -85,8 +85,8 @@ namespace ExorAIO.Champions.DrMundo
             /// The E Combo Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
+                ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.E.Range) &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                ((Obj_AI_Hero)args.Target).IsValidTarget(Orbwalking.GetRealAutoAttackRange(Targets.Target)) &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").IsActive())
             {
                 Variables.E.Cast();
@@ -108,12 +108,12 @@ namespace ExorAIO.Champions.DrMundo
                 Variables.Menu.Item($"{Variables.MainMenuName}.wspell.farm").IsActive())
             {
                 if ((!ObjectManager.Player.HasBuff("BurningAgony") &&
-                    ObjectManager.Player.Health >= ManaManager.NeededWMana &&
-                    (Targets.Minions?.Count() >= 2 || Targets.JungleMinions.Any())) ||
+                    (Targets.Minions?.Count() >= 2 || Targets.JungleMinions.Any()) &&
+                    ObjectManager.Player.HealthPercent >= ManaManager.NeededWMana) ||
                     
                     (ObjectManager.Player.HasBuff("BurningAgony") &&
-                        !Targets.Minions.Any() && !Targets.JungleMinions.Any() &&
-                        ObjectManager.Player.Health < ManaManager.NeededWMana))
+                    (!Targets.Minions.Any() && !Targets.JungleMinions.Any()) ||
+                    ObjectManager.Player.HealthPercent < ManaManager.NeededWMana))
                 {
                     Variables.W.Cast();
                 }
