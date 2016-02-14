@@ -29,7 +29,7 @@ namespace ExorAIO.Champions.Ezreal
                 foreach (var target in HeroManager.Enemies
                     .Where(t =>
                         t.IsValidTarget(Variables.R.Range) &&
-                        t.Health < Variables.R.GetDamage(t) &&
+                        t.Health < Variables.R.GetDamage(t)/2 &&
                         (!t.IsValidTarget(Variables.Q.Range) || !Variables.Q.IsReady())))
                 {
                     Variables.R.SPredictionCast(target, HitChance.High);
