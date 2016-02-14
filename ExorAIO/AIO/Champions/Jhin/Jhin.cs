@@ -75,7 +75,6 @@ namespace ExorAIO.Champions.Jhin
         {
             if (Variables.E.IsReady() &&
                 !Bools.IsSpellShielded(gapcloser.Sender) &&
-                gapcloser.Sender.IsValidTarget(Variables.E.Range) &&
                 ObjectManager.Player.Distance(gapcloser.End) < Variables.E.Range &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.gp").IsActive())
             {

@@ -119,8 +119,6 @@ namespace ExorAIO.Champions.Anivia
         public static void OnEnemyGapcloser(ActiveGapcloser gapcloser)
         {
             if (Variables.W.IsReady() &&
-                !Bools.IsSpellShielded(gapcloser.Sender) &&
-                gapcloser.Sender.IsValidTarget(Variables.W.Range) &&
                 ObjectManager.Player.Distance(gapcloser.End) < Variables.W.Range &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.wspell.gp").IsActive())
             {
