@@ -28,7 +28,6 @@ namespace ExorAIO.Champions.Olaf
             if (Variables.Q.IsReady() &&
                 !Targets.Target.IsMovementImpaired() &&
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
-                ObjectManager.Player.Distance(Variables.Q.GetSPrediction(Targets.Target).CastPosition.To3D()) < Variables.Q.Range - 100 &&
 
                 ((!ObjectManager.Player.UnderTurret() &&
                     ObjectManager.Player.ManaPercent >= ManaManager.NeededQMana &&
