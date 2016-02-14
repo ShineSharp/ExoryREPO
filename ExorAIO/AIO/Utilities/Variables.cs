@@ -120,9 +120,9 @@ namespace ExorAIO.Utilities
             "Akali", "Anivia", "Ashe", "Caitlyn", "Cassiopeia",
             "Corki", "Darius", "Draven", "DrMundo", "Evelynn",
             "Ezreal", "Graves", "Jax", "Jhin", "Jinx",
-            "Kalista", "KogMaw", "Lucian", "Lux", "Olaf",
-            "Quinn", "Renekton", "Ryze", "Sivir", "Tristana",
-            "Tryndamere", "Vayne"
+            "Kalista", "KogMaw", "Lucian", "Lux", "Nautilus",
+            "Olaf", "Quinn", "Renekton", "Ryze", "Sivir",
+            "Tristana", "Tryndamere", "Vayne"
         };
 
         /// <summary>
