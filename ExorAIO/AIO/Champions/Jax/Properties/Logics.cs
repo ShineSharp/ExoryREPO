@@ -77,6 +77,7 @@ namespace ExorAIO.Champions.Jax
             /// The W Combo Logic.
             /// </summary>
             if (Variables.W.IsReady() &&
+                ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.W.Range) &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").IsActive())
             {
