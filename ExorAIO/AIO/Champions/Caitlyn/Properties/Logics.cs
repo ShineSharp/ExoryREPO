@@ -71,8 +71,9 @@ namespace ExorAIO.Champions.Caitlyn
             }
 
             /// <summary>
-            /// The Q KillSteal Logic.
-            /// The Q Combo Logic.
+            /// The Q KillSteal Logic,
+            /// The Q Combo Logic,
+            /// The Q AutoHarass Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
                 Targets.Target.IsValidTarget(Variables.Q.Range) &&
