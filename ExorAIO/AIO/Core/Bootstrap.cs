@@ -24,6 +24,7 @@ namespace ExorAIO.Core
     using ExorAIO.Champions.KogMaw;
     using ExorAIO.Champions.Lucian;
     using ExorAIO.Champions.Lux;
+    using ExorAIO.Champions.Nautilus;
     using ExorAIO.Champions.Olaf;
     using ExorAIO.Champions.Quinn;
     using ExorAIO.Champions.Renekton;
@@ -90,6 +91,7 @@ namespace ExorAIO.Core
                     case "KogMaw":     new KogMaw()    .OnLoad(); break;
                     case "Lucian":     new Lucian()    .OnLoad(); break;
                     case "Lux":        new Lux()       .OnLoad(); break;
+                    case "Nautilus":   new Nautilus()  .OnLoad(); break;
                     case "Olaf":       new Olaf()      .OnLoad(); break;
                     case "Quinn":      new Quinn()     .OnLoad(); break;
                     case "Renekton":   new Renekton()  .OnLoad(); break;
@@ -98,10 +100,13 @@ namespace ExorAIO.Core
                     case "Tristana":   new Tristana()  .OnLoad(); break;
                     case "Tryndamere": new Tryndamere().OnLoad(); break;
                     case "Vayne":      new Vayne()     .OnLoad(); break;
-                    default: Game.PrintChat($"{Variables.MainMenuCodeName} - {ObjectManager.Player.ChampionName} not supported."); break;
                 }
 
                 Game.PrintChat($"<b><font color='#009aff'>Exor</font></b>AIO: <font color='#009aff'>Ultima</font> - {ObjectManager.Player.ChampionName} Loaded.");
+            }
+            else
+            {
+                Game.PrintChat($"{Variables.MainMenuCodeName} - {ObjectManager.Player.ChampionName} not supported.");
             }
         }
     }

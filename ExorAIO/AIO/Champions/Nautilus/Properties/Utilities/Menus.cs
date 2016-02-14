@@ -5,6 +5,7 @@ namespace ExorAIO.Champions.Nautilus
     using System.Drawing;
     using ExorAIO.Utilities;
     using Color = SharpDX.Color;
+    using SPrediction;
 
     /// <summary>
     /// The menu class.
@@ -16,6 +17,11 @@ namespace ExorAIO.Champions.Nautilus
         /// </summary>
         public static void Initialize()
         {
+            /// <summary>
+            /// Sets the prediction menu.
+            /// </summary>
+            Prediction.Initialize(Variables.Menu);
+
             /// <summary>
             /// Sets the spells menu.
             /// </summary>

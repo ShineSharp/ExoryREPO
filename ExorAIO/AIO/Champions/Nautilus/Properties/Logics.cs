@@ -21,6 +21,19 @@ namespace ExorAIO.Champions.Nautilus
         public static void ExecuteAuto(EventArgs args)
         {
             /// <summary>
+            /// The R Combo Logic.
+            /// </summary>
+            if (Variables.R.IsReady() &&
+                !Bools.IsImmobile(Targets.Target) &&
+                Targets.Target.IsValidTarget(Variables.R.Range) &&
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").IsActive() &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.whitelist.{Targets.Target.ChampionName.ToLower()}").IsActive())
+            {
+                Variables.R.CastOnUnit(Targets.Target);
+            }
+
+            /// <summary>
             /// The Q Combo Logic.
             /// </summary>
             if (Variables.Q.IsReady() &&
@@ -28,7 +41,7 @@ namespace ExorAIO.Champions.Nautilus
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive())
             {
-                Variables.Q.SPredictionCast(Targets.Target, HitChance.VeryHigh);
+                Variables.Q.SPredictionCast(Targets.Target, HitChance.High);
             }
 
             /// <summary>
@@ -41,19 +54,6 @@ namespace ExorAIO.Champions.Nautilus
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").IsActive())
             {
                 Variables.E.Cast();
-            }
-
-            /// <summary>
-            /// The R Combo Logic.
-            /// </summary>
-            if (Variables.R.IsReady() &&
-                !Bools.IsImmobile(Targets.Target) &&
-                Targets.Target.IsValidTarget(Variables.R.Range) &&
-                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").IsActive() &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.whitelist.{Targets.Target.ChampionName.ToLower()}").IsActive())
-            {
-                Variables.R.CastOnUnit(Targets.Target);
             }
         }
 
@@ -72,6 +72,7 @@ namespace ExorAIO.Champions.Nautilus
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.wspell.combo").IsActive())
             {
+                Orbwalking.ResetAutoAttackTimer();
                 Variables.W.Cast();
             }
         }
