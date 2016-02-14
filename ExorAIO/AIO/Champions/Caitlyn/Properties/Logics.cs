@@ -47,6 +47,30 @@ namespace ExorAIO.Champions.Caitlyn
         public static void ExecuteAuto(EventArgs args)
         {
             /// <summary>
+            /// The W Immobile Logic.
+            /// </summary>
+            if (Variables.W.IsReady() &&
+                Bools.IsImmobile(Targets.Target) &&
+                Targets.Target.IsValidTarget(Variables.W.Range) &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.immobile").IsActive())
+            {
+                Variables.W.Cast(Targets.Target.Position);
+            }
+
+            /// <summary>
+            /// The E Combo Logic.
+            /// </summary>
+            if (Variables.E.IsReady() &&
+                !ObjectManager.Player.IsWindingUp &&
+                Targets.Target.IsValidTarget(Variables.E.Range) &&
+                !ObjectManager.Player.HasBuff("caitlynheadshotrangecheck") &&
+                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").IsActive())
+            {
+                Variables.E.SPredictionCast(Targets.Target, HitChance.High);
+            }
+
+            /// <summary>
             /// The Q KillSteal Logic.
             /// The Q Combo Logic.
             /// </summary>
@@ -61,37 +85,6 @@ namespace ExorAIO.Champions.Caitlyn
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive())))
             {
                 Variables.Q.SPredictionCast(Targets.Target, HitChance.High);
-            }
-
-            /// <summary>
-            /// The W Immobile Logic.
-            /// </summary>
-            if (Variables.W.IsReady() &&
-                Bools.IsImmobile(Targets.Target) &&
-                Targets.Target.IsValidTarget(Variables.W.Range) &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.wspell.immobile").IsActive())
-            {
-                Variables.W.Cast(Targets.Target.Position);
-            }
-        }
-
-        /// <summary>
-        /// Called on do-cast.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="args">The args.</param>
-        public static void ExecuteModes(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
-        {
-            /// <summary>
-            /// The E Combo Logic.
-            /// </summary>
-            if (Variables.E.IsReady() &&
-                !ObjectManager.Player.HasBuff("caitlynheadshotrangecheck") &&
-                ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.E.Range) &&
-                Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").IsActive())
-            {
-                Variables.E.SPredictionCast((Obj_AI_Hero)args.Target, HitChance.High);
             }
         }
 

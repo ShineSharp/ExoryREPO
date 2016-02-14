@@ -53,18 +53,10 @@ namespace ExorAIO.Champions.Caitlyn
         public static void OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
             if (sender.IsMe &&
+                args.Target.IsValid<Obj_AI_Minion>() &&
                 Orbwalking.IsAutoAttack(args.SData.Name))
             {
-                if (args.Target.IsValid<Obj_AI_Hero>() &&
-                    !((Obj_AI_Hero)args.Target).IsInvulnerable &&
-                    !Bools.IsSpellShielded(((Obj_AI_Hero)args.Target)))
-                {
-                    Logics.ExecuteModes(sender, args);
-                }
-                else if (args.Target.IsValid<Obj_AI_Minion>())
-                {
-                    Logics.ExecuteFarm(sender, args);
-                }
+                Logics.ExecuteFarm(sender, args);
             }
         }
 
