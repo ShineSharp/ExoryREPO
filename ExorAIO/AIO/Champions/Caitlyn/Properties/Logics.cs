@@ -56,7 +56,7 @@ namespace ExorAIO.Champions.Caitlyn
                 ((Variables.Q.GetDamage(Targets.Target) > Targets.Target.Health &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.ks").IsActive()) ||
 
-                (Targets.Target.HasBuff("/E") &&
+                (ObjectManager.Player.HasBuff("caitlynheadshotrangecheck") &&
                     Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                     Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive())))
             {
@@ -86,7 +86,7 @@ namespace ExorAIO.Champions.Caitlyn
             /// The E Combo Logic.
             /// </summary>
             if (Variables.E.IsReady() &&
-                !((Obj_AI_Hero)args.Target).HasBuff("/W") &&
+                !ObjectManager.Player.HasBuff("caitlynheadshotrangecheck") &&
                 ((Obj_AI_Hero)args.Target).IsValidTarget(Variables.E.Range) &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.combo").IsActive())

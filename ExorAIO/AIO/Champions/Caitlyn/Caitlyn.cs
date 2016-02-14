@@ -85,7 +85,7 @@ namespace ExorAIO.Champions.Caitlyn
                 ObjectManager.Player.Distance(gapcloser.End) < 300f &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.espell.gp").IsActive())
             {
-                Variables.E.Cast(gapcloser.End);
+                Variables.E.Cast(gapcloser.Sender.Position);
             }
         }
     }

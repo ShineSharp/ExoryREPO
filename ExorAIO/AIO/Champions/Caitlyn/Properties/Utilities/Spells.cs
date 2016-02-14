@@ -17,7 +17,7 @@ namespace ExorAIO.Champions.Caitlyn
         {
             Variables.Q = new Spell(SpellSlot.Q, 1250f);
             Variables.W = new Spell(SpellSlot.W, 800f);
-            Variables.E = new Spell(SpellSlot.E, 950f);
+            Variables.E = new Spell(SpellSlot.E, 750f);
             Variables.R = new Spell(SpellSlot.R, 1500f + (500f * ObjectManager.Player.Spellbook.GetSpell(SpellSlot.R).Level));
 
             Variables.Q.SetSkillshot(0.625f, 90f, 2200f, false, SkillshotType.SkillshotLine);
