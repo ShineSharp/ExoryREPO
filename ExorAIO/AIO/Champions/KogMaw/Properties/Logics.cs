@@ -24,7 +24,9 @@ namespace ExorAIO.Champions.KogMaw
             /// The R KillSteal Logic.
             /// </summary>
             if (Variables.R.IsReady() &&
-                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").IsActive())
+                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.ks").IsActive() &&
+                Variables.Menu.Item($"{Variables.MainMenuName}.rspell.stacks").GetValue<Slider>().Value
+                    > ObjectManager.Player.GetBuffCount("kogmawlivingartillerycost"))
             {
                 foreach (var target in HeroManager.Enemies
                     .Where(t =>
@@ -94,7 +96,7 @@ namespace ExorAIO.Champions.KogMaw
                 !Targets.Target.IsValidTarget(Variables.W.Range) &&
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.rspell.stacks").GetValue<Slider>().Value 
-                    >= ObjectManager.Player.GetBuffCount("kogmawlivingartillerycost") &&
+                    > ObjectManager.Player.GetBuffCount("kogmawlivingartillerycost") &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.rspell.combo").IsActive())
             {
                 Variables.R.SPredictionCast(Targets.Target, HitChance.High);
