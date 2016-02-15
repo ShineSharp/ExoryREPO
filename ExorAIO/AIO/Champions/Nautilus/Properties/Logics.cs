@@ -41,7 +41,9 @@ namespace ExorAIO.Champions.Nautilus
                 Variables.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo &&
                 Variables.Menu.Item($"{Variables.MainMenuName}.qspell.combo").IsActive())
             {
-                Variables.Q.SPredictionCast(Targets.Target, HitChance.High);
+                var pred = Variables.Q.GetSPrediction(Targets.Target);
+                if (pred.HitChance >= HitChance.High && !pred.CollisionResult.Objects.HasFlag(Collision.Flags.Wall))
+                    Variables.Q.Cast(pred.CastPosition);
             }
 
             /// <summary>
